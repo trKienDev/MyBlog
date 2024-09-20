@@ -2,13 +2,12 @@
 <html lang="en">
 <div id="header"></div>
 <body>
-        <h1>Hello world</h1>
+        <h1>Hello wolrd -v2</h1>
         <div div="homepage">
                 <h1 id="homepage-title"></h1>
                 <p id="homepage-desc"></p>
                 <div id="homepage-content"></div>
         </div>
-        
 
         <div id="footer"></div>
 
@@ -21,6 +20,14 @@
                                 .then(response => response.text())
                                 .then(data => {
                                         document.getElementById("header").innerHTML = data;
+
+                                        // Chạy các đoạn script trong file header
+                                        const scripts = document.querySelectorAll('#header script');
+                                        scripts.forEach(oldScript => {
+                                                const newScript = document.createElement('script');
+                                                newScript.text = oldScript.text;
+                                                document.head.appendChild(newScript);
+                                        });
                                 })
                                 .catch(error => console.error("Error loading header: ", error));
                 });

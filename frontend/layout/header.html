@@ -4,10 +4,9 @@
         <title></title>
 
         <script>
-                document.addEventListener("DOMContentLoaded", function() {
+                function handleDOMContentLoaded() {
                         var title = document.querySelector('title');
                         var path = window.location.pathname;
-                        console.log(path);
                         if (path.includes('index')) {
                                 title.innerText = 'Homepage';
                         } else if (path.includes('about')) {
@@ -17,6 +16,13 @@
                         } else {
                                 title.innerText = 'My Website';
                         }
-                });
+                }
+
+                // Thêm cơ chế đợi khi toàn bộ document được loading xong thì mới thực hiện DOMContentLoaded.
+                if (document.readyState === "loading") {
+                        document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
+                } else {
+                        handleDOMContentLoaded();
+                }
         </script>
 </head>
