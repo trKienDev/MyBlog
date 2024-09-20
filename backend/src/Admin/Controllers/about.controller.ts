@@ -14,3 +14,4 @@ export const getAboutPage = (req: IncomingMessage, res: ServerResponse) => {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(aboutData));
 };
+

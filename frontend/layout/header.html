@@ -1,0 +1,22 @@
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+
+        <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                        var title = document.querySelector('title');
+                        var path = window.location.pathname;
+                        console.log(path);
+                        if (path.includes('index')) {
+                                title.innerText = 'Homepage';
+                        } else if (path.includes('about')) {
+                                title.innerText = 'About Us';
+                        } else if (path.includes('post')) {
+                                title.innerText = 'Blog Post';
+                        } else {
+                                title.innerText = 'My Website';
+                        }
+                });
+        </script>
+</head>

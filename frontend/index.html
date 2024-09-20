@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Homepage</title>
-</head>
+<div id="header"></div>
 <body>
         <h1>Hello world</h1>
         <div div="homepage">
@@ -13,24 +9,51 @@
                 <div id="homepage-content"></div>
         </div>
         
+
+        <div id="footer"></div>
+
+
+        <!-- Chèn file header và footer -->
+        <script>
+                // Load phần header từ file header.html
+                document.addEventListener("DOMContentLoaded", function() {
+                        fetch("layout/header.html")
+                                .then(response => response.text())
+                                .then(data => {
+                                        document.getElementById("header").innerHTML = data;
+                                })
+                                .catch(error => console.error("Error loading header: ", error));
+                });
+
+                // Load phần footer từ file footer.html
+                document.addEventListener("DOMContentLoaded", function() {
+                        fetch("layout/footer.html")
+                                .then(response => response.text())
+                                .then(data => {
+                                        document.getElementById("footer").innerHTML = data;
+                                })
+                                .catch(error => console.error("Error loading footer: ", error));
+                });
+        </script>      
+
         <script>
                 // Gọi APIs
-                fetch('http://localhost:3000/')
-                .then(response => {
-                        if(!response.ok) {
-                                throw new Error(`HTTP errror! Status: ${ response.status }`);
-                        }
-                        return response.json();
-                })
-                .then(data => {
-                        // Render data nhận được từ API vào trang HTML
-                        document.getElementById('homepage-title').innerText = data.title;
-                        document.getElementById('homepage-desc').innerText = data.description;
-                        document.getElementById('homepage-content').innerText = data.content;
-                })
-                .catch(error => {
-                        console.error('Error fetching homepage data: ', error);
-                });
+                fetch('http://localhost:3000/') 
+                        .then(response => {
+                                if(!response.ok) {
+                                        throw new Error(`HTTP errror! Status: ${ response.status }`);
+                                }
+                                return response.json();
+                        })
+                        .then(data => {
+                                // Render data nhận được từ API vào trang HTML
+                                document.getElementById('homepage-title').innerText = data.title;
+                                document.getElementById('homepage-desc').innerText = data.description;
+                                document.getElementById('homepage-content').innerText = data.content;
+                        })
+                        .catch(error => {
+                                console.error('Error fetching homepage data: ', error);
+                        });
         </script>
 </body>
 </html>
