@@ -10,57 +10,8 @@
         </div>
 
         <div id="footer"></div>
-
-
-        <!-- Chèn file header và footer -->
-        <script>
-                // Load phần header từ file header.html
-                document.addEventListener("DOMContentLoaded", function() {
-                        fetch("layout/header.html")
-                                .then(response => response.text())
-                                .then(data => {
-                                        document.getElementById("header").innerHTML = data;
-
-                                        // Chạy các đoạn script trong file header
-                                        const scripts = document.querySelectorAll('#header script');
-                                        scripts.forEach(oldScript => {
-                                                const newScript = document.createElement('script');
-                                                newScript.text = oldScript.text;
-                                                document.head.appendChild(newScript);
-                                        });
-                                })
-                                .catch(error => console.error("Error loading header: ", error));
-                });
-
-                // Load phần footer từ file footer.html
-                document.addEventListener("DOMContentLoaded", function() {
-                        fetch("layout/footer.html")
-                                .then(response => response.text())
-                                .then(data => {
-                                        document.getElementById("footer").innerHTML = data;
-                                })
-                                .catch(error => console.error("Error loading footer: ", error));
-                });
-        </script>      
-
-        <script>
-                // Gọi APIs
-                fetch('http://localhost:3000/') 
-                        .then(response => {
-                                if(!response.ok) {
-                                        throw new Error(`HTTP errror! Status: ${ response.status }`);
-                                }
-                                return response.json();
-                        })
-                        .then(data => {
-                                // Render data nhận được từ API vào trang HTML
-                                document.getElementById('homepage-title').innerText = data.title;
-                                document.getElementById('homepage-desc').innerText = data.description;
-                                document.getElementById('homepage-content').innerText = data.content;
-                        })
-                        .catch(error => {
-                                console.error('Error fetching homepage data: ', error);
-                        });
-        </script>
+        
+        <script src="static/js/layout.js"></script>
+        <script src="services/apiService.js"></script>
 </body>
 </html>
