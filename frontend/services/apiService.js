@@ -1,7 +1,7 @@
 import config from './config.js';
 
-// API - index.html
-fetch(`${config.domain}${config.endpoints.homepage`) 
+// Gọi APIs
+fetch(`${config.domain}${config.endpoints.homepage}`)
         .then(response => {
                 if(!response.ok) {
                         throw new Error(`HTTP errror! Status: ${ response.status }`);
@@ -16,5 +16,6 @@ fetch(`${config.domain}${config.endpoints.homepage`)
         })
         .catch(error => {
                 console.error('Error fetching homepage data: ', error);
+
         });
 
