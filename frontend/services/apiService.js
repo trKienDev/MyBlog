@@ -1,5 +1,7 @@
+import config from './config.js';
+
 // API - index.html
-fetch('http://localhost:3000/') 
+fetch('${config.domain}${config.endpoints.homepage') 
         .then(response => {
                 if(!response.ok) {
                         throw new Error(`HTTP errror! Status: ${ response.status }`);
@@ -15,3 +17,4 @@ fetch('http://localhost:3000/')
         .catch(error => {
                 console.error('Error fetching homepage data: ', error);
         });
+
