@@ -26,6 +26,9 @@ const setCorsHeaders = (res: ServerResponse) => {
 }
 
 const server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
+        // Thiết lập CORS cho tất cả các yêu cầu
+        setCorsHeaders(res);
+        
         if (req.url?.startsWith('/admin')) {
                 adminRoutes(req, res);
         } else if (req.url?.startsWith('/')) {
