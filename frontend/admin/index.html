@@ -2,11 +2,36 @@
 <html lang="en">
 <div id="header"></div>
 <body>
-        <h1>Admin</h1>
-        <div id="adminpage">
-                <h1 id="adminpage-title"></h1>
+        <div id="root">
+                <div id="container">
+                        <nav id="sidebar">
+                                <div class="sidebar-container">
+                                        <div class="search-box">
+                                                <div class="search-input">
+                                                        <div class="search-icon">
+                                                                <i class="fa-solid fa-magnifying-glass"></i>
+                                                        </div>
+                                                        <input type="text" class="search-input-text" placeholder="Search for ...">
+                                                </div>
+                                        </div>
+                                        <nav class="menu-list">
+                                                <div class="menu-item">
+                                                        <div class="menu-item-icon">
+                                                                <i class="fa-solid fa-tags"></i>
+                                                        </div>
+                                                        <div class="menu-item-name">
+                                                                <span>Dashboard</span>
+                                                        </div>
+                                                       
+                                                </div>
+                                        </nav>
+                                </div>
+                        </nav>
+                        <div id="content">
+                                <p>content</p>
+                        </div>
+                </div>
         </div>
-        
         <script src="../static/js/layout.js"></script>
         <script type="module" src="/services/apiService.js"></script>
         <script type="text/javascript" src="/static/js/loadTitle.js"></script>

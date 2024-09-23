@@ -1,9 +1,116 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
 body {
-        font-family: 'Lexend', sans-serif;
-        background-color: rgb(8,16,40);
-        scrollbar-color: rgb(224, 224, 224) transparent;
+        font-family: 'Lexend', sans-serif; background-color: rgb(8, 16, 40); scrollbar-color: rgb(224, 224, 224) transparent;
 }
 
-h1 {
+h1,
+p {
         color: #ffffff;
+}
+
+#container {
+        display: flex;
+}
+
+#sidebar .sidebar-container {
+        padding: 8px 28px 24px;
+}
+
+#sidebar .search-box {
+        display: inline-flex;
+        flex-direction: column;
+        position: relative;
+        min-width: 0px;
+        padding-bottom: 50px;
+        margin: 0px;
+        border: 0px;
+        vertical-align: top;
+        box-shadow: rgba(1, 5, 17, 0.2) 0px 2px 4px 0px;
+        width: 100%;
+}
+
+#sidebar .search-input {
+        font-weight: 400;
+        font-family: 'Lexend', sans-serif;
+        line-height: 23px;
+        color: rgb(255, 255, 255);
+        box-sizing: border-box;
+        cursor: text;
+        display: inline-flex;
+        -moz-box-align: center;
+        align-items: center;
+        border: 1px solid rgb(52, 59, 79);
+        border-radius: 4px;
+        background: rgb(11, 23, 57);
+        font-size: 14px;
+        padding: 10px 10px 10px 12px;
+        letter-spacing: 0.5px;
+        position: relative;
+        transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+#sidebar .search-input::after {
+        border-bottom: 2px solid rgb(203, 60, 255);
+        left: 0px;
+        bottom: 0px;
+        content: "";
+        position: absolute;
+        right: 0px;
+        transform: scaleX(0);
+        transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+        pointer-events: none;
+}
+#sidebar .search-input::before .search-input::after {
+        display: none;
+}
+#sidebar .search-input::before {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+        left: 0px;
+        bottom: 0px;
+        content: " ";
+        position: absolute;
+        right: 0px;
+        transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+}
+#sidebar .search-input input::placeholder {
+        color: rgb(174, 185, 255);
+        opacity: 1;
+}
+#sidebar .search-input input:focus {
+        outline: none;
+        box-shadow: none;
+}
+#sidebar .search-icon {
+        width: 13%;
+        color: rgb(174, 185, 255);
+}
+#sidebar .search-input-text {
+        font: inherit;
+        letter-spacing: inherit;
+        color: currentColor;
+        border: 0px;
+        box-sizing: content-box;
+        background: none;
+        height: 23px;
+        margin: 0px;
+        display: block;
+        min-width: 0px;
+        width: 100%;
+        animation-name: mui-auto-fill-cancel;
+        animation-duration: 10ms;
+        padding: 0px;
+}
+
+#sidebar .menu-list .menu-item {
+        display: flex;
+}
+#sidebar .menu-item .menu-item-icon, .menu-item-name {
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 25px;
+}
+#sidebar .menu-item-icon {
+        padding-right: 5%;
 }
