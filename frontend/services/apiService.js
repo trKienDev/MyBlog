@@ -19,7 +19,6 @@ fetch(`${config.domain}${config.endpoints.homePage}`)
 
         });
 
-
 fetch(`${config.domain}${config.endpoints.adminPage}`)
         .then(response => {
                 if(!response.ok) {
@@ -33,3 +32,4 @@ fetch(`${config.domain}${config.endpoints.adminPage}`)
         .catch(error => {
                 console.error('Error fetching admin page data', error);
         })
+
