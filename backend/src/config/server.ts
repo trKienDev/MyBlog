@@ -25,20 +25,16 @@ const setCorsHeaders = (res: ServerResponse) => {
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Các header được phép
 }
 
-// Create server
 const server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
-        // Thiết lập CORS cho tất cả các yêu cầu
-        setCorsHeaders(res);
-        
-        // Nếu là yêu cầu OPTIONS (CORS Preflight), trả về ngay lập tức
-        if(req.method === 'OPTIONS') {
-                res.statusCode = 204; // No Content
-                res.end();
-                return;
+        if (req.url?.startsWith('/admin')) {
+                adminRoutes(req, res);
+        } else if (req.url?.startsWith('/')) {
+                userRoutes(req, res);
+        } else {
+            res.statusCode = 404;
+            res.setHeader('Content-Type', 'text/plain');
+            res.end('Route Not Found');
         }
-        // Gọi hàm handleRoutes để xử lý các route khác
-        userRoutes(req, res);
-        adminRoutes(req, res);
 });
 
 // Start server
