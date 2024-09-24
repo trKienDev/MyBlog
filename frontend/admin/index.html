@@ -7,27 +7,57 @@
                         <nav id="sidebar">
                                 <div class="sidebar-container">
                                         <div class="search-box">
-                                                <div class="search-input">
-                                                        <div class="search-icon">
-                                                                <i class="fa-solid fa-magnifying-glass"></i>
-                                                        </div>
-                                                        <input type="text" class="search-input-text" placeholder="Search for ...">
+                                                <div class="search-icon">
+                                                        <i class="fa-solid fa-magnifying-glass"></i>
                                                 </div>
+                                                <input type="text" class="search-input-text" placeholder="Search for ...">
                                         </div>
-                                        <nav id="menu-list" class="sidebar-list">
+                                        <nav id="sidebar-list" class="sidebar-list">
                                                 <!-- Các mục sidebar sẽ được thêm động tại đây -->
+                                        </nav>
+                                        <hr class="sidebar-separator">
+                                        <nav id="manage-list">
+                                                
+                                                <a href="/admin/pages/setting" class="sidebar-item">
+                                                        <div class="sidebar-item-icon">
+                                                                <i class="fa-solid fa-gear"></i>
+                                                        </div>
+                                                        <span class="sidebar-item-name">Settings</span>
+                                                </a>
                                         </nav>
                                 </div>
                         </nav>
-                        <div id="content">
-                                <p>content</p>
-                        </div>
+                        <main id="dynamic-data">
+                                <!-- Nội dung sẽ được tải động vào đây -->
+                        </main>
                 </div>
+
         </div>
 
         <script>
                 console.log("Version 1.0.6");
         </script>   
+
+        <script>
+                let url = "http://localhost:8081/admin/settings"
+                function loadContent(url) {
+                        fetch(url)
+                                .then(response => {
+                                        if(!response.ok) {
+                                                throw new Error(`Failed to fetch page: ${response.status}`);
+                                        }
+                                        return response.text();
+                                })
+                                .then(html => {
+                                        console.log(html);
+                                        // const dynamicContent = document.getElementById('dynamic-content');
+                                        // dynamic
+                                })
+                                .catch(error => {
+                                        console.error('Error loading content', error);
+                                });
+                }
+        </script>
 
         <script src="../static/js/layout.js"></script>
         <script type="module" src="./services/apiService.js"></script>

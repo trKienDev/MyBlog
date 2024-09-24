@@ -22,21 +22,21 @@ Promise.all([
         // ................................................
 
         // Render sidebar items ra giao diện
-        const menuList = document.getElementById('menu-list');
+        const menuList = document.getElementById('sidebar-list');
         
         sidebarItems.forEach(item => {
                 console.log(item);
                 const menuItem = document.createElement('div');
-                menuItem.classList.add('menu-item');
+                menuItem.classList.add('sidebar-item');
 
                 const menuItemIcon = document.createElement('div');
-                menuItemIcon.classList.add('menu-item-icon');
+                menuItemIcon.classList.add('sidebar-item-icon');
                 const iconElement = document.createElement('i');
                 iconElement.className = item.icon; // gán class icon từ API
                 menuItemIcon.appendChild(iconElement);
 
                 const menuItemName = document.createElement('div');
-                menuItemName.classList.add('menu-item-name');
+                menuItemName.classList.add('sidebar-item-name');
                 const nameElement = document.createElement('span');
                 nameElement.textContent = item.name;
                 menuItemName.appendChild(nameElement);
