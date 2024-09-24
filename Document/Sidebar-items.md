@@ -54,8 +54,6 @@ export const getSidebarItems = async (req: IncomingMessage, res: ServerResponse)
         }
 };
 ```
-.......................
-
 
 ## Step 3: Define Routes for Menu Item API
 In 📁 **backend/src/routes** / 📄 **admin.route.ts**, set up the routes for fetching and adding menu items:
@@ -74,8 +72,6 @@ router.post('/menu-items', createMenuItem);
 
 export default router;
 ```
-.............................
-
 
 # **2. Frontend Setup for Fetching and Rendering Data**
 
@@ -134,8 +130,6 @@ Promise.all([
         console.error('Error fetching data', error);
 })
 ```
-.................
-
 
 ## Step 2: Modify the HTML File to Include the Sidebar and Axios
 Ensure your 📄 **index.html** has an empty sidebar div where the menu will be rendered:
