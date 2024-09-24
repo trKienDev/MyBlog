@@ -35,7 +35,7 @@ export default SidebarItem;
 ```
 
 ## Step 2: Create a Controller to Handle API Logic
-In 📁 **backend/src/Admin/Controllers/** / 📄 **sidebar.controller.ts**, create a controller to handle API logic for fetching and adding menu items.
+In 📁 **backend/src/Admin/Controllers** / 📄 **sidebar.controller.ts**, create a controller to handle API logic for fetching and adding menu items.
 
 ```typescript
 export const getSidebarItems = async (req: IncomingMessage, res: ServerResponse) => {
@@ -80,7 +80,7 @@ export default router;
 # **2. Frontend Setup for Fetching and Rendering Data**
 ## Step 1: Use Axios to Fetch Data from the Backend
 
-In your frontend/admin/static/js/layout.js (or another suitable JavaScript file), use Axios to fetch the menu items from the backend API:
+In your 📁 **frontend/admin/services** / 📄 **apiService.js**, use Axios to fetch the menu items from the backend API:
 
 ```typescript
 // Fetch and render the menu items
@@ -115,9 +115,11 @@ const loadMenuItems = async () => {
 // Call the function on page load
 window.onload = loadMenuItems;
 ```
+.................
+
 
 ## Step 2: Modify the HTML File to Include the Sidebar and Axios
-Ensure your index.html has an empty sidebar div where the menu will be rendered:
+Ensure your 📄 **index.html** has an empty sidebar div where the menu will be rendered:
 
 ```html
 <div id="sidebar"></div>
