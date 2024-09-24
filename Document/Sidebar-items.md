@@ -78,42 +78,61 @@ export default router;
 
 
 # **2. Frontend Setup for Fetching and Rendering Data**
+
 ## Step 1: Use Axios to Fetch Data from the Backend
 
 In your 📁 **frontend/admin/services** / 📄 **apiService.js**, use Axios to fetch the menu items from the backend API:
 
 ```typescript
-// Fetch and render the menu items
-const loadMenuItems = async () => {
-    try {
-        const response = await axios.get('/api/menu-items'); // Call to the API
-        const menuItems = response.data;
+Promise.all([
+        fetch(`${config.domain}${config.endpoints.adminPage}`),
+        fetch(`${config.domain}${config.endpoints.sidebarList}`)
+])
+.then(response => {
+        // Kiểm tra xem cả 2 phản hồi có thành công ?
+        const [adminPageResponse, sidebarListResponse] = response;
+        if(!adminPageResponse.ok) {
+                throw new Error(`HTTP error! Status: ${adminPageResponse.status}`);
+        }
+        if(!sidebarListResponse.ok) {
+                throw new Error(`HTTP error! Status: ${sidebarListResponse.status}`);
+        }
+        // Trả về kết quả JSON của cả 2
+        return Promise.all([adminPageResponse.json(), sidebarListResponse.json()]);
+})
+.then(([adminPageData, sidebarItems]) => {
+        // Xử lý dữ liệu từ adminPage
+        // ................................................
 
-        // Render the menu items into the sidebar
-        const sidebar = document.getElementById('sidebar');
-        menuItems.forEach(item => {
-            const menuItemDiv = document.createElement('div');
-            menuItemDiv.classList.add('menu-item');
+        // Render sidebar items ra giao diện
+        const menuList = document.getElementById('menu-list');
+        
+        sidebarItems.forEach(item => {
+                console.log(item);
+                const menuItem = document.createElement('div');
+                menuItem.classList.add('menu-item');
 
-            const iconDiv = document.createElement('div');
-            iconDiv.classList.add('menu-item-icon');
-            iconDiv.innerHTML = `<i class="${item.icon}"></i>`;
+                const menuItemIcon = document.createElement('div');
+                menuItemIcon.classList.add('menu-item-icon');
+                const iconElement = document.createElement('i');
+                iconElement.className = item.icon; // gán class icon từ API
+                menuItemIcon.appendChild(iconElement);
 
-            const nameDiv = document.createElement('div');
-            nameDiv.classList.add('menu-item-name');
-            nameDiv.innerHTML = `<span>${item.name}</span>`;
+                const menuItemName = document.createElement('div');
+                menuItemName.classList.add('menu-item-name');
+                const nameElement = document.createElement('span');
+                nameElement.textContent = item.name;
+                menuItemName.appendChild(nameElement);
 
-            menuItemDiv.appendChild(iconDiv);
-            menuItemDiv.appendChild(nameDiv);
-            sidebar.appendChild(menuItemDiv);
+                menuItem.appendChild(menuItemIcon);
+                menuItem.appendChild(menuItemName);
+
+                menuList.appendChild(menuItem);
         });
-    } catch (error) {
-        console.error('Error fetching menu items:', error);
-    }
-};
-
-// Call the function on page load
-window.onload = loadMenuItems;
+})
+.catch(error => {
+        console.error('Error fetching data', error);
+})
 ```
 .................
 
