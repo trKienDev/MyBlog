@@ -1,4 +1,6 @@
-❓ **Question**: các menu-item bao gồm có icon và tên, tôi muốn lưu các mục này vào database thông qua mongoose đã khai báo ở thư mục backend và thư mục frontend sẽ gọi api để lấy dữ liệu và trình bày ra trang index.html.
+❓ **Question**: 
+![Question](https://img.shields.io/badge/Question-important?style=flat&logo=github&logoColor=white&labelColor=blue)
+các menu-item bao gồm có icon và tên, tôi muốn lưu các mục này vào database thông qua mongoose đã khai báo ở thư mục backend và thư mục frontend sẽ gọi api để lấy dữ liệu và trình bày ra trang index.html.
 
 bạn hãy tư vấn cho tôi công nghệ và các hướng để đáp ứng yêu cầu trên?
 
