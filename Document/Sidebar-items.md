@@ -12,7 +12,7 @@ Below are the key technologies and an approach for the backend and frontend to m
 
 # **1. Backend Setup with Mongoose and API Endpoints**
 ## Step 1: Define a Mongoose Model for menu-item
-In the <u>backend/src/models</u> directory, create a new Mongoose model for the menu items, for example, menu.model.ts:
+In the 👉 backend/src/models directory, create a new Mongoose model for the menu items, for example, menu.model.ts:
 
 ```typescript
 import mongoose, { Schema, Document } from 'mongoose';
