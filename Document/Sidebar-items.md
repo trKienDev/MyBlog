@@ -1,8 +1,8 @@
-**Question**: các menu-item bao gồm có icon và tên, tôi muốn lưu các mục này vào database thông qua mongoose đã khai báo ở thư mục backend và thư mục frontend sẽ gọi api để lấy dữ liệu và trình bày ra trang index.html.
+** ❓ Question**: các menu-item bao gồm có icon và tên, tôi muốn lưu các mục này vào database thông qua mongoose đã khai báo ở thư mục backend và thư mục frontend sẽ gọi api để lấy dữ liệu và trình bày ra trang index.html.
 
 bạn hãy tư vấn cho tôi công nghệ và các hướng để đáp ứng yêu cầu trên?
 
-**Solution**: To achieve your goal of storing the menu-item data (icon and name) in a database, and then fetching it via an API and rendering it dynamically on the frontend, you can follow these steps. 
+** 💡 Solution**: To achieve your goal of storing the menu-item data (icon and name) in a database, and then fetching it via an API and rendering it dynamically on the frontend, you can follow these steps. 
 
 Below are the key technologies and an approach for the backend and frontend to meet this requirement.
 
