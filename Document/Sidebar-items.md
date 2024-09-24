@@ -14,7 +14,7 @@ Below are the key technologies and an approach for the backend and frontend to m
 ## Step 1: Define a Mongoose Model for menu-item
 In the backend/src/models directory, create a new Mongoose model for the menu items, for example, menu.model.ts:
 
-``` typescript
+```
 import mongoose, { Schema, Document } from 'mongoose';
 
 // Define the MenuItem interface
@@ -32,6 +32,7 @@ const MenuItemSchema: Schema = new Schema({
 // Export the MenuItem model
 const MenuItem = mongoose.model<IMenuItem>('MenuItem', MenuItemSchema);
 export default MenuItem;
+```
 
 ## Step 2: Create a Controller to Handle API Logic
 In backend/src/controllers/menu.controller.ts, create a controller to handle API logic for fetching and adding menu items.
