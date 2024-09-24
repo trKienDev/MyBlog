@@ -6,68 +6,59 @@ bạn hãy tư vấn cho tôi công nghệ và các hướng để đáp ứng y
 
 💡 **Solution**: 
 
-To achieve your goal of storing the menu-item data (icon and name) in a database, and then fetching it via an API and rendering it dynamically on the frontend, you can follow these steps. 
+To achieve your goal of storing the Sidebar-item data (icon and name) in a database, and then fetching it via an API and rendering it dynamically on the frontend, you can follow these steps. 
 
 Below are the key technologies and an approach for the backend and frontend to meet this requirement.
 
 # **1. Backend Setup with Mongoose and API Endpoints**
-## Step 1: Define a Mongoose Model for menu-item
-In the 🔗 **backend/src/models** directory, create a new Mongoose model for the menu items.
+## Step 1: Define a Mongoose Model for Sidebar-item
+In the 📁 **backend/src/Admin/models** directory, create a new Mongoose model for the menu items.
 
-For example, 📄 **menu.model.ts**:
+For example, 📄 **sidebar-item.model.ts**:
 
 ```typescript
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
-// Define the MenuItem interface
-interface IMenuItem extends Document {
-    icon: string;
-    name: string;
+interface ISidebarItem extends Document {
+        icon: string;
+        name: string;
 }
 
-// Define the MenuItem schema
-const MenuItemSchema: Schema = new Schema({
-    icon: { type: String, required: true },
-    name: { type: String, required: true },
-});
+const SidebarItemSchema: Schema = new Schema({
+        icon: { type: String, required: true },
+        name: { type: String, required: true }
+}, { collection: 'SidebarItems' });  // Specify custom collection name
 
-// Export the MenuItem model
-const MenuItem = mongoose.model<IMenuItem>('MenuItem', MenuItemSchema);
-export default MenuItem;
+const SidebarItem = mongoose.model<ISidebarItem>('SidebarItem', SidebarItemSchema);
+export default SidebarItem;
+
 ```
 
 ## Step 2: Create a Controller to Handle API Logic
-In backend/src/controllers/menu.controller.ts, create a controller to handle API logic for fetching and adding menu items.
+In 📁 **backend/src/Admin/Controllers/** / 📄 **sidebar.controller.ts**, create a controller to handle API logic for fetching and adding menu items.
 
 ```typescript
-import { Request, Response } from 'express';
-import MenuItem from '../models/menu.model';
+export const getSidebarItems = async (req: IncomingMessage, res: ServerResponse) => {
+        try {
+                const sidebarItems = await SidebarItem.find(); // Lấy dữ liệu từ MongoDB
+                
+                res.statusCode = 200; // Set the status 
+                res.setHeader('Content-Type',  'application/json'); // Set the content-type header to JSON
+                res.end(JSON.stringify(sidebarItems)); // Send the response as JSON string
+        } catch(error) {
+                // Handle errors, set status code to 500 for server error
+                res.statusCode = 500;
+                res.setHeader('Content-Type', 'application/json');
 
-// Fetch all menu items
-export const getMenuItems = async (req: Request, res: Response) => {
-    try {
-        const menuItems = await MenuItem.find(); // Fetch from MongoDB
-        res.status(200).json(menuItems);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error });
-    }
-};
-
-// Add a new menu item
-export const createMenuItem = async (req: Request, res: Response) => {
-    const { icon, name } = req.body;
-    try {
-        const newMenuItem = new MenuItem({ icon, name });
-        await newMenuItem.save();
-        res.status(201).json(newMenuItem);
-    } catch (error) {
-        res.status(500).json({ message: 'Error creating menu item', error });
-    }
+                res.end(JSON.stringify({ message: 'Server Error', error })); // Send the error message
+        }
 };
 ```
+.......................
+
 
 ## Step 3: Define Routes for Menu Item API
-In backend/src/routes/menu.route.ts, set up the routes for fetching and adding menu items:
+In 📁 **backend/src/routes** / 📄 **admin.route.ts**, set up the routes for fetching and adding menu items:
 
 ```typescript
 import express from 'express';
@@ -83,25 +74,8 @@ router.post('/menu-items', createMenuItem);
 
 export default router;
 ```
+.............................
 
-## Step 4: Integrate the Routes into the Backend
-In your main server file (likely server.ts), make sure to include the new route:
-
-```typescript
-import express from 'express';
-import menuRoutes from './routes/menu.route';
-
-const app = express();
-app.use(express.json());
-
-// Add the menu route
-app.use('/api', menuRoutes);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-```
 
 # **2. Frontend Setup for Fetching and Rendering Data**
 ## Step 1: Use Axios to Fetch Data from the Backend
