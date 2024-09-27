@@ -35,47 +35,13 @@
         </div>
 
         <script>
-                console.log("Version 1.0.6");
+                console.log("Version 1.0.9");
         </script>   
-
-        <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                        // Get the link to the settings page
-                        const settingsLink = document.querySelector('a[href="/admin/pages/setting"]');
-
-                        // Add an event listener to the link
-                        settingsLink.addEventListener('click', function(event) {
-                                event.preventDefault(); // Prevent the default link behavior
-
-                                // Fetch the settings page content
-                                loadContent("http://localhost:8081/admin/pages/setting.html"); 
-                        });
-
-                        // Function to load content dynamically
-                        function loadContent(url) {
-                                console.log(url);
-                                fetch(url)
-                                        .then(response => {
-                                                if (!response.ok) {
-                                                        throw new Error(`Failed to fetch page: ${response.status}`);
-                                                }
-                                                return response.text();
-                                        })
-                                        .then(html => {
-                                                // Insert the HTML into the dynamic-data element
-                                                const dynamicDataElement = document.getElementById('dynamic-data');
-                                                dynamicDataElement.innerHTML = html;
-                                        })
-                                        .catch(error => {
-                                                console.error('Error loading content', error);
-                                        });
-                        }       
-                });
-        </script>
 
         <script src="../static/js/layout.js"></script>
         <script type="module" src="./services/apiService.js"></script>
-        <script type="text/javascript" src="/static/js/loadTitle.js"></script>
-        <script type="text/javascript" src="./services/config.js"></script>
+        <script type="module" src="/static/js/loadTitle.js"></script>
+        <script type="module" src="./services/config.js"></script>
+        <script type="module" src="./services/loadDynamicPages.js"></script>
 </body>
 </html>
