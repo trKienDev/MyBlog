@@ -2,13 +2,16 @@ body {
         font-family: 'Lexend', sans-serif;
         margin: 0;
 }
-h1, p {
+#sidebar h1, p {
         color: #ffffff;
 }
 a {
         text-decoration: none;
 }
 
+#dynamic-data h1, p {
+        color: #000;
+}
 #container {
         display: flex;
 }
