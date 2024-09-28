@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 if(dynamicDataElement) {
                     dynamicDataElement.innerHTML = html;// Chèn nội dung HTML vào thẻ div
                     // Tìm thẻ <a> mới được chèn vào với href="/admin/pages/setting/menu"
-                    const menuLink = dynamicDataElement.querySelector('a[href="/admin/pages/setting/menu"]');
+                    const menuLink = dynamicDataElement.querySelector('a[href="/admin/pages/setting/sidebar"]');
                     if (menuLink) {
                         menuLink.addEventListener('click', function(event) {
                             event.preventDefault();
-                            const menuUrl = '/admin/pages/setting/menu.html';  // URL của trang menu
+                            const menuUrl = '/admin/pages/setting/sidebar.html';  // URL của trang menu
                             loadContent(menuUrl);  // Gọi lại hàm loadContent để tải nội dung động của menu.html
                         });
                     }
