@@ -14,9 +14,13 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 getAboutPage(req, res);
         } else if (url === '/admin/sidebar' && method === 'GET') { // Route for getting all sidebar items
                 getSidebarItems(req, res);
-        } else if (url === '/admin/sidebar/edit' && method === 'POST') { // Route for creating a new sidebar item
+        } else if (url === '/admin/sidebar/create' && method === 'POST') { // Route for creating a new sidebar item
                 createSidebarItem(req, res);
         } 
+        // else if (url === '/admin/sidebar/edit' && method === 'POST') { // Route for creating a new sidebar item
+        //         createSidebarItem(req, res);
+        // } 
+
         else { // Handle invalid routes
                 res.statusCode = 404;
                 res.setHeader('Content-Type', 'text/plain');

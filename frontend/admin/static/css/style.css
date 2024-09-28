@@ -1,9 +1,13 @@
 body {
         font-family: 'Lexend', sans-serif;
         margin: 0;
+        background-color: #fffdfd;
 }
 #sidebar h1, p {
         color: #ffffff;
+}
+h1 {
+        margin: 0px;
 }
 a {
         text-decoration: none;
@@ -70,4 +74,50 @@ a {
         text-align: center; /* Canh giữa icon trong khung */
         margin-right: 10px; /* Khoảng cách giữa icon và văn bản */
 }
+#dynamic-data {
+        width: 85%;
+}
+#settingPage .container {
+        margin: 0 auto; /* Căn giữa container theo chiều ngang */
+        padding: 30px 30px 0px; /* Tạo khoảng cách bên trong container */
+        box-sizing: border-box; /* Bao gồm padding và border vào kích thước tổng */
+}
+#settingPage .headingTitle {
+        margin-bottom: 20px;
+}
+#settingPage .headingBody {
+        padding-top: 30px;
+}
+#settingPage .menuRow {
+        display: flex;
+}
+#settingPage .menuItem {
+        flex: 0 0 auto;
+        width: 15%;
+}
+#settingPage .menuItem-box {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+#settingPage .menuItem-box:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: var(--blue-color);
+        cursor: pointer;
+        color: #ffffff;
+}
+#settingPage a {
+        text-decoration: none;
+        color: #000000;
+        /* font-weight: bold; */
+        font-size: 20px;
+}
 
+
+:root {
+        --blue-color: #0000ff;
+}
