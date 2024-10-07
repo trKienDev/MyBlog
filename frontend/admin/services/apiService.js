@@ -20,12 +20,9 @@ Promise.all([
 .then(([adminPageData, sidebarItems]) => {
         // Xử lý dữ liệu từ adminPage
         // ................................................
-
         // Render sidebar items ra giao diện
         const menuList = document.getElementById('sidebar-list');
-        
         sidebarItems.forEach(item => {
-                console.log(item);
                 const menuItem = document.createElement('div');
                 menuItem.classList.add('sidebar-item');
 

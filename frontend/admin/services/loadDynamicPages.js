@@ -23,6 +23,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 const dynamicDataElement = document.getElementById('dynamic-data');
                 if(dynamicDataElement) {
                     dynamicDataElement.innerHTML = html;// Chèn nội dung HTML vào thẻ div
+                    // Thực thi các script bên trong nội dung được chèn vào
+                    const scripts = dynamicDataElement.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;  // Sao chép nội dung của script
+                        document.body.appendChild(newScript);  // Thêm script vào DOM để thực thi
+                        document.body.removeChild(newScript);  // Xóa script sau khi thực thi để giữ DOM sạch
+                    });
                     // Tìm thẻ <a> mới được chèn vào với href="/admin/pages/setting/menu"
                     const menuLink = dynamicDataElement.querySelector('a[href="/admin/pages/setting/sidebar"]');
                     if (menuLink) {

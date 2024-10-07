@@ -2,7 +2,13 @@ body {
         font-family: 'Lexend', sans-serif;
         margin: 0;
         background-color: #fffdfd;
+        color: #000;
 }
+
+:root {
+        --blue-color: #0000ff;
+}
+
 #sidebar h1, p {
         color: #ffffff;
 }
@@ -117,7 +123,29 @@ a {
         font-size: 20px;
 }
 
+#setting-menu table {
+        width: 60%;
+}
+#setting-menu table tr th {
+        padding: 12px 15px;
+}
+#setting-menu table tr td {
+        padding: 12px 15px;
+}
+#setting-menu table tr .td_checkbox {
+        text-align: center;
+        vertical-align: middle;
+}
 
-:root {
-        --blue-color: #0000ff;
+#setting-menu .th_checkbox {
+        width: 5%;
+}
+#setting-menu .th_icon {
+        width: 15%;
+}
+#setting-menu .th_action {
+        width: 25%;
+}
+#setting-menu .container {
+        padding: 15px 55px;
 }
