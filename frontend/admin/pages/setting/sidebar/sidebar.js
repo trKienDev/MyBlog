@@ -70,7 +70,6 @@ export function loadSidebar() {
                 });
 }
 
-
 // Hàm để xóa sidebar item
 function deleteSidebarItem(id) {
         // URL API xóa item với ID truyền vào
@@ -93,9 +92,11 @@ function deleteSidebarItem(id) {
                 if (row) {
                     row.remove(); // Xóa dòng khỏi bảng
                 }
+                location.reload();
                 console.log("Sidebar item deleted successfully:", data);
         })
         .catch(error => {
             console.error("Error deleting sidebar item:", error);
         });
 }
+
