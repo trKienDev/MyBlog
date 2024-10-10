@@ -23,8 +23,9 @@ Promise.all([
         // Render sidebar items ra giao diện
         const menuList = document.getElementById('sidebar-list');
         sidebarItems.forEach(item => {
-                const menuItem = document.createElement('div');
+                const menuItem = document.createElement('a');
                 menuItem.classList.add('sidebar-item');
+                menuItem.href = item.name;
 
                 const menuItemIcon = document.createElement('div');
                 menuItemIcon.classList.add('sidebar-item-icon');

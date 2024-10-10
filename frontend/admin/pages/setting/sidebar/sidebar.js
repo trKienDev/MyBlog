@@ -1,6 +1,8 @@
+import config from './config.js';
+
 // Load sidebar-item
 export function loadSidebar() {
-        fetch('http://localhost:3000/admin/sidebar')
+        fetch(`${config.domain}${config.endpoints.sidebarList}`)
                 .then(response => {
                         if (!response.ok) {
                                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -11,7 +13,7 @@ export function loadSidebar() {
                         // Lấy tbody của bảng để chèn các hàng mới
                         const tbody = document.querySelector('#sidebar-table tbody');
                         tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
-    
+                        
                         sidebarItems.forEach(item => {
                                 // Tạo một hàng mới
                                 const row = document.createElement('tr');
@@ -73,7 +75,7 @@ export function loadSidebar() {
 // Hàm để xóa sidebar item
 function deleteSidebarItem(id) {
         // URL API xóa item với ID truyền vào
-        const apiUrl = `http://localhost:3000/admin/sidebar/delete/${id}`;
+        const apiUrl = `${config.domain}${config.endpoints.sidebarList}/${id}`;
         fetch(apiUrl, {
                 method: 'DELETE', // Sử dụng phương thức DELETE
                 headers: {
