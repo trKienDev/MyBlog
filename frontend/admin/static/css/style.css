@@ -1,12 +1,17 @@
 body {
         font-family: 'Lexend', sans-serif;
         margin: 0;
-        background-color: #fffdfd;
+        background-color: #f7f6f6;
         color: #000;
+}
+.row {
+        display: flex;
+        justify-content: space-between;
 }
 
 :root {
         --blue-color: #0000ff;
+        --red-color: #ff0000;
 }
 
 #sidebar h1, p {
@@ -32,6 +37,18 @@ a {
         height: 100vh;
         color: #ffffff;
 }
+#sidebar-table {
+        margin-top: 20px;
+        width: 50%;
+        background-color: white;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+}
+#sidebar-table input {
+        cursor: pointer;
+        height: 20px;
+        width: 20px;
+}
 .sidebar-container {
         padding: 10px 20px 14px;
 }
@@ -44,7 +61,6 @@ a {
         border: 1px solid rgba(255, 255, 255, 0.2); /* Border with transparency */
         margin-bottom: 50px;
 }
-
 .search-box i {
         color: #000000;             /* Icon color */
         margin-right: 10px;         /* Spacing between the icon and input */
@@ -65,7 +81,7 @@ a {
         font-family: 'Lexend', sans-serif;
         color: #000000; /* Opaque black */
 }
-    
+
 .sidebar-item {
         display: flex;
         font-size: 25px;
@@ -105,32 +121,83 @@ a {
         border-radius: 5px;
         padding: 25px;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-        background-color: #ffffff;
+        background-color: var(--blue-color);
         display: flex;
         justify-content: center;
         align-items: center;
+        color: #ffffff;
 }
 #settingPage .sidebarItem-box:hover {
         box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
-        background-color: var(--blue-color);
+        background-color: #ffffff;
         cursor: pointer;
-        color: #ffffff;
+        color: var(--blue-color);
+        border: 3px solid var(--blue-color);
 }
 #settingPage a {
         text-decoration: none;
         color: #000000;
-        /* font-weight: bold; */
         font-size: 20px;
 }
-
+#setting-menu .table-title {
+        background-color: #435d7d ;
+        color: white;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+}
+#setting-menu .table-title .row {
+        font-size: 20px;
+        padding: 15px;
+}
+#setting-menu .table-title .col-left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+#setting-menu .table-title .btn-save {
+        padding: 10px 24px;
+        margin-right: 20px;
+        background-color: #61b939;
+        font-size: 15px;
+        color: white;
+        border: 0px;
+        font-family: Lexend;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.8s, filter 0.8s;
+}
+#setting-menu .table-title .btn-save:hover {
+        filter: brightness(1.5);
+}
 #setting-menu table {
-        width: 60%;
+        color: black;
+}
+#setting-menu table th, td {
+        text-align: center !important;
+        vertical-align: middle;
+}
+#setting-menu table thead tr th {
+        border-bottom: 3px solid #435d7d;
+}
+#setting-menu table tbody tr:hover {
+        background-color: rgb(229, 235, 236);
+}
+#setting-menu table tbody tr td {
+        border-bottom: 1px solid #bdbaba;
+}
+#setting-menu table tbody tr:nth-last-child(1) td {
+        border-bottom: 0px;
 }
 #setting-menu table tr th {
         padding: 12px 15px;
+        font-size: 20px;
+        text-align: left;
+        color: #1155cc;
+
 }
 #setting-menu table tr td {
-        padding: 12px 15px;
+        padding: 20px 15px;
+        font-size: 20px;
 }
 #setting-menu table tr .td_checkbox {
         text-align: center;
@@ -144,8 +211,37 @@ a {
         width: 15%;
 }
 #setting-menu .th_action {
-        width: 25%;
+        width: 20%;
+        text-align: center;
 }
 #setting-menu .container {
         padding: 15px 55px;
 }
+#setting-menu .td_action {
+        display: flex;
+        justify-content: space-around;
+}
+#setting-menu .td_action .btn {
+        border-radius: 8px;
+        width: 40%;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: background 0.8s, filter 0.8s;
+}
+#setting-menu .td_action .btn:hover {
+        filter: brightness(2);
+}
+#setting-menu .td_action .btn-edit {
+        background-color: #1155cc;
+}
+#setting-menu .td_action .btn-del {
+        background-color: #cc0000;
+}
+#setting-menu .td_action  a {
+        color: white;
+}
+

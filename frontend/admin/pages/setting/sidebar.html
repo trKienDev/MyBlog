@@ -2,114 +2,58 @@
         <div class="container">
                 <h1>Setting sidebar</h1>
                 <div id="sidebar-table">
-                        <div class="container">
-                                <table>
-                                        <thead>
-                                                <tr>
-                                                        <th class="th_checkbox">
-                                                                <span>
-                                                                        <input type="checkbox"  id="SelectAll">
-                                                                        <label for="SelectAll"></label>
-                                                                </span>
-                                                        </th>   
-                                                        <th class="th_icon">Icon</th> 
-                                                        <th class="th_name">Name</th>
-                                                        <th class="th_action">Action</th>
-                                                </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td class="td_checkbox">
-                                                                <span>
-                                                                        <input type="checkbox"  id="checkbox1">
-                                                                        <label for="checkbox1"></label>
-                                                                </span>
-                                                        </td>
-                                                        <td class="icon">
-                                                                <i class="fa-solid fa-house"></i>
-                                                        </td>
-                                                        <td class="name">
-                                                                <span>dashboard</span>
-                                                        </td>
-                                                        <td>
-                                                                <a href="">
-                                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                                </a>
-                                                                <a href="">
-                                                                        <i class="fa-solid fa-trash"></i>
-                                                                </a>
-                                                        </td>
-                                                </tr>
-                                        </tbody>
-                                </table>
+                        <div class="table-title">
+                                <div class="row">
+                                        <div class="col-left">
+                                                <span>Manage sidebar</span>
+                                        </div>
+                                        <div class="col-right">
+                                                <button class="btn-save">Save</butotn>
+                                        </div>
+                                </div>
                         </div>
+                        <table cellpadding="0" cellspacing="0">
+                                <thead>
+                                        <tr>
+                                                <th class="th_checkbox">
+                                                        <span>
+                                                                <input type="checkbox"  id="SelectAll">
+                                                                <label for="SelectAll"></label>
+                                                        </span>
+                                                </th>   
+                                                <th class="th_icon">Icon</th> 
+                                                <th class="th_name">Name</th>
+                                                <th class="th_action">Delete</th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                                <td class="td_checkbox">
+                                                        <span>
+                                                                <input type="checkbox"  id="checkbox1">
+                                                                <label for="checkbox1"></label>
+                                                        </span>
+                                                </td>
+                                                <td class="td_icon">
+                                                        <i class="fa-solid fa-house"></i>
+                                                </td>
+                                                <td class="td_name">
+                                                        <span>dashboard</span>
+                                                </td>
+                                                <td class="td_action">
+                                                        <a href="">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                        </a>
+                                                </td>
+                                        </tr>
+                                </tbody>
+                        </table>
                 </div>
                 
         </div>
 </div>
 
-<script>
-        function loadSidebar() {
-                fetch('http://localhost:3000/admin/sidebar')
-                        .then(response => {
-                                if (!response.ok) {
-                                        throw new Error(`HTTP error! Status: ${response.status}`);
-                                }
-                                return response.json(); // Chuyển đổi phản hồi sang JSON
-                        })
-                        .then(sidebarItems => {
-                                // Lấy tbody của bảng để chèn các hàng mới
-                                const tbody = document.querySelector('#sidebar-table tbody');
-                                tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
-
-                                sidebarItems.forEach(item => {
-                                        // Tạo một hàng mới
-                                        const row = document.createElement('tr');
-
-                                        // Tạo các cột và gán nội dung tương ứng
-                                        // Cột checkbox
-                                        const tdCheckbox = document.createElement('td');
-                                        tdCheckbox.classList.add('td_checkbox');
-                                        tdCheckbox.innerHTML = `
-                                        <span>
-                                                <input type="checkbox" id="checkbox${item.id}">
-                                                <label for="checkbox${item.id}"></label>
-                                        </span>`;
-                                        
-                                        // Cột icon
-                                        const tdIcon = document.createElement('td');
-                                        tdIcon.classList.add('icon');
-                                        tdIcon.innerHTML = `<i class="${item.icon}"></i>`; // Gán item.icon vào thẻ <i>
-
-                                        // Cột tên
-                                        const tdName = document.createElement('td');
-                                        tdName.classList.add('name');
-                                        tdName.innerHTML = `<span>${item.name}</span>`;
-
-                                        // Cột action (sửa/xóa)
-                                        const tdAction = document.createElement('td');
-                                        tdAction.innerHTML = `
-                                        <a href="#">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#">
-                                                <i class="fa-solid fa-trash"></i>
-                                        </a>`;
-
-                                        // Thêm các cột vào hàng
-                                        row.appendChild(tdCheckbox);
-                                        row.appendChild(tdIcon);
-                                        row.appendChild(tdName);
-                                        row.appendChild(tdAction);
-
-                                        // Thêm hàng vào tbody
-                                        tbody.appendChild(row);
-                                });
-                        })
-                        .catch(error => {
-                                console.error('Error fetching data', error);
-                        });
-        }
+<script>        
         loadSidebar();
 </script>
     

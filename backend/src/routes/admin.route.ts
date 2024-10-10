@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { getAdminPage } from '../Admin/Controllers/admin.controller.js';
 import { getAboutPage } from '../Admin/Controllers/about.controller.js';
-import { getSidebarItems, createSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
+import { getSidebarItems, createSidebarItem, deleteSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
 
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
@@ -16,7 +16,9 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 getSidebarItems(req, res);
         } else if (url === '/admin/sidebar/create' && method === 'POST') { // Route for creating a new sidebar item
                 createSidebarItem(req, res);
-        } 
+        } else if (url === '/admin/sidebar/delete' && method === 'POST') {
+                deleteSidebarItem(req, res);
+        }
         // else if (url === '/admin/sidebar/edit' && method === 'POST') { // Route for creating a new sidebar item
         //         createSidebarItem(req, res);
         // } 

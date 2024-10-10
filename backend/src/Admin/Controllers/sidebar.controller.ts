@@ -21,12 +21,10 @@ export const getSidebarItems = async (req: IncomingMessage, res: ServerResponse)
 // Tạo thêm menu item
 export const createSidebarItem = async(req: IncomingMessage, res: ServerResponse) => {
         let body = '';
-
         // listen for the 'data' event to collect chunks of the request body
         req.on('data', chunk => {
                 body += chunk.toString(); // Append data chunk
         });
-
         // When the request is finished (end event), parse the body and process it
         req.on('end', async() => {
                 try {
@@ -47,4 +45,9 @@ export const createSidebarItem = async(req: IncomingMessage, res: ServerResponse
                         res.end(JSON.stringify({ message: 'Error creating item', error }));
                 }
         });
+}
+
+// Xoá sidebar item
+export const deleteSidebarItem = async(req: IncomingMessage, res: ServerResponse) => {
+        
 }
