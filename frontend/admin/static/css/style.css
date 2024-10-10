@@ -31,27 +31,6 @@ a {
         display: flex;
 }
 
-#sidebar {
-        width: 15%;
-        background-color: #1E201E;
-        height: 100vh;
-        color: #ffffff;
-}
-#sidebar-table {
-        margin-top: 20px;
-        width: 50%;
-        background-color: white;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
-}
-#sidebar-table input {
-        cursor: pointer;
-        height: 20px;
-        width: 20px;
-}
-.sidebar-container {
-        padding: 10px 20px 14px;
-}
 .search-box {
         display: flex;
         align-items: center;
@@ -82,20 +61,7 @@ a {
         color: #000000; /* Opaque black */
 }
 
-.sidebar-item {
-        display: flex;
-        font-size: 25px;
-        font-weight: bold;
-        padding: 15px 0;
-        text-decoration: none;
-        color: #ffffff;
-}
-.sidebar-item-icon {
-        width: 30px; /* Đặt chiều rộng cố định, điều chỉnh giá trị tùy theo ý muốn */
-        display: inline-block; /* Đảm bảo rằng các icon nằm cạnh văn bản */
-        text-align: center; /* Canh giữa icon trong khung */
-        margin-right: 10px; /* Khoảng cách giữa icon và văn bản */
-}
+
 #dynamic-data {
         width: 85%;
 }
@@ -138,110 +104,5 @@ a {
         text-decoration: none;
         color: #000000;
         font-size: 20px;
-}
-#setting-menu .table-title {
-        background-color: #435d7d ;
-        color: white;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-}
-#setting-menu .table-title .row {
-        font-size: 20px;
-        padding: 15px;
-}
-#setting-menu .table-title .col-left {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-}
-#setting-menu .table-title .btn-save {
-        padding: 10px 24px;
-        margin-right: 20px;
-        background-color: #61b939;
-        font-size: 15px;
-        color: white;
-        border: 0px;
-        font-family: Lexend;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.8s, filter 0.8s;
-}
-#setting-menu .table-title .btn-save:hover {
-        filter: brightness(1.5);
-}
-#setting-menu table {
-        color: black;
-}
-#setting-menu table th, td {
-        text-align: center !important;
-        vertical-align: middle;
-}
-#setting-menu table thead tr th {
-        border-bottom: 3px solid #435d7d;
-}
-#setting-menu table tbody tr:hover {
-        background-color: rgb(229, 235, 236);
-}
-#setting-menu table tbody tr td {
-        border-bottom: 1px solid #bdbaba;
-}
-#setting-menu table tbody tr:nth-last-child(1) td {
-        border-bottom: 0px;
-}
-#setting-menu table tr th {
-        padding: 12px 15px;
-        font-size: 20px;
-        text-align: left;
-        color: #1155cc;
-
-}
-#setting-menu table tr td {
-        padding: 20px 15px;
-        font-size: 20px;
-}
-#setting-menu table tr .td_checkbox {
-        text-align: center;
-        vertical-align: middle;
-}
-
-#setting-menu .th_checkbox {
-        width: 5%;
-}
-#setting-menu .th_icon {
-        width: 15%;
-}
-#setting-menu .th_action {
-        width: 20%;
-        text-align: center;
-}
-#setting-menu .container {
-        padding: 15px 55px;
-}
-#setting-menu .td_action {
-        display: flex;
-        justify-content: space-around;
-}
-#setting-menu .td_action .btn {
-        border-radius: 8px;
-        width: 40%;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid transparent;
-        cursor: pointer;
-        transition: background 0.8s, filter 0.8s;
-}
-#setting-menu .td_action .btn:hover {
-        filter: brightness(2);
-}
-#setting-menu .td_action .btn-edit {
-        background-color: #1155cc;
-}
-#setting-menu .td_action .btn-del {
-        background-color: #cc0000;
-}
-#setting-menu .td_action  a {
-        color: white;
 }
 
