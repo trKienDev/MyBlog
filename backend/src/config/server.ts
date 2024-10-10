@@ -29,6 +29,13 @@ const server = http.createServer((req: IncomingMessage, res: ServerResponse) => 
         // Thiết lập CORS cho tất cả các yêu cầu
         setCorsHeaders(res);
         
+        // Kiểm tra xem yêu cầu là OPTIONS không, nếu có thì trả về 200 OK (Khi thực hiện phương thức DELETE với yêu cầu là OPTIONS)
+        if (req.method === 'OPTIONS') {
+                res.statusCode = 200;
+                res.end();
+                return;
+        }
+
         if (req.url?.startsWith('/admin')) {
                 adminRoutes(req, res);
         } else if (req.url?.startsWith('/')) {

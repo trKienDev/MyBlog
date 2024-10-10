@@ -49,5 +49,41 @@ export const createSidebarItem = async(req: IncomingMessage, res: ServerResponse
 
 // Xoá sidebar item
 export const deleteSidebarItem = async(req: IncomingMessage, res: ServerResponse) => {
-        
-}
+        // Extract the ID from the URL or request
+        const id = req.url?.split("/").pop(); // Assumes the ID is passed in the URL, e.g., /api/sidebar-items/{id}
+        // Regular expression to check if the ID is a valid MongoDB ObjectId (24 hex characters)
+        const objectIdPattern = /^[a-f\d]{24}$/i;
+
+        if(!id) {
+                res.statusCode = 400;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify({ message: "ID is requested" }));
+                return;
+        }
+        // Check if the ID is valid
+        if (!objectIdPattern.test(id)) {
+                res.statusCode = 400;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify({ message: "Invalid ID format" }));
+                return;
+        }
+        try {
+                // Find the sidebar item by ID and delete it
+                const deletedItem = await SidebarItem.findByIdAndDelete(id);
+                if(!deletedItem) {
+                        res.statusCode = 404;
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify({ message: "Sidebar item not found" }));
+                        return;
+                }
+                // Send a success response with the deleted item
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify({ message: "Sidebar item deleted", deletedItem }));
+        } catch(error) {
+                // Handle erros, set status code to 500 for server error
+                res.statusCode = 500;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify({ message: "Error deleting item", error }));
+        }
+};

@@ -16,12 +16,9 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 getSidebarItems(req, res);
         } else if (url === '/admin/sidebar/create' && method === 'POST') { // Route for creating a new sidebar item
                 createSidebarItem(req, res);
-        } else if (url === '/admin/sidebar/delete' && method === 'POST') {
+        } else if (url?.startsWith('/admin/sidebar/delete') && method === 'DELETE') {
                 deleteSidebarItem(req, res);
         }
-        // else if (url === '/admin/sidebar/edit' && method === 'POST') { // Route for creating a new sidebar item
-        //         createSidebarItem(req, res);
-        // } 
 
         else { // Handle invalid routes
                 res.statusCode = 404;
