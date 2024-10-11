@@ -1,8 +1,8 @@
-import config from './config.js';
+import config2 from "../../../services/config.js";
 
 // Load sidebar-item
 export function loadSidebar() {
-        fetch(`${config.domain}${config.endpoints.sidebarList}`)
+        fetch(`${config2.domain}${config2.endpoints.sidebarList}`)
                 .then(response => {
                         if (!response.ok) {
                                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -75,7 +75,8 @@ export function loadSidebar() {
 // Hàm để xóa sidebar item
 function deleteSidebarItem(id) {
         // URL API xóa item với ID truyền vào
-        const apiUrl = `${config.domain}${config.endpoints.sidebarList}/${id}`;
+        const apiUrl = `${config2.domain}${config2.endpoints.sidebarDelete}/${id}`;
+        console.log(apiUrl);
         fetch(apiUrl, {
                 method: 'DELETE', // Sử dụng phương thức DELETE
                 headers: {
@@ -102,3 +103,44 @@ function deleteSidebarItem(id) {
         });
 }
 
+export function createSidebar() {
+        
+
+
+        
+        // document.getElementById('sidebar-form').addEventListener('submit', async function(event) {
+        //         event.preventDefault(); 
+        
+        //         // Lấy giá trị từ các input
+        //         const icon = document.getElementById('sidebar-icon').value;
+        //         const name = document.getElementById('sidebar-name').value;
+        
+        //         // Chuẩn bị dữ liệu để gửi trong phần body của request
+        //         const requestData = {
+        //                 icon: icon,
+        //                 name: name
+        //         };
+        //         console.log(requestData);
+        //         try {
+        //                 // Gửi yêu cầu POST đén endpoint API
+        //                 const response = await fetch('http://localhost:3000/admin/sidebar/create', {
+        //                         method: 'POST',
+        //                         headers: {
+        //                                 'Content-Type' : 'application/json'
+        //                         },
+        //                         body: JSON.stringify(requestData)
+        //                 });
+        //                 if(response.ok) {
+        //                         // Nếu request thành công
+        //                         alert('Sidebar item create successfully');
+        //                         location.reload();
+        //                 } else {
+        //                         // Xử lý lỗi từ server
+        //                         const errorData = await response.json();
+        //                         alert(`Error creating sidebar item: ${errorData.message}`);
+        //                 } 
+        //         } catch(error) {
+        //                 alert(`Network error: ${error.message}`);
+        //         }
+        // });
+}

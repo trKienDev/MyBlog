@@ -1,5 +1,5 @@
 import config from './config.js';
-import { loadSidebar } from '../pages/setting/sidebar/sidebar.js';
+import { loadSidebar, createSidebar } from '../pages/setting/sidebar/sidebar.js';
 
 document.addEventListener("DOMContentLoaded", function() {
     // Event listener đã có cho trang setting
@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const url = `${config.frontendDomain}${config.endpoints.settingPage}`;
         loadContent(url);
     });
+    
+
 
     // Load dynamic data
     function loadContent(url) {
@@ -40,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             const menuUrl = '/admin/pages/setting/sidebar/sidebar.html';  // URL của trang menu
                             loadContent(menuUrl);  // Gọi lại hàm loadContent để tải nội dung động của menu.html
                             loadSidebar();
+                            createSidebar();
                         });
                     }
                 } else {

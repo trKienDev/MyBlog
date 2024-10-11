@@ -67,6 +67,7 @@ export const deleteSidebarItem = async(req: IncomingMessage, res: ServerResponse
                 res.end(JSON.stringify({ message: "Invalid ID format" }));
                 return;
         }
+        
         try {
                 // Find the sidebar item by ID and delete it
                 const deletedItem = await SidebarItem.findByIdAndDelete(id);
