@@ -30,13 +30,13 @@ export function loadSidebar() {
                                 
                                 // Cột icon
                                 const tdIcon = document.createElement('td');
-                                tdIcon.classList.add('td_icon');
-                                tdIcon.innerHTML = `<i class="${item.icon}"></i>`; // Gán item.icon vào thẻ <i>
+                                tdIcon.classList.add('td_icon', 'editable-icon');
+                                tdIcon.innerHTML = `<i contenteditable="true" class="${item.icon}"></i>`; // Gán item.icon vào thẻ <i>
     
                                 // Cột tên
                                 const tdName = document.createElement('td');
-                                tdName.classList.add('td_name');
-                                tdName.innerHTML = `<span>${item.name}</span>`;
+                                tdName.classList.add('td_name', 'editable-name');
+                                tdName.innerHTML = `<span contenteditable="true">${item.name}</span>`;
     
                                 // Cột action (sửa/xóa)
                                 const tdAction = document.createElement('td');

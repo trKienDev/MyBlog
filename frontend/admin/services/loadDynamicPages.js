@@ -40,7 +40,6 @@ function loadContent(url) {
                         const menuUrl = '/admin/pages/setting/sidebar/sidebar.html';  // URL của trang menu
                         loadContent(menuUrl);  // Gọi lại hàm loadContent để tải nội dung động của menu.html
                         loadSidebar();
-                        createSidebar();
                     });
                 }
             } else {

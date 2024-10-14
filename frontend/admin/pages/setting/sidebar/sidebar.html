@@ -11,7 +11,7 @@
                                                         <span>Manage sidebar</span>
                                                 </div>
                                                 <div class="col-right">
-                                                        <button class="btn-save">Save</butotn>
+                                                        <button id="btn-save" class="btn-save">Save</butotn>
                                                 </div>
                                         </div>
                                 </div>
@@ -37,10 +37,10 @@
                                                                         <label for="checkbox1"></label>
                                                                 </span>
                                                         </td>
-                                                        <td class="td_icon">
+                                                        <td contenteditable="true" class="td_icon">
                                                                 <i class="fa-solid fa-house"></i>
                                                         </td>
-                                                        <td class="td_name">
+                                                        <td contenteditable="true" class="td_name">
                                                                 <span>dashboard</span>
                                                         </td>
                                                         <td class="td_action">
@@ -74,3 +74,40 @@
         </div>
 </div>
 
+<script>
+        document.getElementById('btn-save').addEventListener('click', function() {
+                console.log("Hello");
+                const rows = document.querySelectorAll('tbody tr');
+                
+                // Tạo danh sách các sidebarItem cần cập nhật
+                const updateSidebarItems = [];
+
+                rows.forEach(row => {
+                        const id = row.getAttribute('data-id');
+                        const icon = row.querySelector('.editable-icon i').className.trim();
+                        const name = row.querySelector('.editable-name').textContent.trim();
+                        
+                        updateSidebarItems.push({ id, icon, name });
+                });
+
+                // Gửi yêu cầu PUT đến API để cập nhật
+                updateSidebarItems.forEach(item => {
+                        fetch(`http://localhost:3000/admin/sidebar/edit/${item.id}`, {
+                                method: 'PUT',
+                                headers: {
+                                        'Content-Type' : 'application/json',
+                                },
+                                body : JSON.stringify({
+                                        icon: item.icon,
+                                        name: item.name
+                                })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                                if(data.message === 'Sidebar item updated') {
+                                        
+                                }
+                        })
+                });
+        });
+</script>
