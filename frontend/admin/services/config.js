@@ -7,6 +7,7 @@ const config = {
                 adminPage: '/admin',
                 adminPages: 'admin/pages',
                 sidebarList: '/admin/sidebar',
+                sidebarCreate: '/admin/sidebar/create',
                 sidebarDelete: '/admin/sidebar/delete',
                 settingPage: '/admin/pages/setting.html', 
         }

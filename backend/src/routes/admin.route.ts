@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { getAdminPage } from '../Admin/Controllers/admin.controller.js';
 import { getAboutPage } from '../Admin/Controllers/about.controller.js';
-import { getSidebarItems, createSidebarItem, deleteSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
+import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
 
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
@@ -18,8 +18,9 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 createSidebarItem(req, res);
         } else if (url?.startsWith('/admin/sidebar/delete') && method === 'DELETE') {
                 deleteSidebarItem(req, res);
+        } else if (url?.startsWith('/admin/sidebar/update') && method === 'PUT') {
+                updateSidebarItem(req, res);
         }
-
         else { // Handle invalid routes
                 res.statusCode = 404;
                 res.setHeader('Content-Type', 'text/plain');

@@ -119,7 +119,7 @@ async function createSidebar(icon, name) {
         };
         try {
                 // Gửi yêu cầu POST đén endpoint API
-                const response = await fetch('http://localhost:3000/admin/sidebar/create', {
+                const response = await fetch(`${config2.domain}${config2.endpoints.sidebarCreate}`, {
                         method: 'POST',
                         headers: {
                                 'Content-Type' : 'application/json'
