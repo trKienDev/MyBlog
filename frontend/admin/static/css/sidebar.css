@@ -51,8 +51,10 @@
 }
 #sidebar-table .table-title .col-left {
         display: flex;
-        justify-content: center;
         align-items: center;
+}
+#sidebar-table .table-title .col-right {
+        width: 15%;
 }
 #sidebar-table .table-title .btn-save {
         padding: 10px 24px;

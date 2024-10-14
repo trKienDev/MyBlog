@@ -2,7 +2,7 @@ import config2 from "../../../services/config.js";
 
 // Load sidebar-item
 export function loadSidebar() {
-        fetch(`${config2.domain}${config2.endpoints.sidebarList}`)
+        fetch(`${config2.domain}${config2.endpoints.sidebarList}`) 
                 .then(response => {
                         if (!response.ok) {
                                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -102,14 +102,13 @@ function deleteSidebarItem(id) {
                 if (row) {
                     row.remove(); // Xóa dòng khỏi bảng
                 }
-                location.reload();
+                // location.reload();
                 console.log("Sidebar item deleted successfully:", data);
         })
         .catch(error => {
             console.error("Error deleting sidebar item:", error);
         });
 }
-
 
 // Hàm thêm 1 sidebar item
 async function createSidebar(icon, name) {
@@ -128,7 +127,7 @@ async function createSidebar(icon, name) {
                         body: JSON.stringify(requestData)
                 });
                 if(response.ok) {
-                        alert('Sidebar item create successfully');
+                        alert('Warning: Website must be reload');
                         location.reload();
                 } else {
                         const errorData = await response.json();
