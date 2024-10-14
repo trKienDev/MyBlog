@@ -1,5 +1,5 @@
 import config from './config.js';
-import { loadSidebar, createSidebar } from '../pages/setting/sidebar/sidebar.js';
+import { loadSidebar } from '../pages/setting/sidebar/sidebar.js';
 
 document.addEventListener("DOMContentLoaded", function() {
     // Event listener đã có cho trang setting

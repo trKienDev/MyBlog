@@ -56,16 +56,23 @@ export function loadSidebar() {
     
                                 // Thêm hàng vào tbody
                                 tbody.appendChild(row);
-    
+
                                 // Thêm event listener cho nút xóa
                                 const deleteButton = tdAction.querySelector('.btn-del a');
                                 deleteButton.addEventListener('click', function(event) {
-                                    event.preventDefault(); // Ngăn hành động mặc định của thẻ <a>
-                                    const itemId = deleteButton.getAttribute('data-id'); // Lấy item._id từ thuộc tính data-id
-                                    // Gọi hàm deleteSidebarItem trong apiService.js và truyền ID
-                                    deleteSidebarItem(itemId);
+                                        event.preventDefault(); // Ngăn hành động mặc định của thẻ <a>
+                                        const itemId = deleteButton.getAttribute('data-id'); // Lấy item._id từ thuộc tính data-id
+                                        // Gọi hàm deleteSidebarItem trong apiService.js và truyền ID
+                                        deleteSidebarItem(itemId);
                                 });
                         });
+                        document.getElementById('sidebar-form')
+                                        .addEventListener('submit', function(event) {
+                                event.preventDefault();
+                                const icon = document.getElementById('sidebar-icon').value;
+                                const name = document.getElementById('sidebar-name').value;
+                                createSidebar(icon, name);
+                        })
                 })
                 .catch(error => {
                         console.error('Error fetching data', error);
@@ -103,44 +110,31 @@ function deleteSidebarItem(id) {
         });
 }
 
-export function createSidebar() {
-        
 
-
-        
-        // document.getElementById('sidebar-form').addEventListener('submit', async function(event) {
-        //         event.preventDefault(); 
-        
-        //         // Lấy giá trị từ các input
-        //         const icon = document.getElementById('sidebar-icon').value;
-        //         const name = document.getElementById('sidebar-name').value;
-        
-        //         // Chuẩn bị dữ liệu để gửi trong phần body của request
-        //         const requestData = {
-        //                 icon: icon,
-        //                 name: name
-        //         };
-        //         console.log(requestData);
-        //         try {
-        //                 // Gửi yêu cầu POST đén endpoint API
-        //                 const response = await fetch('http://localhost:3000/admin/sidebar/create', {
-        //                         method: 'POST',
-        //                         headers: {
-        //                                 'Content-Type' : 'application/json'
-        //                         },
-        //                         body: JSON.stringify(requestData)
-        //                 });
-        //                 if(response.ok) {
-        //                         // Nếu request thành công
-        //                         alert('Sidebar item create successfully');
-        //                         location.reload();
-        //                 } else {
-        //                         // Xử lý lỗi từ server
-        //                         const errorData = await response.json();
-        //                         alert(`Error creating sidebar item: ${errorData.message}`);
-        //                 } 
-        //         } catch(error) {
-        //                 alert(`Network error: ${error.message}`);
-        //         }
-        // });
+// Hàm thêm 1 sidebar item
+async function createSidebar(icon, name) {
+        // Chuẩn bị dữ liệu để gửi trong phần body của request
+        const requestData = {
+                icon: icon,
+                name: name
+        };
+        try {
+                // Gửi yêu cầu POST đén endpoint API
+                const response = await fetch('http://localhost:3000/admin/sidebar/create', {
+                        method: 'POST',
+                        headers: {
+                                'Content-Type' : 'application/json'
+                        },
+                        body: JSON.stringify(requestData)
+                });
+                if(response.ok) {
+                        alert('Sidebar item create successfully');
+                        location.reload();
+                } else {
+                        const errorData = await response.json();
+                        alert(`Error creating sidebar item: ${errorData.message}`);
+                } 
+        } catch(error) {
+                alert(`Network error: ${error.message}`);
+        }            
 }
