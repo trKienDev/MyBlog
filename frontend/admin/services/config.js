@@ -9,6 +9,7 @@ const config = {
                 sidebarList: '/admin/sidebar',
                 sidebarCreate: '/admin/sidebar/create',
                 sidebarDelete: '/admin/sidebar/delete',
+                sidebarUpdate: '/admin/sidebar/update',
                 settingPage: '/admin/pages/setting.html', 
         }
 }

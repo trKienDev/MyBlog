@@ -142,7 +142,7 @@ export const updateSidebarItem = async (req: IncomingMessage, res: ServerRespons
                         // Send a success response with the updated item
                         res.statusCode = 200;
                         res.setHeader("Content-Type", "application/json");
-                        res.end(JSON.stringify({ Message: "Sidebar item updatedd", updateItem}));
+                        res.end(JSON.stringify({ Message: "Sidebar item updated", updateItem}));
                 }
                 catch (error) {
                         res.statusCode = 500;

@@ -21,7 +21,7 @@ mongoose.connect(MONGODB_URI)
 // CORS headers
 const setCorsHeaders = (res: ServerResponse) => {
         res.setHeader('Access-Control-Allow-Origin', '*'); // Cho phép tất cả các nguồn truy cập dữ liệu
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS' ); // Các phương thức được phép
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS, PUT' ); // Các phương thức được phép
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Các header được phép
 }
 
@@ -31,6 +31,7 @@ const server = http.createServer((req: IncomingMessage, res: ServerResponse) => 
         
         // Kiểm tra xem yêu cầu là OPTIONS không, nếu có thì trả về 200 OK (Khi thực hiện phương thức DELETE với yêu cầu là OPTIONS)
         if (req.method === 'OPTIONS') {
+                setCorsHeaders(res); // Thêm header cho CORS
                 res.statusCode = 200;
                 res.end();
                 return;

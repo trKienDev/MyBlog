@@ -1,7 +1,8 @@
 import config2 from "../../../services/config.js";
+import { RenderSidebar } from "../../../services/loadElement/loadSidebar.js";
 
 // Load sidebar-item
-export function loadSidebar() {
+export function loadSidebarTable() {
         fetch(`${config2.domain}${config2.endpoints.sidebarList}`) 
                 .then(response => {
                         if (!response.ok) {
@@ -66,13 +67,20 @@ export function loadSidebar() {
                                         deleteSidebarItem(itemId);
                                 });
                         });
+
+                        // Create sidebar item
                         document.getElementById('sidebar-form')
                                         .addEventListener('submit', function(event) {
                                 event.preventDefault();
                                 const icon = document.getElementById('sidebar-icon').value;
                                 const name = document.getElementById('sidebar-name').value;
                                 createSidebar(icon, name);
-                        })
+                        });
+
+                        // Edit sidebar item
+                        document.getElementById('btn-save').addEventListener('click', function() { 
+                                updateSidebarItem();
+                        });
                 })
                 .catch(error => {
                         console.error('Error fetching data', error);
@@ -103,10 +111,26 @@ function deleteSidebarItem(id) {
                     row.remove(); // Xóa dòng khỏi bảng
                 }
                 // location.reload();
-                console.log("Sidebar item deleted successfully:", data);
+                Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Sidebar item deleted successfully!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                })
+                .then((result) => {
+                        if (result.isConfirmed) {
+                               RenderSidebar();
+                        }
+                });
         })
         .catch(error => {
-            console.error("Error deleting sidebar item:", error);
+                Swal.fire({
+                        title: 'Error!',
+                        text: 'There was an error deleting the sidebar item.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                });
+                console.error("Error deleting sidebar item:", error);
         });
 }
 
@@ -136,4 +160,64 @@ async function createSidebar(icon, name) {
         } catch(error) {
                 alert(`Network error: ${error.message}`);
         }            
+}
+
+// Update sidebar item
+function updateSidebarItem() {
+        const flag = true;
+        const rows = document.querySelectorAll('tbody tr');
+        const checkedRows = [];
+
+        rows.forEach( row => {
+                const checkbox = row.querySelector('input[type="checkbox"]');
+                if (checkbox && checkbox.checked) {
+                        checkedRows.push(row);
+                }
+        });
+        
+        if (checkedRows.length === 0) {
+                alert("You must check the box to update an item !");
+                location.reload();
+        }
+        // Tạo danh sách các sidebarItem cần cập nhật
+        const updateSidebarItems = [];
+
+        checkedRows.forEach(row => {
+                const id = row.getAttribute('data-id');
+                const icon = row.querySelector('.editable-icon i').className.trim();
+                const name = row.querySelector('.editable-name').textContent.trim();
+                console.log(id, icon, name);
+                updateSidebarItems.push({ id, icon, name });
+        });
+
+        // Gửi yêu cầu PUT đến API để cập nhật
+        updateSidebarItems.forEach(item => {
+                fetch(`${config2.domain}${config2.endpoints.sidebarUpdate}/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                                'Content-Type' : 'application/json',
+                        },
+                        body : JSON.stringify({
+                                icon: item.icon,
+                                name: item.name
+                        })
+                })
+                .then(response => response.json())
+                .then(data => {
+                        if(data.Message === 'Sidebar item updated') {
+                                (`Sidebar item ${item.id} updated successfully`);
+                        } else {
+                                console.error(`Failed to update sidebar item ${item.id}`);
+                        }
+                })
+                .catch(error => {
+                        flag = false;
+                        console.error('Error updating sidebar items: ', error);
+                });
+        });
+        console.log(flag);
+        if (flag === true) {
+                alert("The browser must be reloaded to update information !");
+                location.reload();
+        }
 }
