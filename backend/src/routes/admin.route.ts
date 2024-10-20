@@ -14,7 +14,7 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 getAboutPage(req, res);
         } 
         // sidebar
-        else if ( url === '/admin/sidebar' && method === 'GET' ) { // Route for getting all sidebar items
+        else if ( url === '/admin/sidebar/read' && method === 'GET' ) { // Route for getting all sidebar items
                 getSidebarItems ( req, res );
         } else if ( url === '/admin/sidebar/create' && method === 'POST' ) { // Route for creating a new sidebar item
                 createSidebarItem ( req, res );
@@ -24,7 +24,7 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 deleteSidebarItem ( req, res );
         } 
         // actress 
-        else if ( url?.startsWith ( '/admin/actresses' ) && method === 'GET' ) {
+        else if ( url?.startsWith ( '/admin/actress/read' ) && method === 'GET' ) {
                 getActress ( req , res );
         } else if ( url?.startsWith ( '/admin/actress/create' ) && method === 'POST' ) {
                 createActress ( req , res );

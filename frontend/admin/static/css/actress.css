@@ -1,0 +1,35 @@
+#actress-table {
+        width: 100%;
+}
+#actress-table table {
+        width: 100%
+}
+#actress-table tr {
+        height: 50px;
+}
+#actress-table .btn-edit {
+        width: 5%;
+}
+#actress-table .actress {
+        width: 40%;
+}
+#actress-table .image {
+        width: 10%;
+}
+#actress-table .thBody {
+        width: 10%;
+}
+#actress-table .breast {
+        width: 10%;
+}
+#actress-table .studio {
+        width: 10%;
+}
+#actress-table .films {
+        width: 25%;
+}
+#actress-table .btn-edit {
+        background-color: var(--orange-color);
+        border-radius: 50%;
+}
+

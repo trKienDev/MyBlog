@@ -23,7 +23,7 @@ const ActressSchema: Schema = new Schema({
         image: { type: String, required: false, match: /^https?:\/\/.*\.(jpeg|jpg|gif|png)$/ },
         skin: { type: String, required: true, enum: ['', 'light', 'medium', 'dark'] },
         studio: { type: String, required: false },
-        body: { type: String, required: false, enum: ['', 'fat', 'thin', 'fluid'] },
+        body: { type: String, required: false, enum: ['', 'slim'] },
         breast: { type: String, required: false },
 }, {   collection: 'Actress', 
         timestamp: true 

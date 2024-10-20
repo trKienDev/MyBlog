@@ -6,11 +6,15 @@ const config = {
         endpoints: {
                 adminPage: '/admin',
                 adminPages: 'admin/pages',
-                sidebarList: '/admin/sidebar',
+                settingPage: '/admin/pages/setting.html', 
+                // sidebar page
+                sidebarList: '/admin/sidebar/read',
                 sidebarCreate: '/admin/sidebar/create',
                 sidebarDelete: '/admin/sidebar/delete',
                 sidebarUpdate: '/admin/sidebar/update',
-                settingPage: '/admin/pages/setting.html', 
+
+                // actress
+                actressList: '/admin/actress/read',
         }
 }
 

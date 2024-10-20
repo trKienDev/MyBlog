@@ -141,6 +141,9 @@ async function createSidebar(icon, name) {
                 icon: icon,
                 name: name
         };
+        // reset information in form
+        document.getElementById('sidebar-icon').value = '';
+        document.getElementById('sidebar-name').value = '';
         try {
                 // Gửi yêu cầu POST đén endpoint API
                 const response = await fetch(`${config2.domain}${config2.endpoints.sidebarCreate}`, {
@@ -150,10 +153,25 @@ async function createSidebar(icon, name) {
                         },
                         body: JSON.stringify(requestData)
                 });
-                if(response.ok) {
-                        alert('Warning: Website must be reload');
-                        location.reload();
+                if ( response.ok ) {
+                        Swal.fire ({
+                                title : 'Success !' ,
+                                text : 'New sidebar item successfully added !',
+                                icon : 'Success',
+                                confirmButtonText : 'OK'
+                        }).then(( result ) => {
+                                if ( result.isConfirmed ) {
+                                        loadSidebarTable();
+                                        RenderSidebar();
+                                }
+                        });
                 } else {
+                        Swal.fire({
+                                title: 'Error!',
+                                text: 'There was an error deleting the sidebar item.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                        });
                         const errorData = await response.json();
                         alert(`Error creating sidebar item: ${errorData.message}`);
                 } 

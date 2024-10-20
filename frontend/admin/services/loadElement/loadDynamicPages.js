@@ -1,5 +1,7 @@
 import config from '../config.js';
 import { loadSidebarTable } from '../../pages/setting/sidebar/sidebar.js';
+// Load ActressTable
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // Event listener đã có cho trang setting
@@ -9,13 +11,22 @@ document.addEventListener("DOMContentLoaded", function() {
         // Sử dụng config để cấu hình URL
         const url = `${config.frontendDomain}${config.endpoints.settingPage}`;
         loadContent(url, 'dynamic-data', () => {
-            const menuLink = document.querySelector('a[href="/admin/pages/setting/sidebar"]');
-            if (menuLink) {
-                menuLink.addEventListener('click', function(event) {
+            const sidebarLink = document.querySelector('a[href="/admin/pages/setting/sidebar"]');
+            const actressLink = document.querySelector('a[href="/admin/pages/setting/actress"]');
+            console.log("actress", actressLink);
+            if ( sidebarLink ) {
+                sidebarLink.addEventListener('click', function(event) {
                     event.preventDefault();
-                    const menuUrl = '/admin/pages/setting/sidebar/sidebar.html';
-                    loadContent(menuUrl, 'dynamic-data', loadSidebarTable);
+                    const sidebarUrl = '/admin/pages/setting/sidebar/sidebar.html';
+                    loadContent(sidebarUrl, 'dynamic-data', loadSidebarTable);
                 });
+            }
+            if ( actressLink ) {
+                actressLink.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const actressUrl = '/admin/pages/setting/actress/actress.html';
+                    loadContent(actressUrl, 'dynamic-data', loadSidebarTable);
+                }); 
             }
         });
     });
