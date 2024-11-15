@@ -1,5 +1,6 @@
 import config from '../config.js';
 import { loadSidebarTable } from '../../pages/setting/sidebar/sidebar.js';
+import { loadActressTable } from '../../pages/setting/actress/actress.js';
 // Load ActressTable
 
 
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
         loadContent(url, 'dynamic-data', () => {
             const sidebarLink = document.querySelector('a[href="/admin/pages/setting/sidebar"]');
             const actressLink = document.querySelector('a[href="/admin/pages/setting/actress"]');
-            console.log("actress", actressLink);
+            
             if ( sidebarLink ) {
                 sidebarLink.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 actressLink.addEventListener('click', function(event) {
                     event.preventDefault();
                     const actressUrl = '/admin/pages/setting/actress/actress.html';
-                    loadContent(actressUrl, 'dynamic-data', loadSidebarTable);
+                    loadContent(actressUrl, 'dynamic-data', loadActressTable);
                 }); 
             }
         });

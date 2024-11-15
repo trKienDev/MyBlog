@@ -4,87 +4,87 @@ import { RenderSidebar } from "../../../services/loadElement/loadSidebar.js";
 // Load sidebar-item
 export function loadSidebarTable() {
         fetch(`${config2.domain}${config2.endpoints.sidebarList}`) 
-                .then(response => {
-                        if (!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json(); // Chuyển đổi phản hồi sang JSON
-                })
-                .then(sidebarItems => {
-                        // Lấy tbody của bảng để chèn các hàng mới
-                        const tbody = document.querySelector('#sidebar-table tbody');
-                        tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
+        .then(response => {
+                if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json(); // Chuyển đổi phản hồi sang JSON
+        })
+        .then(sidebarItems => {
+                // Lấy tbody của bảng để chèn các hàng mới
+                const tbody = document.querySelector('#sidebar-table tbody');
+                tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
+                
+                sidebarItems.forEach(item => {
+                        // Tạo một hàng mới
+                        const row = document.createElement('tr');
+                        row.setAttribute('data-id', item._id);
+                        // Tạo các cột và gán nội dung tương ứng
+                        // Cột checkbox
+                        const tdCheckbox = document.createElement('td');
+                        tdCheckbox.classList.add('td_checkbox');
+                        tdCheckbox.innerHTML = `
+                        <span>
+                                <input type="checkbox" id="checkbox${item.id}">
+                                <label for="checkbox${item.id}"></label>
+                        </span>`;
                         
-                        sidebarItems.forEach(item => {
-                                // Tạo một hàng mới
-                                const row = document.createElement('tr');
-                                row.setAttribute('data-id', item._id);
-                                // Tạo các cột và gán nội dung tương ứng
-                                // Cột checkbox
-                                const tdCheckbox = document.createElement('td');
-                                tdCheckbox.classList.add('td_checkbox');
-                                tdCheckbox.innerHTML = `
-                                <span>
-                                        <input type="checkbox" id="checkbox${item.id}">
-                                        <label for="checkbox${item.id}"></label>
-                                </span>`;
-                                
-                                // Cột icon
-                                const tdIcon = document.createElement('td');
-                                tdIcon.classList.add('td_icon', 'editable-icon');
-                                tdIcon.innerHTML = `<i contenteditable="true" class="${item.icon}"></i>`; // Gán item.icon vào thẻ <i>
-    
-                                // Cột tên
-                                const tdName = document.createElement('td');
-                                tdName.classList.add('td_name', 'editable-name');
-                                tdName.innerHTML = `<span contenteditable="true">${item.name}</span>`;
-    
-                                // Cột action (sửa/xóa)
-                                const tdAction = document.createElement('td');
-                                tdAction.classList.add('td_action');
-                                tdAction.innerHTML = `
-                                                                <div class="btn btn-del">
-                                                                        <a href="#" data-id="${item._id}">
-                                                                                <i class="fa-solid fa-trash"></i>
-                                                                        </a>
-                                                                </div>`;
-    
-                                // Thêm các cột vào hàng
-                                row.appendChild(tdCheckbox);
-                                row.appendChild(tdIcon);
-                                row.appendChild(tdName);
-                                row.appendChild(tdAction);
-    
-                                // Thêm hàng vào tbody
-                                tbody.appendChild(row);
+                        // Cột icon
+                        const tdIcon = document.createElement('td');
+                        tdIcon.classList.add('td_icon', 'editable-icon');
+                        tdIcon.innerHTML = `<i contenteditable="true" class="${item.icon}"></i>`; // Gán item.icon vào thẻ <i>
 
-                                // Thêm event listener cho nút xóa
-                                const deleteButton = tdAction.querySelector('.btn-del a');
-                                deleteButton.addEventListener('click', function(event) {
-                                        event.preventDefault(); // Ngăn hành động mặc định của thẻ <a>
-                                        const itemId = deleteButton.getAttribute('data-id'); // Lấy item._id từ thuộc tính data-id
-                                        // Gọi hàm deleteSidebarItem trong apiService.js và truyền ID
-                                        deleteSidebarItem(itemId);
-                                });
-                        });
+                        // Cột tên
+                        const tdName = document.createElement('td');
+                        tdName.classList.add('td_name', 'editable-name');
+                        tdName.innerHTML = `<span contenteditable="true">${item.name}</span>`;
 
-                        // Create sidebar item
-                        document.getElementById('sidebar-form')
-                                        .addEventListener('submit', function(event) {
-                                event.preventDefault();
-                                const icon = document.getElementById('sidebar-icon').value;
-                                const name = document.getElementById('sidebar-name').value;
-                                createSidebar(icon, name);
-                        });
+                        // Cột action (sửa/xóa)
+                        const tdAction = document.createElement('td');
+                        tdAction.classList.add('td_action');
+                        tdAction.innerHTML = `
+                                                        <div class="btn btn-del">
+                                                                <a href="#" data-id="${item._id}">
+                                                                        <i class="fa-solid fa-trash"></i>
+                                                                </a>
+                                                        </div>`;
 
-                        // Edit sidebar item
-                        document.getElementById('btn-save').addEventListener('click', function() { 
-                                updateSidebarItem();
+                        // Thêm các cột vào hàng
+                        row.appendChild(tdCheckbox);
+                        row.appendChild(tdIcon);
+                        row.appendChild(tdName);
+                        row.appendChild(tdAction);
+
+                        // Thêm hàng vào tbody
+                        tbody.appendChild(row);
+
+                        // Thêm event listener cho nút xóa
+                        const deleteButton = tdAction.querySelector('.btn-del a');
+                        deleteButton.addEventListener('click', function(event) {
+                                event.preventDefault(); // Ngăn hành động mặc định của thẻ <a>
+                                const itemId = deleteButton.getAttribute('data-id'); // Lấy item._id từ thuộc tính data-id
+                                // Gọi hàm deleteSidebarItem trong apiService.js và truyền ID
+                                deleteSidebarItem(itemId);
                         });
-                })
-                .catch(error => {
-                        console.error('Error fetching data', error);
                 });
+
+                // Create sidebar item
+                document.getElementById('sidebar-form')
+                                .addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        const icon = document.getElementById('sidebar-icon').value;
+                        const name = document.getElementById('sidebar-name').value;
+                        createSidebar(icon, name);
+                });
+
+                // Edit sidebar item
+                document.getElementById('btn-save').addEventListener('click', function() { 
+                        updateSidebarItem();
+                });
+        })
+        .catch(error => {
+                console.error('Error fetching data', error);
+        });
 }
 
 // Hàm để xóa sidebar item

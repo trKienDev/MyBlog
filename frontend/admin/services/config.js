@@ -15,6 +15,7 @@ const config = {
 
                 // actress
                 actressList: '/admin/actress/read',
+                actressCreate: '/admin/actress/create'
         }
 }
 

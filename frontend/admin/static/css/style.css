@@ -16,6 +16,11 @@ body {
         --red-color: #ff3131;
         --pink-color: #EE66A6;
         --orange-color: #FF5F1F;
+
+        /* background */
+        --blue-background: #1056c0;
+        --red-background: #cc0000;
+        --green-background: #61b939;
 }
 
 #sidebar h1, p {
@@ -135,3 +140,16 @@ a {
         font-size: 20px;
 }
 
+.btn-create {
+        background-color: var(--green-background);
+        max-width: 100px;
+        padding: 10px 10px;
+        color: white;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: background 0.8s, filter 0.8s;
+}
+.btn-create:hover {
+        filter: brightness(1.3);
+}
