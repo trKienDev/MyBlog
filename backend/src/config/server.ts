@@ -3,6 +3,8 @@ import { userRoutes } from '../routes/users.route.js';
 import { adminRoutes } from '../routes/admin.route.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import fs from "fs";
+import path from "path";
 
 // Load environment variables from ".env" file
 dotenv.config();
@@ -37,6 +39,50 @@ const server = http.createServer((req: IncomingMessage, res: ServerResponse) => 
                 return;
         }
 
+        // Serve static files from the "upload" directory
+        if(req.url?.startsWith('/uploads')) {
+                const filePath = path.join(process.cwd(), 'src', 'upload', req.url.replace('/uploads', ''));
+                console.log(filePath);
+                // Check if the file exist
+                fs.stat(filePath, (err, stats) => {
+                        if(err || !stats.isFile()) {
+                                res.statusCode = 404;
+                                res.setHeader('Content-Type', 'text/plain');
+                                res.end('File not found');
+                                return;
+                        }
+
+                        // Read and serve the file
+                        fs.readFile(filePath, (readErr, data) => {
+
+                                if(readErr) {
+                                        res.statusCode = 500;
+                                        res.setHeader('Content-Type', 'text/plain');
+                                        res.end('Error reading file');
+                                        return;
+                                }
+
+                                // Set the content type based on the file extension
+                                const ext = path.extname((filePath).toLowerCase());
+                                const mimeTypes: { [key: string]: string } = {
+                                        '.jpg': 'image/jpeg',
+                                        '.jpeg': 'image/jpeg',
+                                        '.png': 'image/png',
+                                        '.gif': 'image/gif',
+                                        '.txt': 'text/plain',
+                                        '.html': 'text/html',
+                                        '.css': 'text/css',
+                                        '.js': 'application/javascript'
+                                };
+
+                                res.setHeader('Content-Type', mimeTypes[ext] || 'application/octet-stream');
+                                res.statusCode = 200;
+                                res.end(data);
+                        });
+                });
+                return;
+        }
+        
         if (req.url?.startsWith('/admin')) {
                 adminRoutes(req, res);
         } else if (req.url?.startsWith('/')) {

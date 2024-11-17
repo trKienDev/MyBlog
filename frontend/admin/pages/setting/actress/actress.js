@@ -41,7 +41,9 @@ export function loadActressTable() {
                         // Image cell
                         const imageCell = document.createElement('td');
                         const image = document.createElement('img');
-                        image.src = item.image || '/admin/static/images/face/profile-default.jpg'; // Fallback image if URL is missing
+                        console.log(item.image);
+                        // image.src = item.image || '/admin/static/images/face/profile-default.jpg'; // Fallback image if URL is missing
+                        image.src = `${config2.domain}/uploads/actress/avatar/${item.image}`
                         image.classList.add('profile');
                         imageCell.appendChild(image);
                         tr.appendChild(imageCell);
@@ -68,18 +70,14 @@ export function loadActressTable() {
 
                         // Delete button cell
                         const deleteCell = document.createElement('td');
-                        // deleteCell.style.display = 'flex';
-                        // deleteCell.style.justifyContent = 'center';
-                        // Create a container for the delete button
                         const deleteContainer = document.createElement('div');
                         const deleteButton = document.createElement('div');
-                        // deleteButton.style.display = 'flex';
-                        // deleteButton.style.justifyContent = 'center';
                         deleteButton.classList.add('btn-delete');
                         deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
                         deleteButton.onclick = () => handleDelete(item._id); // function to handle delete action
                         deleteCell.appendChild(deleteButton);
                         tr.appendChild(deleteCell);
+
                         // Append the row to the table body
                         tbody.appendChild(tr);
                 });
@@ -137,42 +135,28 @@ function handleImageUpload(imageElementId, fileInputElementId) {
 async function createNewActress(formId, modalId) {
         const actressForm = document.getElementById(formId);
         const actressModal = document.getElementById(modalId);
-        const fileInput = document.getElementById('image-upload'); // Get the file input element
-        const pica = window.pica();
 
+        // Xử lý khi form được submit
         actressForm.onsubmit = async (event) => {
                 event.preventDefault(); // Ngăn chặn hành vi mặc định của form
-                // Lấy dữ liệu từ form
-                const formData = {
-                        name: document.getElementById("actress-name").value,
-                        birth: document.getElementById("actress-birth").value,
-                        skin: document.getElementById("actress-skin").value,
-                        studio: document.getElementById("actress-studio").value,
-                        body: document.getElementById("actress-body").value,
-                        breast: document.getElementById("actress-breast").value,
-                };
+
+                // Tạo một FormData từ form để chứa thông tin từ các input và file
+                const formData = new FormData(actressForm);
 
                 try {
-                        // Xử lý resize ảnh trước khi gửi đi
-                        if(fileInput.files.length > 0) {
-                                const orignialFile = fileInput.files[0];
-                                const resizedImageBlob = await resizeImage(originalFile, 500, 500);
-                                formData.image = await uploadImageToServer(resizedImageBlob);
-                        }
-
                         // Gửi yêu cầu POST tới API để tạo nữ diễn viên mới
                         const response = await fetch(`${config2.domain}${config2.endpoints.actressCreate}`, {
-                        method: 'POST',
-                        headers: {
-                                'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
+                                method: 'POST',
+                                body: formData // Đảm bảo dữ liệu từ form được gửi dưới dạng multipart/form-data
                         });
 
+                        // Kiểm tra phản hồi từ server
                         if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                console.error('Error response from server: ', responseData);
+                                throw new Error(`HTTP error! Status: ${response.status}`);
                         }
 
+                        // Nếu thành công, log ra console và thực hiện hành động tiếp theo
                         const createdActress = await response.json();
                         console.log('Actress created successfully:', createdActress);
 
@@ -180,33 +164,8 @@ async function createNewActress(formId, modalId) {
                         actressModal.style.display = "none";
                         actressForm.reset();
                 } catch (error) {
-                        console.error('Error creating actress: ', error);
+                        console.error('Error creating actress in frontend: ', error.message );
                 }
         };
 }
 
-// Resize image
-async function resizeImage(file, width, height) {
-        return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = URL.createObjectURL(file);
-                img.onload = async () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
-                try {
-                        await pica.resize(img, canvas);
-                        canvas.toBlob((blob) => {
-                        resolve(blob);
-                        }, 'image/jpeg', 0.9);
-                } catch (error) {
-                        reject(error);
-                }
-                };
-                img.onerror = () => reject('Failed to load image');
-        });
-}
-// upload image to server
-async function uploadImageToServer(imageBlob) {
-        
-}
