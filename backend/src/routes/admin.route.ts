@@ -3,6 +3,7 @@ import { getAdminPage } from '../Admin/Controllers/admin.controller.js';
 import { getAboutPage } from '../Admin/Controllers/about.controller.js';
 import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
 import { getActress, createActress, updateActress, deleteActress } from '../Admin/Controllers/actress.controller.js';
+import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         // Extract the URL and method from the request
@@ -27,9 +28,9 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         else if ( url?.startsWith ( '/admin/actress/read' ) && method === 'GET' ) {
                 getActress ( req , res );
         } else if ( url?.startsWith ( '/admin/actress/create' ) && method === 'POST' ) {
-                createActress ( req , res );
+                createActress ( req as CustomRequest, res );
         } else if ( url?.startsWith ( '/admin/actress/update' ) && method === 'PUT' ) {
-                updateActress ( req , res );
+                updateActress ( req as CustomRequest, res );
         } else if ( url?.startsWith ( '/admin/actress/delete' ) && method === 'DELETE' ) {
                 deleteActress ( req , res ); 
         }

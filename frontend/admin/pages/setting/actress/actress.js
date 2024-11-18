@@ -28,9 +28,7 @@ export function loadActressTable() {
                         const editButton = document.createElement('div');
                         editButton.classList.add('btn-edit');
                         editButton.innerHTML = `<i class="fa-solid fa-pen" style="color: aliceblue;"></i>`;
-
                         editButton.onclick = () => handleEdit(item); // function to handle edit action
-
                         editCell.appendChild(editButton);
                         editContainer.appendChild(editButton);
                         editCell.appendChild(editContainer);
@@ -245,5 +243,51 @@ async function handleEdit(actress) {
         };
 }
 
+async function handleDelete(actressId) {
+        // Hiển thị thông báo xác nhận
+        const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+        });
+    
+        if (result.isConfirmed) {
+                try {
+                        // Gửi yêu cầu DELETE tới API
+                        const response = await fetch(`${config2.domain}${config2.endpoints.actressDelete}/${actressId}`, {
+                                method: 'DELETE',
+                        });
+
+                        if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+
+                        // Hiển thị thông báo thành công
+                        Swal.fire(
+                                'Deleted!',
+                                'Actress has been deleted.',
+                                'success'
+                        );
+
+                        // Gọi lại loadActressTable để cập nhật bảng
+                        loadActressTable();
+                } catch (error) {
+                        console.error('Error deleting actress:', error);
+                        Swal.fire({
+                                title: 'Error!',
+                                text: 'An error occurred while deleting the actress.',
+                                icon: 'error',
+                                confirmButtonText: 'OK',
+                        });
+                }
+        }
+}
+    
 
 

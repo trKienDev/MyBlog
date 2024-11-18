@@ -17,6 +17,7 @@ const config = {
                 actressList: '/admin/actress/read',
                 actressCreate: '/admin/actress/create',
                 actressUpdate: "/admin/actress/update", 
+                actressDelete: '/admin/actress/delete',
         }
 }
 

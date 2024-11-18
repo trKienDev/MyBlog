@@ -2,7 +2,6 @@ import config from '../config.js';
 import { loadSidebarTable } from '../../pages/setting/sidebar/sidebar.js';
 import { loadActressTable } from '../../pages/setting/actress/actress.js';
 
-
 // Load ActressTable
 document.addEventListener("DOMContentLoaded", function() {
     // Event listener đã có cho trang setting
@@ -13,22 +12,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const url = `${config.frontendDomain}${config.endpoints.settingPage}`;
         loadContent(url, 'dynamic-data', () => {
             const sidebarLink = document.querySelector('a[href="/admin/pages/setting/sidebar"]');
+            addLinkEventHandler(sidebarLink, '/admin/pages/setting/sidebar/sidebar.html', loadSidebarTable);
+
             const actressLink = document.querySelector('a[href="/admin/pages/setting/actress"]');
-            
-            if ( sidebarLink ) {
-                sidebarLink.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const sidebarUrl = '/admin/pages/setting/sidebar/sidebar.html';
-                    loadContent(sidebarUrl, 'dynamic-data', loadSidebarTable);
-                });
-            }
-            if ( actressLink ) {
-                actressLink.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const actressUrl = '/admin/pages/setting/actress/actress.html';
-                    loadContent(actressUrl, 'dynamic-data', loadActressTable);
-                }); 
-            }
+            addLinkEventHandler(actressLink, '/admin/pages/setting/actress/actress.html', loadActressTable);
+
+            const studioLink = document.querySelector('a[href="/admin/pages/setting/studio"]');
+            addLinkEventHandler(studioLink, '/admin/pages/setting/studio/studio.html');
         });
     });
 });
@@ -68,3 +58,9 @@ function loadContent(url, dynamicDataId = 'dynamic-data', callback) {
         });
 }
 
+function addLinkEventHandler(link, url, callback) {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        loadContent(url, 'dynamic-data', callback);
+    });
+}

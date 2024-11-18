@@ -1,20 +1,15 @@
 import { IncomingMessage, ServerResponse } from "http";
 import SidebarItem from "../models/sidebar-item.model.js";
+import { sendResponse, sendError } from "../../helperFunction/response.js"
 
 // Lấy tất cả các sidebar item
 export const getSidebarItems = async (req: IncomingMessage, res: ServerResponse) => {
         try {
                 const sidebarItems = await SidebarItem.find(); // Lấy dữ liệu từ MongoDB
                 
-                res.statusCode = 200; // Set the status 
-                res.setHeader('Content-Type',  'application/json'); // Set the content-type header to JSON
-                res.end(JSON.stringify(sidebarItems)); // Send the response as JSON string
+                return sendResponse(res, 200, sidebarItems);
         } catch(error) {
-                // Handle errors, set status code to 500 for server error
-                res.statusCode = 500;
-                res.setHeader('Content-Type', 'application/json');
-
-                res.end(JSON.stringify({ message: 'Server Error', error })); // Send the error message
+                return sendError(res, 500, error);
         }
 };
 
@@ -34,15 +29,9 @@ export const createSidebarItem = async (req: IncomingMessage, res: ServerRespons
                         const newItem = new SidebarItem({ icon, name }); 
                         await newItem.save();
 
-                        // Send the response with status 201 (created) and the new created item
-                        res.statusCode = 201;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.end(JSON.stringify(newItem));
+                        return sendResponse(res, 201, newItem);
                 } catch (error) {
-                        // Handle errors, set status code to 500 for server error
-                        res.statusCode = 201;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.end(JSON.stringify({ message: 'Error creating item', error }));
+                        return sendError(res, 500, error);
                 }
         });
 }
@@ -55,37 +44,26 @@ export const deleteSidebarItem = async (req: IncomingMessage, res: ServerRespons
         const objectIdPattern = /^[a-f\d]{24}$/i;
 
         if(!id) {
-                res.statusCode = 400;
-                res.setHeader("Content-Type", "application/json");
-                res.end(JSON.stringify({ message: "ID is requested" }));
-                return;
+                return sendError(res, 400, new Error("ID is required"));
         }
         // Check if the ID is valid
         if (!objectIdPattern.test(id)) {
-                res.statusCode = 400;
-                res.setHeader("Content-Type", "application/json");
-                res.end(JSON.stringify({ message: "Invalid ID format" }));
-                return;
+                return sendError(res, 400, new Error("Invalid ID format"));
         }
         
         try {
                 // Find the sidebar item by ID and delete it
                 const deletedItem = await SidebarItem.findByIdAndDelete(id);
                 if(!deletedItem) {
-                        res.statusCode = 404;
-                        res.setHeader("Content-Type", "application/json");
-                        res.end(JSON.stringify({ message: "Sidebar item not found" }));
-                        return;
+                        return sendError(res, 404, new Error("Sidebar item not found"));
                 }
-                // Send a success response with the deleted item
-                res.statusCode = 200;
-                res.setHeader("Content-Type", "application/json");
-                res.end(JSON.stringify({ message: "Sidebar item deleted", deletedItem }));
+
+                return sendResponse(res, 200, {
+                        message: "Sidebar item deleted successfully",
+                        deletedItem,
+                });
         } catch(error) {
-                // Handle erros, set status code to 500 for server error
-                res.statusCode = 500;
-                res.setHeader("Content-Type", "application/json");
-                res.end(JSON.stringify({ message: "Error deleting item", error }));
+                return sendError(res, 500, error);
         }
 };
 
@@ -98,18 +76,12 @@ export const updateSidebarItem = async (req: IncomingMessage, res: ServerRespons
         const objectIdPattern = /^[a-f\d]{24}$/i;
 
         if (!id) {
-                res.statusCode = 400;
-                res.setHeader("Content-Type", "application/json");
-                res.end(JSON.stringify({ message: "ID is required" }));
-                return;
+                return sendError(res, 400, new Error("ID is required"));
         }
 
         // Check if the ID is valid
         if (!objectIdPattern.test(id)) {
-                res.statusCode = 400;
-                res.setHeader("Content-Type", "application/json");
-                res.end(JSON.stringify({ message: "Invalid ID format" }));
-                return;
+                return sendError(res, 400, new Error("Invalid ID format"));
         }
 
         let body = '';
@@ -123,31 +95,23 @@ export const updateSidebarItem = async (req: IncomingMessage, res: ServerRespons
 
                         // validate input data
                         if (!icon || !name) {
-                                res.statusCode = 400;
-                                res.setHeader("Content-Type", "application/json");
-                                res.end(JSON.stringify({ message: "Both 'icon' and 'name' fields are required"}));
-                                return;
+                                return sendError(res, 400, new Error("Both 'icon' and 'name' fields are required"));
                         }
 
                         // Find the sidebar item by ID and update it
                         const updateItem = await SidebarItem.findByIdAndUpdate(id, {icon, name}, {new: true});
                         
                         if (!updateItem) {
-                                res.statusCode = 404;
-                                res.setHeader("Content-Type", "application/json");
-                                res.end(JSON.stringify({ message: "Sidebar item not found! "}));
-                                return;
+                                return sendError(res, 404, new Error("Sidebar item not found!"));
                         }
 
-                        // Send a success response with the updated item
-                        res.statusCode = 200;
-                        res.setHeader("Content-Type", "application/json");
-                        res.end(JSON.stringify({ Message: "Sidebar item updated", updateItem}));
+                        return sendResponse(res, 200, {
+                                message: "Sidebar item updated successfully",
+                                updateItem,
+                        });
                 }
                 catch (error) {
-                        res.statusCode = 500;
-                        res.setHeader("Content-Type", "application/json");
-                        res.end(JSON.stringify({ message: "Error updating sidebar item", error }));
+                        return sendError(res, 500, error);
                 }
         });
 }
