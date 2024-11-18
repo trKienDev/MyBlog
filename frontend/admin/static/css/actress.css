@@ -39,6 +39,7 @@
 #actress-table table tbody tr:hover {
         background-color: rgb(229, 235, 236);
 }
+
 #actress-table .image {
         width: 10%;
 }
@@ -133,6 +134,7 @@
         border-radius: 8px;
         height: 300px;
         width: 300px;
+        cursor: pointer;
 }
 #actressForm .modal-info {
         width: 45%;

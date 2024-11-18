@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 
 // Đường dẫn tới thư mục 'src/upload'
 const uploadPath = path.join(process.cwd(), 'src', 'upload', 'actress', 'avatar');
+
 // Đảm bảo thư mục 'upload' tồn tại
 if (!fs.existsSync(uploadPath)) {
         fs.mkdirSync(uploadPath); // Tạo thư mục nếu chưa tồn tại
@@ -153,7 +154,7 @@ export const updateActress = async ( req: IncomingMessage , res: ServerResponse 
                         res.setHeader ( 'Content-Type' , 'application/json' );
                         return res.end ( JSON.stringify( { message : 'Error updating actress.', error }) );
                 }
-        } )
+        })
 }
 
 // delete

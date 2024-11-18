@@ -1,9 +1,9 @@
 import config from '../config.js';
 import { loadSidebarTable } from '../../pages/setting/sidebar/sidebar.js';
 import { loadActressTable } from '../../pages/setting/actress/actress.js';
+
+
 // Load ActressTable
-
-
 document.addEventListener("DOMContentLoaded", function() {
     // Event listener đã có cho trang setting
     const settingsLink = document.querySelector('a[href="/admin/pages/setting"]');

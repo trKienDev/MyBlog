@@ -1,5 +1,6 @@
 import config2 from "../../../services/config.js";
-import { RenderSidebar } from "../../../services/loadElement/loadSidebar.js";
+import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
+import { handleImageUpload } from "../../../services/HelperFunction/image.js";
 
 export function loadActressTable() {
         fetch(`${config2.domain}${config2.endpoints.actressList}`) 
@@ -86,56 +87,16 @@ export function loadActressTable() {
                 console.error('Error fetching actress data: ', error);
         });
 
-        // --- Add new actress modal ---
-        const openModalButton = document.getElementById("openModalButton");
-        const closeModalButton = document.getElementById("closeModalButton");
-        const actressModal = document.getElementById("actressModal");
-
-        // Show modal when clicking the "Create" button
-        openModalButton.onclick = () => {
-                actressModal.style.display = "block";
-        };
-
-        // Hide modal when clicking the close button
-        closeModalButton.onclick = () => {
-                actressModal.style.display = "none";
-        };
-
-        // Call handleImageUpload function to setup image upload logic
-        handleImageUpload("profile-image", "image-upload");
-
-        // Form submission handler
-        createNewActress("actressForm", "actressModal");
+        setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
+        handleImageUpload("profile-image", "image-upload"); // setup image upload logic
+        createNewActress("actressForm", "actressModal"); // submit form
 }
 
-// UploadImage
-function handleImageUpload(imageElementId, fileInputElementId) {
-        const imageElement = document.getElementById(imageElementId);
-        const fileInput = document.getElementById(fileInputElementId);
-
-        // Khi người dùng nhấn vào hình ảnh, kích hoạt input file
-        imageElement.addEventListener("click", function() {
-                fileInput.click(); // Kích hoạt input file
-        });
-
-        // Khi có thay đổi từ input file (người dùng chọn file mới)
-        fileInput.addEventListener("change", function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                                imageElement.src = e.target.result; // Cập nhật hình ảnh với dữ liệu mới từ file được chọn
-                        };
-                        reader.readAsDataURL(file);
-                }
-        });
-}
-
-// Handle form submit
 async function createNewActress(formId, modalId) {
         const actressForm = document.getElementById(formId);
         const actressModal = document.getElementById(modalId);
-
+        const imageUploadInput = document.getElementById("image-upload"); 
+        const profileImage = document.getElementById("profile-image"); 
         // Xử lý khi form được submit
         actressForm.onsubmit = async (event) => {
                 event.preventDefault(); // Ngăn chặn hành vi mặc định của form
@@ -150,22 +111,61 @@ async function createNewActress(formId, modalId) {
                                 body: formData // Đảm bảo dữ liệu từ form được gửi dưới dạng multipart/form-data
                         });
 
-                        // Kiểm tra phản hồi từ server
-                        if (!response.ok) {
-                                console.error('Error response from server: ', responseData);
+                        // Kiểm tra status code
+                        if (response.status !== 201) {
+                                console.error('Failed to create actress. HTTP Status:', response.status);
+                                Swal.fire({
+                                        title: 'Error!',
+                                        text: 'An error occurred while creating actress. Please try again.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                });         
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
 
-                        // Nếu thành công, log ra console và thực hiện hành động tiếp theo
                         const createdActress = await response.json();
-                        console.log('Actress created successfully:', createdActress);
 
-                        // Đóng modal và reset form sau khi thành công
-                        actressModal.style.display = "none";
-                        actressForm.reset();
+                        if (createdActress._id) {
+                                console.log('Actress created successfully:', createdActress);
+                                Swal.fire({
+                                        title: 'Success!',
+                                        text: 'Actress created successfully!',
+                                        icon: 'success',
+                                        confirmButtonTest: 'OK'
+                                });
+                        } else {
+                                console.error('Invalid response from server:', createdActress);
+                                Swal.fire({
+                                        title: 'Error!',
+                                        text: 'Failed to create actress. Please try again.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                });                            
+                                throw new Error('Failed to create actress. Invalid response from server.');
+                        }
+
+                        loadActressTable(); // Gọi lại hàm loadActressTable để cập nhật bảng
                 } catch (error) {
                         console.error('Error creating actress in frontend: ', error.message );
+                        Swal.fire({
+                                title: 'Error!',
+                                text: 'An error occurred while creating actress. Please try again.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                        });                        
+                } finally {
+                        actressForm.reset();
+                        if(imageUploadInput) { // Reset giá trị của input file
+                                imageUploadInput.value = ""; 
+                        }
+                        if (profileImage) {
+                                profileImage.src = "/admin/static/images/face/upload-profile.jpg"; // Đặt ảnh mặc định
+                        }
+                        actressModal.style.display = "none";
                 }
         };
 }
+
+
+
 

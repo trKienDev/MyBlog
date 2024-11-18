@@ -69,8 +69,7 @@ export function loadSidebarTable() {
                 });
 
                 // Create sidebar item
-                document.getElementById('sidebar-form')
-                                .addEventListener('submit', function(event) {
+                document.getElementById('sidebar-form').addEventListener('submit', function(event) {
                         event.preventDefault();
                         const icon = document.getElementById('sidebar-icon').value;
                         const name = document.getElementById('sidebar-name').value;
@@ -141,9 +140,11 @@ async function createSidebar(icon, name) {
                 icon: icon,
                 name: name
         };
+
         // reset information in form
         document.getElementById('sidebar-icon').value = '';
         document.getElementById('sidebar-name').value = '';
+
         try {
                 // Gửi yêu cầu POST đén endpoint API
                 const response = await fetch(`${config2.domain}${config2.endpoints.sidebarCreate}`, {
@@ -153,6 +154,7 @@ async function createSidebar(icon, name) {
                         },
                         body: JSON.stringify(requestData)
                 });
+
                 if ( response.ok ) {
                         Swal.fire ({
                                 title : 'Success !' ,
@@ -197,6 +199,7 @@ function updateSidebarItem() {
                 alert("You must check the box to update an item !");
                 location.reload();
         }
+
         // Tạo danh sách các sidebarItem cần cập nhật
         const updateSidebarItems = [];
 
@@ -233,7 +236,7 @@ function updateSidebarItem() {
                         console.error('Error updating sidebar items: ', error);
                 });
         });
-        console.log(flag);
+
         if (flag === true) {
                 alert("The browser must be reloaded to update information !");
                 location.reload();

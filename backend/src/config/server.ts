@@ -54,7 +54,6 @@ const server = http.createServer((req: IncomingMessage, res: ServerResponse) => 
 
                         // Read and serve the file
                         fs.readFile(filePath, (readErr, data) => {
-
                                 if(readErr) {
                                         res.statusCode = 500;
                                         res.setHeader('Content-Type', 'text/plain');

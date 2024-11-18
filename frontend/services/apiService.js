@@ -15,7 +15,6 @@ fetch(`${config.domain}${config.endpoints.homePage}`)
                 document.getElementById('homepage-content').innerText = data.content;
         })
         .catch(error => {
-                console.error('Error fetching homepage data: ', error);
-
+                console.error('Error fetching homepage data: ', error);1
         });
 
