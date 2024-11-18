@@ -1,59 +1,41 @@
-#actress-table {
-        width: 70%;
+#studio-table {
+        width: 45%;
         margin-right: 100px;
 }
-#actress-table table {
+#studio-table table {
         width: 100%;
         background-color: white;
         border-radius: 8px;
 }
-#actress-table table thead tr th {
+#studio-table table thead tr th {
         border-bottom: 3px solid #435d7d;
 }
-#actress-table table tr th {
+#studio-table table tr th {
         padding: 12px 15px;
         color: #435d7d;
         font-size: 20px;
 }
-#actress-table tr {
+#studio-table tr {
         height: 50px;
 }
-#actress-table table tr td {
-        padding: 20px 15px;
+#studio-table table tr td {
+        padding: 10px 15px;
         font-size: 20px;
 }
-#actress-table table tbody tr td {
+#studio-table table tbody tr td {
         border-bottom: 1px solid #bdbaba;
 }
-#actress-table table tbody tr:nth-last-child(1) td {
+#studio-table table tbody tr:nth-last-child(1) td {
         border-bottom: 0px;
 }
-#actress-table table tbody tr:nth-last-child(1) td:hover {
+#studio-table table tbody tr:nth-last-child(1) td:hover {
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
 }
-#actress-table table tbody tr:hover {
+#studio-table table tbody tr:hover {
         background-color: rgb(229, 235, 236);
 }
-#actress-table .actress {
-        width: 20%;
-}
-#actress-table .image {
-        width: 10%;
-}
-#actress-table .thBody {
-        width: 10%;
-}
-#actress-table .breast {
-        width: 10%;
-}
-#actress-table .studio {
-        width: 10%;
-}
-#actress-table .films {
-        width: 5%;
-}
-#actress-table .btn-edit {
+#studio-table .btn-edit {
         background-color: var(--blue-background);
         border-radius: 8px;
         width: 50%;
@@ -64,10 +46,10 @@
         cursor: pointer;
         transition: background 0.8s, filter 0.8s;
 }
-#actress-table .btn-edit:hover {
+#studio-table .btn-edit:hover {
         filter: brightness(2);
 }
-#actress-table .btn-delete {
+#studio-table .btn-delete {
         background-color: var(--red-background);
         border-radius: 8px;
         width: 100%;
@@ -78,19 +60,28 @@
         cursor: pointer;
         transition: background 0.8s, filter 0.8s;
 }
-#actress-table .btn-delete:hover {
+#studio-table .btn-delete:hover {
         filter: brightness(2);
 }
-#actress-table .profile {
+#studio-table .profile {
         height: 50px;
-        width: 50px;
-        border-radius: 8px;
+        width: 100px;
+        border-radius: 5px;
 }
-.create-actress {
+.create-studio {
         display: flex;
         justify-content: center;
 }
-#actress-table .btn-create {
+#studio-table .btn-create {
         width: 60px;
         font-size: 15px;
+}
+#studioForm .modal-image {
+        width: 50%;
+}
+#studioForm .modal-image #profile-image {
+        border-radius: 8px;
+        height: 300px;
+        width: 300px;
+        cursor: pointer;
 }

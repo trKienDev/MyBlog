@@ -3,27 +3,36 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-const uploadPath = path.join(process.cwd(), "src", "upload", "actress", "avatar");
+const getUploadPath = (folder: string) => {
+        return path.join(process.cwd(), "src", "upload", folder);
+};
 
 // Tạo thư mục upload nếu chưa tồn tại
-if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath);
-}
+const ensureUploadPathExists = (uploadPath: string) => {
+    if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+    }
+};
 
-// Cấu hình multer
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    },
-});
+// Cấu hình multer 
+const createMulterStorage = (uploadPath: string) => {
+    return multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, uploadPath);
+        },
+        filename: (req, file, cb) => {
+            cb(null, `${Date.now()}-${file.originalname}`);
+        },
+    });
+};
 
-const upload = multer({ storage });
-
-export const handleUpload = (req: CustomRequest) => {
+export const handleUpload = (req: CustomRequest, folder: string) => {
     return new Promise<void>((resolve, reject) => {
+        const uploadPath = getUploadPath(folder);
+        ensureUploadPathExists(uploadPath); // Tạo thư mục nếu chưa tồn tại
+        const storage = createMulterStorage(uploadPath);
+        const upload = multer({ storage });
+        
         const uploadSingleFile = upload.single("image");
 
         // Xử lý file upload

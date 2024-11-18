@@ -9,39 +9,33 @@
                                         <thead>
                                                 <tr>
                                                         <th style="width: 6%;">
-                                                                <div class="create-actress">
+                                                                <div class="create-studio">
                                                                         <div class="btn-create" id="openModalButton" style="width: 60px;">
                                                                                 Create
                                                                         </div>
                                                                 </div>
                                                         </th>
-                                                        <th class="actress">Name</th>
+                                                        <th class="studio" style="width: 30%">Name</th>
                                                         <th class="image">Image</th>
-                                                        <th class="thBody">Body</th>
-                                                        <th class="breast">Breast</th>
-                                                        <th class="studio">Studio</th>
-                                                        <th class="films">Films</th>
-                                                        <th style="width: 6%;"></th>
+                                                        <th style="width: 10%;"></th>
                                                 </tr>
                                         </thead>
                                         <tbody>
                                                 <tr>
                                                         <td>
-                                                                <div class="btn-edit">
-                                                                        <i class="fa-solid fa-pen" style="color: aliceblue;"></i>
+                                                                <div class="edit-container" style="width: 100%; display: flex; justify-content: center;">
+                                                                        <div class="btn-edit">
+                                                                                <i class="fa-solid fa-pen" style="color: aliceblue;"></i>
+                                                                        </div>
                                                                 </div>
                                                         </td>
                                                         <td>
-                                                                <p>Leonardo Di Carpio</p>
+                                                                Disney
                                                         </td>
                                                         <td>    
-                                                                <img src="/admin/static/images/face/LeonardoDiCarpio.jpg" class="profile">
+                                                                <img src="/admin/static/images/studio//Disney.jpg" class="profile">
                                                         </td>
-                                                        <td>Strengh</td>
-                                                        <td>A</td>
-                                                        <td>S1</td>
-                                                        <td>100</td>
-                                                        <td style="display: flex; justify-content: center;">
+                                                        <td>
                                                                 <div class="btn-delete">
                                                                         <i class="fa-solid fa-trash" style="color: aliceblue;"></i>
                                                                 </div>
@@ -51,5 +45,26 @@
                                 </table>
                         </div>
                 </div>
+        </div>
+</div>
+
+<div id="studioModal" class="modal">
+        <div class="modal-content">
+                <span id="closeModalButton" class="close">&times;</span>
+                <h2 style="text-align: center;">Create New Studio</h2>
+                <form id="studioForm">
+                        <div class="modal-body">
+                                <div class="modal-image">
+                                        <img id="profile-image" src="/admin/static/images/face/upload-profile.jpg" alt="">
+                                        <input type="file" id="image-upload" name="image" style="display: none;" accept="image/*">
+                                </div>
+                                <div class="modal-info">
+                                        <input type="text" name="name" id="actress-name" placeholder="name" required>
+                                        <div class="save-button">
+                                                <button type="submit">Save</button>
+                                        </div>
+                                </div>
+                        </div>
+                </form>
         </div>
 </div>

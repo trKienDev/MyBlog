@@ -8,15 +8,13 @@ import { handleUpload } from '../../helperFunction/uploadFile.js';
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { sendResponse, sendError } from "../../helperFunction/response.js"
 
+const uploadPath = 'actress/avatar';
 // create 
 export const createActress = async (req: CustomRequest, res: ServerResponse) => {
-        // Chạy multer với một promise để xử lý tải ảnh
         try {
-                // Xử lý upload file và các dữ liệu khác cùng lúc
-                await handleUpload(req);
-
-                // Lấy dữ liệu từ request sau khi multer xử lý
-                const { name, birth, skin, studio, body, breast } = (req as any).body;
+                await handleUpload(req, uploadPath); // Xử lý upload file và các dữ liệu khác cùng lúc
+                 
+                const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request sau khi multer xử lý
 
                 // Tạo URL cho ảnh nếu đã tải lên thành công
                 let imageName = '';
@@ -36,10 +34,8 @@ export const createActress = async (req: CustomRequest, res: ServerResponse) => 
                 });
                 await newActress.save();
 
-                // Trả về thông tin nữ diễn viên vừa tạo
                 sendResponse(res, 201, newActress);
         } catch (error) {
-                // Xử lý lỗi, trả về thông báo lỗi cụ thể
                 sendError(res, 500, error);
         }
 };
@@ -66,10 +62,9 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
         }
        
         try {
-                await handleUpload(req); // Thực thi upload ảnh nếu có
+                await handleUpload(req, uploadPath); // Thực thi upload ảnh nếu có
                 const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request
     
-                // Cập nhật URL ảnh nếu có ảnh mới
                 // Cập nhật URL ảnh nếu có ảnh mới
                 let newImageName = "";
                 if ((req as any).file) {

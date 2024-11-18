@@ -4,6 +4,7 @@ const config = {
         frontendDomain: 'http://localhost:8081',  // Domain của frontend
         apiVersion: 'v1',
         endpoints: {
+                // pages
                 adminPage: '/admin',
                 adminPages: 'admin/pages',
                 settingPage: '/admin/pages/setting.html', 
@@ -12,12 +13,13 @@ const config = {
                 sidebarCreate: '/admin/sidebar/create',
                 sidebarDelete: '/admin/sidebar/delete',
                 sidebarUpdate: '/admin/sidebar/update',
-
                 // actress
                 actressList: '/admin/actress/read',
                 actressCreate: '/admin/actress/create',
                 actressUpdate: "/admin/actress/update", 
                 actressDelete: '/admin/actress/delete',
+                // studio
+                studioList: '/admin/studio/read',
         }
 }
 

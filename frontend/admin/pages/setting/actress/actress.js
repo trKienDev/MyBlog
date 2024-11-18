@@ -97,21 +97,17 @@ async function createNewActress(formId, modalId) {
         const actressModal = document.getElementById(modalId);
         const imageUploadInput = document.getElementById("image-upload"); 
         const profileImage = document.getElementById("profile-image"); 
-        // Xử lý khi form được submit
+       
         actressForm.onsubmit = async (event) => {
-                event.preventDefault(); // Ngăn chặn hành vi mặc định của form
-
-                // Tạo một FormData từ form để chứa thông tin từ các input và file
+                event.preventDefault(); 
                 const formData = new FormData(actressForm);
 
                 try {
-                        // Gửi yêu cầu POST tới API để tạo nữ diễn viên mới
                         const response = await fetch(`${config2.domain}${config2.endpoints.actressCreate}`, {
                                 method: 'POST',
-                                body: formData // Đảm bảo dữ liệu từ form được gửi dưới dạng multipart/form-data
+                                body: formData 
                         });
 
-                        // Kiểm tra status code
                         if (response.status !== 201) {
                                 console.error('Failed to create actress. HTTP Status:', response.status);
                                 Swal.fire({

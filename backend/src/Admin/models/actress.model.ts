@@ -22,7 +22,7 @@ const ActressSchema: Schema = new Schema({
         }},
         image: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
         skin: { type: String, required: true, enum: ['', 'light', 'medium', 'dark'] },
-        studio: { type: String, required: false },
+        studio: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio', required: false },
         body: { type: String, required: false, enum: ['thin', 'slim', 'chubby'] },
         breast: { type: String, required: false, enum: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] },
 }, 
