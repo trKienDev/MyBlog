@@ -42,7 +42,6 @@ const server = http.createServer((req: IncomingMessage, res: ServerResponse) => 
         // Serve static files from the "upload" directory
         if(req.url?.startsWith('/uploads')) {
                 const filePath = path.join(process.cwd(), 'src', 'upload', req.url.replace('/uploads', ''));
-                console.log(filePath);
                 // Check if the file exist
                 fs.stat(filePath, (err, stats) => {
                         if(err || !stats.isFile()) {

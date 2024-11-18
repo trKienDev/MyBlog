@@ -28,7 +28,9 @@ export function loadActressTable() {
                         const editButton = document.createElement('div');
                         editButton.classList.add('btn-edit');
                         editButton.innerHTML = `<i class="fa-solid fa-pen" style="color: aliceblue;"></i>`;
+
                         editButton.onclick = () => handleEdit(item); // function to handle edit action
+
                         editCell.appendChild(editButton);
                         editContainer.appendChild(editButton);
                         editCell.appendChild(editContainer);
@@ -166,6 +168,82 @@ async function createNewActress(formId, modalId) {
         };
 }
 
+async function handleEdit(actress) {
+        const actressModal = document.getElementById("actressModal");
+        const actressForm = document.getElementById("actressForm");
+        const profileImage = document.getElementById("profile-image");
+        const imageUploadInput = document.getElementById("image-upload");
+
+        actressModal.style.display = "block";
+
+        // Điền dữ liệu vào form
+        document.getElementById("actress-name").value = actress.name || "";
+        document.getElementById("actress-birth").value = actress.birth
+                                                                                                ? new Date(actress.birth).toISOString().split("T")[0] // Định dạng yyyy-mm-dd
+                                                                                                : "";
+        document.getElementById("actress-skin").value = actress.skin || "";
+        document.getElementById("actress-studio").value = actress.studio || "";
+        document.getElementById("actress-breast").value = actress.breast || "";
+        document.getElementById("actress-body").value = actress.body || "";
+        profileImage.src = actress.image
+                                                ? `${config2.domain}/uploads/actress/avatar/${actress.image}`
+                                                : "/admin/static/images/face/upload-profile.jpg";
+
+        // Xử lý submit form
+        actressForm.onsubmit = async (event) => {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+
+                const formData = new FormData(actressForm);
+                console.log(actress._id);
+                console.log(formData);
+                try {
+                        // Gửi yêu cầu cập nhật tới API
+                        const response = await fetch(
+                                `${config2.domain}${config2.endpoints.actressUpdate}/${actress._id}`, {
+                                        method: "PUT",
+                                        body: formData,
+                                }
+                        );
+
+                        if (!response.ok) {
+                                Swal.fire({
+                                        title: "Error!",
+                                        text: "An error occurred while updating actress.",
+                                        icon: "error",
+                                        confirmButtonText: "OK",
+                                });
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        const updatedActress = await response.json();
+
+                        // Hiển thị thông báo thành công
+                        Swal.fire({
+                                title: "Success!",
+                                text: "Actress updated successfully!",
+                                icon: "success",
+                                confirmButtonText: "OK",
+                        });
+
+                        // Tải lại bảng dữ liệu
+                        loadActressTable();
+
+                        // Đóng modal và reset form
+                        actressModal.style.display = "none";
+                        actressForm.reset();
+                        imageUploadInput.value = ""; // Reset giá trị của input file
+                        profileImage.src = "/admin/static/images/face/upload-profile.jpg"; // Đặt ảnh mặc định
+                } catch (error) {
+                        console.error("Error updating actress in frontend:", error.message);
+                        Swal.fire({
+                                title: "Error!",
+                                text: "An error occurred while updating actress.",
+                                icon: "error",
+                                confirmButtonText: "OK",
+                        });
+                }
+        };
+}
 
 
 

@@ -16,7 +16,6 @@ if (!fs.existsSync(uploadPath)) {
 // cấu hình multer
 const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-                console.log(uploadPath);
                 cb(null, uploadPath); // Lưu file vào thư mục upload
         },
         filename: function (req, file, cb) {
@@ -120,42 +119,104 @@ export const getActress = async ( req: IncomingMessage , res: ServerResponse ) =
 }
 
 // update
-export const updateActress = async ( req: IncomingMessage , res: ServerResponse ) => {
-        const urlPath = req.url?.split('/');
-        const actressID = urlPath?.[ urlPath.length - 1 ]; // Lấy ID từ URL
-        
-        if ( !actressID ) {
+export const updateActress = async (req: IncomingMessage, res: ServerResponse) => {
+        const urlPath = req.url?.split("/");
+        const actressID = urlPath?.[urlPath.length - 1]; // Lấy ID từ URL
+    
+        if (!actressID) {
                 res.statusCode = 400;
-                res.setHeader ( 'Content-Type' , 'application/json' );
-                return res.end ( JSON.stringify ({ message : 'Unable to get actress ID !' }));
+                res.setHeader("Content-Type", "application/json");
+                return res.end(JSON.stringify({ message: "Invalid actress ID" }));
         }
-        
-        let bodyJSON = '';
-        req.on ( 'data' , chunk => {
-                bodyJSON += chunk.toString();
-        });
-        req.on ( 'end' , async () => {
-                try {
-                        const updateData = JSON.parse ( bodyJSON );
-                        const updatedActress = await ActressModel.findByIdAndUpdate( actressID , updateData , { new : true, runValidators : true });
+    
+        // Xử lý upload file với multer
+        const handleUpload = () => {
+                return new Promise<void>((resolve, reject) => {
+                        uploadSingleFile(req as any, {} as any, (err: any) => {
+                                if (err) {
+                                        console.error("Multer upload error: ", err);
+                                        reject(err);
+                                } else {
+                                        if ((req as any).file) {
+                                                const oldPath = path.join(uploadPath, (req as any).file.filename);
+                                                const newFileName = `profile_${(req as any).body.name.replace(/\s+/g, "")}${path.extname((req as any).file.filename)}`;
+                                                const newPath = path.join(uploadPath, newFileName);
 
-                        if ( !updateActress ) {
-                                res.statusCode = 404;
-                                res.setHeader ( 'Content-Type' , 'application/json' );
-                                return res.end(JSON.stringify({ message: 'Actress not found.' }));
-                        }
-
-                        res.statusCode = 200;
-                        res.setHeader ( 'Content-Type' , 'application/json' );
-                        return res.end(JSON.stringify( updatedActress));
-                } 
-                catch ( error ) {
-                        res.statusCode = 500;
-                        res.setHeader ( 'Content-Type' , 'application/json' );
-                        return res.end ( JSON.stringify( { message : 'Error updating actress.', error }) );
+                                                fs.rename(oldPath, newPath, (renameErr) => {
+                                                        if (renameErr) {
+                                                                console.error("Error renaming file:", renameErr);
+                                                                reject(renameErr);
+                                                        } else {
+                                                                (req as any).file.filename = newFileName; // Cập nhật lại tên file
+                                                                resolve();
+                                                        }
+                                                });
+                                        } else {
+                                                resolve();
+                                        }
+                                }
+                        });
+                });
+        };
+    
+        try {
+                // Thực thi upload ảnh nếu có
+                await handleUpload();
+    
+                // Lấy dữ liệu từ request
+                const { name, birth, skin, studio, body, breast } = (req as any).body;
+    
+                // Cập nhật URL ảnh nếu có ảnh mới
+                let imageName = "";
+                if ((req as any).file) {
+                        imageName = (req as any).file.filename;
                 }
-        })
-}
+    
+                // Chuẩn bị dữ liệu để cập nhật
+                const updateData: Record<string, any> = {
+                        name,
+                        birth,
+                        skin,
+                        studio,
+                        body,
+                        breast,
+                };
+    
+                // Chỉ thêm trường `image` nếu ảnh mới được tải lên
+                if (imageName) {
+                        updateData.image = imageName;
+                }
+    
+                // Cập nhật database
+                const updatedActress = await ActressModel.findByIdAndUpdate(actressID, updateData, {
+                        new: true,
+                        runValidators: true,
+                });
+    
+                if (!updatedActress) {
+                        res.statusCode = 404;
+                        res.setHeader("Content-Type", "application/json");
+                        return res.end(JSON.stringify({ message: "Actress not found." }));
+                }
+    
+                // Trả về phản hồi thành công
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify(updatedActress));
+        } catch (error) {
+                console.error("Error updating actress:", error);
+
+                res.statusCode = 500;
+                res.setHeader("Content-Type", "application/json");
+
+                if (error instanceof Error) {
+                        res.end(JSON.stringify({ message: "Error updating actress in backend", error: error.message }));
+                } else {
+                        res.end(JSON.stringify({ message: "Unknown error occurred while updating actress" }));
+                }
+        }
+};
+    
 
 // delete
 export const deleteActress = async ( req: IncomingMessage , res: ServerResponse ) => {
