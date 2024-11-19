@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import CodeModel from "../models/codeAV.model.js";
+import StudioModel from "../models/studio.model.js";
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { sendResponse, sendError } from "../../helperFunction/response.js";
 
@@ -27,6 +28,18 @@ export const createCodeAV = async (req: IncomingMessage, res: ServerResponse) =>
 
                                 const newCode = new CodeModel({ codeName, studio });
                                 await newCode.save();
+
+                                // Cập nhật Studio để thêm ID của code vào field `code`
+                                const studioUpdateResult = await StudioModel.findByIdAndUpdate(
+                                        studio,
+                                        { $push: { code: newCode._id } }, // Thêm ID của code vào mảng `code`
+                                        { new: true, runValidators: true }
+                                );
+
+                                if (!studioUpdateResult) {
+                                        console.error('Studio not found for ID:', studio);
+                                        return sendError(res, 404, new Error('Studio not found.'));
+                                }
 
                                 sendResponse(res, 201, newCode);
                         } catch (error) {

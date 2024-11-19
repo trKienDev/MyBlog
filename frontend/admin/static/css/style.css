@@ -16,7 +16,8 @@ body {
         --red-color: #ff3131;
         --pink-color: #EE66A6;
         --orange-color: #FF5F1F;
-
+        --smoke-color: #848884;
+        --limeGreen-color:  #32CD32;
         /* background */
         --blue-background: #1056c0;
         --red-background: #cc0000;
@@ -98,7 +99,7 @@ a {
         border-radius: 5px;
         padding: 25px;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-        background-color: var(--blue-color);
+        background-color: var(--smoke-color);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -110,8 +111,8 @@ a {
         box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
         background-color: #ffffff;
         cursor: pointer;
-        color: var(--blue-color);
-        border: 3px solid var(--blue-color);
+        color: var(--smoke-color);
+        border: 3px solid var(--smoke-color);
 }
 #sidebarItem-actress {
         border-radius: 5px;
@@ -150,6 +151,44 @@ a {
         cursor: pointer;
         color: var(--red-color);
         border: 3px solid var(--red-color);
+}
+#sidebarItem-films {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--blue-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-films:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--blue-color);
+        border: 3px solid var(--blue-color);
+}
+#sidebarItem-tags {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--limeGreen-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-tags:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--limeGreen-color);
+        border: 3px solid var(--limeGreen-color);
 }
 #settingPage a {
         text-decoration: none;
@@ -235,6 +274,7 @@ a {
         font-family: 'Lexend';
         border-radius: 5px;
         border: none;
+        cursor: pointer;
 }
 .modal-info .save-button {
         padding-top: 10px;

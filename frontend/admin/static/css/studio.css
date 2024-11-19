@@ -146,3 +146,6 @@
 #codeAV-create .codeAV-form .form-body button:hover {
         filter: brightness(2);
 }
+#codeAV-studio {
+        cursor: pointer;
+}
