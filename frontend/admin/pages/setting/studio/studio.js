@@ -62,10 +62,33 @@ export function loadStudioTable() {
         .catch(error => {
                 console.error('Error fetching studio data: ', error);
         });
-    
+        loadStudioOptions();
         setupModalHandlers("openModalButton", "closeModalButton", "studioModal"); // Setup open and close modal
         handleImageUpload("profile-image", "image-upload"); // Setup image upload logic
         createNewStudio("studioForm", "studioModal"); // Handle form submission for creating a new studio
+        document.getElementById('sidebar-form').addEventListener('submit', createNewCodeAV);
+}
+
+async function loadStudioOptions() {
+        try {
+                const response = await fetch(`${config2.domain}${config2.endpoints.studioList}`);
+                if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const studios = await response.json();
+                const studioSelect = document.getElementById('codeAV-studio');
+                studioSelect.innerHTML = '<option value="" disabled selected>Select studio</option>';
+
+                studios.forEach(studio => {
+                        const option = document.createElement('option');
+                        option.value = studio._id; 
+                        option.textContent = studio.name; 
+                        studioSelect.appendChild(option);
+                });
+        } catch (error) {
+                console.error('Error loading studios for select:', error);
+        }
 }
 
 async function createNewStudio(formId, modalId) {
@@ -236,3 +259,66 @@ function handleDelete(studioId) {
         });
 }
     
+async function createNewCodeAV(event) {
+        event.preventDefault();
+
+        const studioSelect = document.getElementById('codeAV-studio');
+        const codeInput = document.getElementById('codeAV-name');
+
+        const studioId = studioSelect.value; 
+        const codeName = codeInput.value.trim(); 
+
+        if (!studioId || !codeName) {
+                Swal.fire({
+                        title: 'Error!',
+                        text: 'Please select a studio and enter a code name.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                });
+                return;
+        }
+
+        const payload = { studio: studioId, codeName };
+
+        try {
+                const response = await fetch(`${config2.domain}${config2.endpoints.codeAVCreate}`, {
+                        method: 'POST',
+                        headers: {
+                                'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                });
+        
+                if (response.ok) {
+                        const data = await response.json();
+                        Swal.fire({
+                                title: 'Success!',
+                                text: 'Code created successfully!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                        });
+                        codeInput.value = '';
+                        studioSelect.value = '';
+                } else {
+                        const errorData = await response.json();
+                        Swal.fire({
+                                title: 'Error!',
+                                text: errorData.message || 'An error occurred while creating the code.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                        });
+                }
+        } catch (error) {
+                console.error('Error creating code:', error);
+                Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while creating the code.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                });
+        } finally {
+                codeInput.value = '';
+                studioSelect.value = '';
+        }
+}
+

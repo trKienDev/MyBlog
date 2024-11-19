@@ -23,6 +23,11 @@ const config = {
                 studioCreate: '/admin/studio/create',
                 studioUpdate: '/admin/studio/update',
                 studioDelete: '/admin/studio/delete',
+                //codeAV
+                codeAVList: '/admin/codeAV/read',
+                codeAVCreate: '/admin/codeAV/create',
+                codeAVUpdate: '/admin/codeAV/update',
+                codeAVDelete: '/admin/codeAV/delete',
         }
 }
 

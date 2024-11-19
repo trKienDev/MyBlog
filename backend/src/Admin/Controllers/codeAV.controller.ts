@@ -14,18 +14,18 @@ export const createCodeAV = async (req: IncomingMessage, res: ServerResponse) =>
                 req.on('end', async () => {
                         try {
                                 const parsedBody = JSON.parse(body);
-                                const { codeName } = parsedBody;
+                                const { codeName, studio } = parsedBody;
 
-                                if (!codeName) {
-                                        return sendError(res, 400, new Error('codeName is required.'));
+                                if (!codeName || !studio) {
+                                        return sendError(res, 400, new Error('codeName and studio are required.'));
                                 }
 
-                                const existingCode = await CodeModel.findOne({ codeName });
+                                const existingCode = await CodeModel.findOne({ codeName, studio });
                                 if (existingCode) {
                                         return sendResponse(res, 409, { message: 'Code already exists.' });
                                 }
 
-                                const newCode = new CodeModel({ codeName });
+                                const newCode = new CodeModel({ codeName, studio });
                                 await newCode.save();
 
                                 sendResponse(res, 201, newCode);

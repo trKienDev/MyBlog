@@ -3,7 +3,7 @@
                 <div class="heading">
                         <h1>Setting studio</h1>
                 </div>
-                <div class="body" style="display: block;">
+                <div class="body">
                         <div id="studio-table">
                                 <table cellpadding="0" cellspacing="0">
                                         <thead>
@@ -44,12 +44,32 @@
                                         </tbody>
                                 </table>
                         </div>
+                        <div id="codeAV-create">
+                                <div class="codeAV-form">
+                                        <div class="form-container">
+                                                <div class="form-title">
+                                                        <span>Add new code</span>
+                                                </div>
+                                                <div class="form-body">
+                                                        <form id="sidebar-form" action="" method="POST">
+                                                                <select id="codeAV-studio" name="studio" required>
+                                                                        <option value="" disabled selected>Select studio</option>
+                                                                </select>  
+                                                                <input type="text" name="codeAV-name" id="codeAV-name" placeholder="Code: ADN" required>
+                                                                <div class="button">
+                                                                        <button type="submit">Add</button>
+                                                                </div>
+                                                        </form>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
                 </div>
         </div>
 </div>
 
 <div id="studioModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content"> 
                 <span id="closeModalButton" class="close">&times;</span>
                 <h2 style="text-align: center;">Create New Studio</h2>
                 <form id="studioForm">

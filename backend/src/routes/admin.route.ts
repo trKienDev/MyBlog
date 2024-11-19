@@ -48,7 +48,7 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 deleteStudio ( req , res ); 
         }
         // codeAV
-        else if ( url?.startsWith ( '/admin/codeAV/get' ) && method === 'GET' ) {
+        else if ( url?.startsWith ( '/admin/codeAV/read' ) && method === 'GET' ) {
                 getCodeAV ( req , res );
         } else if ( url?.startsWith ( '/admin/codeAV/create' ) && method === 'POST' ) {
                 createCodeAV ( req as CustomRequest, res );

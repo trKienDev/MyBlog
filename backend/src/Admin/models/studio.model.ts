@@ -11,8 +11,8 @@ interface IStudio extends Document {
 const StudioSchema: Schema = new Schema({
         name: { type: String, required: true },
         image: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
-        code: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Code' }], // Array of references to Code records
-        actress: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Actress' }] // Array of references to Actress records
+        code: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Code' }], 
+        actress: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Actress' }] 
 },
 {
         collection: 'Studios', 
