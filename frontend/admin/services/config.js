@@ -20,6 +20,9 @@ const config = {
                 actressDelete: '/admin/actress/delete',
                 // studio
                 studioList: '/admin/studio/read',
+                studioCreate: '/admin/studio/create',
+                studioUpdate: '/admin/studio/update',
+                studioDelete: '/admin/studio/delete',
         }
 }
 

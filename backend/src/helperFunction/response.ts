@@ -25,7 +25,7 @@ export const sendError = (res: ServerResponse, statusCode: number, error: any) =
         res.end(
                 JSON.stringify({
                         message: error instanceof Error ? error.message : 'Unknown error occurred',
-                        error,
+                        error: error instanceof Error ? error.message : error,
                 })
         );
 };

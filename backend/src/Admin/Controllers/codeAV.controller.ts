@@ -20,6 +20,11 @@ export const createCodeAV = async (req: IncomingMessage, res: ServerResponse) =>
                                         return sendError(res, 400, new Error('codeName is required.'));
                                 }
 
+                                const existingCode = await CodeModel.findOne({ codeName });
+                                if (existingCode) {
+                                        return sendResponse(res, 409, { message: 'Code already exists.' });
+                                }
+
                                 const newCode = new CodeModel({ codeName });
                                 await newCode.save();
 

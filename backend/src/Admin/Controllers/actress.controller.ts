@@ -9,13 +9,18 @@ import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { sendResponse, sendError } from "../../helperFunction/response.js"
 
 const uploadPath = 'actress/avatar';
-// create 
+
 export const createActress = async (req: CustomRequest, res: ServerResponse) => {
         try {
                 await handleUpload(req, uploadPath); // Xử lý upload file và các dữ liệu khác cùng lúc
-                 
+
                 const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request sau khi multer xử lý
 
+                const existingActress = await ActressModel.findOne({ name, birth });
+                if (existingActress) {
+                        return sendResponse(res, 409, { message: 'This actress already exists.' });
+                }
+                 
                 // Tạo URL cho ảnh nếu đã tải lên thành công
                 let imageName = '';
                 if((req as any).file) {
@@ -36,15 +41,14 @@ export const createActress = async (req: CustomRequest, res: ServerResponse) => 
 
                 sendResponse(res, 201, newActress);
         } catch (error) {
+                console.error('Error in createActress:', error);
                 sendError(res, 500, error);
         }
 };
     
-// read
 export const getActress = async ( req: IncomingMessage , res: ServerResponse ) => {
         try {
-                // Truy vấn tất cả các actress từ CSDL
-                const actresses = await ActressModel.find();
+                const actresses = await ActressModel.find().populate('studio', 'name');;
                 sendResponse(res, 200, actresses);
         }
         catch ( error ) {
@@ -52,16 +56,17 @@ export const getActress = async ( req: IncomingMessage , res: ServerResponse ) =
         } 
 }
 
-// update
 export const updateActress = async (req: CustomRequest, res: ServerResponse) => {
         const urlPath = req.url?.split("/");
         const actressID = urlPath?.[urlPath.length - 1]; // Lấy ID từ URL
-    
-        if (!actressID) {
-                return sendError(res, 400, new Error('Invalid actress ID'));
+
+        // Tìm thông tin nữ diễn viên cũ từ CSDL để lấy ảnh cũ
+        const oldActress = await ActressModel.findById(actressID);
+        if (!oldActress) {
+                return sendError(res, 404, new Error("Actress not found."));
         }
        
-        try {
+        try {   
                 await handleUpload(req, uploadPath); // Thực thi upload ảnh nếu có
                 const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request
     
@@ -70,13 +75,8 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
                 if ((req as any).file) {
                         newImageName = (req as any).file.filename;
                 }
-
-                // Tìm thông tin nữ diễn viên cũ từ CSDL để lấy ảnh cũ
-                const oldActress = await ActressModel.findById(actressID);
-                if (!oldActress) {
-                        return sendError(res, 404, new Error("Actress not found."));
-                }
-
+                console.log("new: ", newImageName);
+                console.log("old: ", oldActress);
                 // Nếu có ảnh mới được tải lên, cần xử lý ảnh cũ
                 if (newImageName && oldActress.image) {
                         const oldImagePath = path.join(process.cwd(),
@@ -86,6 +86,8 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
                                 "avatar",
                                 oldActress.image
                         );
+
+                        console.log(oldImagePath)
         
                         // Kiểm tra nếu ảnh cũ tồn tại, xóa nó
                         if (fs.existsSync(oldImagePath)) {
@@ -126,7 +128,6 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
         }
 };
     
-// delete
 export const deleteActress = async ( req: IncomingMessage , res: ServerResponse ) => {
         // get ID actress from URL 
         const urlPath = req.url?.split('/');

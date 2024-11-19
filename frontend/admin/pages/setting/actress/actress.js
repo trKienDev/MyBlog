@@ -61,7 +61,7 @@ export function loadActressTable() {
 
                         // Studio cell
                         const studioCell = document.createElement('td');
-                        studioCell.textContent = item.studio || '';
+                        studioCell.textContent = item.studio ? item.studio.name : ''; 
                         tr.appendChild(studioCell);
 
                         // Films cell
@@ -81,15 +81,40 @@ export function loadActressTable() {
 
                         // Append the row to the table body
                         tbody.appendChild(tr);
+
+                        
                 });
         })
         .catch(error => {
                 console.error('Error fetching actress data: ', error);
         });
 
+        loadStudios();
         setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
         handleImageUpload("profile-image", "image-upload"); // setup image upload logic
         createNewActress("actressForm", "actressModal"); // submit form
+}
+
+async function loadStudios() {
+        try {
+                const response = await fetch(`${config2.domain}${config2.endpoints.studioList}`) ;
+                if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const studios = await response.json();
+                const studioSelect = document.getElementById('actress-studio');
+                studioSelect.innerHTML = '<option value="" disabled selected>Select studio</option>';
+
+                studios.forEach(studio => {
+                        const option = document.createElement('option');
+                        option.value = studio._id; 
+                        option.textContent = studio.name; 
+                        studioSelect.appendChild(option);
+                });
+        } catch (error) {
+        console.error('Error loading studios:', error);
+        }
 }
 
 async function createNewActress(formId, modalId) {
@@ -101,15 +126,28 @@ async function createNewActress(formId, modalId) {
         actressForm.onsubmit = async (event) => {
                 event.preventDefault(); 
                 const formData = new FormData(actressForm);
-
+                console.log(formData);
                 try {
                         const response = await fetch(`${config2.domain}${config2.endpoints.actressCreate}`, {
                                 method: 'POST',
                                 body: formData 
                         });
+                        
+                        // Lỗi - nữ diễn viên đã tồn tại
+                        if (response.status === 409) {
+                                const result = await response.json(); 
+                                Swal.fire({
+                                        title: 'Error!',
+                                        text: result.message || 'An error occurred while creating actress.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK',
+                                });
+                                return;
+                        }
 
                         if (response.status !== 201) {
                                 console.error('Failed to create actress. HTTP Status:', response.status);
+                                console.error('Error: ', response);
                                 Swal.fire({
                                         title: 'Error!',
                                         text: 'An error occurred while creating actress. Please try again.',
@@ -169,26 +207,23 @@ async function handleEdit(actress) {
         const imageUploadInput = document.getElementById("image-upload");
 
         actressModal.style.display = "block";
-
         // Điền dữ liệu vào form
         document.getElementById("actress-name").value = actress.name || "";
         document.getElementById("actress-birth").value = actress.birth
-                                                                                                ? new Date(actress.birth).toISOString().split("T")[0] // Định dạng yyyy-mm-dd
-                                                                                                : "";
+                                                                                        ? new Date(actress.birth).toISOString().split("T")[0] : "";
         document.getElementById("actress-skin").value = actress.skin || "";
-        document.getElementById("actress-studio").value = actress.studio || "";
+        await loadStudios();
+        document.getElementById("actress-studio").value = actress.studio?._id || "";
         document.getElementById("actress-breast").value = actress.breast || "";
         document.getElementById("actress-body").value = actress.body || "";
         profileImage.src = actress.image
                                                 ? `${config2.domain}/uploads/actress/avatar/${actress.image}`
                                                 : "/admin/static/images/face/upload-profile.jpg";
-
         // Xử lý submit form
         actressForm.onsubmit = async (event) => {
                 event.preventDefault(); // Ngăn chặn hành vi mặc định của form
 
                 const formData = new FormData(actressForm);
-                console.log(actress._id);
                 console.log(formData);
                 try {
                         // Gửi yêu cầu cập nhật tới API
@@ -236,6 +271,7 @@ async function handleEdit(actress) {
                                 confirmButtonText: "OK",
                         });
                 }
+                
         };
 }
 
@@ -285,5 +321,6 @@ async function handleDelete(actressId) {
         }
 }
     
+
 
 

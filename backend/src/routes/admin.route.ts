@@ -4,7 +4,7 @@ import { getAboutPage } from '../Admin/Controllers/about.controller.js';
 import { getCodeAV, createCodeAV, updateCodeAV, deleteCodeAV } from '../Admin/Controllers/codeAV.controller.js';
 import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
 import { getActress, createActress, updateActress, deleteActress } from '../Admin/Controllers/actress.controller.js';
-import { getStudio, createStudio } from '../Admin/Controllers/studio.controller.js';
+import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
@@ -42,7 +42,11 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 getStudio ( req as CustomRequest, res );
         } else if ( url?.startsWith ( '/admin/studio/create' ) && method === 'POST' ) {
                 createStudio ( req as CustomRequest, res );
-        } 
+        } else if ( url?.startsWith ( '/admin/studio/update' ) && method === 'PUT' ) {
+                updateStudio ( req as CustomRequest, res );
+        } else if ( url?.startsWith ( '/admin/studio/delete' ) && method === 'DELETE' ) {
+                deleteStudio ( req , res ); 
+        }
         // codeAV
         else if ( url?.startsWith ( '/admin/codeAV/get' ) && method === 'GET' ) {
                 getCodeAV ( req , res );
@@ -53,7 +57,6 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         } else if ( url?.startsWith ( '/admin/codeAV/delete' ) && method === 'DELETE' ) {
                 deleteCodeAV ( req , res ); 
         }
-
 
         else { // Handle invalid routes
                 res.statusCode = 404;

@@ -41,7 +41,7 @@ export function loadStudioTable() {
                         // Image cell
                         const imageCell = document.createElement('td');
                         const image = document.createElement('img');
-                        image.src = `${config2.domain}/uploads/studio/${item.image}` || '/admin/static/images/face/profile-default.jpg';
+                        image.src = `${config2.domain}/uploads/studio/logo/${item.image}` || '/admin/static/images/face/profile-default.jpg';
                         image.classList.add('profile');
                         imageCell.appendChild(image);
                         tr.appendChild(imageCell);
@@ -103,7 +103,7 @@ async function createNewStudio(formId, modalId) {
                                         icon: 'success',
                                         confirmButtonText: 'OK'
                                 });
-                                loadStudioTable(); // Reload the table to update data
+                                loadStudioTable(); 
                         } else {
                                 Swal.fire({
                                         title: 'Error!',
@@ -127,9 +127,112 @@ async function createNewStudio(formId, modalId) {
                                 imageUploadInput.value = "";
                         }
                         if (profileImage) {
-                                profileImage.src = "admin/static/images/studio/Disney.jpg";
+                                profileImage.src = "/admin/static/images/studio/default_studio.png";
                         }
                         studioModal.style.display = "none";
-                        }
+                }
         };
 }
+
+function handleEdit(studio) {
+        const studioModal = document.getElementById("studioModal");
+        const studioForm = document.getElementById("studioForm");
+        const profileImage = document.getElementById("profile-image");
+        const nameInput = document.getElementById("actress-name");
+    
+        nameInput.value = studio.name;
+        profileImage.src = `${config2.domain}/uploads/studio/logo/${studio.image}`;
+    
+        studioModal.style.display = "block";
+    
+        studioForm.onsubmit = async (event) => {
+                event.preventDefault();
+    
+                const formData = new FormData(studioForm);
+                formData.append("id", studio._id);
+    
+                try {
+                        const response = await fetch(`${config2.domain}${config2.endpoints.studioUpdate}`, {
+                                method: 'PUT',
+                                body: formData,
+                        });
+        
+                        if (response.status !== 200) {
+                                Swal.fire({
+                                        title: 'Error!',
+                                        text: 'An error occurred while updating studio.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                });
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+        
+                        Swal.fire({
+                                title: 'Success!',
+                                text: 'Studio updated successfully!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                        });
+        
+                        loadStudioTable(); // Reload table
+                } catch (error) {
+                        console.error('Error updating studio: ', error);
+                        Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while updating studio.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                        });
+                } finally {
+                        studioModal.style.display = "none";
+                }
+        };
+}
+
+function handleDelete(studioId) {
+        Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+                if (result.isConfirmed) {
+                        try {
+                                const response = await fetch(`${config2.domain}${config2.endpoints.studioDelete}/${studioId}`, {
+                                        method: 'DELETE',
+                                });
+
+                                if (response.status !== 200) {
+                                        Swal.fire({
+                                                title: 'Error!',
+                                                text: 'Failed to delete the studio. Please try again.',
+                                                icon: 'error',
+                                                confirmButtonText: 'OK'
+                                        });
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                }
+
+                                Swal.fire({
+                                        title: 'Deleted!',
+                                        text: 'Studio has been deleted.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                });
+
+                                loadStudioTable();
+                         } catch (error) {
+                                console.error('Error deleting studio: ', error);
+                                Swal.fire({
+                                        title: 'Error!',
+                                        text: 'Failed to delete the studio. Please try again.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                });
+                        }
+                }
+        });
+}
+    
