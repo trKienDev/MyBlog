@@ -3,45 +3,51 @@
                 <div class="heading">
                         <h1>Setting actress</h1>
                 </div>
-                <div class="body" style="display: block;">
-                        <div id="actress-table">
+                <div class="body">
+                        <div id="films-table">
                                 <table cellpadding="0" cellspacing="0">
                                         <thead>
                                                 <tr>
                                                         <th style="width: 6%;">
-                                                                <div class="create-actress">
-                                                                        <div class="btn-create" id="openModalButton" style="width: 60px;">
+                                                                <div class="create-film">
+                                                                        <div class="btn-create" style="width: 60px;">
                                                                                 Create
                                                                         </div>
                                                                 </div>
                                                         </th>
-                                                        <th class="actress">Name</th>
-                                                        <th class="image">Image</th>
-                                                        <th class="thBody">Body</th>
-                                                        <th class="breast">Breast</th>
+                                                        <th class="code">Code</th>
+                                                        <th class="actress">Actress</th>
                                                         <th class="studio">Studio</th>
-                                                        <th class="films">Films</th>
-                                                        <th style="width: 6%;"></th>
+                                                        <th class="story">Story</th>
+                                                        <th class="releaseDate">Release Date</th>
+                                                        <th class="tags">Tags</th>
+                                                        <th style="width: 4%;"></th>
                                                 </tr>
                                         </thead>
                                         <tbody>
                                                 <tr>
                                                         <td>
-                                                                <div class="btn-edit">
-                                                                        <i class="fa-solid fa-pen" style="color: aliceblue;"></i>
+                                                                <div class="edit-container" style="width: 100%; display: flex; justify-content: center;">
+                                                                        <div class="btn-edit">
+                                                                                <i class="fa-solid fa-eye" style="color: aliceblue;"></i>
+                                                                        </div>
                                                                 </div>
                                                         </td>
                                                         <td>
-                                                                <p>Leonardo Di Carpio</p>
+                                                                <span>DIS-001</span>
                                                         </td>
                                                         <td>    
-                                                                <img src="/admin/static/images/face/LeonardoDiCarpio.jpg" class="profile">
+                                                                <img src="/admin/static/images/face/LeonardoDiCarpio.jpg" class="actress-profile">
                                                         </td>
-                                                        <td>Strengh</td>
-                                                        <td>A</td>
-                                                        <td>S1</td>
-                                                        <td>100</td>
-                                                        <td style="display: flex; justify-content: center;">
+                                                        <td>
+                                                                <img src="/admin/static/images/studio/default_studio.png" class="studio-logo">
+                                                        </td>
+                                                        <td>
+                                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                        </td>
+                                                        <td>2024 November 22</td>
+                                                        <td>Action</td>
+                                                        <td>
                                                                 <div class="btn-delete">
                                                                         <i class="fa-solid fa-trash" style="color: aliceblue;"></i>
                                                                 </div>
@@ -55,15 +61,15 @@
 </div>
 
 <!-- Create Actress Modal -->
-<div id="actressModal" class="modal">
+<div id="filmModal" class="modal">
         <div class="modal-content">
                 <span id="closeModalButton" class="close">&times;</span>
                 <h2 style="text-align: center;">Create New Actress</h2>
-                <form id="actressForm">
+                <form id="filmForm">
                         <div class="modal-body">
                                 <div class="modal-image">
                                         <img id="profile-image" src="/admin/static/images/face/upload-profile.jpg" alt="">
-                                        <input type="file" id="image-upload" name="file" style="display: none;" accept="image/*">
+                                        <input type="file" id="image-upload" name="image" style="display: none;" accept="image/*">
                                 </div>
                                 <div class="modal-info">
                                         <input type="text" name="name" id="actress-name" placeholder="name" required>
@@ -102,3 +108,8 @@
                 </form>
         </div>
 </div>
+
+
+<script>
+        
+</script>

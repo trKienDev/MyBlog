@@ -44,7 +44,7 @@
         padding: 10px 20px 14px;
 }
 #sidebar-table .table-title {
-        background-color: #435d7d ;
+        background-color: var(--dark-steel-blue-background) ;
         color: white;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;

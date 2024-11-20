@@ -13,7 +13,7 @@ const uploadPath = 'actress/avatar';
 export const createActress = async (req: CustomRequest, res: ServerResponse) => {
         try {
                 await handleUpload(req, uploadPath); // Xử lý upload file và các dữ liệu khác cùng lúc
-
+                
                 const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request sau khi multer xử lý
 
                 const existingActress = await ActressModel.findOne({ name, birth });

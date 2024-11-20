@@ -42,7 +42,6 @@ export function loadActressTable() {
                         // Image cell
                         const imageCell = document.createElement('td');
                         const image = document.createElement('img');
-                        console.log(item.image);
                         // image.src = item.image || '/admin/static/images/face/profile-default.jpg'; // Fallback image if URL is missing
                         image.src = `${config2.domain}/uploads/actress/avatar/${item.image}`
                         image.classList.add('profile');
@@ -80,9 +79,7 @@ export function loadActressTable() {
                         tr.appendChild(deleteCell);
 
                         // Append the row to the table body
-                        tbody.appendChild(tr);
-
-                        
+                        tbody.appendChild(tr);                        
                 });
         })
         .catch(error => {
@@ -113,7 +110,7 @@ async function loadStudios() {
                         studioSelect.appendChild(option);
                 });
         } catch (error) {
-        console.error('Error loading studios:', error);
+                console.error('Error loading studios:', error);
         }
 }
 

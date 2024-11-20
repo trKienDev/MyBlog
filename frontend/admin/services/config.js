@@ -33,6 +33,8 @@ const config = {
                 tagCreate: '/admin/tags/create',
                 tagUpdate: '/admin/tags/update',
                 tagDelete: '/admin/tags/delete',
+                // video
+                videoCreate: '/admin/video/create',
         }
 }
 

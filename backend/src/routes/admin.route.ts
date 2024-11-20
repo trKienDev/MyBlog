@@ -6,6 +6,7 @@ import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarIte
 import { getActress, createActress, updateActress, deleteActress } from '../Admin/Controllers/actress.controller.js';
 import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
 import { getTags, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
+import { createVideo } from '../Admin/Controllers/video.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
@@ -67,6 +68,10 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 updateTag ( req, res );
         } else if ( url?.startsWith ( '/admin/tags/delete' ) && method === 'DELETE' ) {
                 deleteTag ( req , res ); 
+        }
+        // Video
+        else if ( url?.startsWith ( '/admin/video/create' ) && method === 'POST' ) {
+                createVideo (req as CustomRequest, res);
         }
 
         else { // Handle invalid routes
