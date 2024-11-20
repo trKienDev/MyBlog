@@ -28,6 +28,11 @@ const config = {
                 codeAVCreate: '/admin/codeAV/create',
                 codeAVUpdate: '/admin/codeAV/update',
                 codeAVDelete: '/admin/codeAV/delete',
+                // tags
+                tagList: '/admin/tags/read',
+                tagCreate: '/admin/tags/create',
+                tagUpdate: '/admin/tags/update',
+                tagDelete: '/admin/tags/delete',
         }
 }
 

@@ -5,6 +5,7 @@ import { getCodeAV, createCodeAV, updateCodeAV, deleteCodeAV } from '../Admin/Co
 import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
 import { getActress, createActress, updateActress, deleteActress } from '../Admin/Controllers/actress.controller.js';
 import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
+import { getTags, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
@@ -56,6 +57,16 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 updateCodeAV ( req as CustomRequest, res );
         } else if ( url?.startsWith ( '/admin/codeAV/delete' ) && method === 'DELETE' ) {
                 deleteCodeAV ( req , res ); 
+        }
+        // Tags
+        else if ( url?.startsWith ( '/admin/tags/read' ) && method === 'GET' ) {
+                getTags (req, res);
+        } else if ( url?.startsWith ( '/admin/tags/create' ) && method === 'POST' ) {
+                createTag ( req, res );
+        } else if ( url?.startsWith ( '/admin/tags/update' ) && method === 'PUT' ) {
+                updateTag ( req, res );
+        } else if ( url?.startsWith ( '/admin/tags/delete' ) && method === 'DELETE' ) {
+                deleteTag ( req , res ); 
         }
 
         else { // Handle invalid routes

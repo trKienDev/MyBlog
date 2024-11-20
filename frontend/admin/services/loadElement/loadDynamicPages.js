@@ -2,6 +2,7 @@ import config from '../config.js';
 import { loadSidebarTable } from '../../pages/setting/sidebar/sidebar.js';
 import { loadActressTable } from '../../pages/setting/actress/actress.js';
 import { loadStudioTable } from '../../pages/setting/studio/studio.js';
+import { loadTagsTable } from '../../pages/setting/tags/tags.js';
 
 
 // Load ActressTable
@@ -21,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const studioLink = document.querySelector('a[href="/admin/pages/setting/studio"]');
             addLinkEventHandler(studioLink, '/admin/pages/setting/studio/studio.html', loadStudioTable);
+
+            const tagLink = document.querySelector('a[href="/admin/pages/setting/tags"]');
+            addLinkEventHandler(tagLink, '/admin/pages/setting/tags/tags.html', loadTagsTable);
         });
     });
 });
