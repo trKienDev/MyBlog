@@ -18,11 +18,15 @@ body {
         --orange-color: #FF5F1F;
         --smoke-color: #848884;
         --limeGreen-color:  #32CD32;
+        --platinum: #E5E4E2;
         /* background */
         --blue-background: #1056c0;
         --red-background: #cc0000;
         --green-background: #61b939;
         --dark-steel-blue-background: #435d7d;
+        --cadmium-yellow: #FDDA0D;
+        --white-background: #f7f6f6;
+        --persimmon: #EC5800;
 }
 
 #sidebar h1, p {
@@ -96,6 +100,9 @@ a {
 #settingPage .sidebarItem {
         flex: 0 1 calc(20% - 30px); /* Đảm bảo mỗi item chiếm 20% chiều rộng, trừ đi khoảng cách padding */
         margin: 0 15px 15px; /* Tạo khoảng cách giữa các phần tử */
+}
+#settingPage .sidebarItem-name {
+        padding-left: 10px;
 }
 #sidebarItem-sidebar {
         border-radius: 5px;
@@ -299,4 +306,16 @@ a {
 }
 .upload-img {
         border-radius: 5px;
+}
+.file-upload {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--white-background);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.8s, filter 0.8s;
+}
+.file-upload:hover {
+        filter: brightness(0.8);
 }

@@ -5,7 +5,7 @@ import { getCodeAV, createCodeAV, updateCodeAV, deleteCodeAV } from '../Admin/Co
 import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
 import { getActress, createActress, updateActress, deleteActress } from '../Admin/Controllers/actress.controller.js';
 import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
-import { getTags, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
+import { getTags, getTagVideo, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
 import { createVideo } from '../Admin/Controllers/video.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 
@@ -62,6 +62,8 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         // Tags
         else if ( url?.startsWith ( '/admin/tags/read' ) && method === 'GET' ) {
                 getTags (req, res);
+        } else if ( url?.startsWith ( '/admin/tags/video_read' ) && method === 'GET' ) {
+                getTagVideo (req, res);
         } else if ( url?.startsWith ( '/admin/tags/create' ) && method === 'POST' ) {
                 createTag ( req, res );
         } else if ( url?.startsWith ( '/admin/tags/update' ) && method === 'PUT' ) {

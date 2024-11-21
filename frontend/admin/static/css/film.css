@@ -116,29 +116,29 @@
         cursor: pointer; /* Thay đổi con trỏ khi hover */
 }
 /* =============== */
-#create-video {
+#create-film {
         padding: 40px;
         background-color: white;
         border-radius: 10px;
         width: 60%;
 }
-#create-video .col-form {
+#create-film .col-form {
         width: 50%;
 }
-#create-video .col-thumbnail {
+#create-film .col-thumbnail {
         width: 45%;
 }
-#create-video #film-studio {
+#create-film #film-studio {
         width: 45%;
 }
-#create-video #video-code {
+#create-film #film-code {
         width: 50%;
 }
-#create-video #code-number {
+#create-film #code-number {
         width: 100%;
         margin-left: 10px;
 }
-#create-video input, #create-video select {
+#create-film input, #create-film select {
         display: block;
         background-color: #f7f6f6;
         margin: 10px 0px;
@@ -150,9 +150,73 @@
         border: none;
         cursor: pointer;
 }
-#create-video #release_date  {
+#create-film #release_date  {
         width: 45%;
 }
-#create-video #video-actress {
+#create-film #film-actress {
         width: 50%;
+}
+#create-film #film-tag {
+        width: 45%;
+}
+#film-display {
+        padding: 40px;
+        background-color: white;
+        border-radius: 10px;
+        width: 29%;
+}
+.tags-box {
+        display: inline-block;
+        background-color: var(--white-background);
+        color: #333;
+        border-radius: 4px;
+        font-size: 14px;
+        user-select: none;
+        min-width: 100%;
+        height: 200px;
+}
+#tags-selected {
+        padding: 10px;
+        width: 100%;
+        height: 100%;
+}
+.tag-item {
+        display: inline-block;
+        background-color: var(--cadmium-yellow);
+        color: black;
+        padding: 5px 10px;
+        margin: 5px;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.8s, filter 0.8s;
+}
+.tag-item:hover {
+        background-color: #D22B2B;
+        filter: brightness(1.5);
+}
+.btn-story {
+        width: 50%;
+        margin: 10px 0px;
+}
+.btn-story .button {
+        width: 100%;
+        height: 100%;
+        background-color: var(--persimmon);
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        text-align: center;
+        align-content: center;
+        font-family: 'Lexend';
+        color: white;
+        cursor: pointer;
+        transition: background 0.8s, filter 0.8s;
+}
+.btn-story .button:hover {
+        filter: brightness(1.5);
+}
+#video-tag {
+        height: 100%;
 }

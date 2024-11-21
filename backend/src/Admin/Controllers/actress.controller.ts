@@ -20,7 +20,7 @@ export const createActress = async (req: CustomRequest, res: ServerResponse) => 
                 if (existingActress) {
                         return sendResponse(res, 409, { message: 'This actress already exists.' });
                 }
-                 
+                
                 // Tạo URL cho ảnh nếu đã tải lên thành công
                 let imageName = '';
                 if((req as any).file) {
@@ -45,7 +45,7 @@ export const createActress = async (req: CustomRequest, res: ServerResponse) => 
                 sendError(res, 500, error);
         }
 };
-    
+
 export const getActress = async ( req: IncomingMessage , res: ServerResponse ) => {
         try {
                 const actresses = await ActressModel.find().populate('studio', 'name');;
@@ -65,11 +65,11 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
         if (!oldActress) {
                 return sendError(res, 404, new Error("Actress not found."));
         }
-       
+
         try {   
                 await handleUpload(req, uploadPath); // Thực thi upload ảnh nếu có
                 const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request
-    
+
                 // Cập nhật URL ảnh nếu có ảnh mới
                 let newImageName = "";
                 if ((req as any).file) {
@@ -94,7 +94,7 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
                                 fs.unlinkSync(oldImagePath);
                         }
                 }
-    
+
                 // Chuẩn bị dữ liệu để cập nhật
                 const updateData: Record<string, any> = {
                         name,
@@ -104,22 +104,22 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
                         body,
                         breast,
                 };
-    
+
                 // Chỉ thêm trường `image` nếu ảnh mới được tải lên
                 if (newImageName) {
                         updateData.image = newImageName;
                 }
-    
+
                 // Cập nhật database
                 const updatedActress = await ActressModel.findByIdAndUpdate(actressID, updateData, {
                         new: true,
                         runValidators: true,
                 });
-    
+
                 if (!updatedActress) {
                         return sendError(res, 404, new Error('Actress not found.'));
                 }
-    
+
                 // Trả về phản hồi thành công
                 sendResponse(res, 200, updatedActress);
         } catch (error) {
@@ -127,7 +127,7 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
                 sendError(res, 500, error);
         }
 };
-    
+
 export const deleteActress = async ( req: IncomingMessage , res: ServerResponse ) => {
         // get ID actress from URL 
         const urlPath = req.url?.split('/');

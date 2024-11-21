@@ -3,8 +3,8 @@
                 <div class="heading">
                         <h1>Create new film</h1>
                 </div>
-                <div class="body" style="display: block;">
-                        <form id="create-video">
+                <div class="body">
+                        <form id="create-film">
                                 <div class="row">
                                         <div class="col-form">
                                                 <div class="heading">
@@ -12,43 +12,70 @@
                                                 </div>
                                                 <div class="row">
                                                         <select id="film-studio" name="studio" required>
-                                                                <option value="" disabled selected>Select studio</option>
                                                         </select>                  
-                                                        <div id="video-code">
+                                                        <div id="film-code">
                                                                 <div class="row">
-                                                                        <select id="video-codeAV" name="" required>
-                                                                                <option value="" disabled selected>Select code</option>
-                                                                        </select>    
+                                                                        <select id="film-codeAV" name="" required></select>    
                                                                         <input type="number" name="code" id="code-number" placeholder="123" required>
                                                                 </div>
                                                         </div>                          
                                                 </div>
                                                 <div class="row">
                                                         <input type="date" name="release_date" id="release_date" placeholder="release" required>
-                                                        <select id="video-actress" name="actress" required>
-                                                                <option value="" disabled selected>Select actress</option>
+                                                        <select id="film-actress" name="actress" required>
+                                                                <option value="" disabled selected>Select actor</option>
                                                         </select>    
                                                 </div>
                                                 <div class="row">
-                                                        <select id="video-tag" required>
+                                                        <select id="film-tag" required>
                                                                 <option value="" disabled selected>Select tag</option>
                                                         </select>   
+                                                        <div class="btn-story">
+                                                                <a href="" id="film-story">
+                                                                        <div class="button">Story</div> 
+                                                                </a>
+                                                                
+                                                        </div>
                                                 </div>
                                                 <div class="video information">
-                                                        <div class="heading">
+                                                        <div class="heading" style="display: flex; justify-content: space-between;">
                                                                 <h2>Video information</h2>
+                                                                <select id="video-tag" required></select>   
                                                         </div>
-                                                        <img id="video-upload" class="upload-img" src="/admin/static/images/upload-default.png" alt="" style="width: 100%; height: 300px;">
+                                                        <div class="file-upload" style="width: 100%; height: 300px; ">
+                                                                <i class="fa-solid fa-upload fa-3x"></i>
+                                                        </div>
                                                         <input type="file" id="video-upload" name="file" style="display: none;" accept="image/*">
                                                 </div>
-                                                
                                         </div>
                                         <div class="col-thumbnail">
-                                                <img class="upload-img" src="/admin/static/images/upload-default.png" style="width: 100%; height: 100%;">
+                                                <div class="heading">
+                                                        <h2>Thumbnail</h2>
+                                                </div>
+                                                <div class="file-upload" style="width: 100%; height: calc(100% - 82px); padding-top: 10px;">
+                                                        <i class="fa-solid fa-upload fa-3x"></i>
+                                                </div>
                                                 <input  type="file" id="video-thumbnail" name="file" style="display: none;" accept="image/*">
                                         </div>
                                 </div>
                         </form>
+                        <div id="film-display">
+                                <div class="tag-display">
+                                        <div class="heading">
+                                                <h2>Tags List</h2>
+                                        </div>
+                                        <div class="tags-box">
+                                                <div id="tags-selected">
+                                                        
+                                                </div>
+                                        </div> 
+                                </div>
+                                <div class="film-selected">
+                                        <div class="heading">
+                                                <h2>Video List</h2>
+                                        </div>
+                                </div>
+                        </div>
                 </div>
         </div>
 </div>

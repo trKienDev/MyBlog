@@ -12,5 +12,12 @@ export interface CustomRequest extends IncomingMessage {
         path: string;
         mimetype: string;
     };
+    files?: {
+        [fieldname: string]: {
+            filename: string;
+            path: string;
+            mimetype: string;
+        }[];
+    };
     body: Record<string, any> | ParsedUrlQuery;
 }

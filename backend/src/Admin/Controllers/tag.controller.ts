@@ -5,7 +5,14 @@ import { sendResponse, sendError } from "../../helperFunction/response.js";
 export const getTags = async (req: IncomingMessage, res: ServerResponse) => {
         try {
                 const tagItem = await TagModel.find(); 
-                
+                return sendResponse(res, 200, tagItem);
+        } catch(error) {
+                return sendError(res, 500, error);
+        }
+};
+export const getTagVideo = async (req: IncomingMessage, res: ServerResponse) => {
+        try {
+                const tagItem = await TagModel.find({ kind: "video" }); 
                 return sendResponse(res, 200, tagItem);
         } catch(error) {
                 return sendError(res, 500, error);

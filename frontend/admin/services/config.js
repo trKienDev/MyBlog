@@ -30,6 +30,7 @@ const config = {
                 codeAVDelete: '/admin/codeAV/delete',
                 // tags
                 tagList: '/admin/tags/read',
+                tagVideoList: '/admin/tags/video_read',
                 tagCreate: '/admin/tags/create',
                 tagUpdate: '/admin/tags/update',
                 tagDelete: '/admin/tags/delete',

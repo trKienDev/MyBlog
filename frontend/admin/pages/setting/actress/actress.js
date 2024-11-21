@@ -1,6 +1,7 @@
 import config2 from "../../../services/config.js";
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { handleImageUpload } from "../../../services/HelperFunction/image.js";
+import { loadStudios } from '../../../services/loadElement/loadStudios.js';
 
 export function loadActressTable() {
         fetch(`${config2.domain}${config2.endpoints.actressList}`) 
@@ -86,32 +87,10 @@ export function loadActressTable() {
                 console.error('Error fetching actress data: ', error);
         });
 
-        loadStudios();
+        loadStudios("actress-studio");
         setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
         handleImageUpload("profile-image", "image-upload"); // setup image upload logic
         createNewActress("actressForm", "actressModal"); // submit form
-}
-
-async function loadStudios() {
-        try {
-                const response = await fetch(`${config2.domain}${config2.endpoints.studioList}`) ;
-                if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                
-                const studios = await response.json();
-                const studioSelect = document.getElementById('actress-studio');
-                studioSelect.innerHTML = '<option value="" disabled selected>Select studio</option>';
-
-                studios.forEach(studio => {
-                        const option = document.createElement('option');
-                        option.value = studio._id; 
-                        option.textContent = studio.name; 
-                        studioSelect.appendChild(option);
-                });
-        } catch (error) {
-                console.error('Error loading studios:', error);
-        }
 }
 
 async function createNewActress(formId, modalId) {
