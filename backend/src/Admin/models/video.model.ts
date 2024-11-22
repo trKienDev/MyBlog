@@ -16,11 +16,11 @@ const VideoSchema: Schema = new Schema(
                         ref: 'Actress', 
                         required: true,
                 },
-                tag: [{
+                tag: {
                         type: mongoose.Schema.Types.ObjectId, 
                         ref: 'Tag', 
                         required: true, 
-                }],
+                },
                 codeAV: {
                         type: mongoose.Schema.Types.ObjectId, 
                         ref: 'CodeAV', 

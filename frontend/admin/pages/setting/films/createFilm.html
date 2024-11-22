@@ -11,23 +11,22 @@
                                                         <h2>Film information</h2>
                                                 </div>
                                                 <div class="row">
-                                                        <select id="film-studio" name="studio" required>
-                                                        </select>                  
+                                                        <select id="film-studio" name="studio"></select>                  
                                                         <div id="film-code">
                                                                 <div class="row">
-                                                                        <select id="film-codeAV" name="" required></select>    
-                                                                        <input type="number" name="code" id="code-number" placeholder="123" required>
+                                                                        <select id="film-codeAV" name=""></select>    
+                                                                        <input type="number" name="code" id="code-number" placeholder="123">
                                                                 </div>
                                                         </div>                          
                                                 </div>
                                                 <div class="row">
-                                                        <input type="date" name="release_date" id="release_date" placeholder="release" required>
-                                                        <select id="film-actress" name="actress" required>
+                                                        <input type="date" name="release_date" id="release_date" placeholder="release">
+                                                        <select id="film-actress" name="actress">
                                                                 <option value="" disabled selected>Select actor</option>
                                                         </select>    
                                                 </div>
                                                 <div class="row">
-                                                        <select id="film-tag" required>
+                                                        <select id="film-tag">
                                                                 <option value="" disabled selected>Select tag</option>
                                                         </select>   
                                                         <div class="btn-story">
@@ -37,26 +36,29 @@
                                                                 
                                                         </div>
                                                 </div>
-                                                <div class="video information">
+                                                <div class="video-information">
                                                         <div class="heading" style="display: flex; justify-content: space-between;">
                                                                 <h2>Video information</h2>
-                                                                <select id="video-tag" required></select>   
+                                                                <select id="video-tag"></select>   
                                                         </div>
-                                                        <div class="file-upload" style="width: 100%; height: 300px; ">
+                                                        <div id="video-upload" class="file-upload" style="width: 100%; height: 300px; ">
                                                                 <i class="fa-solid fa-upload fa-3x"></i>
                                                         </div>
-                                                        <input type="file" id="video-upload" name="file" style="display: none;" accept="image/*">
+                                                        <input type="file" id="video-uploaded" name="file" style="display: none;" accept="video/*">
                                                 </div>
                                         </div>
                                         <div class="col-thumbnail">
                                                 <div class="heading">
                                                         <h2>Thumbnail</h2>
                                                 </div>
-                                                <div class="file-upload" style="width: 100%; height: calc(100% - 82px); padding-top: 10px;">
+                                                <div id="thumbnail-upload" class="file-upload" style="width: 100%; height: calc(100% - 82px); padding-top: 10px;">
                                                         <i class="fa-solid fa-upload fa-3x"></i>
                                                 </div>
                                                 <input  type="file" id="video-thumbnail" name="file" style="display: none;" accept="image/*">
                                         </div>
+                                </div>
+                                <div class="btn-submit">
+                                        <button type="submit">Create</button>
                                 </div>
                         </form>
                         <div id="film-display">
@@ -70,12 +72,17 @@
                                                 </div>
                                         </div> 
                                 </div>
-                                <div class="film-selected">
+                                <div class="video-uploaded">
                                         <div class="heading">
                                                 <h2>Video List</h2>
                                         </div>
+                                        <div id="video-list"></div>
                                 </div>
                         </div>
                 </div>
         </div>
 </div>
+
+<script>
+
+</script>

@@ -13,11 +13,15 @@ export interface CustomRequest extends IncomingMessage {
         mimetype: string;
     };
     files?: {
-        [fieldname: string]: {
-            filename: string;
-            path: string;
-            mimetype: string;
-        }[];
-    };
+        fieldname: string;
+        originalname: string;
+        encoding: string;
+        mimetype: string;
+        size: number;
+        destination: string;
+        filename: string;
+        path: string;
+    }[];
     body: Record<string, any> | ParsedUrlQuery;
+    fileValidationError?: string; // Thêm thuộc tính để chứa thông báo lỗi file
 }

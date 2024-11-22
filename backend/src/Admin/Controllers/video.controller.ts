@@ -1,54 +1,98 @@
-import { ServerResponse } from "http";
+import { IncomingMessage, ServerResponse } from "http";
 import VideoModel from "../models/video.model.js";
-import ActressModel from "../models/actress.model.js";
-import TagModel from "../models/tag.model.js";
-import CodeAVModel from "../models/codeAV.model.js";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { v4 as uuidv4 } from "uuid";
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
-import { sendResponse, sendError } from "../../helperFunction/response.js";
-import { handleUpload } from "../../helperFunction/uploadFile.js";
+import { parse } from "querystring";
 
-const uploadPath = "videos";
 
-export const createVideo = async (req: CustomRequest, res: ServerResponse) => {
-        try {
-                await handleUpload(req, uploadPath);
-                const { name, code, actress, codeAV, tags } = (req as any).body;
+const videoUploadPath = path.join(process.cwd(), "src", "upload", "videos");
 
-                const actressExists = await ActressModel.findById(actress);
-                if (!actressExists) {
-                        return sendResponse(res, 404, { message: "Actress not found." });
-                }
-
-                const tagsExist = await TagModel.find({ _id: { $in: tags } });
-                if (tagsExist.length !== tags.length) {
-                        return sendResponse(res, 404, { message: "One or more tags not found." });
-                }
-
-                const codeAVExists = await CodeAVModel.findById(codeAV);
-                if (!codeAVExists) {
-                        return sendResponse(res, 404, { message: "CodeAV not found." });
-                }
-
-                let filePath = "";
-                if ((req as any).file) {
-                        filePath = (req as any).file.filename;
-                }
-                if (!filePath) {
-                        return sendResponse(res, 400, { message: "Video file is required." });
-                }
-
-                const newVideo = new VideoModel({
-                        name,
-                        actress,
-                        tags,
-                        codeAV,
-                        filePath,
-                });
-                await newVideo.save();
-
-                sendResponse(res, 201, newVideo);
-        } catch (error) {
-                console.error("Error in createVideo:", error);
-                sendError(res, 500, error);
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        if (!fs.existsSync(videoUploadPath)) {
+            fs.mkdirSync(videoUploadPath, { recursive: true });
         }
-}
+        cb(null, videoUploadPath);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${file.originalname}`;
+        cb(null, uniqueSuffix);
+    },
+});
+
+const upload = multer({
+    storage: storage,
+    fileFilter: (req: IncomingMessage, file, cb) => {
+        const customReq = req as CustomRequest; // Ép kiểu req thành CustomRequest
+
+        if (file.mimetype !== "video/mp4") {
+            customReq.fileValidationError = "Only MP4 video files are allowed.";
+            return cb(null, false); // Từ chối file
+        }
+
+        cb(null, true); // Chấp nhận file hợp lệ
+    },
+}).array("file", 10); // Cho phép upload tối đa 10 file
+
+export const createVideo = (req: IncomingMessage, res: ServerResponse) => {
+        upload(req as any, res as any, (err: any) => {
+                const customReq = req as CustomRequest; // Ép kiểu req về CustomRequest
+
+                if (customReq.fileValidationError) {
+                        res.statusCode = 400;
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify({ message: customReq.fileValidationError }));
+                        return;
+                }
+
+                if (err) { // lỗi ở đây
+                        console.log(err);
+                        res.statusCode = 500;
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify({ message: "File upload failed.", error: err.message }));
+                        return;
+                }
+                // Lỗi ở đây
+                const files = customReq.files;
+                const body = customReq.body;
+    
+                if (!files || files.length === 0) {
+                        res.statusCode = 400;
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify({ message: "No files uploaded." }));
+                        return;
+                }
+                
+
+                try {
+                        const videos = [];
+                        for (const file of files) {
+                                const video = {
+                                        name: body.name,
+                                        codeAV: body.codeAV,
+                                        actress: body["film-actress"],
+                                        tag: body.tag,
+                                        filePath: file.path,
+                                };
+                                videos.push(video);
+                        }
+        
+                        res.statusCode = 201;
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify({ message: "Videos created successfully.", videos }));
+                } catch (error) {
+                        const err = error as Error; // Ép kiểu error về Error
+                        res.statusCode = 500;
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(
+                                JSON.stringify({
+                                        message: "Failed to create videos.",
+                                        error: err.message, // Sử dụng err.message
+                                })
+                        );
+                }
+        });
+};

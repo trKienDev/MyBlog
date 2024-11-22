@@ -73,7 +73,7 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         }
         // Video
         else if ( url?.startsWith ( '/admin/video/create' ) && method === 'POST' ) {
-                createVideo (req as CustomRequest, res);
+                createVideo (req, res);
         }
 
         else { // Handle invalid routes
