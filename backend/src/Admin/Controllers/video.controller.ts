@@ -10,7 +10,9 @@ import { sendResponse, sendError } from "../../helperFunction/response.js";
 import mongoose from "mongoose";
 
 
-const videoUploadPath = path.join(process.cwd(), "src", "upload", "videos");
+
+const videoUploadPath = path.join(process.cwd(), "..", "..", "videos");
+console.log(videoUploadPath);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -72,14 +74,11 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
     
             // Kiểm tra lỗi upload
             if (err) {
-                console.log(err);
                 return sendError(res, 500, err);
             }
     
             const files = customReq.files;
             const body = customReq.body;
-    
-            console.log("Body:", body);
     
             // Kiểm tra xem file có được upload không
             if (!files || Object.keys(files).length === 0) {
