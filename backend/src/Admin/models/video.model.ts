@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 interface IVideo extends Document {
         name: string;
         actress: mongoose.Schema.Types.ObjectId; 
-        tag: mongoose.Schema.Types.ObjectId[];
+        videotag: mongoose.Schema.Types.ObjectId[];
         codeAV: mongoose.Schema.Types.ObjectId;
         filePath: string; // mp4 path
 }
@@ -16,7 +16,7 @@ const VideoSchema: Schema = new Schema(
                         ref: 'Actress', 
                         required: true,
                 },
-                tag: {
+                videotag: {
                         type: mongoose.Schema.Types.ObjectId, 
                         ref: 'Tag', 
                         required: true, 

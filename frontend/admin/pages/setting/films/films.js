@@ -9,61 +9,61 @@ import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
 let videoDataList = [];
 
 export function loadFilm() {
-const btnCreate = document.querySelector(".btn-create"); 
-if (btnCreate) {
-        btnCreate.addEventListener("click", function () {
-                const url = "/admin/pages/setting/films/createFilm.html"; 
-                loadContent(url, "dynamic-data", () => {
-                        loadStudios("film-studio");
-                        loadCodeAV("film-codeAV");
-                        loadActress("film-actress");
-                        loadTag("film-tag");
-                        loadVideoTag("video-tag")
-                        selectTag("film-tag", "tags-selected");
-                        handleVideoUpload("video-upload", "video-uploaded");
-                        smoothScrolling("video-list");
+        const btnCreate = document.querySelector(".btn-create"); 
+        if (btnCreate) {
+                btnCreate.addEventListener("click", function () {
+                        const url = "/admin/pages/setting/films/createFilm.html"; 
+                        loadContent(url, "dynamic-data", () => {
+                                loadStudios("film-studio");
+                                loadCodeAV("film-codeAV");
+                                loadActress("film-actress");
+                                loadTag("film-tag");
+                                loadVideoTag("video-tag")
+                                selectTag("film-tag", "tags-selected");
+                                handleVideoUpload("video-upload", "video-uploaded");
+                                smoothScrolling("video-list");
 
-                        document.getElementById('create-film').addEventListener('submit', function(event) {
-                                event.preventDefault(); 
-                                
-                                const videoForm = new FormData();
-                                
-                                const codeElement = document.getElementById('film-codeAV');
-                                const codeName = codeElement.options[codeElement.selectedIndex].textContent;
-                                const codeNumber = document.getElementById('code-number').value;
-                                const name = codeName + "-" + codeNumber;
+                                document.getElementById('create-film').addEventListener('submit', function(event) {
+                                        event.preventDefault(); 
+                                        
+                                        const videoForm = new FormData();
+                                        
+                                        const codeElement = document.getElementById('film-codeAV');
+                                        const codeName = codeElement.options[codeElement.selectedIndex].textContent;
+                                        const codeNumber = document.getElementById('code-number').value;
+                                        const name = codeName + "-" + codeNumber;
 
-                                const actress = document.getElementById('film-codeAV').value;
-                                
-                                videoForm.append("name: ", name);
-                                videoForm.append("film-actress", actress);
-                                videoForm.append("tag", videoDataList[0]);
-                                videoForm.append("codeAV", codeName);
-                                
-                                // // Thêm video và tag vào FormData
-                                videoDataList.forEach((item, index) => {
-                                        videoForm.append(`video_${index}`, item.file); // Video file
-                                        videoForm.append(`video_tag_${index}`, item.tag); // Tag tương ứng
-                                });
-                                
-                                console.log("formData: ", videoForm);
-                                
-                                // Gửi formData qua fetch hoặc XHR
-                                fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
-                                    method: 'POST',
-                                    body: videoForm
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log('Success:', data);
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
+                                        const actress = document.getElementById('film-codeAV').value;
+                                        
+                                        videoForm.append("name", name);
+                                        videoForm.append("actress", actress);
+                                        // videoForm.append("tag", videoDataList[0]);
+                                        videoForm.append("codeAV", codeElement.value);
+                                        
+                                        // // Thêm video và tag vào FormData
+                                        videoDataList.forEach((item, index) => {
+                                                videoForm.append(`video_${index}`, item.file); // Video file
+                                                videoForm.append(`video_tag_${index}`, item.tag); // Tag tương ứng
+                                        });
+                                        
+                                        console.log("formData: ", videoForm);
+                                        
+                                        // Gửi formData qua fetch hoặc XHR
+                                        fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
+                                                method: 'POST',
+                                                body: videoForm
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                                console.log('Success:', data);
+                                        })
+                                        .catch(error => {
+                                                console.error('Error:', error.message);
+                                        });
                                 });
                         });
                 });
-        });
-}
+        }
 }
 
 function selectTag(selectTagId, tagListId) {
