@@ -35,11 +35,14 @@ export function loadFilm() {
 
                                         const actress = document.getElementById('film-codeAV').value;
                                         
+                                        const tagElement = document.getElementById('video-tag');
+                                        const tagName = tagElement.options[tagElement.selectedIndex].textContent;
+                                        const videoName = name + "_" + tagName;
+
                                         videoForm.append("name", name);
                                         videoForm.append("actress", actress);
-                                        // videoForm.append("tag", videoDataList[0]);
                                         videoForm.append("codeAV", codeElement.value);
-                                        
+                                        videoForm.append("videoname", videoName);
                                         // // Thêm video và tag vào FormData
                                         videoDataList.forEach((item, index) => {
                                                 videoForm.append(`video_${index}`, item.file); // Video file

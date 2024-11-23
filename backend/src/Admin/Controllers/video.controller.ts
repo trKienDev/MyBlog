@@ -13,17 +13,28 @@ import mongoose from "mongoose";
 const videoUploadPath = path.join(process.cwd(), "src", "upload", "videos");
 
 const storage = multer.diskStorage({
-        destination: (req, file, cb) => {
-                if (!fs.existsSync(videoUploadPath)) {
-                        fs.mkdirSync(videoUploadPath, { recursive: true });
-                }
-                cb(null, videoUploadPath);
-        },
-        filename: (req, file, cb) => {
-                const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${file.originalname}`;
-                cb(null, uniqueSuffix);
-        },
+    destination: (req, file, cb) => {
+        if (!fs.existsSync(videoUploadPath)) {
+            fs.mkdirSync(videoUploadPath, { recursive: true });
+        }
+        cb(null, videoUploadPath);
+    },
+    filename: (req, file, cb) => {
+        const customReq = req as CustomRequest;
+        const body = customReq.body;
+
+        // Lấy giá trị 'videoname' từ body
+        const videoName = body.videoname || "default-video-name";
+        const fileExtension = path.extname(file.originalname); // Lấy phần mở rộng file (vd: .mp4)
+
+        // Tạo tên file từ 'videoname'
+        const fileName = `${videoName}${fileExtension}`;
+        file.filename = fileName; // Lưu tên file vào file object (multer)
+        cb(null, fileName);
+    },
 });
+
+
 
 const upload = multer({
         storage: storage,
@@ -90,7 +101,7 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
                                 codeAV: new mongoose.Types.ObjectId(body.codeAV), // Chuyển codeAV thành ObjectId
                                 actress: new mongoose.Types.ObjectId(body.actress), // Chuyển actress thành ObjectId
                                 videotag: new mongoose.Types.ObjectId(body.videotag), // Chuyển videotag thành ObjectId
-                                filePath: file.path, // Đường dẫn file video
+                                filePath: file.filename, // Đường dẫn file video
                             };
                             videos.push(video); // Thêm video vào danh sách
                         }
