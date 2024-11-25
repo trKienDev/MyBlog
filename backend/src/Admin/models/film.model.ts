@@ -13,13 +13,12 @@ interface IFilm extends Document {
 }
 
 const FilmSchema: Schema = new Schema({
-        code: { type: String, required: true },
-        studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio', required: true },
-        actress_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Actress', required: true }],
-        tag_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag', required: true }],
+        code: { type: String},
+        studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio'},
+        actress_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Actress'}],
+        tag_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
         release_date: { 
                 type: Date, 
-                required: true, 
                 validate: {
                         validator: function(value: Date) {
                                 return value >= new Date('1900-01-01') && value <= new Date();
@@ -27,12 +26,11 @@ const FilmSchema: Schema = new Schema({
                         message: 'Release date must be between January 1, 1900, and today.'
                 }
         },
-        story: { type: String, required: true },
-        video: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video', required: true }],
+        story: { type: String},
+        video: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video'}],
         thumbnail: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
         rating: { 
                 type: Number, 
-                required: true, 
                 min: 1, 
                 max: 5 
         }

@@ -19,42 +19,78 @@ export function loadFilm() {
                                 loadActress("film-actress");
                                 loadTag("film-tag");
                                 loadVideoTag("video-tag")
-                                selectTag("film-tag", "tags-selected");
+                                const selectedTagIds = selectTag("film-tag", "tags-selected");
                                 handleVideoUpload("video-upload", "video-uploaded");
                                 smoothScrolling("video-list");
+                                handleThumbnail("thumbnail-upload", "video-thumbnail");
 
                                 document.getElementById('create-film').addEventListener('submit', function(event) {
                                         event.preventDefault(); 
                                         
-                                        const videoForm = new FormData();
+                                        const studio = document.getElementById('film-codeAV').value;
                                         
                                         const codeElement = document.getElementById('film-codeAV');
                                         const codeName = codeElement.options[codeElement.selectedIndex].textContent;
                                         const codeNumber = document.getElementById('code-number').value;
                                         const name = codeName + "-" + codeNumber;
 
-                                        const actress = document.getElementById('film-codeAV').value;
+                                        const actress = document.getElementById('film-actress').value;
                                         
+                                        // Lấy file từ input video-thumbnail
+                                        const thumbnailInput = document.getElementById('video-thumbnail');
+                                        const thumbnailFile = thumbnailInput.files[0]; // Lấy file từ input
+                                        if (!thumbnailFile) {
+                                                alert("Please upload a thumbnail before submitting!");
+                                                return; // Nếu không có file thì dừng
+                                        }
+                                        
+                                        // video tag
                                         const tagElement = document.getElementById('video-tag');
                                         const tagName = tagElement.options[tagElement.selectedIndex].textContent;
                                         const videoName = name + "_" + tagName;
 
-                                        videoForm.append("name", name);
+                                        const releaseDate = document.getElementById('release_date').value; // release date
+
+                                        // --* actressForm *--
+                                        const filmData = new FormData(); // Sử dụng FormData để bao gồm file
+                                        filmData.append("name", name);
+                                        filmData.append("studio", studio);
+                                        filmData.append("code", name);
+                                        filmData.append("actress", actress);
+                                        filmData.append("tag", selectedTagIds); // Convert mảng tag IDs thành JSON string
+                                        filmData.append("releaseDate", releaseDate);
+                                        filmData.append("file", thumbnailFile);
+                                        console.log(filmData);
+                                        
+                                        // --* videoForm *---
+                                        const videoForm = new FormData();
+                                        videoForm.append("code", name);
                                         videoForm.append("actress", actress);
                                         videoForm.append("codeAV", codeElement.value);
                                         videoForm.append("videoname", videoName);
-                                        // // Thêm video và tag vào FormData
+                                        // Thêm video và tag vào FormData
                                         videoDataList.forEach((item, index) => {
                                                 videoForm.append(`video_${index}`, item.file); // Video file
                                                 videoForm.append(`video_tag_${index}`, item.tag); // Tag tương ứng
                                         });
                                         
-                                        console.log("formData: ", videoForm);
-                                        
                                         // Gửi formData qua fetch hoặc XHR
-                                        fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
+                                        // fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
+                                        //         method: 'POST',
+                                        //         body: videoForm
+                                        // })
+                                        // .then(response => response.json())
+                                        // .then(data => {
+                                        //         console.log('Success:', data);
+                                        // })
+                                        // .catch(error => {
+                                        //         console.error('Error:', error.message);
+                                        // });
+
+
+                                        fetch(`${config2.domain}${config2.endpoints.filmCreate}`, {
                                                 method: 'POST',
-                                                body: videoForm
+                                                body: filmData
                                         })
                                         .then(response => response.json())
                                         .then(data => {
@@ -69,37 +105,47 @@ export function loadFilm() {
         }
 }
 
-function selectTag(selectTagId, tagListId) {
-const tagSelect = document.getElementById(selectTagId);
-const tagsList = document.getElementById(tagListId);
-
-tagSelect.addEventListener('change', () => {
-        const selectedOption = tagSelect.options[tagSelect.selectedIndex]; // Lấy option được chọn
-        const selectedTagName = selectedOption.textContent; // Lấy tên tag (nội dung hiển thị)
-
-        // Kiểm tra nếu tag đã được thêm rồi thì không thêm lại
-        if (Array.from(tagsList.children).some(tag => tag.innerText === selectedTagName)) {
-                return;
-        }
-
-        // Tạo một ô tag
-        const tagItem = document.createElement('div');
-        tagItem.className = 'tag-item';
-        tagItem.innerText = selectedTagName;
-
-        // Xử lý sự kiện click vào tag để xoá
-        tagItem.addEventListener('click', () => {
-                tagsList.removeChild(tagItem); // Xoá tag khỏi danh sách
+function selectTag(selectTagId, tagListId) { // hàm selectTag vừa có nhiệm vụ hiển thị tag đã chọn ra "TagList" mà còn lấy danh sách tag đã chọn để thêm vào field tag của filmData
+        const tagSelect = document.getElementById(selectTagId);
+        const tagsList = document.getElementById(tagListId);
+        const selectedTagIds = []; // Mảng lưu trữ ID của các tag được chọn
+    
+        tagSelect.addEventListener('change', () => {
+                const selectedOption = tagSelect.options[tagSelect.selectedIndex];
+                const selectedTagName = selectedOption.textContent; // Tên tag
+                const selectedTagId = selectedOption.value; // ID của tag (value của option)
+        
+                // Kiểm tra nếu tag đã được thêm rồi thì không thêm lại
+                if (Array.from(tagsList.children).some(tag => tag.dataset.tagId === selectedTagId)) {
+                        return;
+                }
+        
+                // Tạo một ô tag hiển thị
+                const tagItem = document.createElement('div');
+                tagItem.className = 'tag-item';
+                tagItem.innerText = selectedTagName;
+                tagItem.dataset.tagId = selectedTagId; // Lưu ID vào thuộc tính data
+        
+                // Xử lý sự kiện click vào tag để xoá
+                tagItem.addEventListener('click', () => {
+                        tagsList.removeChild(tagItem); // Xoá tag khỏi danh sách hiển thị
+                        const index = selectedTagIds.indexOf(selectedTagId); // Xoá ID khỏi mảng
+                        if (index > -1) {
+                                selectedTagIds.splice(index, 1);
+                        }
+                });
+        
+                selectedTagIds.push(selectedTagId);  // Thêm ID vào mảng
+        
+                tagsList.appendChild(tagItem); // Thêm tag vào container
+        
+                tagSelect.selectedIndex = 0; // Reset select về trạng thái mặc định
         });
-
-        // Thêm tag vào container
-        tagsList.appendChild(tagItem);
-
-        // Reset select về trạng thái mặc định
-        tagSelect.selectedIndex = 0;
-});
+    
+        // Hàm trả về danh sách ID để dùng khi submit
+        return selectedTagIds;
 }
-
+    
 function handleVideoUpload(divClickId, fileInputId) {
         document.getElementById(divClickId).addEventListener('click', function() {
                 // Kiểm tra xem người dùng đã chọn video tag chưa
@@ -164,4 +210,27 @@ document.getElementById(videoListId).addEventListener('wheel', function(event) {
                 behavior: 'smooth'
         });
 });
+}
+
+function handleThumbnail(thumbnailUploadId, videoThumbnailId) {
+        const thumbnailElement = document.getElementById(thumbnailUploadId);
+        const fileInput = document.getElementById(videoThumbnailId);
+
+        thumbnailElement.addEventListener("click", function() {
+                fileInput.click(); // Kích hoạt input file
+        });
+
+        fileInput.addEventListener("change", function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                                const imageElement = document.createElement('img');
+                                imageElement.className = 'thumbnail-item';
+                                imageElement.src = e.target.result; 
+                                thumbnailElement.appendChild(imageElement);
+                        };
+                        reader.readAsDataURL(file);
+                }
+        });
 }

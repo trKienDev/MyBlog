@@ -249,3 +249,20 @@
 #video-list .video-box {
         padding-bottom: 10px;
 }
+#thumbnail-upload {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%; 
+}
+#thumbnail-upload img.thumbnail-item {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ảnh sẽ khớp toàn bộ khu vực */
+        position: absolute; /* Đảm bảo ảnh được căn giữa */
+        top: 0;
+        left: 0;
+}

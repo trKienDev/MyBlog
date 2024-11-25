@@ -7,6 +7,7 @@ import { getActress, createActress, updateActress, deleteActress } from '../Admi
 import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
 import { getTags, getTagVideo, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
 import { createVideo } from '../Admin/Controllers/video.controller.js';
+import { createFilm } from '../Admin/Controllers/film.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
@@ -74,6 +75,10 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         // Video
         else if ( url?.startsWith ( '/admin/video/create' ) && method === 'POST' ) {
                 createVideo (req, res);
+        }
+        // Films
+        else if ( url?.startsWith ( '/admin/film/create' ) && method === 'POST' ) {
+                createFilm (req as CustomRequest, res);
         }
 
         else { // Handle invalid routes

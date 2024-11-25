@@ -36,6 +36,8 @@ const config = {
                 tagDelete: '/admin/tags/delete',
                 // video
                 videoCreate: '/admin/video/create',
+                // film
+                filmCreate: '/admin/film/create',
         }
 }
 

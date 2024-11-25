@@ -7,7 +7,7 @@ import fs from "fs";
 let allowedFileTypes: string[] = [ ".jpg" , ".jpeg" , ".png" , ".gif", ".mp4" ];
 
 const getUploadPath = (folder: string) => {
-        return path.join(process.cwd(), "src", "upload", folder);
+    return path.join(process.cwd(), "src", "upload", folder);
 };
 
 // Tạo thư mục upload nếu chưa tồn tại
@@ -34,7 +34,7 @@ export const handleUpload = (req: CustomRequest, folder: string) => {
         const uploadPath = getUploadPath(folder);
         ensureUploadPathExists(uploadPath); // Tạo thư mục nếu chưa tồn tại
         const storage = createMulterStorage(uploadPath);
-
+        
         const upload = multer({
             storage,
             fileFilter: (req, file, cb) => {

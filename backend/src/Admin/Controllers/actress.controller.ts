@@ -13,9 +13,10 @@ const uploadPath = 'actress/avatar';
 export const createActress = async (req: CustomRequest, res: ServerResponse) => {
         try {
                 await handleUpload(req, uploadPath); // Xử lý upload file và các dữ liệu khác cùng lúc
-                
-                const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request sau khi multer xử lý
+                console.log("body: ", (req as any).body);
 
+                const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request sau khi multer xử lý
+                
                 const existingActress = await ActressModel.findOne({ name, birth });
                 if (existingActress) {
                         return sendResponse(res, 409, { message: 'This actress already exists.' });
@@ -37,8 +38,8 @@ export const createActress = async (req: CustomRequest, res: ServerResponse) => 
                         breast,
                         image: imageName // Lưu URL của ảnh vào thuộc tính image
                 });
+                
                 await newActress.save();
-
                 sendResponse(res, 201, newActress);
         } catch (error) {
                 console.error('Error in createActress:', error);
