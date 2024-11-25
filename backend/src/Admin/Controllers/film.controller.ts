@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import FilmModel from "../models/film.model.js";
+import VideoModel from "../models/video.model.js";
 import mongoose from "mongoose";
 import path from "path";
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
@@ -14,7 +15,7 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {
                 await handleUpload(req, thumbnailUploadPath); 
                 console.log("body: ", (req as any).body);
 
-                const { actress, code, releaseDate, studio, tag } = (req as any).body;
+                const { actress, code, releaseDate, studio, tag, videos } = (req as any).body;
                 const tags = tag.split(',').map((id: string) => new mongoose.Types.ObjectId(id.trim()));
 
                 // Tạo URL cho ảnh nếu đã tải lên thành công
@@ -29,6 +30,7 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {
                         actress_id: new mongoose.Types.ObjectId(actress),
                         tag_id: tags,
                         release_date: releaseDate,
+                        video: videos.split(',').map((id: string) => new mongoose.Types.ObjectId(id.trim())),
                         thumbnail: thumbnailName // Lưu URL của ảnh vào thuộc tính image
                 });
 

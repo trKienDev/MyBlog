@@ -104,12 +104,10 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
             }
 
             // Lưu tất cả video vào MongoDB
-            await VideoModel.insertMany(videos);
+            const savedVideos = await VideoModel.insertMany(videos);
 
             // Trả về phản hồi thành công
-            res.statusCode = 201;
-            res.setHeader("Content-Type", "application/json");
-            return res.end(JSON.stringify({ message: "Videos created successfully.", videos }));
+            return sendResponse(res, 201, savedVideos);
         } catch (error) {
             // Xử lý lỗi trong quá trình lưu video
             const err = error as Error;

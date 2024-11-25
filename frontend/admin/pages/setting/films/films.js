@@ -24,7 +24,7 @@ export function loadFilm() {
                                 smoothScrolling("video-list");
                                 handleThumbnail("thumbnail-upload", "video-thumbnail");
 
-                                document.getElementById('create-film').addEventListener('submit', function(event) {
+                                document.getElementById('create-film').addEventListener('submit', async function(event) {
                                         event.preventDefault(); 
                                         
                                         const studio = document.getElementById('film-codeAV').value;
@@ -51,20 +51,9 @@ export function loadFilm() {
 
                                         const releaseDate = document.getElementById('release_date').value; // release date
 
-                                        // --* actressForm *--
-                                        const filmData = new FormData(); // Sử dụng FormData để bao gồm file
-                                        filmData.append("name", name);
-                                        filmData.append("studio", studio);
-                                        filmData.append("code", name);
-                                        filmData.append("actress", actress);
-                                        filmData.append("tag", selectedTagIds); // Convert mảng tag IDs thành JSON string
-                                        filmData.append("releaseDate", releaseDate);
-                                        filmData.append("file", thumbnailFile);
-                                        console.log(filmData);
-                                        
                                         // --* videoForm *---
                                         const videoForm = new FormData();
-                                        videoForm.append("code", name);
+                                        videoForm.append("name", name);
                                         videoForm.append("actress", actress);
                                         videoForm.append("codeAV", codeElement.value);
                                         videoForm.append("videoname", videoName);
@@ -73,24 +62,33 @@ export function loadFilm() {
                                                 videoForm.append(`video_${index}`, item.file); // Video file
                                                 videoForm.append(`video_tag_${index}`, item.tag); // Tag tương ứng
                                         });
-                                        
+                                        console.log("videoForm: ", videoForm);
                                         // Gửi formData qua fetch hoặc XHR
-                                        // fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
-                                        //         method: 'POST',
-                                        //         body: videoForm
-                                        // })
-                                        // .then(response => response.json())
-                                        // .then(data => {
-                                        //         console.log('Success:', data);
-                                        // })
-                                        // .catch(error => {
-                                        //         console.error('Error:', error.message);
-                                        // });
-
+                                        const videoResponse = await fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
+                                                method: 'POST',
+                                                body: videoForm
+                                        });
+                                        const videoData = await videoResponse.json();
+                                        if (!videoResponse.ok) {
+                                                throw new Error(videoData.message || "Failed to create videos.");
+                                        }
+                                        const videoIds = videoData.map((video) => video._id);
+                                        console.log("videoData: ", videoData);
+                                        // --* actressForm *--
+                                        const filmForm = new FormData(); // Sử dụng FormData để bao gồm file
+                                        filmForm.append("name", name);
+                                        filmForm.append("studio", studio);
+                                        filmForm.append("code", name);
+                                        filmForm.append("actress", actress);
+                                        filmForm.append("tag", selectedTagIds); // Convert mảng tag IDs thành JSON string
+                                        filmForm.append("releaseDate", releaseDate);
+                                        filmForm.append("file", thumbnailFile);
+                                        filmForm.append('videos', videoIds.join(','));
+                                        console.log("film data: ", filmForm);
 
                                         fetch(`${config2.domain}${config2.endpoints.filmCreate}`, {
                                                 method: 'POST',
-                                                body: filmData
+                                                body: filmForm
                                         })
                                         .then(response => response.json())
                                         .then(data => {
