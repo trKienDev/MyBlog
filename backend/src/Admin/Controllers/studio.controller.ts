@@ -7,7 +7,7 @@ import path from 'path';
 import fs from 'fs';
 
 
-const uploadPath = 'studio/logo';
+const studioUploadPath = path.join(process.cwd(), "..", "..", "uploads","studio");
 export const getStudio = async (req: IncomingMessage, res: ServerResponse) => {
         try {
                 const studios = await StudioModel.find();
@@ -20,14 +20,13 @@ export const getStudio = async (req: IncomingMessage, res: ServerResponse) => {
 
 export const createStudio = async (req: CustomRequest, res: ServerResponse) => {
         try {
+                await handleUpload(req, studioUploadPath);
                 const { name } = (req as any).body;
 
                 const existingStudio = await StudioModel.findOne({ name });
                 if (existingStudio) {
                         return sendResponse(res, 409, { message: 'Studio with this name already exists.' });
                 }
-
-                await handleUpload(req, uploadPath);
                 
                 let imageName = '';
                 if ((req as any).file) {
@@ -49,7 +48,7 @@ export const createStudio = async (req: CustomRequest, res: ServerResponse) => {
 
 export const updateStudio = async (req: CustomRequest, res: ServerResponse) => {
         try {
-                await handleUpload(req, uploadPath);
+                await handleUpload(req, studioUploadPath);
 
                 const { id, name } = (req as any).body;
                 const studio = await StudioModel.findById(id);
@@ -63,7 +62,7 @@ export const updateStudio = async (req: CustomRequest, res: ServerResponse) => {
                 if ((req as any).file) {
                         // Delete old image if exists
                         if (studio.image) {
-                                const oldImagePath = path.join(uploadPath, studio.image);
+                                const oldImagePath = path.join(studioUploadPath, studio.image);
                                 if (fs.existsSync(oldImagePath)) {
                                         fs.unlinkSync(oldImagePath);
                                 }
@@ -95,7 +94,7 @@ export const deleteStudio = async (req: IncomingMessage, res: ServerResponse) =>
                 }
     
                 if (studio.image) {
-                        const imagePath = path.join(uploadPath, studio.image);
+                        const imagePath = path.join(studioUploadPath, studio.image);
                         if (fs.existsSync(imagePath)) {
                                 fs.unlinkSync(imagePath);
                         }

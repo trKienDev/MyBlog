@@ -73,7 +73,6 @@ export function loadFilm() {
                                                 throw new Error(videoData.message || "Failed to create videos.");
                                         }
                                         const videoIds = videoData.map((video) => video._id);
-                                        console.log("videoData: ", videoData);
                                         // --* actressForm *--
                                         const filmForm = new FormData(); // Sử dụng FormData để bao gồm file
                                         filmForm.append("name", name);

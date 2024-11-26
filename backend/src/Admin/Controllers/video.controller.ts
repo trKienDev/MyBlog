@@ -9,8 +9,9 @@ import { parse } from "querystring";
 import { sendResponse, sendError } from "../../helperFunction/response.js";
 import mongoose from "mongoose";
 
+let index = 0;
 
-const videoUploadPath = path.join(process.cwd(), "..", "..", "videos");
+const videoUploadPath = path.join(process.cwd(), "..", "..", "uploads", "videos");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -20,11 +21,13 @@ const storage = multer.diskStorage({
         cb(null, videoUploadPath);
     },
     filename: (req, file, cb) => {
+        console.log("index: ", index);
+        index = index + 1;
         const customReq = req as CustomRequest;
         const body = customReq.body;
 
         // Lấy giá trị 'videoname' từ body
-        const videoName = body.videoname || "default-video-name";
+        const videoName = body.videoname + '_' + index || "default-video-name";
         const fileExtension = path.extname(file.originalname); // Lấy phần mở rộng file (vd: .mp4)
 
         // Tạo tên file từ 'videoname'
@@ -40,8 +43,8 @@ const upload = multer({
         const customReq = req as CustomRequest; // Ép kiểu req thành CustomRequest
 
         if (file.mimetype !== "video/mp4") {
-                customReq.fileValidationError = "Only MP4 video files are allowed.";
-                return cb(null, false); // Từ chối file
+            customReq.fileValidationError = "Only MP4 video files are allowed.";
+            return cb(null, false); // Từ chối file
         }
 
         cb(null, true); // Chấp nhận file hợp lệ
@@ -85,20 +88,23 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
 
         try {
             const videos = []; // Tạo danh sách video để lưu
-
+            let i = 1;       
             for (const fieldName in files) {
                 const fileArray = files[fieldName]; // Lấy danh sách file từ field name
-                
                 if (Array.isArray(fileArray)) {
                     for (const file of fileArray) {
+                        console.log(i);
+                        const videoName = `${body.videoname}_${i}`;
+                        console.log(videoName);
                         const video = {
-                            name: body.name, // Tên video
+                            name: videoName, // Tên video
                             codeAV: new mongoose.Types.ObjectId(body.codeAV), // Chuyển codeAV thành ObjectId
                             actress: new mongoose.Types.ObjectId(body.actress), // Chuyển actress thành ObjectId
                             videotag: new mongoose.Types.ObjectId(body.videotag), // Chuyển videotag thành ObjectId
                             filePath: file.filename, // Đường dẫn file video
                         };
-                        videos.push(video); // Thêm video vào danh sách
+                        videos.push(video); 
+                        i = i + 1;
                     }
                 }
             }

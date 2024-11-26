@@ -8,11 +8,11 @@ import { handleUpload } from '../../helperFunction/uploadFile.js';
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { sendResponse, sendError } from "../../helperFunction/response.js"
 
-const uploadPath = 'actress/avatar';
+const actressUploadPath = path.join(process.cwd(), "..", "..", "uploads","actress", "avatar");
 
 export const createActress = async (req: CustomRequest, res: ServerResponse) => {
         try {
-                await handleUpload(req, uploadPath); // Xử lý upload file và các dữ liệu khác cùng lúc
+                await handleUpload(req, actressUploadPath); // Xử lý upload file và các dữ liệu khác cùng lúc
                 console.log("body: ", (req as any).body);
 
                 const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request sau khi multer xử lý
@@ -68,7 +68,7 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
         }
 
         try {   
-                await handleUpload(req, uploadPath); // Thực thi upload ảnh nếu có
+                await handleUpload(req, actressUploadPath); // Thực thi upload ảnh nếu có
                 const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request
 
                 // Cập nhật URL ảnh nếu có ảnh mới

@@ -41,7 +41,7 @@ export function loadStudioTable() {
                         // Image cell
                         const imageCell = document.createElement('td');
                         const image = document.createElement('img');
-                        image.src = `${config2.domain}/uploads/studio/logo/${item.image}` || '/admin/static/images/face/profile-default.jpg';
+                        image.src = `${config2.domain}/uploads/studio/${item.image}` || '/admin/static/images/face/profile-default.jpg';
                         image.classList.add('profile');
                         imageCell.appendChild(image);
                         tr.appendChild(imageCell);

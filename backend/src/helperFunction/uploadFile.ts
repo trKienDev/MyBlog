@@ -31,7 +31,8 @@ const createMulterStorage = (uploadPath: string) => {
 
 export const handleUpload = (req: CustomRequest, folder: string) => {
     return new Promise<void>((resolve, reject) => {
-        const uploadPath = getUploadPath(folder);
+        const uploadPath = folder;
+        
         ensureUploadPathExists(uploadPath); // Tạo thư mục nếu chưa tồn tại
         const storage = createMulterStorage(uploadPath);
         

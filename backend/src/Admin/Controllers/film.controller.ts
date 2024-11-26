@@ -7,13 +7,13 @@ import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { sendResponse, sendError } from "../../helperFunction/response.js";
 import { handleUpload } from '../../helperFunction/uploadFile.js';
 
-const thumbnailUploadPath = 'thumbnail';
+// const thumbnailUploadPath = 'thumbnail';
+const thumbnailUploadPath = path.join(process.cwd(), "..", "..", "uploads", "thumbnail");
+console.log(thumbnailUploadPath);
 
 export const createFilm = async (req: CustomRequest, res: ServerResponse) => {
-        
         try {
                 await handleUpload(req, thumbnailUploadPath); 
-                console.log("body: ", (req as any).body);
 
                 const { actress, code, releaseDate, studio, tag, videos } = (req as any).body;
                 const tags = tag.split(',').map((id: string) => new mongoose.Types.ObjectId(id.trim()));
