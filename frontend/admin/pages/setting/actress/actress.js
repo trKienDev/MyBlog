@@ -102,7 +102,7 @@ async function createNewActress(formId, modalId) {
         actressForm.onsubmit = async (event) => {
                 event.preventDefault(); 
                 const formData = new FormData(actressForm);
-                console.log(formData);
+
                 try {
                         const response = await fetch(`${config2.domain}${config2.endpoints.actressCreate}`, {
                                 method: 'POST',
@@ -136,7 +136,7 @@ async function createNewActress(formId, modalId) {
                         const createdActress = await response.json();
 
                         if (createdActress._id) {
-                                console.log('Actress created successfully:', createdActress);
+                                console.log('Actress is created successfully:', createdActress);
                                 Swal.fire({
                                         title: 'Success!',
                                         text: 'Actress created successfully!',

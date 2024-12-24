@@ -38,6 +38,11 @@ const config = {
                 videoCreate: '/admin/video/create',
                 // film
                 filmCreate: '/admin/film/create',
+                // story
+                storyCreate: '/admin/story/create',
+                storyList: '/admin/story/read',
+                storyUpdate: '/admin/story/update',
+                storyDelete: '/admin/story/delete'
         }
 }
 

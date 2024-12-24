@@ -4,7 +4,7 @@
                         <h1>Create new film</h1>
                 </div>
                 <div class="body">
-                        <form id="create-film">
+                        <form id="create-film" class="box-border_top">
                                 <div class="row">
                                         <div class="col-form">
                                                 <div class="heading">
@@ -29,10 +29,8 @@
                                                         <select id="film-tag">
                                                                 <option value="" disabled selected>Select tag</option>
                                                         </select>   
-                                                        <div class="btn-story">
-                                                                <a href="" id="film-story">
-                                                                        <div class="button">Story</div> 
-                                                                </a>
+                                                        <div id="openModalButton" class="btn-story">
+                                                                <div class="button">Story</div> 
                                                         </div>
                                                 </div>
                                                 <div class="video-information">
@@ -79,5 +77,19 @@
                                 </div>
                         </div>
                 </div>
+        </div>
+</div>
+
+<div id="storyModal" class="modal">
+        <div class="modal-content">
+                <span id="closeModalButton" class="close">&times;</span>
+                <h2 style="text-align: center;">Film story</h2>
+                <form id="actressForm">
+                        <div class="modal-body">
+                                <div class="modal-info">
+                                        <input type="text" name="name" id="actress-name" placeholder="name" required>
+                                </div>
+                        </div>
+                </form>
         </div>
 </div>

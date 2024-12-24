@@ -62,7 +62,7 @@ export const updateTag = async (req: IncomingMessage, res: ServerResponse) => {
                                 return sendError(res, 400, new Error("Both 'name' and 'kind' fields are required"));
                         }
 
-                        // Find the sidebar item by ID and update it
+                        // Find the tag item by ID and update it
                         const updateItem = await TagModel.findByIdAndUpdate(id, {name, kind}, {new: true});
                         
                         if (!updateItem) {

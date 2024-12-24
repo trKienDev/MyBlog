@@ -4,6 +4,7 @@ import { loadActressTable } from '../../pages/setting/actress/actress.js';
 import { loadStudioTable } from '../../pages/setting/studio/studio.js';
 import { loadTagsTable } from '../../pages/setting/tags/tags.js';
 import { loadFilm } from '../../pages/setting/films/films.js';
+import { loadStory } from '../../pages/setting/story/story.js';
 
 // Load ActressTable
 document.addEventListener("DOMContentLoaded", function() {
@@ -29,7 +30,8 @@ document.addEventListener("DOMContentLoaded", function() {
             const filmLink = document.querySelector('a[href="/admin/pages/setting/films"]');
             addLinkEventHandler(filmLink, '/admin/pages/setting/films/films.html', loadFilm);
 
-
+            const storyLink = document.querySelector('a[href="/admin/pages/setting/story"]');
+            addLinkEventHandler(storyLink, '/admin/pages/setting/story/story.html', loadStory);
         });
     });
 });

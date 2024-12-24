@@ -5,6 +5,7 @@ import { loadCodeAV } from '../../../services/loadElement/loadCodeAV.js';
 import { loadActress } from '../../../services/loadElement/loadActress.js';
 import { loadTag } from '../../../services/loadElement/loadTag.js';
 import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
+import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 
 let videoDataList = [];
 
@@ -23,6 +24,7 @@ export function loadFilm() {
                                 handleVideoUpload("video-upload", "video-uploaded");
                                 smoothScrolling("video-list");
                                 handleThumbnail("thumbnail-upload", "video-thumbnail");
+                                setupModalHandlers("openModalButton", "closeModalButton", "storyModal");
 
                                 document.getElementById('create-film').addEventListener('submit', async function(event) {
                                         event.preventDefault(); 

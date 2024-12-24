@@ -11,7 +11,7 @@ import { handleUpload } from '../../helperFunction/uploadFile.js';
 const thumbnailUploadPath = path.join(process.cwd(), "..", "..", "uploads", "thumbnail");
 console.log(thumbnailUploadPath);
 
-export const createFilm = async (req: CustomRequest, res: ServerResponse) => {
+export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
         try {
                 await handleUpload(req, thumbnailUploadPath); 
 

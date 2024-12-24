@@ -49,7 +49,7 @@ export const createActress = async (req: CustomRequest, res: ServerResponse) => 
 
 export const getActress = async ( req: IncomingMessage , res: ServerResponse ) => {
         try {
-                const actresses = await ActressModel.find().populate('studio', 'name');;
+                const actresses = await ActressModel.find().populate('studio', 'name');
                 sendResponse(res, 200, actresses);
         }
         catch ( error ) {

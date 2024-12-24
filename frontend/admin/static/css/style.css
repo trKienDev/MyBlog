@@ -15,7 +15,7 @@ body {
         --brigh-blue: #1586d7;
         --red-color: #ff3131;
         --pink-color: #EE66A6;
-        --orange-color: #FF5F1F;
+        --orange-color: #FFA500;
         --smoke-color: #848884;
         --limeGreen-color:  #32CD32;
         --platinum: #E5E4E2;
@@ -27,6 +27,7 @@ body {
         --cadmium-yellow: #FDDA0D;
         --white-background: #f7f6f6;
         --persimmon: #EC5800;
+        --golden-yellow: #FFC000;
 }
 
 #sidebar h1, p {
@@ -199,6 +200,25 @@ a {
         color: var(--limeGreen-color);
         border: 3px solid var(--limeGreen-color);
 }
+#sidebarItem-story {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--golden-yellow);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-story:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--golden-yellow);
+        border: 3px solid var(--golden-yellow);
+}
 #settingPage a {
         text-decoration: none;
         color: #000000;
@@ -257,9 +277,6 @@ a {
         width: 300px;
         cursor: pointer;
 }
-.modal-info {
-        width: 45%;
-}
 .modal-info input {
         display: block;
         width: 100%;
@@ -285,6 +302,19 @@ a {
         border: none;
         cursor: pointer;
 }
+.modal-info textarea {
+        display: block;
+        width: 100%;
+        background-color: #f7f6f6;
+        margin: 10px 0px;
+        padding: 10px 18px;
+        box-sizing: border-box;
+        font-size: 15px;
+        font-family: 'Lexend';
+        border-radius: 5px;
+        border: none;
+}
+
 .modal-info .save-button {
         padding-top: 10px;
         display: flex;
@@ -318,4 +348,7 @@ a {
 }
 .file-upload:hover {
         filter: brightness(0.8);
+}
+.box-border_top {
+        border-top: 5px solid var(--orange-color);
 }

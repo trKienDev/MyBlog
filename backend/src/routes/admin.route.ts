@@ -8,6 +8,7 @@ import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Co
 import { getTags, getTagVideo, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
 import { createVideo } from '../Admin/Controllers/video.controller.js';
 import { createFilm } from '../Admin/Controllers/film.controller.js';
+import { createStory, getStory, updateStory, deleteStory } from '../Admin/Controllers/story.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
@@ -80,6 +81,16 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         else if ( url?.startsWith ( '/admin/film/create' ) && method === 'POST' ) {
                 createFilm (req as CustomRequest, res);
         }
+        // Story
+        else if ( url?.startsWith ( '/admin/story/create' ) && method === 'POST' ) {
+                createStory ( req, res );
+        } else if ( url?.startsWith ( '/admin/story/read' ) && method === 'GET' ) {
+                getStory ( req, res );
+        } else if ( url?.startsWith ( '/admin/story/update' ) && method === 'PUT' ) {
+                updateStory ( req, res );
+        } else if ( url?.startsWith ( '/admin/story/delete' ) && method === 'DELETE' ) {
+                deleteStory ( req, res );
+        } 
 
         else { // Handle invalid routes
                 res.statusCode = 404;
