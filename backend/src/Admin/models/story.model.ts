@@ -7,7 +7,6 @@
                 motip: string;
                 detail: string;
                 number: number;
-                tag: string;
         }
 
         // Define schema for Studio
@@ -18,7 +17,6 @@
                 motip: { type: String },
                 detail: { type: String },
                 number: { type: Number }, // Số lượng film có motip story này
-                tag: { type: String },
         },
         {
                 collection: 'Stories', 

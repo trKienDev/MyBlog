@@ -11,13 +11,13 @@ export const createStory = async (req: IncomingMessage, res: ServerResponse ) =>
         req.on('end', async() => {
                 try {
                         const bodyData = JSON.parse(body);
-                        const { name, role_actress, role_actor, motip, detail, tag } = bodyData;
+                        const { name, role_actress, role_actor, motip, detail } = bodyData;
                         
-                        if (!name || !role_actress || !role_actor || !motip || !detail || !tag) {
+                        if (!name || !role_actress || !role_actor || !motip || !detail ) {
                                 return sendError(res, 400, 'Invalid or missing fields');
                         }
                         
-                        const newStory = new StoryModel({ name, role_actress, role_actor, motip, detail, tag });
+                        const newStory = new StoryModel({ name, role_actress, role_actor, motip, detail });
                         await newStory.save();
 
                         return sendResponse(res, 201, newStory);
@@ -55,10 +55,10 @@ export const updateStory = async (req: IncomingMessage, res: ServerResponse) => 
 
         req.on('end', async () => {
                 try {
-                        const  { name, role_actress, role_actor, motip, detail, tag } = JSON.parse(body);
+                        const  { name, role_actress, role_actor, motip, detail } = JSON.parse(body);
 
                         // Find the story item by ID and update it
-                        const updateItem = await StoryModel.findByIdAndUpdate(id, { name, role_actress, role_actor, motip, detail, tag }, {new: true});
+                        const updateItem = await StoryModel.findByIdAndUpdate(id, { name, role_actress, role_actor, motip, detail }, {new: true});
                         if(!updateItem) {
                                 return sendError(res, 404, new Error("Story is not found!"));
                         }

@@ -6,7 +6,7 @@ interface IFilm extends Document {
         actress_id: mongoose.Types.ObjectId[];
         tag_id: mongoose.Types.ObjectId[];
         release_date: Date;
-        story: string;
+        story: mongoose.Types.ObjectId[];
         video: mongoose.Types.ObjectId[];
         thumbnail: string;
         rating: number;
@@ -26,7 +26,7 @@ const FilmSchema: Schema = new Schema({
                         message: 'Release date must be between January 1, 1900, and today.'
                 }
         },
-        story: { type: String},
+        story_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story'}],
         video: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video'}],
         thumbnail: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
         rating: { 

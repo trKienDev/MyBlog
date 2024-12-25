@@ -6,11 +6,63 @@ import { loadActress } from '../../../services/loadElement/loadActress.js';
 import { loadTag } from '../../../services/loadElement/loadTag.js';
 import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
+import { loadStory } from "../../../services/loadElement/loadStory.js";
 
 let videoDataList = [];
 
 export function loadFilm() {
-        const btnCreate = document.querySelector(".btn-create"); 
+        try {
+                fetch(`${config2.domain}${config2.endpoints.filmList}`)
+                .then(response => {
+                        if(!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                }) 
+                .then(filmList => {
+                        const tbody = document.querySelector("#films-table tbody");
+                        tbody.innerHTML = '';
+
+                        filmList.forEach(item => {
+                                const tr = document.createElement('tr');
+                                tr.setAttribute('data-id', item._id);
+
+                                // Edit button cell
+                                const editCell = document.createElement('td');
+                                const editContainer = document.createElement('div');
+                                editContainer.classList.add('edit-container');
+                                editContainer.style.width = '100%';
+                                editContainer.style.display = 'flex';
+                                editContainer.style.justifyContent = 'center';
+                                const editButton = document.createElement('div');
+                                editButton.classList.add('btn-edit');
+                                editButton.innerHTML = `<i class="fa-solid fa-eye" style="color: aliceblue;"></i>`;
+                                editButton.onclick = () => handleEdit(item);
+                                editCell.appendChild(editButton);
+                                editContainer.appendChild(editButton);
+                                editCell.appendChild(editContainer);
+                                tr.appendChild(editCell);
+
+                                // Code cell
+                                const codeCell = document.createElement('td');
+                                codeCell.textContent = item.code;
+                                tr.appendChild(codeCell);
+
+                                // Thumbnail cell
+                                const thumbnailCell = document.createElement('td');
+                                const thumbnail = document.createElement('img');
+                                thumbnail.src = `${config2.domain}/uploads/`
+                        })
+                })
+        } catch(error) {
+                console.log(error.message);
+        }
+        createFilm(".btn-create")
+        
+}
+
+function createFilm(btnCreateElement) {
+        const btnCreate = document.querySelector(btnCreateElement); 
         if (btnCreate) {
                 btnCreate.addEventListener("click", function () {
                         const url = "/admin/pages/setting/films/createFilm.html"; 
@@ -19,6 +71,7 @@ export function loadFilm() {
                                 loadCodeAV("film-codeAV");
                                 loadActress("film-actress");
                                 loadTag("film-tag");
+                                loadStory("film-story")
                                 loadVideoTag("video-tag")
                                 const selectedTagIds = selectTag("film-tag", "tags-selected");
                                 handleVideoUpload("video-upload", "video-uploaded");
@@ -29,13 +82,16 @@ export function loadFilm() {
                                 document.getElementById('create-film').addEventListener('submit', async function(event) {
                                         event.preventDefault(); 
                                         
+                                        // studio
                                         const studio = document.getElementById('film-codeAV').value;
                                         
+                                        // film-code
                                         const codeElement = document.getElementById('film-codeAV');
                                         const codeName = codeElement.options[codeElement.selectedIndex].textContent;
                                         const codeNumber = document.getElementById('code-number').value;
                                         const name = codeName + "-" + codeNumber;
 
+                                        // actress name
                                         const actress = document.getElementById('film-actress').value;
                                         
                                         // Lấy file từ input video-thumbnail
@@ -51,7 +107,11 @@ export function loadFilm() {
                                         const tagName = tagElement.options[tagElement.selectedIndex].textContent;
                                         const videoName = name + "_" + tagName;
 
+                                        // release date
                                         const releaseDate = document.getElementById('release_date').value; // release date
+
+                                        // story
+                                        const story = document.getElementById('film-story').value;
 
                                         // --* videoForm *---
                                         const videoForm = new FormData();
@@ -81,23 +141,92 @@ export function loadFilm() {
                                         filmForm.append("studio", studio);
                                         filmForm.append("code", name);
                                         filmForm.append("actress", actress);
+                                        filmForm.append("story", story);
                                         filmForm.append("tag", selectedTagIds); // Convert mảng tag IDs thành JSON string
                                         filmForm.append("releaseDate", releaseDate);
                                         filmForm.append("file", thumbnailFile);
                                         filmForm.append('videos', videoIds.join(','));
                                         console.log("film data: ", filmForm);
 
-                                        fetch(`${config2.domain}${config2.endpoints.filmCreate}`, {
-                                                method: 'POST',
-                                                body: filmForm
-                                        })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                                console.log('Success:', data);
-                                        })
-                                        .catch(error => {
-                                                console.error('Error:', error.message);
-                                        });
+                                        try {
+                                                const filmResponse = await fetch(`${config2.domain}${config2.endpoints.filmCreate}`, {
+                                                        method: 'POST',
+                                                        body: filmForm
+                                                });
+                                                console.log(filmResponse);
+                                                if(filmResponse.status === 409) {
+                                                        const result = await filmResponse.json();
+                                                        Swal.fire({
+                                                                title: 'Error!',
+                                                                text: 'This film already exists!',
+                                                                icon: 'error',
+                                                                confirmButtonText: 'OK',
+                                                        });
+                                                        return;
+                                                }
+
+                                                if(filmResponse.status !== 201) {
+                                                        console.error('Failed to create actress. HTTP Status:', filmResponse.status);
+                                                        console.error('Error: ', filmResponse);
+                                                        Swal.fire({
+                                                                title: 'Error!',
+                                                                text: 'An error occurred while creating actress. Please try again.',
+                                                                icon: 'error',
+                                                                confirmButtonText: 'OK',
+                                                        });
+                                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                                }
+
+                                                const createdFilm = await filmResponse.json();
+                                                if(createdFilm._id) {
+                                                        Swal.fire({
+                                                                title: 'Success!',
+                                                                text: 'Actress created successfully!',
+                                                                icon: 'success',
+                                                                confirmButtonTest: 'OK'
+                                                        });
+                                                } else {
+                                                        Swal.fire({
+                                                                title: 'Error!',
+                                                                text: 'Failed to create actress. Please try again.',
+                                                                icon: 'error',
+                                                                confirmButtonText: 'OK'
+                                                        });                            
+                                                        throw new Error('Failed to create actress. Invalid response from server.');
+                                                }
+                                        } catch(error) {
+                                                console.error('Error creating actress in frontend: ', error.message );
+                                                Swal.fire({
+                                                        title: 'Error!',
+                                                        text: 'An error occurred while creating actress. Please try again.',
+                                                        icon: 'error',
+                                                        confirmButtonText: 'OK'
+                                                });      
+                                        } finally {
+                                                const formElement = document.getElementById('create-film');
+                                                if (formElement) {
+                                                        formElement.reset(); // Reset the HTML form fields
+                                                }
+
+                                                const thumbnailElements = document.getElementsByClassName("thumbnail-item");
+                                                while (thumbnailElements.length > 0) {
+                                                        thumbnailElements[0].remove();
+                                                }
+                                                
+                                                const tagsSelectedDiv = document.getElementById("tags-selected");
+                                                if(tagsSelectedDiv) {
+                                                        while (tagsSelectedDiv.firstChild) {
+                                                                tagsSelectedDiv.removeChild(tagsSelectedDiv.firstChild);
+                                                        }
+                                                }
+
+                                                const videoListDiv = document.getElementById("video-list");
+                                                if(videoListDiv) {
+                                                        while(videoListDiv) {
+                                                                videoListDiv.removeChild(videoListDiv.firstChild);
+                                                        }
+                                                }
+                                        }
                                 });
                         });
                 });

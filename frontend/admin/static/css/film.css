@@ -42,6 +42,9 @@
 #films-table .code {
         width: 10%;
 }
+#films-table .thumbnail {
+        width: 10%;
+}
 #films-table .actress {
         width: 10%;
 }
@@ -84,6 +87,11 @@
 }
 #films-table .btn-delete:hover {
         filter: brightness(2);
+}
+#films-table .thumbnail-image {
+        height: 50px;
+        width: 35px;
+        border-radius: 5px;
 }
 #films-table .actress-profile {
         height: 50px;
@@ -158,6 +166,9 @@
 }
 #create-film #film-tag {
         width: 45%;
+}
+#create-film #film-story {
+        width: 50%;
 }
 #film-display {
         padding: 40px;

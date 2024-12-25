@@ -15,8 +15,16 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
         try {
                 await handleUpload(req, thumbnailUploadPath); 
 
-                const { actress, code, releaseDate, studio, tag, videos } = (req as any).body;
+                const { actress, code, releaseDate, studio, tag, videos, story } = (req as any).body;
                 const tags = tag.split(',').map((id: string) => new mongoose.Types.ObjectId(id.trim()));
+
+                const existingFilm = await FilmModel.findOne({ code });
+                console.log("code: ", code);
+                console.log("studio: ", studio);
+
+                if(existingFilm) {
+                        return sendError(res, 409, { message: 'This film already exist!'});
+                }
 
                 // Tạo URL cho ảnh nếu đã tải lên thành công
                 let thumbnailName = '';
@@ -24,10 +32,11 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
                         thumbnailName = (req as any).file.filename;
                 }
                
-                const newFilm = new FilmModel({ // Lỗi
+                const newFilm = new FilmModel({ 
                         code: code,
                         studio_id: new mongoose.Types.ObjectId(studio),
                         actress_id: new mongoose.Types.ObjectId(actress),
+                        story_id: new mongoose.Types.ObjectId(story),
                         tag_id: tags,
                         release_date: releaseDate,
                         video: videos.split(',').map((id: string) => new mongoose.Types.ObjectId(id.trim())),
@@ -44,3 +53,12 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
                 return sendError(res, 500, { message: "Failed to create film.", error: err.message });
         }
 };
+
+export const getFilm = async (req: IncomingMessage, res: ServerResponse) => {
+        try {
+                const films = await FilmModel.find();
+                sendResponse(res, 200, films);
+        } catch(error) {
+                sendError(res, 500, error);
+        }
+}

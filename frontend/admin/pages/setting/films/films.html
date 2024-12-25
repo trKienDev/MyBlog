@@ -16,11 +16,11 @@
                                                                 </div>
                                                         </th>
                                                         <th class="code">Code</th>
+                                                        <th class="thumbnail">Thumbnail</th>
                                                         <th class="actress">Actress</th>
                                                         <th class="studio">Studio</th>
                                                         <th class="story">Story</th>
                                                         <th class="releaseDate">Release Date</th>
-                                                        <th class="tags">Tags</th>
                                                         <th style="width: 4%;"></th>
                                                 </tr>
                                         </thead>
@@ -36,6 +36,9 @@
                                                         <td>
                                                                 <span>DIS-001</span>
                                                         </td>
+                                                        <td>
+                                                                <img src="/admin/static/images/thumbnail/thumbnail_default.jpg" class="thumbnail-image">
+                                                        </td>
                                                         <td>    
                                                                 <img src="/admin/static/images/face/LeonardoDiCarpio.jpg" class="actress-profile">
                                                         </td>
@@ -46,7 +49,6 @@
                                                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                                                         </td>
                                                         <td>2024 November 22</td>
-                                                        <td>Action</td>
                                                         <td>
                                                                 <div class="btn-delete">
                                                                         <i class="fa-solid fa-trash" style="color: aliceblue;"></i>
@@ -60,52 +62,4 @@
         </div>
 </div>
 
-<!-- Create Actress Modal -->
-<div id="filmModal" class="modal">
-        <div class="modal-content">
-                <span id="closeModalButton" class="close">&times;</span>
-                <h2 style="text-align: center;">Create New Actress</h2>
-                <form id="filmForm">
-                        <div class="modal-body">
-                                <div class="modal-image">
-                                        <img id="profile-image" src="/admin/static/images/face/upload-profile.jpg" alt="">
-                                        <input type="file" id="image-upload" name="image" style="display: none;" accept="image/*">
-                                </div>
-                                <div class="modal-info">
-                                        <input type="text" name="name" id="actress-name" placeholder="name" required>
-                                        <input type="date" name="birth" id="actress-birth" placeholder="birth" required>
-                                        <select id="actress-skin" name="skin" required>
-                                                <option value="" disabled selected>Select skin</option>
-                                                <option value="light">Light</option>
-                                                <option value="medium">Medium</option>
-                                                <option value="dark">Dark</option>
-                                        </select>
-                                        <select id="film-studio" name="studio" required>
-                                                <option value="" disabled selected>Select studio</option>
-                                        </select>                                            
-                                        <select id="actress-breast" name="breast" required>
-                                                <option value="" disabled selected>Select size</option>
-                                                <option value="A">A</option>
-                                                <option value="B">B</option>
-                                                <option value="C">C</option>
-                                                <option value="D">D</option>
-                                                <option value="E">E</option>
-                                                <option value="F">F</option>
-                                                <option value="G">G</option>
-                                                <option value="H">H</option>
-                                        </select>
-                                        <select id="actress-body" name="body" required>
-                                                <option value="" disabled selected>Select body</option>
-                                                <option value="thin">Thin</option>
-                                                <option value="slim">Slim</option>
-                                                <option value="chubby">Chubby</option>
-                                        </select>
-                                        <div class="save-button">
-                                                <button type="submit">Save</button>
-                                        </div>
-                                </div>
-                        </div>
-                </form>
-        </div>
-</div>
 

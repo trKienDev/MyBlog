@@ -350,5 +350,5 @@ a {
         filter: brightness(0.8);
 }
 .box-border_top {
-        border-top: 5px solid var(--orange-color);
+        border-top: 5px solid var(--blue-color);
 }
