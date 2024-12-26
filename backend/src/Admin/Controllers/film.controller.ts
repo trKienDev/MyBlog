@@ -62,3 +62,4 @@ export const getFilm = async (req: IncomingMessage, res: ServerResponse) => {
                 sendError(res, 500, error);
         }
 }
+

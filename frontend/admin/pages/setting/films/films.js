@@ -398,11 +398,14 @@ function handleVideoUpload(divClickId, fileInputId) {
                         const file = files[i];
                         const videoUrl = URL.createObjectURL(file);
                         
-                        // Thêm video và tag vào danh sách
-                        videoDataList.push({ file, tag: selectedTag })
+                        // Lưu video và tag vào videoDataList
+                        const videoIndex = videoDataList.length; // Lưu chỉ số vào video
+                        videoDataList.push({ file, tag: selectedTag});
 
+                        // Tạo hộp hiển thị video
                         const videoBox = document.createElement('div');
                         videoBox.className = 'video-box';
+                        videoBox.dataset.index = videoIndex; // Gắn chỉ số vào dataset
 
                         // Tạo phần tử video để hiển thị thumbnail của video
                         const videoElement = document.createElement('video');
@@ -410,6 +413,30 @@ function handleVideoUpload(divClickId, fileInputId) {
                         videoElement.src = videoUrl;
                         videoElement.controls = false; // Không hiển thị thanh điều khiển video
                         videoElement.muted = true; // Tắt tiếng để tránh âm thanh tự động phát
+
+                        // Nút xoá video
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.className = 'delete-video_btn';
+                        deleteButton.style.marginTop = '10px';
+
+                        // Xử lý sự kiện xoá video
+                        deleteButton.addEventListener('click', function() {
+                                const indexToRemove = parseInt(videoBox.dataset.index);
+                                removeVideo(indexToRemove);
+                                videoBox.remove();
+                                
+                                // Cập nhật lại chỉ số dataset cho các video còn lại
+                                const remainingVideoBoxes = document.querySelectorAll('.video-box');
+                                remainingVideoBoxes.forEach((box, newIndex) => {
+                                        box.dataset.index = newIndex;
+                                });
+                        });
+
+                        videoBox.appendChild(videoElement);
+                        videoBox.appendChild(deleteButton);
+                        videoListDiv.appendChild(videoBox);
+
                         videoElement.addEventListener('loadeddata', function() {
                                 const frameRate = 30; // Giả định tốc độ khung hình là 30fps
                                 const frameNumber = 10; // Chúng ta muốn tạm dừng ở frame thứ 10
@@ -463,4 +490,13 @@ function handleThumbnail(thumbnailUploadId, videoThumbnailId) {
                         reader.readAsDataURL(file);
                 }
         });
+}
+
+function removeVideo(index) {
+        if(index >= 0 && index < videoDataList.length) {
+                videoDataList.splice(index, 1);
+                console.log(`Video [${index} is deleted]`);
+        } else {
+                console.error(`Index ${index} is not valid!`);
+        }
 }
