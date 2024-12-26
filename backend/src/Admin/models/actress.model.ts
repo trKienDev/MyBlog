@@ -33,6 +33,6 @@ const ActressSchema: Schema = new Schema({
 
 const ActressModel = mongoose.model<IActress>('Actress', ActressSchema);
 export default ActressModel;
-// export model SidebarItem
+
 
 

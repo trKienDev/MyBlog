@@ -24,6 +24,8 @@ export function loadFilm() {
                         tbody.innerHTML = '';
 
                         filmList.forEach(item => {
+                                console.log("item: ", item);
+
                                 const tr = document.createElement('tr');
                                 tr.setAttribute('data-id', item._id);
 
@@ -37,7 +39,7 @@ export function loadFilm() {
                                 const editButton = document.createElement('div');
                                 editButton.classList.add('btn-edit');
                                 editButton.innerHTML = `<i class="fa-solid fa-eye" style="color: aliceblue;"></i>`;
-                                editButton.onclick = () => handleEdit(item);
+                                editButton.onclick = () => handleEdit(item, editButton);
                                 editCell.appendChild(editButton);
                                 editContainer.appendChild(editButton);
                                 editCell.appendChild(editContainer);
@@ -45,20 +47,76 @@ export function loadFilm() {
 
                                 // Code cell
                                 const codeCell = document.createElement('td');
-                                codeCell.textContent = item.code;
+                                codeCell.textContent = item.name;
                                 tr.appendChild(codeCell);
 
                                 // Thumbnail cell
                                 const thumbnailCell = document.createElement('td');
                                 const thumbnail = document.createElement('img');
-                                thumbnail.src = `${config2.domain}/uploads/`
+                                thumbnail.src = `${config2.domain}/uploads/thumbnail/${item.thumbnail}`
+                                thumbnail.classList.add('thumbnail-image');
+                                thumbnailCell.appendChild(thumbnail);
+                                tr.appendChild(thumbnailCell);
+
+                                // Actress cell
+                                const actressCell = document.createElement('td');
+                                const actress = document.createElement('img');
+                                const actressImage = item.actress_id?.image;
+                                if(actressImage) {
+                                        actress.src = `${config2.domain}/uploads/actress/avatar/${actressImage}`;
+                                } else {
+                                        actress.src = "/admin/static/images/face/upload-profile.jpg";
+                                }
+                                actress.classList.add('actress-profile');
+                                actressCell.appendChild(actress);
+                                tr.appendChild(actressCell);
+
+                                // Studio Cell
+                                const studioCell = document.createElement('td');
+                                const studio = document.createElement('img');
+                                const studioImage = item.studio_id?.image;
+                                if(studioImage) {
+                                        studio.src = `${config2.domain}/uploads/studio/${studioImage}`;
+                                } else {
+                                        studio.src = "/admin/static/images/studio/default_studio.png";
+                                }
+                                studio.classList.add('studio-logo');
+                                studioCell.appendChild(studio);
+                                tr.appendChild(studioCell);
+
+                                // Story Cell
+                                const storyCell = document.createElement('td');
+                                const storyName = item.story_id?.name;
+                                if(storyName) {
+                                        storyCell.textContent = storyName;
+                                } else {
+                                        storyCell.textContent = ".......";
+                                }
+                                tr.appendChild(storyCell);
+                                
+                                // Release date
+                                const releaseDateCell = document.createElement('td');
+                                const releaseDate = new Date(item.release_date);
+                                releaseDateCell.textContent = releaseDate.toLocaleDateString('vi-VN');
+                                tr.appendChild(releaseDateCell);
+
+                                // Delete button cell
+                                const deleteCell = document.createElement('td');
+                                const deleteContainer = document.createElement('div');
+                                const deleteButton = document.createElement('div');
+                                deleteButton.classList.add('btn-delete');
+                                deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
+                                deleteButton.onclick = () => handleDelete(item._id);
+                                deleteCell.appendChild(deleteButton);
+                                tr.appendChild(deleteCell);
+
+                                tbody.appendChild(tr);
                         })
                 })
         } catch(error) {
-                console.log(error.message);
+                console.error(error.message);
         }
-        createFilm(".btn-create")
-        
+        createFilm(".btn-create");
 }
 
 function createFilm(btnCreateElement) {
@@ -72,7 +130,7 @@ function createFilm(btnCreateElement) {
                                 loadActress("film-actress");
                                 loadTag("film-tag");
                                 loadStory("film-story")
-                                loadVideoTag("video-tag")
+                                loadVideoTag("video-tag");
                                 const selectedTagIds = selectTag("film-tag", "tags-selected");
                                 handleVideoUpload("video-upload", "video-uploaded");
                                 smoothScrolling("video-list");
@@ -83,7 +141,7 @@ function createFilm(btnCreateElement) {
                                         event.preventDefault(); 
                                         
                                         // studio
-                                        const studio = document.getElementById('film-codeAV').value;
+                                        const studio = document.getElementById('film-studio').value;
                                         
                                         // film-code
                                         const codeElement = document.getElementById('film-codeAV');
@@ -135,11 +193,12 @@ function createFilm(btnCreateElement) {
                                                 throw new Error(videoData.message || "Failed to create videos.");
                                         }
                                         const videoIds = videoData.map((video) => video._id);
-                                        // --* actressForm *--
+
+                                        // --* filmForm *--
                                         const filmForm = new FormData(); // Sử dụng FormData để bao gồm file
                                         filmForm.append("name", name);
                                         filmForm.append("studio", studio);
-                                        filmForm.append("code", name);
+                                        filmForm.append("code", codeElement.value);
                                         filmForm.append("actress", actress);
                                         filmForm.append("story", story);
                                         filmForm.append("tag", selectedTagIds); // Convert mảng tag IDs thành JSON string
@@ -230,6 +289,49 @@ function createFilm(btnCreateElement) {
                                 });
                         });
                 });
+        }
+}
+
+async function handleEdit(item, btnEditElement) {
+        btnEditElement = "." + btnEditElement.className;
+        const btnEdit = document.querySelector(btnEditElement);
+        if(btnEdit) {
+                const url = "/admin/pages/setting/films/createFilm.html";
+                loadContent(url, "dynamic-data", async () => {
+                        loadStudios("film-studio");
+                        loadCodeAV("film-codeAV");
+                        loadActress("film-actress");
+                        loadTag("film-tag");
+                        loadStory("film-story")
+                        loadVideoTag("video-tag")
+                        const selectedTagIds = selectTag("film-tag", "tags-selected");
+                        handleVideoUpload("video-upload", "video-uploaded");
+                        smoothScrolling("video-list");
+                        handleThumbnail("thumbnail-upload", "video-thumbnail");
+                        setupModalHandlers("openModalButton", "closeModalButton", "storyModal");
+
+                        // Cập nhật dữ liệu
+                        await loadStudios();
+                        document.getElementById("film-studio").value = item.studio_id?._id || "";
+                        
+                        const codeParts = item.name.split('-');
+                        const codeWords = codeParts[0];
+                        console.log("code: ", codeWords);
+                        const codeNumbers = codeParts[1];
+                        document.getElementById("film-codeAV").value = item.code_id || "";
+                        document.getElementById("code-number").value = codeNumbers;
+                        
+                        const releaseDateInput = document.getElementById("release_date");
+                        const releaseDate = new Date(item.release_date).toISOString().split("T")["0"];
+                        releaseDateInput.value = releaseDate;
+
+                        document.getElementById("film-actress").value = item.actress_id?._id || "";
+                        
+                        // document.getElementById("video-tag").value = item
+
+                });
+
+                
         }
 }
 

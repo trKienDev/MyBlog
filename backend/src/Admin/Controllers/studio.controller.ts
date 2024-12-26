@@ -8,6 +8,7 @@ import fs from 'fs';
 
 
 const studioUploadPath = path.join(process.cwd(), "..", "..", "uploads","studio");
+
 export const getStudio = async (req: IncomingMessage, res: ServerResponse) => {
         try {
                 const studios = await StudioModel.find();

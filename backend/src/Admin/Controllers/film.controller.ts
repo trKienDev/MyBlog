@@ -9,18 +9,15 @@ import { handleUpload } from '../../helperFunction/uploadFile.js';
 
 // const thumbnailUploadPath = 'thumbnail';
 const thumbnailUploadPath = path.join(process.cwd(), "..", "..", "uploads", "thumbnail");
-console.log(thumbnailUploadPath);
 
 export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
         try {
                 await handleUpload(req, thumbnailUploadPath); 
 
-                const { actress, code, releaseDate, studio, tag, videos, story } = (req as any).body;
+                const { name, actress, code, releaseDate, studio, tag, videos, story } = (req as any).body;
                 const tags = tag.split(',').map((id: string) => new mongoose.Types.ObjectId(id.trim()));
 
-                const existingFilm = await FilmModel.findOne({ code });
-                console.log("code: ", code);
-                console.log("studio: ", studio);
+                const existingFilm = await FilmModel.findOne({ name }); 
 
                 if(existingFilm) {
                         return sendError(res, 409, { message: 'This film already exist!'});
@@ -33,7 +30,8 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
                 }
                
                 const newFilm = new FilmModel({ 
-                        code: code,
+                        name: name,
+                        code_id: new mongoose.Types.ObjectId(code),
                         studio_id: new mongoose.Types.ObjectId(studio),
                         actress_id: new mongoose.Types.ObjectId(actress),
                         story_id: new mongoose.Types.ObjectId(story),
@@ -56,7 +54,9 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
 
 export const getFilm = async (req: IncomingMessage, res: ServerResponse) => {
         try {
-                const films = await FilmModel.find();
+                const films = await FilmModel.find().populate({ path: 'actress_id', select: 'image'})
+                                                                        .populate({ path: 'studio_id', select: 'image'})
+                                                                        .populate({ path: 'story_id', select: 'name'});
                 sendResponse(res, 200, films);
         } catch(error) {
                 sendError(res, 500, error);
