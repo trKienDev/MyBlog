@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import SidebarItem from "../models/sidebar-item.model.js";
-import { sendResponse, sendError } from "../../helperFunction/response.js"
+import { sendResponse, sendError } from "../../middlewares/response.js"
 
 // Lấy tất cả các sidebar item
 export const getSidebarItems = async (req: IncomingMessage, res: ServerResponse) => {

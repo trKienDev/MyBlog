@@ -23,5 +23,6 @@ export interface CustomRequest extends IncomingMessage {
         path: string;
     }[];
     body: Record<string, any> | ParsedUrlQuery;
+    params?: Record<string, string>; // Thêm thuộc tính params
     fileValidationError?: string; // Thêm thuộc tính để chứa thông báo lỗi file
 }

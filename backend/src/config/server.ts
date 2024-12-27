@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import fs from "fs";
 import path from "path";
-import { CustomRequest } from "../interfaces/CustomRequest.js"
+import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 // Load environment variables from ".env" file
 dotenv.config();

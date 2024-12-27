@@ -7,7 +7,7 @@ interface IFilm extends Document {
         actress_id: mongoose.Types.ObjectId;
         tag_id: mongoose.Types.ObjectId[];
         release_date: Date;
-        story: mongoose.Types.ObjectId;
+        story_id: mongoose.Types.ObjectId;
         video: mongoose.Types.ObjectId[];
         thumbnail: string;
         rating: number;

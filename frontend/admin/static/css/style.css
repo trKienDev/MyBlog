@@ -352,3 +352,6 @@ a {
 .box-border_top {
         border-top: 5px solid var(--blue-color);
 }
+.editBox-border_top {
+        border-top: 5px solid var(--orange-color);
+}

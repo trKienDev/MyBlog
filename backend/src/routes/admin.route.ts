@@ -6,10 +6,11 @@ import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarIte
 import { getActress, createActress, updateActress, deleteActress } from '../Admin/Controllers/actress.controller.js';
 import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
 import { getTags, getTagVideo, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
-import { createVideo } from '../Admin/Controllers/video.controller.js';
-import { createFilm, getFilm } from '../Admin/Controllers/film.controller.js';
+import { createVideo, getVideoById, updateVideo } from '../Admin/Controllers/video.controller.js';
+import { createFilm, getFilm, updateFilm } from '../Admin/Controllers/film.controller.js';
 import { createStory, getStory, updateStory, deleteStory } from '../Admin/Controllers/story.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
+import { attachParams } from '../middlewares/attachParams.js';
 
 export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         // Extract the URL and method from the request
@@ -76,12 +77,18 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
         // Video
         else if ( url?.startsWith ( '/admin/video/create' ) && method === 'POST' ) {
                 createVideo (req, res);
-        }
+        } else if ( url?.startsWith ( '/admin/video/get_video_by_id' ) && method === 'GET' ) {
+                getVideoById (req as CustomRequest, res);
+        } else if ( url?.startsWith ( '/admin/video/update' ) && method === 'PUT' ) {
+                updateVideo ( req as CustomRequest, res );
+        } 
         // Films
         else if ( url?.startsWith ( '/admin/film/create' ) && method === 'POST' ) {
                 createFilm (req as CustomRequest, res);
         } else if ( url?.startsWith ( '/admin/film/read' ) && method === 'GET' ) {
                 getFilm (req, res);
+        } else if ( url?.startsWith ( '/admin/film/update' ) && method === 'PUT' ) {
+                updateFilm (req as CustomRequest, res);
         }
         // Story
         else if ( url?.startsWith ( '/admin/story/create' ) && method === 'POST' ) {

@@ -6,8 +6,10 @@ import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { parse } from "querystring";
-import { sendResponse, sendError } from "../../helperFunction/response.js";
+import { sendResponse, sendError } from "../../middlewares/response.js";
 import mongoose from "mongoose";
+import { handleUpload } from "../../middlewares/uploadFile.js";
+import { url } from "inspector";
 
 let index = 0;
 
@@ -21,7 +23,6 @@ const storage = multer.diskStorage({
         cb(null, videoUploadPath);
     },
     filename: (req, file, cb) => {
-        console.log("index: ", index);
         index = index + 1;
         const customReq = req as CustomRequest;
         const body = customReq.body;
@@ -70,7 +71,7 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
         if (customReq.fileValidationError) {
             return sendResponse(res, 400, { message: "Only MP4 video files are allowed." });
         }
-
+        
         // Kiểm tra lỗi upload
         if (err) {
             return sendError(res, 500, err);
@@ -93,9 +94,7 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
                 const fileArray = files[fieldName]; // Lấy danh sách file từ field name
                 if (Array.isArray(fileArray)) {
                     for (const file of fileArray) {
-                        console.log(i);
                         const videoName = `${body.videoname}_${i}`;
-                        console.log(videoName);
                         const video = {
                             name: videoName, // Tên video
                             codeAV: new mongoose.Types.ObjectId(body.codeAV), // Chuyển codeAV thành ObjectId
@@ -131,3 +130,80 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
     });
 };
     
+export const getVideoById = async (req: CustomRequest, res: ServerResponse) => {
+    try {
+        const urlPath = req.url?.split("/");
+        const videoId = urlPath?.[urlPath.length - 1];
+
+        if(!videoId) {
+            return sendResponse(res, 400, { message: "Video Id is required"});
+        }
+
+        const video = await VideoModel.findById(videoId).exec();
+        if(!video) {
+            return sendResponse(res, 404, { message: "Video not found!"});
+        }
+
+        // Trả về thông tin video
+        return sendResponse(res, 200, { video: video });
+    } catch (error) {
+        const err = error as Error;
+        console.error("Error fetching video: ", err.message);
+        return sendError(res, 500, err);
+    }
+};
+
+export const updateVideo = async (req: CustomRequest, res: ServerResponse) => {
+    try {
+        upload(req as any, res as any, async (err: any) => {
+            const customReq = req as CustomRequest;
+            const files = customReq.files;
+            const body = customReq.body;
+
+            console.log("files: ", files);
+            console.log("body: ", body);
+        });
+        // const urlPath = req.url?.split("/");
+        // const videoId = urlPath?.[urlPath.length - 1];
+
+        // const existingVideo = await VideoModel.findById(videoId);
+        // if(!existingVideo) {
+        //     return sendError(res, 404, new Error("Videos not found"))
+        // } 
+
+        // // Xử lý upload file mới nếu có
+        // await handleUpload(req, videoUploadPath);
+        // let updatedFilePath = existingVideo.filePath;
+        // if((req as any).file) {
+        //     updatedFilePath = (req as any).file.filename;
+
+        //     // Xoá file cũ
+        //     const oldFilePath = path.join(videoUploadPath, existingVideo.filePath);
+        //     if(fs.existsSync(oldFilePath)) {
+        //         fs.unlinkSync(oldFilePath);
+        //     }
+        // }
+
+        // // Lấy dữ liệu từ body
+        // const { name, actress, codeAV, videoTag } = (req as any).body;
+
+        // // Cập nhật thông tin video
+        // existingVideo.name = name || existingVideo;
+        // existingVideo.actress = actress ? new mongoose.Types.ObjectId(actress) : existingVideo.actress;
+        // existingVideo.codeAV = codeAV ? new mongoose.Types.ObjectId(codeAV) : existingVideo.codeAV;
+        // existingVideo.videotag = videoTag ? videoTag.split(",").map((id: string) => new mongoose.Types.ObjectId(id.trim())) : existingVideo.videotag;
+        // existingVideo.filePath = updatedFilePath;
+
+        // // Lưu thay đổi vào cơ sở dữ liệu
+        // await existingVideo.save();
+
+        // // Trả về phản hồi thành công
+        // sendResponse(res, 200, existingVideo);
+    } catch(error) {
+        const err = error as Error;
+        console.error("Error updating video:", err.message);
+
+        // Trả về phản hồi lỗi
+        sendError(res, 500, { message: "Failed to update video.", error: err.message });
+    }
+};

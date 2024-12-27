@@ -36,9 +36,12 @@ const config = {
                 tagDelete: '/admin/tags/delete',
                 // video
                 videoCreate: '/admin/video/create',
+                videoGetById: '/admin/video/get_video_by_id',
+                VideoUpdate: '/admin/video/update',
                 // film
                 filmCreate: '/admin/film/create',
                 filmList: '/admin/film/read',
+                filmUpdate: '/admin/film/update',
                 // story
                 storyCreate: '/admin/story/create',
                 storyList: '/admin/story/read',

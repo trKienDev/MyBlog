@@ -24,8 +24,6 @@ export function loadFilm() {
                         tbody.innerHTML = '';
 
                         filmList.forEach(item => {
-                                console.log("item: ", item);
-
                                 const tr = document.createElement('tr');
                                 tr.setAttribute('data-id', item._id);
 
@@ -135,7 +133,6 @@ function createFilm(btnCreateElement) {
                                 handleVideoUpload("video-upload", "video-uploaded");
                                 smoothScrolling("video-list");
                                 handleThumbnail("thumbnail-upload", "video-thumbnail");
-                                setupModalHandlers("openModalButton", "closeModalButton", "storyModal");
 
                                 document.getElementById('create-film').addEventListener('submit', async function(event) {
                                         event.preventDefault(); 
@@ -166,7 +163,7 @@ function createFilm(btnCreateElement) {
                                         const videoName = name + "_" + tagName;
 
                                         // release date
-                                        const releaseDate = document.getElementById('release_date').value; // release date
+                                        const releaseDate = document.getElementById('release_date').value;
 
                                         // story
                                         const story = document.getElementById('film-story').value;
@@ -233,25 +230,25 @@ function createFilm(btnCreateElement) {
                                                                 icon: 'error',
                                                                 confirmButtonText: 'OK',
                                                         });
-                                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                                        throw new Error(`HTTP error! Status: ${filmResponse.status}`);
                                                 }
 
                                                 const createdFilm = await filmResponse.json();
                                                 if(createdFilm._id) {
                                                         Swal.fire({
                                                                 title: 'Success!',
-                                                                text: 'Actress created successfully!',
+                                                                text: 'Film created successfully!',
                                                                 icon: 'success',
                                                                 confirmButtonTest: 'OK'
                                                         });
                                                 } else {
                                                         Swal.fire({
                                                                 title: 'Error!',
-                                                                text: 'Failed to create actress. Please try again.',
+                                                                text: 'Failed to create film. Please try again.',
                                                                 icon: 'error',
                                                                 confirmButtonText: 'OK'
                                                         });                            
-                                                        throw new Error('Failed to create actress. Invalid response from server.');
+                                                        throw new Error('Failed to create film. Invalid response from server.');
                                                 }
                                         } catch(error) {
                                                 console.error('Error creating actress in frontend: ', error.message );
@@ -285,6 +282,9 @@ function createFilm(btnCreateElement) {
                                                                 videoListDiv.removeChild(videoListDiv.firstChild);
                                                         }
                                                 }
+
+                                                // Làm sách danh sách videoDataList
+                                                videoDataList = [];
                                         }
                                 });
                         });
@@ -308,7 +308,16 @@ async function handleEdit(item, btnEditElement) {
                         handleVideoUpload("video-upload", "video-uploaded");
                         smoothScrolling("video-list");
                         handleThumbnail("thumbnail-upload", "video-thumbnail");
-                        setupModalHandlers("openModalButton", "closeModalButton", "storyModal");
+
+                        // Cập nhật giao diện cho edit film
+                        const createNewFilm_title = document.getElementById("createNewFilm");
+                        createNewFilm_title.textContent = "Edit film";
+                        const createFilm_btn = document.getElementById("createFilm_btn");
+                        createFilm_btn.textContent = "Save";
+                        createFilm_btn.classList.add("edit-btn");
+                        const headingColorForm = document.getElementById("create-film");
+                        headingColorForm.classList.remove("box-border_top");
+                        headingColorForm.classList.add("editBox-border_top");
 
                         // Cập nhật dữ liệu
                         await loadStudios();
@@ -316,7 +325,6 @@ async function handleEdit(item, btnEditElement) {
                         
                         const codeParts = item.name.split('-');
                         const codeWords = codeParts[0];
-                        console.log("code: ", codeWords);
                         const codeNumbers = codeParts[1];
                         document.getElementById("film-codeAV").value = item.code_id || "";
                         document.getElementById("code-number").value = codeNumbers;
@@ -327,11 +335,139 @@ async function handleEdit(item, btnEditElement) {
 
                         document.getElementById("film-actress").value = item.actress_id?._id || "";
                         
-                        // document.getElementById("video-tag").value = item
+                        // Hiển thị thumbnail
+                        if(item.thumbnail) {
+                                const thumbnailElement = document.getElementById("thumbnail-upload");
+
+                                const imageElement = document.createElement('img');
+                                imageElement.className = 'thumbnail-item';
+                                imageElement.src = `${config2.domain}/uploads/thumbnail/${item.thumbnail}`;
+                                imageElement.style.width = '100%';
+                                imageElement.style.height = '100%';
+                                imageElement.style.objectFit = 'cover';
+                                imageElement.style.borderRadius = '8px';
+
+                                while(thumbnailElement.firstChild) {
+                                        thumbnailElement.removeChild(thumbnailElement.firstChild);
+                                }
+
+                                thumbnailElement.appendChild(imageElement);
+                        } 
+
+                        // Hiển thị danh sách tag
+                        if(item.tag_id && item.tag_id.length > 0) {
+                                const tagsListElement = document.getElementById("tags-selected");
+                                const tagSelectElement = document.getElementById("film-tag");
+                                const selectedTagIds = [];
+
+                                while(tagsListElement.firstChild) {
+                                        tagsListElement.removeChild(tagsListElement.firstChild);
+                                }
+
+                                item.tag_id.forEach(tagId => {
+                                        const tagItem = document.createElement("div");
+                                        tagItem.className = "tag-item";
+                                        tagItem.dataset.tagId = tagId;
+
+                                        const tagOption = Array.from(tagSelectElement.options).find(option => option.value === tagId);
+                                        if(tagOption) {
+                                                tagItem.textContent = tagOption.textContent;
+                                        } else {
+                                                tagItem.textContent = "Unknown tag";
+                                        }
+
+                                        tagItem.addEventListener("click", () => {
+                                                tagsListElement.removeChild(tagItem); // Xóa tag khỏi giao diện
+                                                const index = selectedTagIds.indexOf(tagId); // Xóa ID khỏi mảng
+                                                if(index > -1) {
+                                                        selectTag.splice(index, 1);
+                                                }
+                                        });
+
+                                        selectedTagIds.push(tagId);
+                                        tagsListElement.appendChild(tagItem);
+                                });
+                        }
+
+                        // Hiển thị danh sách video
+                        if(item.video && item.video.length > 0) {
+                                const videoListDiv = document.getElementById("video-list");
+                                
+                                // Xoá danh sách video cũ trong video-list
+                                while (videoListDiv.firstChild) {
+                                        videoListDiv.removeChild(videoListDiv.firstChild);
+                                }
+
+                                // Duyệt qua từng video trong item.video và hiển thị
+                                item.video.forEach( async(videoId, index) => {
+                                        const response = await fetch(`${config2.domain}${config2.endpoints.videoGetById}/${videoId}`);
+                                        if(!response.ok) {
+                                                console.error(`Failed to fetch video details for ID: ${videoId}`);
+                                                return;
+                                        }
+
+                                        const videoData = await response.json();
+                                
+                                        const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
+                                        
+                                        console.log("videoDataList: ", videoDataList);
+                                        // Lưu video và tag vào videoDataList
+                                        // videoDataList.push({ file: filePath, tag: videotag, id: _id });
+
+                                        // Tạo box display video
+                                        const videoBox = document.createElement('div');
+                                        videoBox.className = 'video-box';
+                                        videoBox.dataset.index = index;
+
+                                        // Tạo phần tử video để hiển thị thumbnail
+                                        const videoElement = document.createElement('video');
+                                        videoElement.className = "video-item";
+                                        videoElement.src = videoUrl;
+                                        videoElement.controls = false;
+                                        videoElement.muted = true;
+
+                                        // Nút xoá video
+                                        const deleteButton = document.createElement('button');
+                                        deleteButton.textContent = 'Delete';
+                                        deleteButton.className = 'delete-video_btn';
+                                        deleteButton.style.marginTop = '10px';
+
+                                        // Xử lý sự kiện xoá video
+                                        deleteButton.addEventListener('click', function() {
+                                                const indexToRemove = parseInt(videoBox.dataset.index);
+                                                removeVideo(indexToRemove);
+                                                videoBox.remove();
+
+                                                // Cập nhật lại chỉ số dataset cho các video còn lại
+                                                const remainingVideoBoxes = document.querySelectorAll('.video-box');
+                                                remainingVideoBoxes.forEach((box, newIndex) => {
+                                                        box.dataset.index = newIndex;
+                                                });
+                                        });
+
+                                        videoBox.appendChild(videoElement);
+                                        videoBox.appendChild(deleteButton);
+                                        videoListDiv.appendChild(videoBox);
+
+                                        // Hiển thị thumbnail khi video đã tải xong
+                                        videoElement.addEventListener('loadeddata', function() {
+                                                const frameRate = 30;
+                                                const frameNumber = 10;
+                                                const timeInSeconds = frameNumber / frameRate;
+                                                videoElement.currentTime = timeInSeconds;
+
+                                                videoElement.addEventListener('seeked', function() {
+                                                        videoElement.pause();
+                                                        videoElement.style.width = '100%';
+                                                        videoElement.style.height = '255px';
+                                                        videoElement.style.objectFit = 'cover';
+                                                        videoElement.style.borderRadius = '8px';
+                                                });
+                                        });
+                                });
+                        }
 
                 });
-
-                
         }
 }
 

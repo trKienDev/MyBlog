@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import CodeModel from "../models/codeAV.model.js";
 import StudioModel from "../models/studio.model.js";
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
-import { sendResponse, sendError } from "../../helperFunction/response.js";
+import { sendResponse, sendError } from "../../middlewares/response.js";
 
 export const createCodeAV = async (req: IncomingMessage, res: ServerResponse) => {
         try {

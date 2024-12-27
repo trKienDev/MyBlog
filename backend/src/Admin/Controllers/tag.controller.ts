@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import TagModel from "../models/tag.model.js";
-import { sendResponse, sendError } from "../../helperFunction/response.js";
+import { sendResponse, sendError } from "../../middlewares/response.js";
 
 export const getTags = async (req: IncomingMessage, res: ServerResponse) => {
         try {

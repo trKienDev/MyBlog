@@ -2,9 +2,9 @@ import mongoose, { Schema, Document } from "mongoose";
 
 interface IVideo extends Document {
         name: string;
-        actress: mongoose.Schema.Types.ObjectId; 
-        videotag: mongoose.Schema.Types.ObjectId[];
-        codeAV: mongoose.Schema.Types.ObjectId;
+        actress: mongoose.Types.ObjectId; 
+        videotag: mongoose.Types.ObjectId[];
+        codeAV: mongoose.Types.ObjectId;
         filePath: string; // mp4 path
 }
 

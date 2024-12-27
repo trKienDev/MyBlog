@@ -4,9 +4,9 @@ import multer from "multer";
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { handleUpload } from '../../helperFunction/uploadFile.js';
+import { handleUpload } from '../../middlewares/uploadFile.js';
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
-import { sendResponse, sendError } from "../../helperFunction/response.js"
+import { sendResponse, sendError } from "../../middlewares/response.js"
 
 const actressUploadPath = path.join(process.cwd(), "..", "..", "uploads","actress", "avatar");
 
@@ -55,7 +55,7 @@ export const getActress = async ( req: IncomingMessage , res: ServerResponse ) =
         catch ( error ) {
                 sendError(res, 500, error);
         } 
-}
+};
 
 export const updateActress = async (req: CustomRequest, res: ServerResponse) => {
         const urlPath = req.url?.split("/");
@@ -87,8 +87,6 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
                                 "avatar",
                                 oldActress.image
                         );
-
-                        console.log(oldImagePath)
         
                         // Kiểm tra nếu ảnh cũ tồn tại, xóa nó
                         if (fs.existsSync(oldImagePath)) {

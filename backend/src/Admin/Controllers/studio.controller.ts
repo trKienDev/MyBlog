@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import StudioModel from "../models/studio.model.js";
-import { sendResponse, sendError } from "../../helperFunction/response.js";
-import { handleUpload } from '../../helperFunction/uploadFile.js';
+import { sendResponse, sendError } from "../../middlewares/response.js";
+import { handleUpload } from '../../middlewares/uploadFile.js';
 import path from 'path';
 import fs from 'fs';
 

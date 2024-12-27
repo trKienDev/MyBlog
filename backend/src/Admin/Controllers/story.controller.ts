@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import StoryModel from "../models/story.model.js";
-import { sendResponse, sendError } from "../../helperFunction/response.js";
+import { sendResponse, sendError } from "../../middlewares/response.js";
 
 export const createStory = async (req: IncomingMessage, res: ServerResponse ) => {
         let body = '';
