@@ -5,7 +5,6 @@ import { loadCodeAV } from '../../../services/loadElement/loadCodeAV.js';
 import { loadActress } from '../../../services/loadElement/loadActress.js';
 import { loadTag } from '../../../services/loadElement/loadTag.js';
 import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
-import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { loadStory } from "../../../services/loadElement/loadStory.js";
 
 let videoDataList = [];
@@ -293,6 +292,9 @@ function createFilm(btnCreateElement) {
 }
 
 async function handleEdit(item, btnEditElement) {
+        let list_videoAdded = [];
+        let list_videoDeleted = [];
+
         btnEditElement = "." + btnEditElement.className;
         const btnEdit = document.querySelector(btnEditElement);
         if(btnEdit) {
@@ -305,7 +307,7 @@ async function handleEdit(item, btnEditElement) {
                         loadStory("film-story")
                         loadVideoTag("video-tag")
                         const selectedTagIds = selectTag("film-tag", "tags-selected");
-                        handleVideoUpload("video-upload", "video-uploaded");
+                        handleVideoUpload("video-upload", "video-uploaded", list_videoAdded);
                         smoothScrolling("video-list");
                         handleThumbnail("thumbnail-upload", "video-thumbnail");
 
@@ -410,9 +412,7 @@ async function handleEdit(item, btnEditElement) {
                                 
                                         const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
                                         
-                                        console.log("videoDataList: ", videoDataList);
-                                        // Lưu video và tag vào videoDataList
-                                        // videoDataList.push({ file: filePath, tag: videotag, id: _id });
+                                        console.log("video data: ", videoData);
 
                                         // Tạo box display video
                                         const videoBox = document.createElement('div');
@@ -435,6 +435,13 @@ async function handleEdit(item, btnEditElement) {
                                         // Xử lý sự kiện xoá video
                                         deleteButton.addEventListener('click', function() {
                                                 const indexToRemove = parseInt(videoBox.dataset.index);
+
+                                                // Kiểm tra nếu video có ID (đã tồn tại trong backend)
+                                                const videoId = videoBox.dataset.index;
+                                                if(videoId) {
+                                                        list_videoDeleted.push(videoId); // Thêm ID video vào danh sách xóa
+                                                }
+                                                
                                                 removeVideo(indexToRemove);
                                                 videoBox.remove();
 
@@ -466,6 +473,31 @@ async function handleEdit(item, btnEditElement) {
                                         });
                                 });
                         }
+
+                        // User submit form
+                        document.getElementById("create-film").addEventListener('submit', async function(event) {
+                                event.preventDefault();
+
+                                // studio
+                                const studio = document.getElementById('film-studio').value;
+
+                                // film-code
+                                const codeElement = document.getElementById('film-codeAV');
+                                const codeName = codeElement.options[codeElement.selectedIndex].textContent;
+                                const codeNumber = document.getElementById('code-number').value;
+                                const name = codeName + "-" + codeNumber;
+
+                                // actress name
+                                const actress = document.getElementById('film-actress').value;
+
+                                // thumbnail
+                                const thumbnailImage = document.getElementById('thumbnail-item');
+
+                                // video tag
+                                
+                                console.log("list_videoAdded: ", list_videoAdded);
+                                console.log("list_videoDeleted: ", list_videoDeleted);
+                        });
 
                 });
         }
@@ -512,7 +544,7 @@ function selectTag(selectTagId, tagListId) { // hàm selectTag vừa có nhiệm
         return selectedTagIds;
 }
     
-function handleVideoUpload(divClickId, fileInputId) {
+function handleVideoUpload(divClickId, fileInputId, list_videoAddedInHandleEditFunction) {
         document.getElementById(divClickId).addEventListener('click', function() {
                 // Kiểm tra xem người dùng đã chọn video tag chưa
                 const videoTagSelect = document.getElementById('video-tag');
@@ -525,6 +557,7 @@ function handleVideoUpload(divClickId, fileInputId) {
                 }
                 document.getElementById(fileInputId).click();
         });
+
         document.getElementById('video-uploaded').addEventListener('change', function() {
                 const videoListDiv = document.getElementById('video-list');
                 const files = this.files;
@@ -537,6 +570,9 @@ function handleVideoUpload(divClickId, fileInputId) {
                         // Lưu video và tag vào videoDataList
                         const videoIndex = videoDataList.length; // Lưu chỉ số vào video
                         videoDataList.push({ file, tag: selectedTag});
+
+                        // Push video vào mảng list_videoAddedInHandleEditFunction
+                        list_videoAddedInHandleEditFunction.push({ file, tag: selectedTag });
 
                         // Tạo hộp hiển thị video
                         const videoBox = document.createElement('div');
@@ -629,6 +665,9 @@ function handleThumbnail(thumbnailUploadId, videoThumbnailId) {
 }
 
 function removeVideo(index) {
+        console.log("removeVideo function.");
+        console.log("index: ", index);
+        console.log("videoDataList: ", videoDataList);
         if(index >= 0 && index < videoDataList.length) {
                 videoDataList.splice(index, 1);
                 console.log(`Video [${index} is deleted]`);

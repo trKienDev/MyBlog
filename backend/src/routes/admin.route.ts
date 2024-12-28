@@ -6,7 +6,7 @@ import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarIte
 import { getActress, createActress, updateActress, deleteActress } from '../Admin/Controllers/actress.controller.js';
 import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
 import { getTags, getTagVideo, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
-import { createVideo, getVideoById, updateVideo } from '../Admin/Controllers/video.controller.js';
+import { createVideo, getVideoById, updateVideo, deleteVideo } from '../Admin/Controllers/video.controller.js';
 import { createFilm, getFilm, updateFilm } from '../Admin/Controllers/film.controller.js';
 import { createStory, getStory, updateStory, deleteStory } from '../Admin/Controllers/story.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
@@ -81,7 +81,9 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 getVideoById (req as CustomRequest, res);
         } else if ( url?.startsWith ( '/admin/video/update' ) && method === 'PUT' ) {
                 updateVideo ( req as CustomRequest, res );
-        } 
+        } else if ( url?.startsWith ( '/admin/video/delete' ) && method === 'DELETE' ) {
+                deleteVideo (req, res);
+        }
         // Films
         else if ( url?.startsWith ( '/admin/film/create' ) && method === 'POST' ) {
                 createFilm (req as CustomRequest, res);

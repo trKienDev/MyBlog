@@ -207,3 +207,38 @@ export const updateVideo = async (req: CustomRequest, res: ServerResponse) => {
         sendError(res, 500, { message: "Failed to update video.", error: err.message });
     }
 };
+
+export const deleteVideo = async (req: IncomingMessage, res: ServerResponse) => {
+    try {
+        // Lấy videoId từ URL
+        const urlParts = req.url?.split("/");
+        const videoId = urlParts?.[urlParts.length - 1];
+
+        if(!videoId) {
+            return sendError(res, 400, { message:  "Video ID is required"});
+        }
+
+        const video = await VideoModel.findById(videoId);
+        if(!video) {
+            return sendError(res, 404, { message: "Video not found"});
+        }
+
+        // Xoá video trên máy
+        const filePath = path.join(videoUploadPath, video.filePath);
+        fs.unlink(filePath, (err) => {
+            if(err) {
+                console.error("Error deleting file: ", err);
+            } else {
+                console.log("File deleted successfully")
+            }
+        });
+
+        await VideoModel.findByIdAndDelete(videoId);
+
+        sendResponse(res, 200, { message: "Video deleted successfully."});
+    } catch(error) {
+        const err = error as Error;
+        console.error("Error deleting video: ", err.message)
+        return sendError(res, 500, { message: "Failed to delete video", error: err.message });
+    }
+};

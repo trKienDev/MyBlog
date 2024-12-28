@@ -37,7 +37,8 @@ const config = {
                 // video
                 videoCreate: '/admin/video/create',
                 videoGetById: '/admin/video/get_video_by_id',
-                VideoUpdate: '/admin/video/update',
+                videoUpdate: '/admin/video/update',
+                videoDelete: '/admin/video/delete',
                 // film
                 filmCreate: '/admin/film/create',
                 filmList: '/admin/film/read',
