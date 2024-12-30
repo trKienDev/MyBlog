@@ -304,9 +304,9 @@ async function handleEdit(item, btnEditElement) {
                         loadCodeAV("film-codeAV");
                         loadActress("film-actress");
                         loadTag("film-tag");
-                        loadStory("film-story")
-                        loadVideoTag("video-tag")
+                        loadStory("film-story");
                         const selectedTagIds = selectTag("film-tag", "tags-selected");
+                        loadVideoTag("video-tag");
                         handleVideoUpload("video-upload", "video-uploaded", list_videoAdded);
                         smoothScrolling("video-list");
                         handleThumbnail("thumbnail-upload", "video-thumbnail");
@@ -334,6 +334,9 @@ async function handleEdit(item, btnEditElement) {
                         const releaseDateInput = document.getElementById("release_date");
                         const releaseDate = new Date(item.release_date).toISOString().split("T")["0"];
                         releaseDateInput.value = releaseDate;
+
+                        
+                        document.getElementById("film-story").value = item.story_id?._id || "";
 
                         document.getElementById("film-actress").value = item.actress_id?._id || "";
                         
@@ -409,67 +412,12 @@ async function handleEdit(item, btnEditElement) {
                                         }
 
                                         const videoData = await response.json();
-                                
                                         const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
                                         
-                                        console.log("video data: ", videoData);
-
-                                        // Tạo box display video
-                                        const videoBox = document.createElement('div');
-                                        videoBox.className = 'video-box';
-                                        videoBox.dataset.index = index;
-
-                                        // Tạo phần tử video để hiển thị thumbnail
-                                        const videoElement = document.createElement('video');
-                                        videoElement.className = "video-item";
-                                        videoElement.src = videoUrl;
-                                        videoElement.controls = false;
-                                        videoElement.muted = true;
-
-                                        // Nút xoá video
-                                        const deleteButton = document.createElement('button');
-                                        deleteButton.textContent = 'Delete';
-                                        deleteButton.className = 'delete-video_btn';
-                                        deleteButton.style.marginTop = '10px';
-
-                                        // Xử lý sự kiện xoá video
-                                        deleteButton.addEventListener('click', function() {
-                                                const indexToRemove = parseInt(videoBox.dataset.index);
-
-                                                // Kiểm tra nếu video có ID (đã tồn tại trong backend)
-                                                const videoId = videoBox.dataset.index;
-                                                if(videoId) {
-                                                        list_videoDeleted.push(videoId); // Thêm ID video vào danh sách xóa
-                                                }
-                                                
+                                        displayVideo(videoUrl, index, videoListDiv, (indexToRemove) => {
+                                                list_videoDeleted.push(videoData.video); // Lưu ID video vào danh sách xóa
+                                                console.log("list_videoDelete: ", list_videoDeleted);
                                                 removeVideo(indexToRemove);
-                                                videoBox.remove();
-
-                                                // Cập nhật lại chỉ số dataset cho các video còn lại
-                                                const remainingVideoBoxes = document.querySelectorAll('.video-box');
-                                                remainingVideoBoxes.forEach((box, newIndex) => {
-                                                        box.dataset.index = newIndex;
-                                                });
-                                        });
-
-                                        videoBox.appendChild(videoElement);
-                                        videoBox.appendChild(deleteButton);
-                                        videoListDiv.appendChild(videoBox);
-
-                                        // Hiển thị thumbnail khi video đã tải xong
-                                        videoElement.addEventListener('loadeddata', function() {
-                                                const frameRate = 30;
-                                                const frameNumber = 10;
-                                                const timeInSeconds = frameNumber / frameRate;
-                                                videoElement.currentTime = timeInSeconds;
-
-                                                videoElement.addEventListener('seeked', function() {
-                                                        videoElement.pause();
-                                                        videoElement.style.width = '100%';
-                                                        videoElement.style.height = '255px';
-                                                        videoElement.style.objectFit = 'cover';
-                                                        videoElement.style.borderRadius = '8px';
-                                                });
                                         });
                                 });
                         }
@@ -487,16 +435,119 @@ async function handleEdit(item, btnEditElement) {
                                 const codeNumber = document.getElementById('code-number').value;
                                 const name = codeName + "-" + codeNumber;
 
+                                // videoname
+                                const tagElement = document.getElementById('video-tag');
+                                const tagName = tagElement.options[tagElement.selectedIndex].textContent;
+                                const videoName = name + "_" + tagName;
+
                                 // actress name
                                 const actress = document.getElementById('film-actress').value;
 
                                 // thumbnail
-                                const thumbnailImage = document.getElementById('thumbnail-item');
+                                const thumbnailInput = document.getElementById('video-thumbnail');
+                                const thumbnailFile = thumbnailInput.files[0]; 
 
-                                // video tag
+                                // story
+                                const story = document.getElementById("film-story").value;
+
+                                // tag
                                 
-                                console.log("list_videoAdded: ", list_videoAdded);
+
+                                // Add video
+                                let list_addedVideoIds = [];
+                                if(list_videoAdded.length > 0) {
+                                        const videoForm = new FormData();
+                                        videoForm.append("name", name);
+                                        videoForm.append("actress", actress);
+                                        videoForm.append("codeAV", codeElement.value);
+                                        videoForm.append("videoname", videoName);
+
+                                        list_videoAdded.forEach((video, index) => {
+                                                videoForm.append(`video_${index}`, video.file);
+                                                videoForm.append(`video_tag_${index}`, video.tag);
+                                        });
+
+                                        try {
+                                                const videoResponse = await fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
+                                                        method: 'POST',
+                                                        body: videoForm
+                                                });
+
+                                                if(!videoResponse.ok) {
+                                                        const errorData = await videoResponse.json();
+                                                        console.error("Failed to add videos: ", errorData);
+                                                        throw new Error(errorData.message || "Failed to upload video");
+                                                }
+
+                                                const uploadedVideos = await videoResponse.json();
+                                                list_addedVideoIds = uploadedVideos.map((video) => video._id);
+                                                console.log("uploadedVideoIds: ", list_addedVideoIds);
+                                        } catch(error) {
+                                                console.error("Error while uploading videos: ", error.message);
+                                                return;
+                                        }
+                                }
+
+                                // Delete video
+                                let list_videoDeletedIds = [];
                                 console.log("list_videoDeleted: ", list_videoDeleted);
+                                if(list_videoDeleted.length > 0) {
+                                        try {
+                                                const deletePromises = list_videoDeleted.map(videoId => 
+                                                        fetch(`${config2.domain}${config2.endpoints.videoDelete}/${videoId._id}`, {
+                                                                method: 'DELETE'
+                                                        })
+                                                );
+
+                                                const deleteReponses = await Promise.all(deletePromises);
+
+                                                deleteReponses.forEach(async (response, index) => {
+                                                        if(!response.ok) {
+                                                                const errorData = (await response).json();
+                                                                console.error(`Failed to delete video with ID ${list_videoDeleted[index]}: `, errorData);
+                                                                throw new Error(errorData.message || "Failed to delete video");
+                                                        }
+                                                });
+
+                                                list_videoDeletedIds = list_videoDeleted;
+                                                console.log("Delete video successfully");
+                                        } catch(error) {
+                                                console.error("Error while deleting video: ", error.message);
+                                                return;
+                                        }
+                                }
+                                
+                                // update film
+                                let currentVideoIds = item.video || [];
+                                for(let i = 0; i < currentVideoIds.length; i++) {
+                                        for(let k = 0; k < list_videoDeletedIds.length; k++) {
+                                                if(currentVideoIds[i] == list_videoDeletedIds[k]._id) {
+                                                        currentVideoIds.splice(k, 1);
+                                                }
+                                        }
+                                }
+                                console.log("list_addedVideoIds", list_addedVideoIds);
+                                if(list_addedVideoIds.length > 0) {
+                                        for(let i = 0; i < list_addedVideoIds.length; i++) {
+                                                currentVideoIds.push(list_addedVideoIds[i]);
+                                        }
+                                }
+                                
+                                const filmForm = new FormData();
+                                filmForm.append("name", name);
+                                filmForm.append("studio", studio);
+                                filmForm.append("code", codeElement);
+                                filmForm.append("actress", actress);
+                                filmForm.append("story", story);
+                                filmForm.append("tag", selectedTagIds);
+                                if(thumbnailFile) {
+                                        filmForm.append("file", thumbnailFile);
+                                }
+                                filmForm.append("videos", currentVideoIds.join(','));
+
+                                console.log("film data: ", filmForm);
+
+                                videoDataList = [];
                         });
 
                 });
@@ -572,60 +623,16 @@ function handleVideoUpload(divClickId, fileInputId, list_videoAddedInHandleEditF
                         videoDataList.push({ file, tag: selectedTag});
 
                         // Push video vào mảng list_videoAddedInHandleEditFunction
-                        list_videoAddedInHandleEditFunction.push({ file, tag: selectedTag });
+                        if(list_videoAddedInHandleEditFunction) {
+                                list_videoAddedInHandleEditFunction.push({ file, tag: selectedTag });
+                        }
 
-                        // Tạo hộp hiển thị video
-                        const videoBox = document.createElement('div');
-                        videoBox.className = 'video-box';
-                        videoBox.dataset.index = videoIndex; // Gắn chỉ số vào dataset
-
-                        // Tạo phần tử video để hiển thị thumbnail của video
-                        const videoElement = document.createElement('video');
-                        videoElement.className = 'video-item';
-                        videoElement.src = videoUrl;
-                        videoElement.controls = false; // Không hiển thị thanh điều khiển video
-                        videoElement.muted = true; // Tắt tiếng để tránh âm thanh tự động phát
-
-                        // Nút xoá video
-                        const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Delete';
-                        deleteButton.className = 'delete-video_btn';
-                        deleteButton.style.marginTop = '10px';
-
-                        // Xử lý sự kiện xoá video
-                        deleteButton.addEventListener('click', function() {
-                                const indexToRemove = parseInt(videoBox.dataset.index);
+                        displayVideo(videoUrl, videoIndex, videoListDiv, (indexToRemove) => {
                                 removeVideo(indexToRemove);
-                                videoBox.remove();
-                                
-                                // Cập nhật lại chỉ số dataset cho các video còn lại
-                                const remainingVideoBoxes = document.querySelectorAll('.video-box');
-                                remainingVideoBoxes.forEach((box, newIndex) => {
-                                        box.dataset.index = newIndex;
-                                });
+                                if(list_videoAddedInHandleEditFunction) {
+                                        list_videoAddedInHandleEditFunction.splice(indexToRemove, 1);
+                                }
                         });
-
-                        videoBox.appendChild(videoElement);
-                        videoBox.appendChild(deleteButton);
-                        videoListDiv.appendChild(videoBox);
-
-                        videoElement.addEventListener('loadeddata', function() {
-                                const frameRate = 30; // Giả định tốc độ khung hình là 30fps
-                                const frameNumber = 10; // Chúng ta muốn tạm dừng ở frame thứ 10
-                                const timeInSeconds = frameNumber / frameRate; // Tính toán thời gian tương ứng
-                                videoElement.currentTime = timeInSeconds; // Đặt thời gian phát của video
-                                
-                                // Khi video đã cập nhật thời gian phát, chúng ta sẽ tạm dừng
-                                videoElement.addEventListener('seeked', function() {
-                                        videoElement.pause();
-                                        videoElement.style.width = '100%';
-                                        videoElement.style.height = '255px';
-                                        videoElement.style.objectFit = 'cover'; 
-                                        videoElement.style.borderRadius = '8px';
-                                });
-                        });
-                        videoBox.appendChild(videoElement);
-                        videoListDiv.appendChild(videoBox);
                 }
         });
 }
@@ -665,13 +672,60 @@ function handleThumbnail(thumbnailUploadId, videoThumbnailId) {
 }
 
 function removeVideo(index) {
-        console.log("removeVideo function.");
-        console.log("index: ", index);
-        console.log("videoDataList: ", videoDataList);
+        console.log("index in removeVideo: ", index);
         if(index >= 0 && index < videoDataList.length) {
                 videoDataList.splice(index, 1);
                 console.log(`Video [${index} is deleted]`);
         } else {
                 console.error(`Index ${index} is not valid!`);
         }
+}
+
+// Hàm hiển thị video
+function displayVideo(videoUrl, index, videoListDiv, removeCallback) {
+        const videoBox = document.createElement('div');
+        videoBox.className = 'video-box';
+        videoBox.dataset.index = index;
+
+        const videoElement = document.createElement('video');
+        videoElement.className = 'video-item';
+        videoElement.src = videoUrl;
+        videoElement.controls = false;
+        videoElement.muted = true;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'delete-video_btn';
+        deleteButton.style.marginTop = '10px';
+
+        deleteButton.addEventListener('click', function() {
+                removeCallback(index);
+                videoBox.remove();
+                updateVideoIndexes(videoListDiv);
+        });
+
+        videoBox.appendChild(videoElement);
+        videoBox.appendChild(deleteButton);
+        videoListDiv.appendChild(videoBox);
+
+        videoElement.addEventListener('loadeddata', function() {
+                const frameRate = 30;
+                const frameNumber = 10;
+                videoElement.currentTime = frameNumber / frameRate;
+
+                videoElement.addEventListener('seeked', function() {
+                        videoElement.pause();
+                        videoElement.style.width = '100%';
+                        videoElement.style.height = '255px';
+                        videoElement.style.objectFit = 'cover';
+                        videoElement.style.borderRadius = '8px';
+                });
+        });
+}
+
+function updateVideoIndexes(videoListDiv) {
+        const remainingVideoBoxes = videoListDiv.querySelectorAll('.video-box');
+        remainingVideoBoxes.forEach((box, newIndex) => {
+                box.dataset.index = newIndex;
+        });
 }

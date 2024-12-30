@@ -214,6 +214,8 @@ export const deleteVideo = async (req: IncomingMessage, res: ServerResponse) => 
         const urlParts = req.url?.split("/");
         const videoId = urlParts?.[urlParts.length - 1];
 
+        console.log("url in deleteVideo: ", req.url);
+
         if(!videoId) {
             return sendError(res, 400, { message:  "Video ID is required"});
         }

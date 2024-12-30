@@ -48,7 +48,6 @@ const config = {
                 storyList: '/admin/story/read',
                 storyUpdate: '/admin/story/update',
                 storyDelete: '/admin/story/delete'
-
         }
 }
 
