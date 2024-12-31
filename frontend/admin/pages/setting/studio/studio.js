@@ -1,6 +1,7 @@
 import config2 from "../../../services/config.js";
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { handleImageUpload } from "../../../services/HelperFunction/image.js";
+import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
 
 export function loadStudioTable() {
         fetch(`${config2.domain}${config2.endpoints.studioList}`)
@@ -108,46 +109,22 @@ async function createNewStudio(formId, modalId) {
 
                         if (response.status !== 201) {
                                 console.error('Failed to create studio. HTTP Status:', response.status);
-                                        Swal.fire({
-                                        title: 'Error!',
-                                        text: 'An error occurred while creating studio. Please try again.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#c82333',
-                                });
+                                errorSweetAlert("Error in backend");
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
 
                         const createdStudio = await response.json();
 
                         if (createdStudio._id) {
-                                Swal.fire({
-                                        title: 'Success!',
-                                        text: 'Studio created successfully!',
-                                        icon: 'success',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#218838',
-                                });
+                                successSweetAlert("studio created");
                                 loadStudioTable(); 
                         } else {
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: 'Failed to create studio. Please try again.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#c82333',
-                                });
+                                errorSweetAlert("Error in backend");
                                 throw new Error('Failed to create studio. Invalid response from server.');
                         }
                 } catch (error) {
                         console.error('Error creating studio in frontend: ', error.message);
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'An error occurred while creating studio. Please try again.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#c82333',
-                        });
+                        errorSweetAlert("Error in frontend");
                 } finally {
                         studioForm.reset();
                         if (imageUploadInput) {
@@ -185,34 +162,16 @@ function handleEdit(studio) {
                         });
         
                         if (response.status !== 200) {
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: 'An error occurred while updating studio.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#c82333',
-                                });
+                                errorSweetAlert("Error in backend");
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
         
-                        Swal.fire({
-                                title: 'Success!',
-                                text: 'Studio updated successfully!',
-                                icon: 'success',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#28a745',
-                        });
+                        successSweetAlert("Studio updated");
         
                         loadStudioTable(); // Reload table
                 } catch (error) {
                         console.error('Error updating studio: ', error);
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'An error occurred while updating studio.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#dc3545',
-                        });
+                        errorSweetAlert("Error in frontend");
                 } finally {
                         studioModal.style.display = "none";
                 }
@@ -236,34 +195,16 @@ function handleDelete(studioId) {
                                 });
 
                                 if (response.status !== 200) {
-                                        Swal.fire({
-                                                title: 'Error!',
-                                                text: 'Failed to delete the studio. Please try again.',
-                                                icon: 'error',
-                                                confirmButtonText: 'OK',
-                                                confirmButtonColor: '#dc3545',
-                                        });
+                                        errorSweetAlert("Error in backend");
                                         throw new Error(`HTTP error! Status: ${response.status}`);
                                 }
 
-                                Swal.fire({
-                                        title: 'Deleted!',
-                                        text: 'Studio has been deleted.',
-                                        icon: 'success',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#28a745',
-                                });
+                                successSweetAlert("Studio deleted");
 
                                 loadStudioTable();
                          } catch (error) {
                                 console.error('Error deleting studio: ', error);
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: 'Failed to delete the studio. Please try again.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#dc3545',
-                                });
+                                errorSweetAlert("Error in frontend");
                         }
                 }
         });
@@ -279,13 +220,7 @@ async function createNewCodeAV(event) {
         const codeName = codeInput.value.trim(); 
 
         if (!studioId || !codeName) {
-                Swal.fire({
-                        title: 'Error!',
-                        text: 'Please select a studio and enter a code name.',
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#dc3545',
-                });
+                errorSweetAlert("Please select a studio and enter a code name");
                 return;
         }
 
@@ -302,32 +237,17 @@ async function createNewCodeAV(event) {
         
                 if (response.ok) {
                         const data = await response.json();
-                        Swal.fire({
-                                title: 'Success!',
-                                text: 'Code created successfully!',
-                                icon: 'success',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#28a745',
-                        });
+                        successSweetAlert("Code created");
                         codeInput.value = '';
                         studioSelect.value = '';
                 } else {
                         const errorData = await response.json();
-                        Swal.fire({
-                                title: 'Error!',
-                                text: errorData.message || 'An error occurred while creating the code.',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                        });
+                        const message = errorData.message || 'An error occurred while creating the code.';
+                        errorSweetAlert(message);
                 }
         } catch (error) {
                 console.error('Error creating code:', error);
-                Swal.fire({
-                        title: 'Error!',
-                        text: 'An error occurred while creating the code.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                });
+                errorSweetAlert("Error in frontend");
         } finally {
                 codeInput.value = '';
                 studioSelect.value = '';

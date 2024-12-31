@@ -10,112 +10,243 @@ import { errorSweetAlert, confirmSweetAlert, showToastNotification, successSweet
 
 let videoDataList = [];
 
+// export function loadFilm() {
+//         try {
+//                 fetch(`${config2.domain}${config2.endpoints.filmList}`)
+//                 .then(response => {
+//                         if(!response.ok) {
+//                                 throw new Error(`HTTP error! Status: ${response.status}`);
+//                         }
+//                         return response.json();
+//                 }) 
+//                 .then(filmList => {
+//                         const tbody = document.querySelector("#films-table tbody");
+//                         tbody.innerHTML = '';
+
+//                         filmList.forEach(item => {
+//                                 const tr = document.createElement('tr');
+//                                 tr.setAttribute('data-id', item._id);
+
+//                                 // Edit button cell
+//                                 const editCell = document.createElement('td');
+//                                 const editContainer = document.createElement('div');
+//                                 editContainer.classList.add('edit-container');
+//                                 editContainer.style.width = '100%';
+//                                 editContainer.style.display = 'flex';
+//                                 editContainer.style.justifyContent = 'center';
+//                                 const editButton = document.createElement('div');
+//                                 editButton.classList.add('btn-edit');
+//                                 editButton.innerHTML = `<i class="fa-solid fa-eye" style="color: aliceblue;"></i>`;
+//                                 editButton.onclick = () => handleEdit(item, editButton);
+//                                 editCell.appendChild(editButton);
+//                                 editContainer.appendChild(editButton);
+//                                 editCell.appendChild(editContainer);
+//                                 tr.appendChild(editCell);
+
+//                                 // Code cell
+//                                 const codeCell = document.createElement('td');
+//                                 codeCell.textContent = item.name;
+//                                 tr.appendChild(codeCell);
+
+//                                 // Thumbnail cell
+//                                 const thumbnailCell = document.createElement('td');
+//                                 const thumbnail = document.createElement('img');
+//                                 thumbnail.src = `${config2.domain}/uploads/thumbnail/${item.thumbnail}`
+//                                 thumbnail.classList.add('thumbnail-image');
+//                                 thumbnailCell.appendChild(thumbnail);
+//                                 tr.appendChild(thumbnailCell);
+
+//                                 // Actress cell
+//                                 const actressCell = document.createElement('td');
+//                                 const actress = document.createElement('img');
+//                                 const actressImage = item.actress_id?.image;
+//                                 if(actressImage) {
+//                                         actress.src = `${config2.domain}/uploads/actress/avatar/${actressImage}`;
+//                                 } else {
+//                                         actress.src = "/admin/static/images/face/upload-profile.jpg";
+//                                 }
+//                                 actress.classList.add('actress-profile');
+//                                 actressCell.appendChild(actress);
+//                                 tr.appendChild(actressCell);
+
+//                                 // Studio Cell
+//                                 const studioCell = document.createElement('td');
+//                                 const studio = document.createElement('img');
+//                                 const studioImage = item.studio_id?.image;
+//                                 if(studioImage) {
+//                                         studio.src = `${config2.domain}/uploads/studio/${studioImage}`;
+//                                 } else {
+//                                         studio.src = "/admin/static/images/studio/default_studio.png";
+//                                 }
+//                                 studio.classList.add('studio-logo');
+//                                 studioCell.appendChild(studio);
+//                                 tr.appendChild(studioCell);
+
+//                                 // Story Cell
+//                                 const storyCell = document.createElement('td');
+//                                 const storyName = item.story_id?.name;
+//                                 if(storyName) {
+//                                         storyCell.textContent = storyName;
+//                                 } else {
+//                                         storyCell.textContent = ".......";
+//                                 }
+//                                 tr.appendChild(storyCell);
+                                
+//                                 // Release date
+//                                 const releaseDateCell = document.createElement('td');
+//                                 const releaseDate = new Date(item.release_date);
+//                                 releaseDateCell.textContent = releaseDate.toLocaleDateString('vi-VN');
+//                                 tr.appendChild(releaseDateCell);
+
+//                                 // Delete button cell
+//                                 const deleteCell = document.createElement('td');
+//                                 const deleteContainer = document.createElement('div');
+//                                 const deleteButton = document.createElement('div');
+//                                 deleteButton.classList.add('btn-delete');
+//                                 deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
+//                                 deleteButton.onclick = () => handleDelete(item._id);
+//                                 deleteCell.appendChild(deleteButton);
+//                                 tr.appendChild(deleteCell);
+
+//                                 tbody.appendChild(tr);
+//                         });
+//                 });
+//         } catch(error) {
+//                 console.error(error.message);
+//         }
+//         createFilm(".btn-create");
+// }
+
 export function loadFilm() {
         try {
-                fetch(`${config2.domain}${config2.endpoints.filmList}`)
+            fetch(`${config2.domain}${config2.endpoints.filmList}`)
                 .then(response => {
-                        if(!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                }) 
-                .then(filmList => {
-                        const tbody = document.querySelector("#films-table tbody");
-                        tbody.innerHTML = '';
-
-                        filmList.forEach(item => {
-                                const tr = document.createElement('tr');
-                                tr.setAttribute('data-id', item._id);
-
-                                // Edit button cell
-                                const editCell = document.createElement('td');
-                                const editContainer = document.createElement('div');
-                                editContainer.classList.add('edit-container');
-                                editContainer.style.width = '100%';
-                                editContainer.style.display = 'flex';
-                                editContainer.style.justifyContent = 'center';
-                                const editButton = document.createElement('div');
-                                editButton.classList.add('btn-edit');
-                                editButton.innerHTML = `<i class="fa-solid fa-eye" style="color: aliceblue;"></i>`;
-                                editButton.onclick = () => handleEdit(item, editButton);
-                                editCell.appendChild(editButton);
-                                editContainer.appendChild(editButton);
-                                editCell.appendChild(editContainer);
-                                tr.appendChild(editCell);
-
-                                // Code cell
-                                const codeCell = document.createElement('td');
-                                codeCell.textContent = item.name;
-                                tr.appendChild(codeCell);
-
-                                // Thumbnail cell
-                                const thumbnailCell = document.createElement('td');
-                                const thumbnail = document.createElement('img');
-                                thumbnail.src = `${config2.domain}/uploads/thumbnail/${item.thumbnail}`
-                                thumbnail.classList.add('thumbnail-image');
-                                thumbnailCell.appendChild(thumbnail);
-                                tr.appendChild(thumbnailCell);
-
-                                // Actress cell
-                                const actressCell = document.createElement('td');
-                                const actress = document.createElement('img');
-                                const actressImage = item.actress_id?.image;
-                                if(actressImage) {
-                                        actress.src = `${config2.domain}/uploads/actress/avatar/${actressImage}`;
-                                } else {
-                                        actress.src = "/admin/static/images/face/upload-profile.jpg";
-                                }
-                                actress.classList.add('actress-profile');
-                                actressCell.appendChild(actress);
-                                tr.appendChild(actressCell);
-
-                                // Studio Cell
-                                const studioCell = document.createElement('td');
-                                const studio = document.createElement('img');
-                                const studioImage = item.studio_id?.image;
-                                if(studioImage) {
-                                        studio.src = `${config2.domain}/uploads/studio/${studioImage}`;
-                                } else {
-                                        studio.src = "/admin/static/images/studio/default_studio.png";
-                                }
-                                studio.classList.add('studio-logo');
-                                studioCell.appendChild(studio);
-                                tr.appendChild(studioCell);
-
-                                // Story Cell
-                                const storyCell = document.createElement('td');
-                                const storyName = item.story_id?.name;
-                                if(storyName) {
-                                        storyCell.textContent = storyName;
-                                } else {
-                                        storyCell.textContent = ".......";
-                                }
-                                tr.appendChild(storyCell);
-                                
-                                // Release date
-                                const releaseDateCell = document.createElement('td');
-                                const releaseDate = new Date(item.release_date);
-                                releaseDateCell.textContent = releaseDate.toLocaleDateString('vi-VN');
-                                tr.appendChild(releaseDateCell);
-
-                                // Delete button cell
-                                const deleteCell = document.createElement('td');
-                                const deleteContainer = document.createElement('div');
-                                const deleteButton = document.createElement('div');
-                                deleteButton.classList.add('btn-delete');
-                                deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
-                                deleteButton.onclick = () => handleDelete(item._id);
-                                deleteCell.appendChild(deleteButton);
-                                tr.appendChild(deleteCell);
-
-                                tbody.appendChild(tr);
-                        })
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
                 })
-        } catch(error) {
-                console.error(error.message);
+                .then(filmList => {
+                    const tbody = document.querySelector("#films-table tbody");
+                    tbody.innerHTML = '';
+    
+                    filmList.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.setAttribute('data-id', item._id);
+    
+                        // Edit button cell
+                        const editCell = document.createElement('td');
+                        const editContainer = document.createElement('div');
+                        editContainer.classList.add('edit-container');
+                        editContainer.style.width = '100%';
+                        editContainer.style.display = 'flex';
+                        editContainer.style.justifyContent = 'center';
+                        const editButton = document.createElement('div');
+                        editButton.classList.add('btn-edit');
+                        editButton.innerHTML = `<i class="fa-solid fa-eye" style="color: aliceblue;"></i>`;
+                        editButton.onclick = () => handleEdit(item, editButton);
+                        editCell.appendChild(editButton);
+                        editContainer.appendChild(editButton);
+                        editCell.appendChild(editContainer);
+                        tr.appendChild(editCell);
+    
+                        // Code cell
+                        const codeCell = document.createElement('td');
+                        codeCell.textContent = item.name;
+                        tr.appendChild(codeCell);
+    
+                        // Thumbnail cell
+                        const thumbnailCell = document.createElement('td');
+                        const thumbnail = document.createElement('img');
+                        thumbnail.src = `${config2.domain}/uploads/thumbnail/${item.thumbnail}`;
+                        thumbnail.classList.add('thumbnail-image');
+    
+                        // Add hover and click logic for enlarging thumbnail
+                        thumbnail.addEventListener('click', (e) => {
+                                // Create enlarged image
+                                const largeImage = document.createElement('img');
+                                largeImage.src = thumbnail.src;
+                                largeImage.classList.add('enlarged-thumbnail');
+                                largeImage.style.position = 'absolute';
+                                largeImage.style.top = `${e.clientY}px`;
+                                largeImage.style.left = `${e.clientX}px`;
+                                largeImage.style.width = '300px';
+                                largeImage.style.height = '500px';
+                                largeImage.style.zIndex = '1000';
+                                largeImage.style.border = 'none';
+
+                                document.body.appendChild(largeImage);
+
+                                // Remove image on mouseout
+                                largeImage.addEventListener('click', () => {
+                                document.body.removeChild(largeImage);
+                                });
+                        });
+    
+                        thumbnailCell.appendChild(thumbnail);
+                        tr.appendChild(thumbnailCell);
+    
+                        // Actress cell
+                        const actressCell = document.createElement('td');
+                        const actress = document.createElement('img');
+                        const actressImage = item.actress_id?.image;
+                        if (actressImage) {
+                            actress.src = `${config2.domain}/uploads/actress/avatar/${actressImage}`;
+                        } else {
+                            actress.src = "/admin/static/images/face/upload-profile.jpg";
+                        }
+                        actress.classList.add('actress-profile');
+                        actressCell.appendChild(actress);
+                        tr.appendChild(actressCell);
+    
+                        // Studio Cell
+                        const studioCell = document.createElement('td');
+                        const studio = document.createElement('img');
+                        const studioImage = item.studio_id?.image;
+                        if (studioImage) {
+                            studio.src = `${config2.domain}/uploads/studio/${studioImage}`;
+                        } else {
+                            studio.src = "/admin/static/images/studio/default_studio.png";
+                        }
+                        studio.classList.add('studio-logo');
+                        studioCell.appendChild(studio);
+                        tr.appendChild(studioCell);
+    
+                        // Story Cell
+                        const storyCell = document.createElement('td');
+                        const storyName = item.story_id?.name;
+                        if (storyName) {
+                            storyCell.textContent = storyName;
+                        } else {
+                            storyCell.textContent = ".......";
+                        }
+                        tr.appendChild(storyCell);
+    
+                        // Release date
+                        const releaseDateCell = document.createElement('td');
+                        const releaseDate = new Date(item.release_date);
+                        releaseDateCell.textContent = releaseDate.toLocaleDateString('vi-VN');
+                        tr.appendChild(releaseDateCell);
+    
+                        // Delete button cell
+                        const deleteCell = document.createElement('td');
+                        const deleteContainer = document.createElement('div');
+                        const deleteButton = document.createElement('div');
+                        deleteButton.classList.add('btn-delete');
+                        deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
+                        deleteButton.onclick = () => handleDelete(item._id);
+                        deleteCell.appendChild(deleteButton);
+                        tr.appendChild(deleteCell);
+    
+                        tbody.appendChild(tr);
+                    });
+                });
+        } catch (error) {
+            console.error(error.message);
         }
         createFilm(".btn-create");
-}
+    }
+    
 
 function createFilm(btnCreateElement) {
         const btnCreate = document.querySelector(btnCreateElement); 
@@ -225,24 +356,12 @@ function createFilm(btnCreateElement) {
                                                 if(createdFilm._id) {
                                                         successSweetAlert('Film created successfully');
                                                 } else {
-                                                        Swal.fire({
-                                                                title: 'Error!',
-                                                                text: 'Failed to create film. Please try again.',
-                                                                icon: 'error',
-                                                                confirmButtonText: 'OK',
-                                                                confirmButtonColor: '#c82333',
-                                                        });                            
+                                                        errorSweetAlert("Error in backend");                        
                                                         throw new Error('Failed to create film. Invalid response from server.');
                                                 }
                                         } catch(error) {
                                                 console.error('Error creating actress in frontend: ', error.message );
-                                                Swal.fire({
-                                                        title: 'Error!',
-                                                        text: 'An error occurred while creating actress. Please try again.',
-                                                        icon: 'error',
-                                                        confirmButtonText: 'OK',
-                                                        confirmButtonColor: '#c82333',
-                                                });      
+                                                errorSweetAlert("Error in frontend");     
                                         } finally {
                                                 // Làm sách danh sách videoDataList
                                                 videoDataList = [];
@@ -547,13 +666,7 @@ async function handleEdit(item, btnEditElement) {
                                         
                                         const updatedFilm = await response.json();
         
-                                        Swal.fire({
-                                                title: "Success!",
-                                                text: "Film updated successfully!",
-                                                icon: "success",
-                                                confirmButtonTest: "OK",
-                                                confirmButtonColor: "#28a745",
-                                        });
+                                        successSweetAlert("Film updated");
         
                                         videoDataList = [];
                                 } catch(error) {
@@ -580,13 +693,7 @@ async function handleDelete(filmId) {
                         } 
                 } catch (error) {
                         console.error('Error deleting film: ', error);
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'An error occurred while deleting film.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#c82333',
-                        });
+                        errorSweetAlert("Error in frontend");
                 } finally {
                         loadFilm();
                         showToastNotification();

@@ -1,6 +1,7 @@
 import config2 from "../../../services/config.js";
 import { loadContent } from '../../../services/loadElement/loadDynamicPages.js';
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
+import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
 
 
 export function loadStory() {
@@ -100,26 +101,15 @@ async function createNewStory(formId, modalId) {
 
                         if (response.status === 409) {
                                 const result = await response.json(); 
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: result.message || 'An error occurred while creating story.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#c82333',
-                                });
+                                const message = result.message || 'An error occurred while creating story.';
+                                errorSweetAlert(message);
                                 return;
                         }
                         
                         if (response.status !== 201) {
                                 console.error('Failed to create story. HTTP Status:', response.status);
                                 console.error('Error: ', response);
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: 'An error occurred while creating story. Please try again.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#c82333',
-                                });         
+                                errorSweetAlert("error in backend");    
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
 
@@ -127,32 +117,14 @@ async function createNewStory(formId, modalId) {
 
                         if (createdStory._id) {
                                 console.log('Story is created successfully:', createdStory);
-                                Swal.fire({
-                                        title: 'Success!',
-                                        text: 'Actress created successfully!',
-                                        icon: 'success',
-                                        confirmButtonTest: 'OK',
-                                        confirmButtonColor: '#218838',
-                                });
+                                successSweetAlert("story created");
                         } else {
                                 console.error('Invalid response from server:', createdStory);
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: 'Failed to create story. Please try again.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#c82333',
-                                });                            
+                                errorSweetAlert("Error in backend");                     
                                 throw new Error('Failed to create story. Invalid response from server.');
                         }
                 } catch(error) {
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'An error occurred while creating actress. Please try again.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#c82333',
-                        });   
+                        errorSweetAlert("Error in frontend")
                 } finally {
                         loadStory();
                         storyForm.reset();
@@ -197,22 +169,10 @@ async function handleEdit(story) {
                         console.log("response: ", response);
                         
                         if (!response.ok) {
-                                Swal.fire({
-                                        title: "Error!",
-                                        text: "An error occurred while updating story.",
-                                        icon: "error",
-                                        confirmButtonText: "OK",
-                                        confirmButtonColor: "#c82333",
-                                });
+                                errorSweetAlert("Error in backend");
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         } else {
-                                Swal.fire({
-                                        title: "Success!",
-                                        text: "Actress updated successfully!",
-                                        icon: "success",
-                                        confirmButtonText: "OK",
-                                        confirmButtonColor: "#218838",
-                                });
+                                successSweetAlert("Story created");
                                 
                                 loadStory();
 
@@ -221,13 +181,7 @@ async function handleEdit(story) {
                         }
                 } catch(error) {
                         console.log("error: ", error);
-                        Swal.fire({
-                                title: "Error!",
-                                text: "An error occurred while updating story.",
-                                icon: "error",
-                                confirmButtonText: "OK",
-                                confirmButtonColor: "#c82333",
-                        });
+                        errorSweetAlert("Error in frontend");
                 }
         };
 }
@@ -263,13 +217,7 @@ async function handleDelete(storyId) {
                         loadStory()
                 } catch (error) {
                         console.error('Error deleting story:', error);
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'An error occurred while deleting the story.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#c82333',
-                        })
+                        errorSweetAlert("error in frontend");
                 }
         }
 }

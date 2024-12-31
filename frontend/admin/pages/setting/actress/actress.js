@@ -2,6 +2,7 @@ import config2 from "../../../services/config.js";
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { handleImageUpload } from "../../../services/HelperFunction/image.js";
 import { loadStudios } from '../../../services/loadElement/loadStudios.js';
+import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
 
 export function loadActressTable() {
         fetch(`${config2.domain}${config2.endpoints.actressList}`) 
@@ -112,26 +113,15 @@ async function createNewActress(formId, modalId) {
                         // Lỗi - nữ diễn viên đã tồn tại
                         if (response.status === 409) {
                                 const result = await response.json(); 
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: result.message || 'An error occurred while creating actress.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#28a745',
-                                });
+                                const message = result.message || 'An error occurred while creating actress.';
+                                errorSweetAlert(message);
                                 return;
                         }
 
                         if (response.status !== 201) {
                                 console.error('Failed to create actress. HTTP Status:', response.status);
                                 console.error('Error: ', response);
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: 'An error occurred while creating actress. Please try again.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#c82333',
-                                });         
+                                errorSweetAlert('Error in backend');    
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
 
@@ -139,35 +129,17 @@ async function createNewActress(formId, modalId) {
 
                         if (createdActress._id) {
                                 console.log('Actress is created successfully:', createdActress);
-                                Swal.fire({
-                                        title: 'Success!',
-                                        text: 'Actress created successfully!',
-                                        icon: 'success',
-                                        confirmButtonTest: 'OK',
-                                        confirmButtonColor: '#218838',
-                                });
+                                successSweetAlert('Actress created successfully!');
                         } else {
                                 console.error('Invalid response from server:', createdActress);
-                                Swal.fire({
-                                        title: 'Error!',
-                                        text: 'Failed to create actress. Please try again.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#c82333',
-                                });                            
+                                errorSweetAlert('Error in backend.');                      
                                 throw new Error('Failed to create actress. Invalid response from server.');
                         }
 
                         loadActressTable(); // Gọi lại hàm loadActressTable để cập nhật bảng
                 } catch (error) {
                         console.error('Error creating actress in frontend: ', error.message );
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'An error occurred while creating actress. Please try again.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#c82333',
-                        });                        
+                        errorSweetAlert('Error in frontend');                
                 } finally {
                         actressForm.reset();
                         if(imageUploadInput) { // Reset giá trị của input file
@@ -216,26 +188,14 @@ async function handleEdit(actress) {
                         );
 
                         if (!response.ok) {
-                                Swal.fire({
-                                        title: "Error!",
-                                        text: "An error occurred while updating actress.",
-                                        icon: "error",
-                                        confirmButtonText: "OK",
-                                        confirmButtonColor: '#c82333',
-                                });
+                                errorSweetAlert('error in backend');
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
 
                         const updatedActress = await response.json();
 
                         // Hiển thị thông báo thành công
-                        Swal.fire({
-                                title: "Success!",
-                                text: "Actress updated successfully!",
-                                icon: "success",
-                                confirmButtonText: "OK",
-                                confirmButtonColor: "#218838",
-                        });
+                        successSweetAlert("Actress updated successfully!");
 
                         // Tải lại bảng dữ liệu
                         loadActressTable();
@@ -247,13 +207,7 @@ async function handleEdit(actress) {
                         profileImage.src = "/admin/static/images/face/upload-profile.jpg"; // Đặt ảnh mặc định
                 } catch (error) {
                         console.error("Error updating actress in frontend:", error.message);
-                        Swal.fire({
-                                title: "Error!",
-                                text: "An error occurred while updating actress.",
-                                icon: "error",
-                                confirmButtonText: "OK",
-                                confirmButtonColor: "#c82333",
-                        });
+                        errorSweetAlert("Error in backend");
                 }
                 
         };
@@ -295,13 +249,7 @@ async function handleDelete(actressId) {
                         loadActressTable();
                 } catch (error) {
                         console.error('Error deleting actress:', error);
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'An error occurred while deleting the actress.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#c82333',
-                        });
+                        errorSweetAlert("Error in frontend");
                 }
         }
 }

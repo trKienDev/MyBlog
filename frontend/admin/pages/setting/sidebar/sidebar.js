@@ -1,4 +1,5 @@
 import config2 from "../../../services/config.js";
+import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
 import { RenderSidebar } from "../../../services/loadElement/loadSidebar.js";
 
 // Load sidebar-item
@@ -110,13 +111,7 @@ function deleteSidebarItem(id) {
                     row.remove(); // Xóa dòng khỏi bảng
                 }
                 // location.reload();
-                Swal.fire({
-                        title: 'Deleted!',
-                        text: 'Sidebar item deleted successfully!',
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#218838',
-                })
+                successSweetAlert("Sidebar added")
                 .then((result) => {
                         if (result.isConfirmed) {
                                RenderSidebar();
@@ -124,13 +119,7 @@ function deleteSidebarItem(id) {
                 });
         })
         .catch(error => {
-                Swal.fire({
-                        title: 'Error!',
-                        text: 'There was an error deleting the sidebar item.',
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#218838',
-                });
+                errorSweetAlert("Error in frontend");
                 console.error("Error deleting sidebar item:", error);
         });
 }
@@ -171,13 +160,7 @@ async function createSidebar(icon, name) {
                                 }
                         });
                 } else {
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'There was an error deleting the sidebar item.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#c82333',
-                        });
+                        errorSweetAlert("Error in backend");
                         const errorData = await response.json();
                         alert(`Error creating sidebar item: ${errorData.message}`);
                 } 

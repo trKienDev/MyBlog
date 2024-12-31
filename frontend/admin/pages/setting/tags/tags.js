@@ -1,4 +1,5 @@
 import config2 from "../../../services/config.js";
+import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
 
 export function loadTagsTable() {
         fetch(`${config2.domain}${config2.endpoints.tagList}`) 
@@ -102,13 +103,7 @@ async function createTags(name, kind) {
                                 }
                         });
                 } else {
-                        Swal.fire({
-                                title: 'Error!',
-                                text: 'There was an error deleting this tag.',
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#dc3545',
-                        });
+                        errorSweetAlert("Error in backend");
                         const errorData = await response.json();
                         alert(`Error creating tag: ${errorData.message}`);
                 } 
@@ -162,41 +157,17 @@ function updateTag() {
                 })
                 .then(response => {
                         if(response.status === 200) {
-                                Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Tag updated successfully',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#28a745',
-                                });
+                                successSweetAlert("Tag updated");
                         } else if (response.status === 404) {
-                                Swal.fire({
-                                        icon: 'error',
-                                        title: 'Not Found',
-                                        text: 'Tag not found!',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#dc3545',
-                                });
+                                errorSweetAlert("Tag not found!");
                         } else if (response.status === 500) {
-                                Swal.fire({
-                                        icon: 'error',
-                                        title: 'Error',
-                                        text: 'Tag update unsuccessful. Please try again.',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#dc3545',
-                                });       
+                                errorSweetAlert("Error in backend");      
                         }
                 })
                 .catch(error => {
                         flag = false;
                         console.error('Error updating sidebar items: ', error);
-                        Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'An error occurred while updating tags. Please check the console for more details.',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#dc3545',
-                        });
+                        errorSweetAlert("Error in frontend");
                 });
         });
 
@@ -239,13 +210,7 @@ function deleteSidebarItem(id) {
                 });
         })
         .catch(error => {
-                Swal.fire({
-                        title: 'Error!',
-                        text: 'There was an error deleting the sidebar item.',
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#dc3545',
-                });
+                errorSweetAlert("Error in frontend");
                 console.error("Error deleting sidebar item:", error);
         });
 }
