@@ -1,3 +1,23 @@
+export function successSweetAlert(text) {
+        Swal.fire({
+                title: 'Success!',
+                text: text,
+                icon: 'success',
+                confirmButtonTest: 'OK',
+                confirmButtonColor: '#61b939',
+        });
+}
+
+export function errorSweetAlert(text) {
+        Swal.fire({
+                title: 'Error!',
+                text: text,
+                icon: 'error',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#c82333',
+        });
+}
+
 export function confirmSweetAlert(text, confirmCallback) {
         Swal.fire({
                 title: 'Are you sure ?',

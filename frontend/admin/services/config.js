@@ -43,6 +43,7 @@ const config = {
                 filmCreate: '/admin/film/create',
                 filmList: '/admin/film/read',
                 filmUpdate: '/admin/film/update',
+                filmDelete: '/admin/film/delete',
                 // story
                 storyCreate: '/admin/story/create',
                 storyList: '/admin/story/read',

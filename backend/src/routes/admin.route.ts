@@ -7,7 +7,7 @@ import { getActress, createActress, updateActress, deleteActress } from '../Admi
 import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
 import { getTags, getTagVideo, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
 import { createVideo, getVideoById, updateVideo, deleteVideo } from '../Admin/Controllers/video.controller.js';
-import { createFilm, getFilm, updateFilm } from '../Admin/Controllers/film.controller.js';
+import { createFilm, getFilm, updateFilm, deleteFilm } from '../Admin/Controllers/film.controller.js';
 import { createStory, getStory, updateStory, deleteStory } from '../Admin/Controllers/story.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { attachParams } from '../middlewares/attachParams.js';
@@ -91,7 +91,9 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
                 getFilm (req, res);
         } else if ( url?.startsWith ( '/admin/film/update' ) && method === 'PUT' ) {
                 updateFilm (req as CustomRequest, res);
-        }
+        } else if ( url?.startsWith ( '/admin/film/delete' ) && method === 'DELETE' ) {
+                deleteFilm (req as CustomRequest, res);
+        } 
         // Story
         else if ( url?.startsWith ( '/admin/story/create' ) && method === 'POST' ) {
                 createStory ( req, res );

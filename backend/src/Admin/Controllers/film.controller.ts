@@ -109,3 +109,28 @@ export const updateFilm = async (req: CustomRequest, res: ServerResponse) => {
                 sendError(res, 500, { message: "Failed to update film.", error: err.message });
         }
 };
+
+export const deleteFilm = async (req: CustomRequest, res: ServerResponse) => {
+        try {
+                const urlParts = req.url?.split("/");
+                const filmId = urlParts?.[urlParts.length - 1];
+
+                const film = await FilmModel.findById(filmId);
+                if(!film) {
+                        return sendError(res, 404, { message: "Film not found !"});
+                }
+
+                const videoIds = film.video;
+                if(videoIds && videoIds.length > 0) {
+                        await VideoModel.deleteMany({ _id: { $in: videoIds }});
+                }
+
+                await FilmModel.findByIdAndDelete(filmId);
+
+                sendResponse(res, 200, { message: "Film deleted successfully"});
+        } catch(error) {
+                const err = error as Error;
+                console.error("Error while deleting film: ", err.message);
+                sendError(res, 500, { message: "Failed to delete film.", error: err.message});
+        }
+};
