@@ -105,6 +105,7 @@ async function createNewStory(formId, modalId) {
                                         text: result.message || 'An error occurred while creating story.',
                                         icon: 'error',
                                         confirmButtonText: 'OK',
+                                        confirmButtonColor: '#c82333',
                                 });
                                 return;
                         }
@@ -116,7 +117,8 @@ async function createNewStory(formId, modalId) {
                                         title: 'Error!',
                                         text: 'An error occurred while creating story. Please try again.',
                                         icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#c82333',
                                 });         
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
@@ -129,7 +131,8 @@ async function createNewStory(formId, modalId) {
                                         title: 'Success!',
                                         text: 'Actress created successfully!',
                                         icon: 'success',
-                                        confirmButtonTest: 'OK'
+                                        confirmButtonTest: 'OK',
+                                        confirmButtonColor: '#218838',
                                 });
                         } else {
                                 console.error('Invalid response from server:', createdStory);
@@ -137,7 +140,8 @@ async function createNewStory(formId, modalId) {
                                         title: 'Error!',
                                         text: 'Failed to create story. Please try again.',
                                         icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#c82333',
                                 });                            
                                 throw new Error('Failed to create story. Invalid response from server.');
                         }
@@ -146,7 +150,8 @@ async function createNewStory(formId, modalId) {
                                 title: 'Error!',
                                 text: 'An error occurred while creating actress. Please try again.',
                                 icon: 'error',
-                                confirmButtonText: 'OK'
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#c82333',
                         });   
                 } finally {
                         loadStory();
@@ -197,6 +202,7 @@ async function handleEdit(story) {
                                         text: "An error occurred while updating story.",
                                         icon: "error",
                                         confirmButtonText: "OK",
+                                        confirmButtonColor: "#c82333",
                                 });
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         } else {
@@ -205,6 +211,7 @@ async function handleEdit(story) {
                                         text: "Actress updated successfully!",
                                         icon: "success",
                                         confirmButtonText: "OK",
+                                        confirmButtonColor: "#218838",
                                 });
                                 
                                 loadStory();
@@ -219,6 +226,7 @@ async function handleEdit(story) {
                                 text: "An error occurred while updating story.",
                                 icon: "error",
                                 confirmButtonText: "OK",
+                                confirmButtonColor: "#c82333",
                         });
                 }
         };
@@ -260,6 +268,7 @@ async function handleDelete(storyId) {
                                 text: 'An error occurred while deleting the story.',
                                 icon: 'error',
                                 confirmButtonText: 'OK',
+                                confirmButtonColor: '#c82333',
                         })
                 }
         }

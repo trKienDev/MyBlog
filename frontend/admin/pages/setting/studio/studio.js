@@ -112,7 +112,8 @@ async function createNewStudio(formId, modalId) {
                                         title: 'Error!',
                                         text: 'An error occurred while creating studio. Please try again.',
                                         icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#c82333',
                                 });
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
@@ -124,7 +125,8 @@ async function createNewStudio(formId, modalId) {
                                         title: 'Success!',
                                         text: 'Studio created successfully!',
                                         icon: 'success',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#218838',
                                 });
                                 loadStudioTable(); 
                         } else {
@@ -132,7 +134,8 @@ async function createNewStudio(formId, modalId) {
                                         title: 'Error!',
                                         text: 'Failed to create studio. Please try again.',
                                         icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#c82333',
                                 });
                                 throw new Error('Failed to create studio. Invalid response from server.');
                         }
@@ -142,7 +145,8 @@ async function createNewStudio(formId, modalId) {
                                 title: 'Error!',
                                 text: 'An error occurred while creating studio. Please try again.',
                                 icon: 'error',
-                                confirmButtonText: 'OK'
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#c82333',
                         });
                 } finally {
                         studioForm.reset();
@@ -185,7 +189,8 @@ function handleEdit(studio) {
                                         title: 'Error!',
                                         text: 'An error occurred while updating studio.',
                                         icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#c82333',
                                 });
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
@@ -194,17 +199,19 @@ function handleEdit(studio) {
                                 title: 'Success!',
                                 text: 'Studio updated successfully!',
                                 icon: 'success',
-                                confirmButtonText: 'OK'
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#28a745',
                         });
         
                         loadStudioTable(); // Reload table
                 } catch (error) {
                         console.error('Error updating studio: ', error);
                         Swal.fire({
-                        title: 'Error!',
-                        text: 'An error occurred while updating studio.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
+                                title: 'Error!',
+                                text: 'An error occurred while updating studio.',
+                                icon: 'error',
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#dc3545',
                         });
                 } finally {
                         studioModal.style.display = "none";
@@ -233,7 +240,8 @@ function handleDelete(studioId) {
                                                 title: 'Error!',
                                                 text: 'Failed to delete the studio. Please try again.',
                                                 icon: 'error',
-                                                confirmButtonText: 'OK'
+                                                confirmButtonText: 'OK',
+                                                confirmButtonColor: '#dc3545',
                                         });
                                         throw new Error(`HTTP error! Status: ${response.status}`);
                                 }
@@ -242,7 +250,8 @@ function handleDelete(studioId) {
                                         title: 'Deleted!',
                                         text: 'Studio has been deleted.',
                                         icon: 'success',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#28a745',
                                 });
 
                                 loadStudioTable();
@@ -252,7 +261,8 @@ function handleDelete(studioId) {
                                         title: 'Error!',
                                         text: 'Failed to delete the studio. Please try again.',
                                         icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#dc3545',
                                 });
                         }
                 }
@@ -273,7 +283,8 @@ async function createNewCodeAV(event) {
                         title: 'Error!',
                         text: 'Please select a studio and enter a code name.',
                         icon: 'error',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#dc3545',
                 });
                 return;
         }
@@ -295,7 +306,8 @@ async function createNewCodeAV(event) {
                                 title: 'Success!',
                                 text: 'Code created successfully!',
                                 icon: 'success',
-                                confirmButtonText: 'OK'
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#28a745',
                         });
                         codeInput.value = '';
                         studioSelect.value = '';

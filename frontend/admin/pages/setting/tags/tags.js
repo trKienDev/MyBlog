@@ -94,7 +94,8 @@ async function createTags(name, kind) {
                                 title : 'Success !' ,
                                 text : 'New tag is successfully added !',
                                 icon : 'Success',
-                                confirmButtonText : 'OK'
+                                confirmButtonText : 'OK',
+                                confirmButtonColor: '#28a745',
                         }).then(( result ) => {
                                 if ( result.isConfirmed ) {
                                         loadTagsTable();
@@ -105,7 +106,8 @@ async function createTags(name, kind) {
                                 title: 'Error!',
                                 text: 'There was an error deleting this tag.',
                                 icon: 'error',
-                                confirmButtonText: 'OK'
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#dc3545',
                         });
                         const errorData = await response.json();
                         alert(`Error creating tag: ${errorData.message}`);
@@ -132,7 +134,8 @@ function updateTag() {
                         icon: 'warning',
                         title: 'No Tags Selected',
                         text: 'You must check the box to update a tag!',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#ffc107',
                 });
                 return;
         }
@@ -163,21 +166,24 @@ function updateTag() {
                                         icon: 'success',
                                         title: 'Success',
                                         text: 'Tag updated successfully',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#28a745',
                                 });
                         } else if (response.status === 404) {
                                 Swal.fire({
                                         icon: 'error',
                                         title: 'Not Found',
                                         text: 'Tag not found!',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#dc3545',
                                 });
                         } else if (response.status === 500) {
                                 Swal.fire({
                                         icon: 'error',
                                         title: 'Error',
                                         text: 'Tag update unsuccessful. Please try again.',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#dc3545',
                                 });       
                         }
                 })
@@ -188,7 +194,8 @@ function updateTag() {
                                 icon: 'error',
                                 title: 'Error',
                                 text: 'An error occurred while updating tags. Please check the console for more details.',
-                                confirmButtonText: 'OK'
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#dc3545',
                         });
                 });
         });
@@ -222,7 +229,8 @@ function deleteSidebarItem(id) {
                         title: 'Deleted!',
                         text: 'Sidebar item deleted successfully!',
                         icon: 'success',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#28a745',
                 })
                 .then((result) => {
                         if (result.isConfirmed) {
@@ -235,7 +243,8 @@ function deleteSidebarItem(id) {
                         title: 'Error!',
                         text: 'There was an error deleting the sidebar item.',
                         icon: 'error',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#dc3545',
                 });
                 console.error("Error deleting sidebar item:", error);
         });

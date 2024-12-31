@@ -13,7 +13,6 @@ const actressUploadPath = path.join(process.cwd(), "..", "..", "uploads","actres
 export const createActress = async (req: CustomRequest, res: ServerResponse) => {
         try {
                 await handleUpload(req, actressUploadPath); // Xử lý upload file và các dữ liệu khác cùng lúc
-                console.log("body: ", (req as any).body);
 
                 const { name, birth, skin, studio, body, breast } = (req as any).body; // Lấy dữ liệu từ request sau khi multer xử lý
                 
@@ -76,8 +75,7 @@ export const updateActress = async (req: CustomRequest, res: ServerResponse) => 
                 if ((req as any).file) {
                         newImageName = (req as any).file.filename;
                 }
-                console.log("new: ", newImageName);
-                console.log("old: ", oldActress);
+
                 // Nếu có ảnh mới được tải lên, cần xử lý ảnh cũ
                 if (newImageName && oldActress.image) {
                         const oldImagePath = path.join(process.cwd(),

@@ -117,6 +117,7 @@ async function createNewActress(formId, modalId) {
                                         text: result.message || 'An error occurred while creating actress.',
                                         icon: 'error',
                                         confirmButtonText: 'OK',
+                                        confirmButtonColor: '#28a745',
                                 });
                                 return;
                         }
@@ -128,7 +129,8 @@ async function createNewActress(formId, modalId) {
                                         title: 'Error!',
                                         text: 'An error occurred while creating actress. Please try again.',
                                         icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#c82333',
                                 });         
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
@@ -141,7 +143,8 @@ async function createNewActress(formId, modalId) {
                                         title: 'Success!',
                                         text: 'Actress created successfully!',
                                         icon: 'success',
-                                        confirmButtonTest: 'OK'
+                                        confirmButtonTest: 'OK',
+                                        confirmButtonColor: '#218838',
                                 });
                         } else {
                                 console.error('Invalid response from server:', createdActress);
@@ -149,7 +152,8 @@ async function createNewActress(formId, modalId) {
                                         title: 'Error!',
                                         text: 'Failed to create actress. Please try again.',
                                         icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#c82333',
                                 });                            
                                 throw new Error('Failed to create actress. Invalid response from server.');
                         }
@@ -161,7 +165,8 @@ async function createNewActress(formId, modalId) {
                                 title: 'Error!',
                                 text: 'An error occurred while creating actress. Please try again.',
                                 icon: 'error',
-                                confirmButtonText: 'OK'
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#c82333',
                         });                        
                 } finally {
                         actressForm.reset();
@@ -216,6 +221,7 @@ async function handleEdit(actress) {
                                         text: "An error occurred while updating actress.",
                                         icon: "error",
                                         confirmButtonText: "OK",
+                                        confirmButtonColor: '#c82333',
                                 });
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                         }
@@ -228,6 +234,7 @@ async function handleEdit(actress) {
                                 text: "Actress updated successfully!",
                                 icon: "success",
                                 confirmButtonText: "OK",
+                                confirmButtonColor: "#218838",
                         });
 
                         // Tải lại bảng dữ liệu
@@ -245,6 +252,7 @@ async function handleEdit(actress) {
                                 text: "An error occurred while updating actress.",
                                 icon: "error",
                                 confirmButtonText: "OK",
+                                confirmButtonColor: "#c82333",
                         });
                 }
                 
@@ -292,6 +300,7 @@ async function handleDelete(actressId) {
                                 text: 'An error occurred while deleting the actress.',
                                 icon: 'error',
                                 confirmButtonText: 'OK',
+                                confirmButtonColor: '#c82333',
                         });
                 }
         }

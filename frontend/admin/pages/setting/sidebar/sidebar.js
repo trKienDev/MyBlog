@@ -114,7 +114,8 @@ function deleteSidebarItem(id) {
                         title: 'Deleted!',
                         text: 'Sidebar item deleted successfully!',
                         icon: 'success',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#218838',
                 })
                 .then((result) => {
                         if (result.isConfirmed) {
@@ -127,7 +128,8 @@ function deleteSidebarItem(id) {
                         title: 'Error!',
                         text: 'There was an error deleting the sidebar item.',
                         icon: 'error',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#218838',
                 });
                 console.error("Error deleting sidebar item:", error);
         });
@@ -160,7 +162,8 @@ async function createSidebar(icon, name) {
                                 title : 'Success !' ,
                                 text : 'New sidebar item successfully added !',
                                 icon : 'Success',
-                                confirmButtonText : 'OK'
+                                confirmButtonText : 'OK',
+                                confirmButtonColor: '#218838',
                         }).then(( result ) => {
                                 if ( result.isConfirmed ) {
                                         loadSidebarTable();
@@ -172,7 +175,8 @@ async function createSidebar(icon, name) {
                                 title: 'Error!',
                                 text: 'There was an error deleting the sidebar item.',
                                 icon: 'error',
-                                confirmButtonText: 'OK'
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#c82333',
                         });
                         const errorData = await response.json();
                         alert(`Error creating sidebar item: ${errorData.message}`);

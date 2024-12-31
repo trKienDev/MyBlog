@@ -159,9 +159,6 @@ export const updateVideo = async (req: CustomRequest, res: ServerResponse) => {
             const customReq = req as CustomRequest;
             const files = customReq.files;
             const body = customReq.body;
-
-            console.log("files: ", files);
-            console.log("body: ", body);
         });
         // const urlPath = req.url?.split("/");
         // const videoId = urlPath?.[urlPath.length - 1];
@@ -213,8 +210,6 @@ export const deleteVideo = async (req: IncomingMessage, res: ServerResponse) => 
         // Lấy videoId từ URL
         const urlParts = req.url?.split("/");
         const videoId = urlParts?.[urlParts.length - 1];
-
-        console.log("url in deleteVideo: ", req.url);
 
         if(!videoId) {
             return sendError(res, 400, { message:  "Video ID is required"});

@@ -6,6 +6,7 @@ import { loadActress } from '../../../services/loadElement/loadActress.js';
 import { loadTag } from '../../../services/loadElement/loadTag.js';
 import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
 import { loadStory } from "../../../services/loadElement/loadStory.js";
+import { confirmSweetAlert, showToastNotification } from "../../../services/HelperFunction/sweetAlert.js";
 
 let videoDataList = [];
 
@@ -178,7 +179,6 @@ function createFilm(btnCreateElement) {
                                                 videoForm.append(`video_${index}`, item.file); // Video file
                                                 videoForm.append(`video_tag_${index}`, item.tag); // Tag tương ứng
                                         });
-                                        console.log("videoForm: ", videoForm);
                                         // Gửi formData qua fetch hoặc XHR
                                         const videoResponse = await fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
                                                 method: 'POST',
@@ -201,14 +201,13 @@ function createFilm(btnCreateElement) {
                                         filmForm.append("releaseDate", releaseDate);
                                         filmForm.append("file", thumbnailFile);
                                         filmForm.append('videos', videoIds.join(','));
-                                        console.log("film data: ", filmForm);
 
                                         try {
                                                 const filmResponse = await fetch(`${config2.domain}${config2.endpoints.filmCreate}`, {
                                                         method: 'POST',
                                                         body: filmForm
                                                 });
-                                                console.log(filmResponse);
+
                                                 if(filmResponse.status === 409) {
                                                         const result = await filmResponse.json();
                                                         Swal.fire({
@@ -216,6 +215,7 @@ function createFilm(btnCreateElement) {
                                                                 text: 'This film already exists!',
                                                                 icon: 'error',
                                                                 confirmButtonText: 'OK',
+                                                                confirmButtonColor: '#c82333',
                                                         });
                                                         return;
                                                 }
@@ -228,6 +228,7 @@ function createFilm(btnCreateElement) {
                                                                 text: 'An error occurred while creating actress. Please try again.',
                                                                 icon: 'error',
                                                                 confirmButtonText: 'OK',
+                                                                confirmButtonColor: '#c82333',
                                                         });
                                                         throw new Error(`HTTP error! Status: ${filmResponse.status}`);
                                                 }
@@ -238,14 +239,16 @@ function createFilm(btnCreateElement) {
                                                                 title: 'Success!',
                                                                 text: 'Film created successfully!',
                                                                 icon: 'success',
-                                                                confirmButtonTest: 'OK'
+                                                                confirmButtonTest: 'OK',
+                                                                confirmButtonColor: '#218838',
                                                         });
                                                 } else {
                                                         Swal.fire({
                                                                 title: 'Error!',
                                                                 text: 'Failed to create film. Please try again.',
                                                                 icon: 'error',
-                                                                confirmButtonText: 'OK'
+                                                                confirmButtonText: 'OK',
+                                                                confirmButtonColor: '#c82333',
                                                         });                            
                                                         throw new Error('Failed to create film. Invalid response from server.');
                                                 }
@@ -255,7 +258,8 @@ function createFilm(btnCreateElement) {
                                                         title: 'Error!',
                                                         text: 'An error occurred while creating actress. Please try again.',
                                                         icon: 'error',
-                                                        confirmButtonText: 'OK'
+                                                        confirmButtonText: 'OK',
+                                                        confirmButtonColor: '#c82333',
                                                 });      
                                         } finally {
                                                 const formElement = document.getElementById('create-film');
@@ -385,7 +389,7 @@ async function handleEdit(item, btnEditElement) {
                                                 tagsListElement.removeChild(tagItem); // Xóa tag khỏi giao diện
                                                 const index = selectedTagIds.indexOf(tagId); // Xóa ID khỏi mảng
                                                 if(index > -1) {
-                                                        selectTag.splice(index, 1);
+                                                        selectedTagIds.splice(index, 1);
                                                 }
                                         });
 
@@ -416,7 +420,6 @@ async function handleEdit(item, btnEditElement) {
                                         
                                         displayVideo(videoUrl, index, videoListDiv, (indexToRemove) => {
                                                 list_videoDeleted.push(videoData.video); // Lưu ID video vào danh sách xóa
-                                                console.log("list_videoDelete: ", list_videoDeleted);
                                                 removeVideo(indexToRemove);
                                         });
                                 });
@@ -450,8 +453,12 @@ async function handleEdit(item, btnEditElement) {
                                 // story
                                 const story = document.getElementById("film-story").value;
 
+                                // release date
+                                const releaseDate = document.getElementById('release_date').value;
+
                                 // tag
-                                
+                                const tagItems = document.querySelectorAll('#tags-selected .tag-item');
+                                const dataTagIds = Array.from(tagItems).map(item => item.getAttribute('data-tag-id'));
 
                                 // Add video
                                 let list_addedVideoIds = [];
@@ -481,7 +488,6 @@ async function handleEdit(item, btnEditElement) {
 
                                                 const uploadedVideos = await videoResponse.json();
                                                 list_addedVideoIds = uploadedVideos.map((video) => video._id);
-                                                console.log("uploadedVideoIds: ", list_addedVideoIds);
                                         } catch(error) {
                                                 console.error("Error while uploading videos: ", error.message);
                                                 return;
@@ -490,7 +496,7 @@ async function handleEdit(item, btnEditElement) {
 
                                 // Delete video
                                 let list_videoDeletedIds = [];
-                                console.log("list_videoDeleted: ", list_videoDeleted);
+                                console.log("list_videoDeletedl :", list_videoDeleted);
                                 if(list_videoDeleted.length > 0) {
                                         try {
                                                 const deletePromises = list_videoDeleted.map(videoId => 
@@ -522,30 +528,49 @@ async function handleEdit(item, btnEditElement) {
                                 for(let i = 0; i < currentVideoIds.length; i++) {
                                         for(let k = 0; k < list_videoDeletedIds.length; k++) {
                                                 if(currentVideoIds[i] == list_videoDeletedIds[k]._id) {
-                                                        currentVideoIds.splice(k, 1);
+                                                        currentVideoIds.splice(i, 1);
                                                 }
                                         }
                                 }
-                                console.log("list_addedVideoIds", list_addedVideoIds);
+                                
                                 if(list_addedVideoIds.length > 0) {
                                         for(let i = 0; i < list_addedVideoIds.length; i++) {
                                                 currentVideoIds.push(list_addedVideoIds[i]);
                                         }
                                 }
-                                
+
                                 const filmForm = new FormData();
                                 filmForm.append("name", name);
                                 filmForm.append("studio", studio);
-                                filmForm.append("code", codeElement);
+                                filmForm.append("code", codeElement.value);
+                                filmForm.append("releaseDate", releaseDate);
                                 filmForm.append("actress", actress);
                                 filmForm.append("story", story);
-                                filmForm.append("tag", selectedTagIds);
+                                filmForm.append("tag", dataTagIds);
                                 if(thumbnailFile) {
                                         filmForm.append("file", thumbnailFile);
                                 }
                                 filmForm.append("videos", currentVideoIds.join(','));
 
-                                console.log("film data: ", filmForm);
+                                const response = await fetch(`${config2.domain}${config2.endpoints.filmUpdate}/${item._id}`, {
+                                        method: "PUT",
+                                        body: filmForm,
+                                });
+
+                                if(!response.ok) {
+                                        const errorData = await response.json();
+                                        throw new Error(errorData.message || "Failed to update film");
+                                }
+                                
+                                const updatedFilm = await response.json();
+
+                                Swal.fire({
+                                        title: "Success!",
+                                        text: "Film updated successfully!",
+                                        icon: "success",
+                                        confirmButtonTest: "OK",
+                                        confirmButtonColor: "#28a745",
+                                });
 
                                 videoDataList = [];
                         });
@@ -699,9 +724,12 @@ function displayVideo(videoUrl, index, videoListDiv, removeCallback) {
         deleteButton.style.marginTop = '10px';
 
         deleteButton.addEventListener('click', function() {
-                removeCallback(index);
-                videoBox.remove();
-                updateVideoIndexes(videoListDiv);
+                confirmSweetAlert('Delete this video ?', () => {
+                        removeCallback(index);
+                        videoBox.remove();
+                        updateVideoIndexes(videoListDiv);
+                        showToastNotification();
+                });
         });
 
         videoBox.appendChild(videoElement);
@@ -729,3 +757,4 @@ function updateVideoIndexes(videoListDiv) {
                 box.dataset.index = newIndex;
         });
 }
+
