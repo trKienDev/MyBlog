@@ -3,52 +3,49 @@ import { setupModalHandlers } from "../../../services/module/modal.js";
 import { handleImageUpload } from "../../../services/module/image.js";
 import { createEditButtonCell, createTdTextCell, createImageCell, createDeleteButtonCell } from "../../../services/module/HTMLHandler.js";
 import { errorSweetAlert, successSweetAlert } from "../../../services/module/sweetAlert.js";
+import { fetchAPI } from "../../../../services/apiService.js";
 
-export function loadStudioTable() {
-        fetch(`${config2.domain}${config2.endpoints.studioList}`)
-        .then(response => {
-                if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json(); // Chuyển đổi phản hồi sang JSON
-        })
-        .then(studioList => {
+export async function loadStudioTable() {
+        try {
+                const studioResponse = await fetchAPI(config2.endpoints.studioList);
+                const studioList = await studioResponse.json();
+
                 const tbody = document.querySelector('#studio-table tbody');
                 tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
-
+        
                 studioList.forEach(item => {
                         const tr = document.createElement('tr');
                         tr.setAttribute('data-id', item._id);
-
+        
                         // Edit button cell
                         const editCell = createEditButtonCell('edit-container', item, handleEdit);
                         tr.appendChild(editCell);
-
+        
                         // Name cell
                         const nameCell = createTdTextCell(item.name);
                         tr.appendChild(nameCell);
-
+        
                         // Image cell
                         const imgSrc = `${config2.domain}/uploads/studio/${item.image}` || '/admin/static/images/face/profile-default.jpg';
                         const imageCell = createImageCell(imgSrc, 'profile');
                         tr.appendChild(imageCell);
-
+        
                         // Delete button cell
                         const deleteCell = createDeleteButtonCell(item._id, 'btn-delete', handleDelete);
                         tr.appendChild(deleteCell);
-
+        
                         // Append the row to the table body
                         tbody.appendChild(tr);
                 });
-        })
-        .catch(error => {
-                console.error('Error fetching studio data: ', error);
-        });
-        loadStudioOptions();
-        setupModalHandlers("openModalButton", "closeModalButton", "studioModal"); // Setup open and close modal
-        handleImageUpload("profile-image", "image-upload"); // Setup image upload logic
-        createNewStudio("studioForm", "studioModal"); // Handle form submission for creating a new studio
-        document.getElementById('sidebar-form').addEventListener('submit', createNewCodeAV);
+        
+                loadStudioOptions();
+                setupModalHandlers("openModalButton", "closeModalButton", "studioModal"); 
+                handleImageUpload("profile-image", "image-upload"); 
+                createNewStudio("studioForm", "studioModal"); 
+                document.getElementById('sidebar-form').addEventListener('submit', createNewCodeAV);
+        } catch(error) {
+                console.error("Error fetching data: ", error.message);
+        }
 }
 
 async function loadStudioOptions() {

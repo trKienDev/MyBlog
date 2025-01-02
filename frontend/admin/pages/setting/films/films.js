@@ -8,34 +8,30 @@ import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
 import { loadStory } from "../../../services/loadElement/loadStory.js";
 import { createEditButtonCell, createTdTextCell, createImageCell, clickToDisplayLargeImg, createDeleteButtonCell } from "../../../services/module/HTMLHandler.js";
 import { errorSweetAlert, confirmSweetAlert, showToastNotification, successSweetAlert } from "../../../services/module/sweetAlert.js";
+import { fetchAPI, postAPI, deleteAPI, putAPI } from "../../../../services/apiService.js";
 
 let videoDataList = [];
 
-export function loadFilm() {
+export async function loadFilm() {
         try {
-            fetch(`${config2.domain}${config2.endpoints.filmList}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(filmList => {
-                    const tbody = document.querySelector("#films-table tbody");
-                    tbody.innerHTML = '';
-    
-                    filmList.forEach(item => {
+                const filmResponse = await fetchAPI(config2.endpoints.filmList);
+                const filmList = await filmResponse.json();
+
+                const tbody = document.querySelector("#films-table tbody");
+                tbody.innerHTML = '';
+
+                filmList.forEach(item => {
                         const tr = document.createElement('tr');
                         tr.setAttribute('data-id', item._id);
-    
+
                         // Edit button cell
                         const editCell = createEditButtonCell('edit-container', item, handleEdit);
                         tr.appendChild(editCell);
-    
+
                         // Code cell
                         const codeCell = createTdTextCell(item.name);
                         tr.appendChild(codeCell);
-    
+
                         // Thumbnail cell
                         const thumbnailSrc = `${config2.domain}/uploads/thumbnail/${item.thumbnail}`;
                         const thumbnailCell = createImageCell(thumbnailSrc, 'thumbnail-image');
@@ -43,40 +39,39 @@ export function loadFilm() {
 
                         const thumbnail = thumbnailCell.querySelector('img');
                         clickToDisplayLargeImg(thumbnail, 'enlarged-thumbnail', '300px', '500px');
-    
+
                         // Actress cell
                         const actressImgSrc = item.actress_id?.image 
                                                                 ? `${config2.domain}/uploads/actress/avatar/${item.actress_id.image}` 
                                                                 : "/admin/static/images/face/upload-profile.jpg";
                         const actressCell = createImageCell(actressImgSrc, 'actress-profile');
                         tr.appendChild(actressCell);
-    
+
                         // Studio Cell
                         const studioImgSrc = item.studio_id?.image 
                                                                 ? `${config2.domain}/uploads/studio/${item.studio_id.image}`
                                                                 :  "/admin/static/images/studio/default_studio.png";
                         const studioCell = createImageCell(studioImgSrc, 'studio-logo');
                         tr.appendChild(studioCell);
-    
+
                         // Story Cell
                         const storyName = item.story_id?.name || "..........";
                         const storyCell = createTdTextCell(storyName);
                         tr.appendChild(storyCell);
-    
+
                         // Release date
                         const releaseDate = new Date(item.release_date);
                         const releaseDateCell = createTdTextCell(releaseDate.toLocaleDateString('vi-VN'));
                         tr.appendChild(releaseDateCell);
-    
+
                         // Delete button cell
                         const deleteCell = createDeleteButtonCell(item._id, 'btn-delete', handleDelete);
                         tr.appendChild(deleteCell);
-    
+
                         tbody.appendChild(tr);
-                    });
                 });
         } catch (error) {
-            console.error(error.message);
+            console.error("Error fetching data: ", error.message);
         }
         createFilm(".btn-create");
 }
@@ -145,14 +140,8 @@ function createFilm(btnCreateElement) {
                                                 videoForm.append(`video_tag_${index}`, item.tag); // Tag tương ứng
                                         });
                                         // Gửi formData qua fetch hoặc XHR
-                                        const videoResponse = await fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
-                                                method: 'POST',
-                                                body: videoForm
-                                        });
+                                        const videoResponse = await postAPI(config2.endpoints.videoCreate, videoForm);
                                         const videoData = await videoResponse.json();
-                                        if (!videoResponse.ok) {
-                                                throw new Error(videoData.message || "Failed to create videos.");
-                                        }
                                         const videoIds = videoData.map((video) => video._id);
 
                                         // --* filmForm *--
@@ -168,10 +157,7 @@ function createFilm(btnCreateElement) {
                                         filmForm.append('videos', videoIds.join(','));
 
                                         try {
-                                                const filmResponse = await fetch(`${config2.domain}${config2.endpoints.filmCreate}`, {
-                                                        method: 'POST',
-                                                        body: filmForm
-                                                });
+                                                const filmResponse = await postAPI(config2.endpoints.filmCreate, filmForm);
 
                                                 if(filmResponse.status === 409) {
                                                         errorSweetAlert('This film already exist !');
@@ -180,7 +166,6 @@ function createFilm(btnCreateElement) {
 
                                                 if(filmResponse.status !== 201) {
                                                         console.error('Failed to create actress. HTTP Status:', filmResponse.status);
-                                                        console.error('Error: ', filmResponse);
                                                         errorSweetAlert('An error occurred while creating actress. Please try again.');
                                                         throw new Error(`HTTP error! Status: ${filmResponse.status}`);
                                                 }
@@ -344,11 +329,7 @@ async function handleEdit(item, btnEditElement) {
 
                                 // Duyệt qua từng video trong item.video và hiển thị
                                 item.video.forEach( async(videoId, index) => {
-                                        const response = await fetch(`${config2.domain}${config2.endpoints.videoGetById}/${videoId}`);
-                                        if(!response.ok) {
-                                                console.error(`Failed to fetch video details for ID: ${videoId}`);
-                                                return;
-                                        }
+                                        const response = await fetchAPI(`${config2.endpoints.videoGetById}/${videoId}`);
 
                                         const videoData = await response.json();
                                         const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
@@ -410,16 +391,7 @@ async function handleEdit(item, btnEditElement) {
                                         });
 
                                         try {
-                                                const videoResponse = await fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
-                                                        method: 'POST',
-                                                        body: videoForm
-                                                });
-
-                                                if(!videoResponse.ok) {
-                                                        const errorData = await videoResponse.json();
-                                                        console.error("Failed to add videos: ", errorData);
-                                                        throw new Error(errorData.message || "Failed to upload video");
-                                                }
+                                                const videoResponse = await postAPI(`${config2.endpoints.videoCreate}`, videoForm);
 
                                                 const uploadedVideos = await videoResponse.json();
                                                 list_addedVideoIds = uploadedVideos.map((video) => video._id);
@@ -434,9 +406,7 @@ async function handleEdit(item, btnEditElement) {
                                 if(list_videoDeleted.length > 0) {
                                         try {
                                                 const deletePromises = list_videoDeleted.map(videoId => 
-                                                        fetch(`${config2.domain}${config2.endpoints.videoDelete}/${videoId._id}`, {
-                                                                method: 'DELETE'
-                                                        })
+                                                        deleteAPI(`${config2.endpoints.videoDelete}/${videoId._id}`)
                                                 );
 
                                                 const deleteReponses = await Promise.all(deletePromises);
@@ -487,20 +457,11 @@ async function handleEdit(item, btnEditElement) {
                                 filmForm.append("videos", currentVideoIds.join(','));
 
                                 try {
-                                        const response = await fetch(`${config2.domain}${config2.endpoints.filmUpdate}/${item._id}`, {
-                                                method: "PUT",
-                                                body: filmForm,
-                                        });
-        
-                                        if(!response.ok) {
-                                                const errorData = await response.json();
-                                                throw new Error(errorData.message || "Failed to update film");
-                                        }
-                                        
-                                        const updatedFilm = await response.json();
+                                        const updateResponse = await putAPI(`${config2.endpoints.filmUpdate}/${item._id}`, filmForm);
+                                        const updatedFilm = await updateResponse.json();
         
                                         successSweetAlert("Film updated");
-        
+                                        
                                         videoDataList = [];
                                 } catch(error) {
                                         console.error("Error upadte fim in frontend: ", error.message);
@@ -517,19 +478,14 @@ async function handleEdit(item, btnEditElement) {
 async function handleDelete(filmId) {
         confirmSweetAlert('Delete this film ?', async () => {
                 try {
-                        const response = await fetch(`${config2.domain}${config2.endpoints.filmDelete}/${filmId}`, {
-                                method: 'DELETE',
-                        });
+                        const response = await deleteAPI(`${config2.endpoints.filmDelete}/${filmId}`);
 
-                        if(!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        } 
+                        showToastNotification("true", "success !");
                 } catch (error) {
                         console.error('Error deleting film: ', error);
                         errorSweetAlert("Error in frontend");
                 } finally {
                         loadFilm();
-                        showToastNotification();
                 }
         });
 

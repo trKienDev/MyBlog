@@ -35,12 +35,13 @@ export function confirmSweetAlert(text, confirmCallback) {
         });
 }
 
-export function showToastNotification() {
+export function showToastNotification(status, notification) {
+        let icon = status ? "success" : "failed";
         Swal.fire({
                 toast: true,                
                 position: 'top-end',       
-                icon: 'success',         
-                title: 'success !', 
+                icon: icon,    
+                title: notification, 
                 showConfirmButton: false, 
                 timer: 3000,      
                 timerProgressBar: true,     

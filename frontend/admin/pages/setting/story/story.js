@@ -3,17 +3,15 @@ import { loadContent } from '../../../services/loadElement/loadDynamicPages.js';
 import { setupModalHandlers } from "../../../services/module/modal.js";
 import { createEditButtonCell, createTdTextCell, createDeleteButtonCell } from "../../../services/module/HTMLHandler.js";
 import { errorSweetAlert, successSweetAlert } from "../../../services/module/sweetAlert.js";
+import { deleteAPI, fetchAPI, postAPI, putAPI } from "../../../../services/apiService.js";
+import { showToastNotification } from "../../../services/module/sweetAlert.js";
 
 
-export function loadStory() {
-        fetch(`${config2.domain}${config2.endpoints.storyList}`)
-        .then(response => {
-                if(!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-        }) 
-        .then(storyList => {
+export async function loadStory() {
+        try {
+                const storyResponse = await fetchAPI(config2.endpoints.storyList);
+                const storyList = await storyResponse.json();
+
                 const tbody = document.querySelector("#story-table tbody");
                 tbody.innerHTML = '';
 
@@ -48,14 +46,13 @@ export function loadStory() {
                         const deleteCell = createDeleteButtonCell(item._id, 'btn-delete', handleDelete);
                         tr.appendChild(deleteCell);
 
-                        tbody.appendChild(tr);    
+                        tbody.appendChild(tr);   
                 });
-        })
-        .catch(error => {
-                console.error('Error fetching story data: ', error);
-        })
-        setupModalHandlers("openModalButton", "closeModalButton", "storyModal");
-        createNewStory("storyForm", "storyModal");
+                setupModalHandlers("openModalButton", "closeModalButton", "storyModal");
+                createNewStory("storyForm", "storyModal");
+        } catch(error) {
+                console.error("Error fetching data: ", error.message);
+        }
 }
 
 async function createNewStory(formId, modalId) {
@@ -72,14 +69,7 @@ async function createNewStory(formId, modalId) {
                 });
 
                 try {
-                        const response = await fetch(`${config2.domain}${config2.endpoints.storyCreate}`, {
-                                method: 'POST',
-                                headers: {
-                                        'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(json), 
-                        });
-
+                        const response = await postAPI(config2.endpoints.storyCreate, json);
                         if (response.status === 409) {
                                 const result = await response.json(); 
                                 const message = result.message || 'An error occurred while creating story.';
@@ -115,6 +105,7 @@ async function createNewStory(formId, modalId) {
 }
 
 async function handleEdit(story) {
+        console.log("run handleEdit");
         const storyModal = document.getElementById("storyModal");
         const storyForm = document.getElementById("storyForm");
 
@@ -126,7 +117,6 @@ async function handleEdit(story) {
         document.getElementById("story-motip").value = story.motip || "";
         document.getElementById("actress-role").value = story.role_actress || "";
         document.getElementById("actor-role").value = story.role_actor || "";
-        document.getElementById("story-tag").value = story.tag || "";
 
         // Xử lý submit form
         storyForm.onsubmit = async(event) => {
@@ -138,28 +128,12 @@ async function handleEdit(story) {
                 });
 
                 try {
-                        const response = await fetch(
-                                `${config2.domain}${config2.endpoints.storyUpdate}/${story._id}`, {
-                                        method: "PUT",
-                                        headers: {
-                                                'Content-Type' : 'application/json',
-                                        },
-                                        body: JSON.stringify(json), 
-                                }
-                        );
-                        console.log("response: ", response);
-                        
-                        if (!response.ok) {
-                                errorSweetAlert("Error in backend");
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        } else {
-                                successSweetAlert("Story created");
-                                
-                                loadStory();
+                        const response = await putAPI(`${config2.endpoints.storyUpdate}/${story._id}`, json);
+                        successSweetAlert("Story updated");
+                        loadStory();
 
-                                storyModal.style.display = "none";
-                                storyForm.reset();
-                        }
+                        storyModal.style.display = "none";
+                        storyForm.reset();
                 } catch(error) {
                         console.log("error: ", error);
                         errorSweetAlert("Error in frontend");
@@ -180,20 +154,14 @@ async function handleDelete(storyId) {
 
         if(result.isConfirmed) {
                 try {
-                        const response = await fetch(`${config2.domain}${config2.endpoints.storyDelete}/${storyId}`, {
-                                method: 'DELETE',
-                        });
-                        if (!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-
-                        const data = await response.json();
+                        const response = await deleteAPI(`${config2.endpoints.storyDelete}/${storyId}`)
 
                         Swal.fire(
                                 'Deleted!',
                                 'Story has been deleted',
                                 'success'
                         );
+                        showToastNotification("true", "success !");
 
                         loadStory()
                 } catch (error) {

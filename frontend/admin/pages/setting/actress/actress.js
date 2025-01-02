@@ -4,16 +4,13 @@ import { handleImageUpload } from "../../../services/module/image.js";
 import { loadStudios } from '../../../services/loadElement/loadStudios.js';
 import { createEditButtonCell, createTdTextCell, createImageCell, createDeleteButtonCell } from "../../../services/module/HTMLHandler.js";
 import { errorSweetAlert, successSweetAlert } from "../../../services/module/sweetAlert.js";
+import { deleteAPI, fetchAPI, postAPI, putAPI } from "../../../../services/apiService.js";
 
-export function loadActressTable() {
-        fetch(`${config2.domain}${config2.endpoints.actressList}`) 
-        .then(response => {
-                if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json(); // Chuyển đổi phản hồi sang JSON
-        })
-        .then(actressList => {
+export async function loadActressTable() {
+        try {
+                const actressResponse = await fetchAPI(config2.endpoints.actressList);
+                const actressList = await actressResponse.json();
+
                 const tbody = document.querySelector('#actress-table tbody');
                 tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
 
@@ -61,15 +58,14 @@ export function loadActressTable() {
                         // Append the row to the table body
                         tbody.appendChild(tr);                        
                 });
-        })
-        .catch(error => {
-                console.error('Error fetching actress data: ', error);
-        });
 
-        loadStudios("actress-studio");
-        setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
-        handleImageUpload("profile-image", "image-upload"); // setup image upload logic
-        createNewActress("actressForm", "actressModal"); // submit form
+                loadStudios("actress-studio");
+                setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
+                handleImageUpload("profile-image", "image-upload"); // setup image upload logic
+                createNewActress("actressForm", "actressModal"); // submit form
+        } catch(error) {
+                console.error("Error fetching data: ", error.message);
+        }
 }
 
 async function createNewActress(formId, modalId) {
@@ -83,11 +79,8 @@ async function createNewActress(formId, modalId) {
                 const formData = new FormData(actressForm);
 
                 try {
-                        const response = await fetch(`${config2.domain}${config2.endpoints.actressCreate}`, {
-                                method: 'POST',
-                                body: formData 
-                        });
-                        
+                        const response = await postAPI(`${config2.endpoints.actressCreate}`, formData);
+
                         // Lỗi - nữ diễn viên đã tồn tại
                         if (response.status === 409) {
                                 const result = await response.json(); 
@@ -158,18 +151,7 @@ async function handleEdit(actress) {
                 console.log(formData);
                 try {
                         // Gửi yêu cầu cập nhật tới API
-                        const response = await fetch(
-                                `${config2.domain}${config2.endpoints.actressUpdate}/${actress._id}`, {
-                                        method: "PUT",
-                                        body: formData,
-                                }
-                        );
-
-                        if (!response.ok) {
-                                errorSweetAlert('error in backend');
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-
+                        const response = await putAPI(`${config2.endpoints.actressUpdate}/${actress._id}`, formData);
                         const updatedActress = await response.json();
 
                         // Hiển thị thông báo thành công
@@ -185,9 +167,8 @@ async function handleEdit(actress) {
                         profileImage.src = "/admin/static/images/face/upload-profile.jpg"; // Đặt ảnh mặc định
                 } catch (error) {
                         console.error("Error updating actress in frontend:", error.message);
-                        errorSweetAlert("Error in backend");
-                }
-                
+                        errorSweetAlert("Error in frontend");
+                }  
         };
 }
 
@@ -206,15 +187,7 @@ async function handleDelete(actressId) {
         if (result.isConfirmed) {
                 try {
                         // Gửi yêu cầu DELETE tới API
-                        const response = await fetch(`${config2.domain}${config2.endpoints.actressDelete}/${actressId}`, {
-                                method: 'DELETE',
-                        });
-
-                        if (!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-
-                        const data = await response.json();
+                        const response = await deleteAPI(`${config2.endpoints.actressDelete}/${actressId}`);
 
                         // Hiển thị thông báo thành công
                         Swal.fire(

@@ -1,19 +1,16 @@
+import { fetchAPI } from "../../../../services/apiService.js";
 import config2 from "../../../services/config.js";
 import { errorSweetAlert, successSweetAlert } from "../../../services/module/sweetAlert.js";
 
-export function loadTagsTable() {
-        fetch(`${config2.domain}${config2.endpoints.tagList}`) 
-        .then(response => {
-                if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json(); 
-        })
-        .then(tagsItems => {
+export async function loadTagsTable() {
+        try {
+                const tagResponse = await fetchAPI(config2.endpoints.tagList);
+                const tagList = await tagResponse.json();
+
                 const tbody = document.querySelector('#tags-table tbody');
                 tbody.innerHTML = ''; 
                 
-                tagsItems.forEach(item => {
+                tagList.forEach(item => {
                         const row = document.createElement('tr');
                         row.setAttribute('data-id', item._id);
 
@@ -66,10 +63,9 @@ export function loadTagsTable() {
                 document.getElementById('btn-save').addEventListener('click', function() { 
                         updateTag();
                 });
-        })
-        .catch(error => {
-                console.error('Error fetching data', error);
-        });
+        } catch(error) {
+                console.error("Error fetching data: ", error.message);
+        }
 }
 
 async function createTags(name, kind) {

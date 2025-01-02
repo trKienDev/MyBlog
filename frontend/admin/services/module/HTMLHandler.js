@@ -22,6 +22,8 @@ export function createEditButtonCell(editContainerClass, item, handleEditCallbac
 
 export function createDeleteButtonCell(itemId, deleteClass, handleDeleteCallback) {
         const deleteCell = document.createElement('td');
+        deleteCell.style.display = 'flex';
+        deleteCell.style.justifyContent = 'center';
         const deleteContainer = document.createElement('div');
         const deleteButton = document.createElement('div');
         deleteButton.classList.add(deleteClass);

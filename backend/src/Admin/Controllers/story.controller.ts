@@ -4,6 +4,7 @@ import { sendResponse, sendError } from "../../middlewares/response.js";
 
 export const createStory = async (req: IncomingMessage, res: ServerResponse ) => {
         let body = '';
+        console.log("run create");
         req.on('data', chunk => {
                 body += chunk.toString();
         });
@@ -39,6 +40,7 @@ export const getStory = async (req: IncomingMessage, res: ServerResponse) => {
 };
 
 export const updateStory = async (req: IncomingMessage, res: ServerResponse) => {
+        console.log("run updateStory");
         const id = req.url?.split("/").pop();
         const objectIdPattern = /^[a-f\d]{24}$/i;
         if(!id) {
