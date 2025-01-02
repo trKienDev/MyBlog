@@ -219,6 +219,12 @@ async function handleEdit(item, btnEditElement) {
         let list_videoAdded = [];
         let list_videoDeleted = [];
 
+        const videoState = {
+                added: [],
+                deleted: [],
+                unchanged: [...item.video], 
+        }
+
         btnEditElement = "." + btnEditElement.className;
         const btnEdit = document.querySelector(btnEditElement);
         if(btnEdit) {
@@ -231,7 +237,7 @@ async function handleEdit(item, btnEditElement) {
                         loadStory("film-story");
                         const selectedTagIds = selectTag("film-tag", "tags-selected");
                         loadVideoTag("video-tag");
-                        handleVideoUpload("video-upload", "video-uploaded", list_videoAdded);
+                        handleVideoUpload("video-upload", "video-uploaded", videoState.added);
                         smoothScrolling("video-list");
                         handleThumbnail("thumbnail-upload", "video-thumbnail");
 
@@ -335,7 +341,10 @@ async function handleEdit(item, btnEditElement) {
                                         const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
                                         
                                         displayVideo(videoUrl, index, videoListDiv, (indexToRemove) => {
-                                                list_videoDeleted.push(videoData.video); // Lưu ID video vào danh sách xóa
+                                                const deletedVideo = videoState.unchanged.splice(indexToRemove, 1)[0];
+                                                if(deletedVideo) {
+                                                        videoState.deleted.push(deletedVideo);
+                                                }
                                                 removeVideo(indexToRemove);
                                         });
                                 });
@@ -378,14 +387,14 @@ async function handleEdit(item, btnEditElement) {
 
                                 // Add video
                                 let list_addedVideoIds = [];
-                                if(list_videoAdded.length > 0) {
+                                if(videoState.added.length > 0) {
                                         const videoForm = new FormData();
                                         videoForm.append("name", name);
                                         videoForm.append("actress", actress);
                                         videoForm.append("codeAV", codeElement.value);
                                         videoForm.append("videoname", videoName);
 
-                                        list_videoAdded.forEach((video, index) => {
+                                        videoState.added.forEach((video, index) => {
                                                 videoForm.append(`video_${index}`, video.file);
                                                 videoForm.append(`video_tag_${index}`, video.tag);
                                         });
@@ -403,10 +412,10 @@ async function handleEdit(item, btnEditElement) {
 
                                 // Delete video
                                 let list_videoDeletedIds = [];
-                                if(list_videoDeleted.length > 0) {
+                                if(videoState.deleted.length > 0) {
                                         try {
-                                                const deletePromises = list_videoDeleted.map(videoId => 
-                                                        deleteAPI(`${config2.endpoints.videoDelete}/${videoId._id}`)
+                                                const deletePromises = videoState.deleted.map(videoId => 
+                                                        deleteAPI(`${config2.endpoints.videoDelete}/${videoId}`)
                                                 );
 
                                                 const deleteReponses = await Promise.all(deletePromises);
@@ -426,22 +435,12 @@ async function handleEdit(item, btnEditElement) {
                                                 return;
                                         }
                                 }
-                                
+
                                 // update film
-                                let currentVideoIds = item.video || [];
-                                for(let i = 0; i < currentVideoIds.length; i++) {
-                                        for(let k = 0; k < list_videoDeletedIds.length; k++) {
-                                                if(currentVideoIds[i] == list_videoDeletedIds[k]._id) {
-                                                        currentVideoIds.splice(i, 1);
-                                                }
-                                        }
-                                }
-                                
-                                if(list_addedVideoIds.length > 0) {
-                                        for(let i = 0; i < list_addedVideoIds.length; i++) {
-                                                currentVideoIds.push(list_addedVideoIds[i]);
-                                        }
-                                }
+                                const finallyVideoIds = [
+                                        ...videoState.unchanged.map(videoID => videoID),
+                                        ...list_addedVideoIds
+                                ]
 
                                 const filmForm = new FormData();
                                 filmForm.append("name", name);
@@ -454,12 +453,11 @@ async function handleEdit(item, btnEditElement) {
                                 if(thumbnailFile) {
                                         filmForm.append("file", thumbnailFile);
                                 }
-                                filmForm.append("videos", currentVideoIds.join(','));
+                                filmForm.append("videos", finallyVideoIds.join(','));
 
                                 try {
                                         const updateResponse = await putAPI(`${config2.endpoints.filmUpdate}/${item._id}`, filmForm);
                                         const updatedFilm = await updateResponse.json();
-        
                                         successSweetAlert("Film updated");
                                         
                                         videoDataList = [];
@@ -640,7 +638,7 @@ function displayVideo(videoUrl, index, videoListDiv, removeCallback) {
                         removeCallback(index);
                         videoBox.remove();
                         updateVideoIndexes(videoListDiv);
-                        showToastNotification();
+                        showToastNotification("true", "success !");
                 });
         });
 
@@ -669,4 +667,3 @@ function updateVideoIndexes(videoListDiv) {
                 box.dataset.index = newIndex;
         });
 }
-
