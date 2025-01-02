@@ -20,7 +20,9 @@ export async function loadFilm() {
                 const tbody = document.querySelector("#films-table tbody");
                 tbody.innerHTML = '';
 
-                filmList.forEach(item => {
+                for(let i = 0; i < filmList.length; i++) {
+                        const item = filmList[i];
+
                         const tr = document.createElement('tr');
                         tr.setAttribute('data-id', item._id);
 
@@ -69,7 +71,8 @@ export async function loadFilm() {
                         tr.appendChild(deleteCell);
 
                         tbody.appendChild(tr);
-                });
+                        
+                }
         } catch (error) {
             console.error("Error fetching data: ", error.message);
         }
@@ -134,11 +137,11 @@ function createFilm(btnCreateElement) {
                                         videoForm.append("codeAV", codeElement.value);
                                         videoForm.append("videoname", videoName);
                                         // Thêm video và tag vào FormData
-                                        console.log("videoDataList: ", videoDataList);
-                                        videoDataList.forEach((item, index) => {
-                                                videoForm.append(`video_${index}`, item.file); // Video file
-                                                videoForm.append(`video_tag_${index}`, item.tag); // Tag tương ứng
-                                        });
+                                        for(let i = 0; i < videoDataList.length; i++) {
+                                                const item = videoDataList[i];
+                                                videoForm.append(`video_${i}`, item.file); // Video file
+                                                videoForm.append(`video_tag_${i}`, item.tag); // Tag tương ứng
+                                        }
                                         // Gửi formData qua fetch hoặc XHR
                                         const videoResponse = await postAPI(config2.endpoints.videoCreate, videoForm);
                                         const videoData = await videoResponse.json();
@@ -216,9 +219,6 @@ function createFilm(btnCreateElement) {
 }
 
 async function handleEdit(item, btnEditElement) {
-        let list_videoAdded = [];
-        let list_videoDeleted = [];
-
         const videoState = {
                 added: [],
                 deleted: [],
@@ -299,7 +299,8 @@ async function handleEdit(item, btnEditElement) {
                                         tagsListElement.removeChild(tagsListElement.firstChild);
                                 }
 
-                                item.tag_id.forEach(tagId => {
+                                for(let i = 0; i < item.tag_id.length; i++) {
+                                        const tagId = item.tag_id[i];
                                         const tagItem = document.createElement("div");
                                         tagItem.className = "tag-item";
                                         tagItem.dataset.tagId = tagId;
@@ -314,14 +315,14 @@ async function handleEdit(item, btnEditElement) {
                                         tagItem.addEventListener("click", () => {
                                                 tagsListElement.removeChild(tagItem); // Xóa tag khỏi giao diện
                                                 const index = selectedTagIds.indexOf(tagId); // Xóa ID khỏi mảng
-                                                if(index > -1) {
-                                                        selectedTagIds.splice(index, 1);
+                                                if(i > -1) {
+                                                        selectedTagIds.splice(i, 1);
                                                 }
                                         });
 
                                         selectedTagIds.push(tagId);
                                         tagsListElement.appendChild(tagItem);
-                                });
+                                } 
                         }
 
                         // Hiển thị danh sách video
@@ -333,21 +334,27 @@ async function handleEdit(item, btnEditElement) {
                                         videoListDiv.removeChild(videoListDiv.firstChild);
                                 }
 
-                                // Duyệt qua từng video trong item.video và hiển thị
-                                item.video.forEach( async(videoId, index) => {
-                                        const response = await fetchAPI(`${config2.endpoints.videoGetById}/${videoId}`);
+                                for(let i = 0; i < item.video.length; i++) {
+                                        const videoId = item.video[index];
 
-                                        const videoData = await response.json();
-                                        const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
-                                        
-                                        displayVideo(videoUrl, index, videoListDiv, (indexToRemove) => {
-                                                const deletedVideo = videoState.unchanged.splice(indexToRemove, 1)[0];
-                                                if(deletedVideo) {
-                                                        videoState.deleted.push(deletedVideo);
+                                        (async () => {
+                                                try {
+                                                        const response = await fetchAPI(`${config2.endpoints.videoGetById}/${videoId}`);
+                                                        const videoData = await response.json();
+                                                        const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
+                                                        
+                                                        displayVideo(videoUrl, index, videoListDiv, (indexToRemove) => {
+                                                                const deletedVideo = videoState.unchanged.splice(indexToRemove, 1)[0];
+                                                                if(deletedVideo) {
+                                                                        videoState.deleted.push(deletedVideo);
+                                                                }
+                                                                removeVideo(indexToRemove);
+                                                        });
+                                                } catch(error) {
+                                                        console.error(`Error fetching video with ID ${videoId}: `, error);
                                                 }
-                                                removeVideo(indexToRemove);
-                                        });
-                                });
+                                        }) ();
+                                }       
                         }
 
                         // User submit form
@@ -394,10 +401,11 @@ async function handleEdit(item, btnEditElement) {
                                         videoForm.append("codeAV", codeElement.value);
                                         videoForm.append("videoname", videoName);
 
-                                        videoState.added.forEach((video, index) => {
-                                                videoForm.append(`video_${index}`, video.file);
-                                                videoForm.append(`video_tag_${index}`, video.tag);
-                                        });
+                                        for(let i = 0; i < videoState.added.length; i++) {
+                                                const video = videoState.added[index];
+                                                videoForm.append(`video_${i}`, video.file);
+                                                videoForm.append(`video_tag_${i}`, video.tag);
+                                        }
 
                                         try {
                                                 const videoResponse = await postAPI(`${config2.endpoints.videoCreate}`, videoForm);
@@ -420,13 +428,14 @@ async function handleEdit(item, btnEditElement) {
 
                                                 const deleteReponses = await Promise.all(deletePromises);
 
-                                                deleteReponses.forEach(async (response, index) => {
-                                                        if(!response.ok) {
-                                                                const errorData = (await response).json();
-                                                                console.error(`Failed to delete video with ID ${list_videoDeleted[index]}: `, errorData);
+                                                for(let i = 0; i < deleteReponses.length; i++) {
+                                                        const response = deleteReponses[i];
+                                                        if(!response) {
+                                                                const errorData = await response.json();
+                                                                console.error(`Failed to delete video with ID ${list_videoDeleted[i]}: `, errorData);
                                                                 throw new Error(errorData.message || "Failed to delete video");
                                                         }
-                                                });
+                                                }
 
                                                 list_videoDeletedIds = list_videoDeleted;
                                                 console.log("Delete video successfully");
