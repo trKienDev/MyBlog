@@ -1,0 +1,77 @@
+<div id="setting-menu">
+        <div class="container">
+                <div class="heading">
+                        <h1>Setting tags</h1>
+                </div>
+                <div class="body">
+                        <div id="tags-table">
+                                <div class="table-title">
+                                        <div class="row">
+                                                <div class="col-left">
+                                                        <span>Manage tags</span>
+                                                </div>
+                                                <div class="col-right">
+                                                        <button id="btn-save" class="btn-save">Save</butotn>
+                                                </div>
+                                        </div>
+                                </div>
+                                <table cellpadding="0" cellspacing="0">
+                                        <thead>
+                                                <tr>
+                                                        <th class="th_checkbox">
+                                                                <span>
+                                                                        <input type="checkbox"  id="SelectAll">
+                                                                        <label for="SelectAll"></label>
+                                                                </span>
+                                                        </th>   
+                                                        <th class="th_name">Name</th>
+                                                        <th class="th_kind">Kind</th> 
+                                                        <th class="th_action">Delete</th>
+                                                </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td class="td_checkbox">
+                                                                <span>
+                                                                        <input type="checkbox"  id="checkbox1">
+                                                                        <label for="checkbox1"></label>
+                                                                </span>
+                                                        </td>
+                                                        <td contenteditable="true" class="td_name">
+                                                                <span>action</span>
+                                                        </td>
+                                                        <td contenteditable="true" class="td_kind">
+                                                                <span>genre</span>
+                                                        </td>
+                                                        <td class="td_action">
+                                                                <div class="btn btn-del">
+                                                                        <a href="">
+                                                                                <i class="fa-solid fa-trash"></i>
+                                                                        </a>
+                                                                </div>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                        </div>
+                        <div id="tags-create">
+                                <div class="create-form">
+                                        <div class="form-container">
+                                                <div class="form-title">
+                                                        <span>Add new tag</span>
+                                                </div>
+                                                <div class="form-body">
+                                                        <form id="tags-form" action="" method="POST">
+                                                                <input type="text" name="tags-name" id="tags-name" placeholder="Name: Action" required>
+                                                                <input type="text" name="tags-kind" id="tags-kind" placeholder="Kind: genre" required>
+                                                                <div class="button">
+                                                                        <button type="submit">Add</button>
+                                                                </div>
+                                                        </form>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>  
+        </div>
+</div>

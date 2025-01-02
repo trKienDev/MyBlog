@@ -1,0 +1,377 @@
+body {
+        font-family: 'Lexend', sans-serif;
+        margin: 0;
+        background-color: #f7f6f6;
+        color: #000;
+}
+.row {
+        display: flex;
+        justify-content: space-between;
+}
+
+:root {
+        /* neon style */
+        --blue-color: #1F51FF;
+        --brigh-blue: #1586d7;
+        --red-color: #ff3131;
+        --pink-color: #EE66A6;
+        --orange-color: #FFA500;
+        --smoke-color: #848884;
+        --limeGreen-color:  #32CD32;
+        --platinum: #E5E4E2;
+        /* background */
+        --blue-background: #1056c0;
+        --red-background: #cc0000;
+        --green-background: #61b939;
+        --dark-steel-blue-background: #435d7d;
+        --cadmium-yellow: #FDDA0D;
+        --white-background: #f7f6f6;
+        --persimmon: #EC5800;
+        --golden-yellow: #FFC000;
+        --lime-green: #32CD32;
+}
+
+#sidebar h1, p {
+        color: #ffffff;
+}
+h1 {
+        margin: 0px;
+}
+a {
+        text-decoration: none;
+}
+
+#dynamic-data h1, p {
+        color: #000;
+}
+#container {
+        display: flex;
+}
+
+.search-box {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff; /* Dark background color for the search box */
+        border-radius: 8px;         /* Smooth rounded corners */
+        padding: 10px;              /* Padding for internal space */
+        border: 1px solid rgba(255, 255, 255, 0.2); /* Border with transparency */
+        margin-bottom: 50px;
+}
+.search-box i {
+        color: #000000;             /* Icon color */
+        margin-right: 10px;         /* Spacing between the icon and input */
+        font-size: 16px;            /* Icon size */
+}
+
+.search-box input {
+        font-family: 'Lexend', sans-serif;
+        border: none;               /* No border for the input */
+        background-color: transparent; /* Transparent background to match the search box */
+        color: #000000;             /* Text color */
+        outline: none;              /* Remove default focus outline */
+        width: 100%;                /* Take up the remaining width */
+        font-size: 14px;            /* Font size of the input text */
+}
+
+.search-box input::placeholder {
+        font-family: 'Lexend', sans-serif;
+        color: #000000; /* Opaque black */
+}
+
+
+#dynamic-data {
+        width: 85%;
+}
+.container  {
+        margin: 0 auto; /* Căn giữa container theo chiều ngang */
+        padding: 30px 30px 0px; /* Tạo khoảng cách bên trong container */
+        box-sizing: border-box; /* Bao gồm padding và border vào kích thước tổng */
+}
+#settingPage .headingTitle {
+        margin-bottom: 20px;
+}
+#settingPage .headingBody {
+        padding-top: 30px;
+}
+#settingPage .sidebarRow {
+        display: flex;
+        flex-wrap: wrap; /* Cho phép các phần tử con xuống dòng */
+        justify-content: flex-start; /* Canh đều khoảng cách giữa các phần tử */
+        margin: 0 -15px; /* Giữ khoảng cách padding cũ */
+}
+#settingPage .sidebarItem {
+        flex: 0 1 calc(20% - 30px); /* Đảm bảo mỗi item chiếm 20% chiều rộng, trừ đi khoảng cách padding */
+        margin: 0 15px 15px; /* Tạo khoảng cách giữa các phần tử */
+}
+#settingPage .sidebarItem-name {
+        padding-left: 10px;
+}
+#sidebarItem-sidebar {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--smoke-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-sidebar:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--smoke-color);
+        border: 3px solid var(--smoke-color);
+}
+#sidebarItem-actress {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--pink-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-actress:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--pink-color);
+        border: 3px solid var(--pink-color);
+}
+#sidebarItem-studio {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--red-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-studio:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--red-color);
+        border: 3px solid var(--red-color);
+}
+#sidebarItem-films {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--blue-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-films:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--blue-color);
+        border: 3px solid var(--blue-color);
+}
+#sidebarItem-tags {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--limeGreen-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-tags:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--limeGreen-color);
+        border: 3px solid var(--limeGreen-color);
+}
+#sidebarItem-story {
+        border-radius: 5px;
+        padding: 25px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--golden-yellow);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        border: 3px solid transparent;
+        transition: all 0.5s ease;
+}
+#sidebarItem-story:hover {
+        box-shadow: 0px 0px 15px rgba(250, 250, 250, 0.904);
+        background-color: #ffffff;
+        cursor: pointer;
+        color: var(--golden-yellow);
+        border: 3px solid var(--golden-yellow);
+}
+#settingPage a {
+        text-decoration: none;
+        color: #000000;
+        font-size: 20px;
+}
+
+.btn-create {
+        background-color: var(--green-background);
+        max-width: 100px;
+        padding: 10px 10px;
+        color: white;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: background 0.8s, filter 0.8s;
+}
+.btn-create:hover {
+        filter: brightness(1.3);
+}
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+.modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 8px;
+}
+.close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+}
+.modal-body {
+        display: flex;
+        justify-content: space-between;
+}
+.modal-image {
+        width: 50%;
+}
+.modal-image #profile-image {
+        border-radius: 8px;
+        height: 300px;
+        width: 300px;
+        cursor: pointer;
+}
+.modal-info input {
+        display: block;
+        width: 100%;
+        background-color: #f7f6f6;
+        margin: 10px 0px;
+        padding: 10px 18px;
+        box-sizing: border-box;
+        font-size: 15px;
+        font-family: 'Lexend';
+        border-radius: 5px;
+        border: none;
+}
+.modal-info select {
+        display: block;
+        width: 100%;
+        background-color: #f7f6f6;
+        margin: 10px 0px;
+        padding: 10px 18px;
+        box-sizing: border-box;
+        font-size: 15px;
+        font-family: 'Lexend';
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+}
+.modal-info textarea {
+        display: block;
+        width: 100%;
+        background-color: #f7f6f6;
+        margin: 10px 0px;
+        padding: 10px 18px;
+        box-sizing: border-box;
+        font-size: 15px;
+        font-family: 'Lexend';
+        border-radius: 5px;
+        border: none;
+}
+
+.modal-info .save-button {
+        padding-top: 10px;
+        display: flex;
+        justify-content: center;
+}
+.modal-info .save-button button {
+        padding: 12px 25px;
+        background-color: var(--blue-background);
+        color: white;
+        font-size: 14px;
+        font-family: 'Lexend';
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.8s, filter 0.8s;
+}
+.modal-info .save-button button:hover {
+        filter: brightness(2);
+}
+.upload-img {
+        border-radius: 5px;
+}
+.file-upload {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--white-background);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.8s, filter 0.8s;
+}
+.file-upload:hover {
+        filter: brightness(0.8);
+}
+.box-border_top {
+        border-top: 5px solid var(--blue-color);
+}
+.editBox-border_top {
+        border-top: 5px solid var(--orange-color);
+}
+.custom-toast {
+        width: 120px !important;
+        padding: 10px !important;
+        background-color: #28a745 !important;
+        color: #ffffff; 
+        border-radius: 10px;         
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
+        overflow-x: hidden !important; 
+        text-overflow: ellipsis;      
+        white-space: nowrap;         
+        text-align: center !important;
+}
+.custom-toast .swal2-icon {
+        display: none !important;
+}
+.toast-progress-bar {
+        background-color: #ffffff; /* Màu thanh tiến trình vàng */
+}
+

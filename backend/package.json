@@ -1,0 +1,49 @@
+{
+  "name": "mvc",
+  "version": "1.0.0",
+  "description": "**1. gulp**\r Sử dụng một công cụ tự động hóa tác vụ, và lệnh này có thể khởi động các tác vụ như biên dịch, gộp file, hoặc khởi chạy máy chủ phát triển tùy theo cách mà các nhiệm vụ trong tệp gulpfile.js được định nghĩa.\r **2. Webpack-dev-server**\r một máy chủ phát triển đi kèm với Webpack, giúp tự động tải lại trang khi bạn thay đổi mã nguồn.\r **3. Dependencies**\r - \"commitlint/cli\" : Một công cụ dòng lệnh dùng để kiểm tra tin nhắn commit, đảm bảo chúng tuân thủ theo một chuẩn nhất định.\r - \"commitlint/config-angular\" : Định nghĩa kiểu cho Node.js trong TypeScript, giúp TypeScript hiểu môi trường Node.js.\r - \"types/pixi.js\" : Định nghĩa kiểu cho thư viện Pixi.js (một engine render 2D), có thể dùng cho việc xử lý đồ họa.\r - \"browserify\" : Công cụ dùng để đóng gói các tệp JavaScript để sử dụng trong trình duyệt, xử lý các lệnh require kiểu Node.js.\r - \"commitlint\" : Một gói khác liên quan đến Commitlint, giúp đảm bảo các commit tuân thủ định dạng quy định\r - \"gulp\" : Một công cụ tự động hóa tác vụ, dùng để tự động hóa các công việc phát triển như nén tệp, kiểm thử, v.v.\r - \"gulp-autoprefixer\" : Plugin Gulp để tự động thêm các tiền tố vendor vào CSS, giúp tương thích với nhiều trình duyệt.\r - \"gulp-concat \" : Plugin Gulp dùng để nối các tệp lại với nhau, như gộp nhiều tệp CSS hoặc JavaScript thành một\r - \"gulp-connect\" : Plugin Gulp để khởi động một máy chủ web cục bộ với khả năng tự động tải lại khi có thay đổi.\r - \"gulp-minify-css\" : Plugin Gulp để nén các tệp CSS, giảm kích thước cho sản phẩm cuối cùng.\r - \"gulp-rename\" : Plugin Gulp để đổi tên tệp, hữu ích khi cần tạo phiên bản hoặc tổ chức các tệp sau khi build.\r - \"gulp-sourcemaps\" : Tạo source maps, giúp việc gỡ lỗi dễ dàng hơn bằng cách liên kết mã nén với mã nguồn gốc.\r - \"gulp-useref\" : Plugin Gulp để phân tích các khối build trong tệp HTML và tự động nối các tệp được tham chiếu.\r - \"husky\" : Công cụ để thiết lập Git hooks, cho phép thực thi các tác vụ như kiểm tra mã hoặc chạy kiểm thử trước khi commit.\r - \"prettier\" : Công cụ định dạng mã, dùng để duy trì phong cách mã thống nhất trong toàn bộ dự án.\r - \"tsify\" : Plugin cho Browserify, dùng để biên dịch mã TypeScript trong quá trình đóng gói.\r - \"typescript\" : Bộ biên dịch chính của TypeScript, chuyển đổi mã TypeScript sang JavaScript.\r - \"vinyl-buffer\" : Chuyển đổi các tệp stream thành buffer (tệp đệm), thường dùng trong Gulp để quản lý các stream tệp.\r - \"vinyl-source-stream\" : Chuyển đổi các stream văn bản thành vinyl stream (định dạng mà Gulp có thể hiểu), để sử dụng trong quy trình Gulp.",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp",
+    "start:webpack": "webpack-dev-server --mode development",
+    "build:webpack": "webpack --config=webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-angular": "^19.5.0",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.5.5",
+    "@types/pixi.js": "^4.8.9",
+    "browserify": "^17.0.0",
+    "commitlint": "^19.5.0",
+    "gulp": "^5.0.0",
+    "gulp-autoprefixer": "^9.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.7.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^2.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "gulp-useref": "^5.0.0",
+    "husky": "^9.1.6",
+    "prettier": "^3.3.3",
+    "tsify": "^5.0.4",
+    "typescript": "^5.6.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "gulp-nodemon": "^2.5.0",
+    "http": "^0.0.1-security",
+    "mongoose": "^8.9.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^11.0.3"
+  }
+}
