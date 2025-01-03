@@ -142,6 +142,7 @@ function createFilm(btnCreateElement) {
                                                 videoForm.append(`video_${i}`, item.file); // Video file
                                                 videoForm.append(`video_tag_${i}`, item.tag); // Tag tương ứng
                                         }
+                                        console.log("videoForm: ", videoForm);
                                         // Gửi formData qua fetch hoặc XHR
                                         const videoResponse = await postAPI(config2.endpoints.videoCreate, videoForm);
                                         const videoData = await videoResponse.json();
@@ -186,7 +187,6 @@ function createFilm(btnCreateElement) {
                                         } finally {
                                                 // Làm sách danh sách videoDataList
                                                 videoDataList = [];
-                                                console.log("videoDataList reset: ", videoDataList);
 
                                                 const formElement = document.getElementById('create-film');
                                                 if (formElement) {
@@ -342,8 +342,7 @@ async function handleEdit(item, btnEditElement) {
                                                 const videoData = await response.json();
                                                 const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
                                                 const videoTag = videoData.video.videotag;
-
-                                                displayVideo(videoUrl, index, videoListDiv, (indexToRemove) => {
+                                                displayVideo(videoUrl, index, videoListDiv, videoTag, (indexToRemove) => {
                                                         list_videoDeleted.push(videoData.video); // Lưu ID video vào danh sách xóa
                                                         removeVideo(indexToRemove);
                                                 });
@@ -484,10 +483,10 @@ async function handleDelete(filmId) {
                 try {
                         const response = await deleteAPI(`${config2.endpoints.filmDelete}/${filmId}`);
 
-                        showToastNotification("true", "success !");
+                        showToastNotification("success", "film deleted");
                 } catch (error) {
                         console.error('Error deleting film: ', error);
-                        errorSweetAlert("Error in frontend");
+                        showToastNotification("fail", "failed !");
                 } finally {
                         loadFilm();
                 }
@@ -568,7 +567,7 @@ function handleVideoUpload(divClickId, fileInputId, list_videoAddedInHandleEditF
                                 list_videoAddedInHandleEditFunction.push({ file, tag: selectedTag });
                         }
 
-                        displayVideo(videoUrl, videoIndex, videoListDiv, (indexToRemove) => {
+                        displayVideo(videoUrl, videoIndex, videoListDiv, selectedTag, (indexToRemove) => {
                                 removeVideo(indexToRemove);
                                 if(list_videoAddedInHandleEditFunction) {
                                         list_videoAddedInHandleEditFunction.splice(indexToRemove, 1);
@@ -623,7 +622,8 @@ function removeVideo(index) {
 }
 
 // Hàm hiển thị video
-async function displayVideo(videoUrl, index, videoListDiv, removeCallback) {
+async function displayVideo(videoUrl, index, videoListDiv, videoTagId, removeCallback) {
+
         const videoBox = document.createElement('div');
         videoBox.className = 'video-box';
         videoBox.dataset.index = index;
@@ -639,10 +639,11 @@ async function displayVideo(videoUrl, index, videoListDiv, removeCallback) {
         deleteButton.className = 'delete-video_btn';
         deleteButton.style.marginTop = '10px';
 
-        // const tagName = await readTagName(videoTagId);
-        // const tagVideo = document.createElement('div');
-        // tagVideo.textContent = tagName;
-        // tagVideo.className = 'tag-item';
+        const tagName = await readTagName(videoTagId);
+        const tagVideo = document.createElement('div');
+        console.log("tagName: ", tagName);
+        tagVideo.textContent = tagName;
+        tagVideo.className = 'tag-video';
 
         deleteButton.addEventListener('click', function() {
                 confirmSweetAlert('Delete this video ?', () => {
@@ -655,6 +656,7 @@ async function displayVideo(videoUrl, index, videoListDiv, removeCallback) {
 
         videoBox.appendChild(videoElement);
         videoBox.appendChild(deleteButton);
+        videoBox.appendChild(tagVideo);
         videoListDiv.appendChild(videoBox);
 
         videoElement.addEventListener('loadeddata', function() {
@@ -684,7 +686,6 @@ async function readTagName(tagId) {
                 const response = await fetchAPI(`${config2.endpoints.tagReadName}/${tagId}`);
 
                 const tag = await response.json();
-                console.log("tag: ", tag);
                 return tag ? tag.name : 'Unknown tag';
         } catch(error) {
                 console.error('Error fetching tag name: ', error.message);

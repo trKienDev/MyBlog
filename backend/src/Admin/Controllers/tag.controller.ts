@@ -17,11 +17,11 @@ export const readTagName = async (req: IncomingMessage, res: ServerResponse) => 
                 const urlPath = req.url?.split("/");
                 const tagId = urlPath?.[urlPath.length - 1];
 
-                
+
                 if(!tagId) {
                         return sendError(res, 400, new Error("Tag Id is required !"));
                 }
-                console.log("tag id: ", tagId);
+
                 const videoTag = await TagModel.findById(tagId);
                 if(!videoTag) {
                         return sendError(res, 404, new Error("Tag is not found!"));

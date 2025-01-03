@@ -88,19 +88,24 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
         }
 
         try {
+            const videoTags = Object.keys(body)
+                                                    .filter((key) => key.startsWith("video_tag_"))
+                                                    .map((key) => body[key]);
+
             const videos = []; // Tạo danh sách video để lưu
-            let i = 1;       
+            let i = 0;       
             for (const fieldName in files) {
                 const fileArray = files[fieldName]; // Lấy danh sách file từ field name
                 if (Array.isArray(fileArray)) {
                     for (const file of fileArray) {
-                        const videoName = `${body.videoname}_${i}`;
+                        const videoName = `${body.videoname}_${i+1}`;
+                        console.log("body: ", body);
                         const video = {
-                            name: videoName, // Tên video
-                            codeAV: new mongoose.Types.ObjectId(body.codeAV), // Chuyển codeAV thành ObjectId
-                            actress: new mongoose.Types.ObjectId(body.actress), // Chuyển actress thành ObjectId
-                            videotag: new mongoose.Types.ObjectId(body.videotag), // Chuyển videotag thành ObjectId
-                            filePath: file.filename, // Đường dẫn file video
+                            name: videoName, 
+                            codeAV: body.codeAV,
+                            actress: body.actress,
+                            videotag: videoTags[i],
+                            filePath: file.filename, 
                         };
                         videos.push(video); 
                         i = i + 1;

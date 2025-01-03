@@ -306,6 +306,24 @@
 .delete-video_btn:hover {
         filter: brightness(1.5);
 }
+.tag-video {
+        position: absolute;
+        top: 10px;
+        left: 8px;
+        display: inline-block;
+        background-color: var(--cadmium-yellow);
+        color: black;
+        padding: 5px 10px;
+        margin: 5px;
+        border-radius: 5px;
+        font-size: 15px;
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.8s, filter 0.8s;
+}
+.tag-video:hover {
+        filter: brightness(1.5);
+}
 .edit-btn {
         background-color: var(--persimmon) !important;
 }
