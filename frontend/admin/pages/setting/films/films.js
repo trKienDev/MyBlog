@@ -343,7 +343,7 @@ async function handleEdit(item, btnEditElement) {
                                                 const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
                                                 const videoTag = videoData.video.videotag;
                                                 displayVideo(videoUrl, index, videoListDiv, videoTag, (indexToRemove) => {
-                                                        list_videoDeleted.push(videoData.video); // Lưu ID video vào danh sách xóa
+                                                        videoState.deleted.push(videoData.video); // Lưu ID video vào danh sách xóa
                                                         removeVideo(indexToRemove);
                                                 });
                                         } catch (error) {
@@ -650,7 +650,7 @@ async function displayVideo(videoUrl, index, videoListDiv, videoTagId, removeCal
                         removeCallback(index);
                         videoBox.remove();
                         updateVideoIndexes(videoListDiv);
-                        showToastNotification("true", "success !");
+                        showToastNotification("success", "video deleted !");
                 });
         });
 

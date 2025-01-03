@@ -317,7 +317,6 @@
         margin: 5px;
         border-radius: 5px;
         font-size: 15px;
-        cursor: pointer;
         user-select: none;
         transition: background 0.8s, filter 0.8s;
 }
