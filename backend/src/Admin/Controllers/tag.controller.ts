@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import TagModel from "../models/tag.model.js";
 import { sendResponse, sendError } from "../../middlewares/response.js";
+import { send } from 'process';
 
 export const getTags = async (req: IncomingMessage, res: ServerResponse) => {
         try {
@@ -10,6 +11,28 @@ export const getTags = async (req: IncomingMessage, res: ServerResponse) => {
                 return sendError(res, 500, error);
         }
 };
+
+export const readTagName = async (req: IncomingMessage, res: ServerResponse) => {
+        try {
+                const urlPath = req.url?.split("/");
+                const tagId = urlPath?.[urlPath.length - 1];
+
+                
+                if(!tagId) {
+                        return sendError(res, 400, new Error("Tag Id is required !"));
+                }
+                console.log("tag id: ", tagId);
+                const videoTag = await TagModel.findById(tagId);
+                if(!videoTag) {
+                        return sendError(res, 404, new Error("Tag is not found!"));
+                }
+
+                return sendResponse(res, 200, { name: videoTag.name});
+        } catch(error) {        
+                return sendError(res, 500, error);
+        }
+}
+
 export const getTagVideo = async (req: IncomingMessage, res: ServerResponse) => {
         try {
                 const tagItem = await TagModel.find({ kind: "video" }); 
@@ -104,3 +127,4 @@ export const deleteTag = async (req: IncomingMessage, res: ServerResponse) => {
                 return sendError(res, 500, error);
         }
 };
+

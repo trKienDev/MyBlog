@@ -31,6 +31,7 @@ const config = {
                 // tags
                 tagList: '/admin/tags/read',
                 tagVideoList: '/admin/tags/video_read',
+                tagReadName: '/admin/tags/tag_name',
                 tagCreate: '/admin/tags/create',
                 tagUpdate: '/admin/tags/update',
                 tagDelete: '/admin/tags/delete',

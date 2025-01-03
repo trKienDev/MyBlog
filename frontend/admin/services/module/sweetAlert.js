@@ -36,19 +36,22 @@ export function confirmSweetAlert(text, confirmCallback) {
 }
 
 export function showToastNotification(status, notification) {
-        let icon = status ? "success" : "failed";
+        let toastColor = '';
+        if(status === "success") {
+                toastColor = 'success-toast';
+        } else if(status === "fail") {
+                toastColor = 'fail-toast'; 
+        }
         Swal.fire({
-                toast: true,                
+                toast: true,         
                 position: 'top-end',       
-                icon: icon,    
                 title: notification, 
                 showConfirmButton: false, 
                 timer: 3000,      
                 timerProgressBar: true,     
                 customClass: {
-                        popup: 'custom-toast',
+                        popup: `custom-toast ${toastColor}`,
                         timerProgressBar: 'toast-progress-bar',
-                        icon: 'toast-icon', 
                 }
         });
 }

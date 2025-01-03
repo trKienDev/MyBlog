@@ -1,4 +1,4 @@
-import { errorSweetAlert } from '../admin/services/module/sweetAlert.js';
+import { errorSweetAlert, showToastNotification } from '../admin/services/module/sweetAlert.js';
 import config from '../admin/services/config.js';
 // HomePage
 fetch(`${config.domain}${config.endpoints.homePage}`)
@@ -28,7 +28,7 @@ export async function fetchAPI(endpoint, options = {}) {
 
         if(!response.ok) {
                 const errorData = await response.json();
-                errorSweetAlert('error in backend');
+                showToastNotification("fail", "fail to read tag name");
                 throw new Error(errorData.message || `HTTP error: ${response.status }`);
         }
 
