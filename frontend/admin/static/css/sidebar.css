@@ -43,11 +43,9 @@
 .sidebar-container {
         padding: 10px 20px 14px;
 }
-#sidebar-table .table-title {
-        background-color: var(--dark-steel-blue-background) ;
-        color: white;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
+#sidebar-table table {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
 }
 #sidebar-table .table-title .row {
         font-size: 20px;
@@ -56,6 +54,7 @@
 #sidebar-table .table-title .col-left {
         display: flex;
         align-items: center;
+        color: #000000;
 }
 #sidebar-table .table-title .col-right {
         width: 15%;
@@ -87,7 +86,8 @@
         border-bottom: 3px solid #435d7d;
 }
 #sidebar-table table tbody tr:hover {
-        background-color: rgb(229, 235, 236);
+        background-color: var(--github-background);
+        cursor: pointer;
 }
 #sidebar-table table tbody tr td {
         border-bottom: 1px solid #bdbaba;
@@ -111,14 +111,16 @@
         vertical-align: middle;
 }
 
-#sidebar-table .th_checkbox {
+#sidebar-table .td_checkbox {
         width: 5%;
 }
-#sidebar-table .th_icon {
+#sidebar-table .td_icon {
         width: 15%;
 }
-#sidebar-table .th_action {
-        width: 20%;
+#sidebar-table .td_name {
+        width: 50%;
+}
+#sidebar-table .td_action {
         text-align: center;
 }
 #sidebar-table .container {
@@ -166,10 +168,14 @@
 #sidebar-create .create-form {
         width: 80%;
         background-color: white;
-        border-radius: 8px;
+        padding: 0% 7%;
 }
 #sidebar-create .form-container {
-        padding: 7% 15%;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+}
+#sidebar-create .form-box {
+        padding: 7% 7%;
 }
 #sidebar-create .create-form span {
         font-weight: bold;

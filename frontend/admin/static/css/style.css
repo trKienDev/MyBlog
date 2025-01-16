@@ -1,7 +1,7 @@
 body {
         font-family: 'Lexend', sans-serif;
         margin: 0;
-        background-color: #f7f6f6;
+        background-color: #ffffff;
         color: #000;
 }
 .row {
@@ -49,6 +49,21 @@ a {
 }
 #container {
         display: flex;
+}
+
+table {
+        width: 100%;
+        background-color: white;
+        border-radius: 8px;
+        table-layout: fixed; /* Cố định chiều rộng cột */
+        border: 1px solid var(--border-color);
+}
+.table-title {
+        background-color: var(--github-background) ;
+        color: white;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border: 1px solid var(--border-color);
 }
 
 .search-box {
@@ -259,10 +274,10 @@ a {
         filter: brightness(0.8);
 }
 .box-border_top {
-        border-top: 5px solid var(--blue-neon);
+        border-top: 5px solid var(--blue-neon) !important;
 }
 .editBox-border_top {
-        border-top: 5px solid var(--orange-color);
+        border-top: 5px solid var(--orange-color) !important;
 }
 .custom-toast {
         width: auto !important;

@@ -1,11 +1,8 @@
 #films-table {
         width: 100%;
 }
-#films-table table {
-        width: 100%;
-        background-color: white;
-        border-radius: 8px;
-        table-layout: fixed; /* Cố định chiều rộng cột */
+#films-table table thead {
+        background-color: var(--github-background);
 }
 #films-table table thead tr th {
         border-bottom: 3px solid #435d7d;
@@ -36,7 +33,7 @@
         border-bottom-right-radius: 8px;
 }
 #films-table table tbody tr:hover {
-        background-color: rgb(229, 235, 236);
+        background-color: var(--github-background);
 }
 #films-table .code {
         width: 10%;
@@ -137,6 +134,7 @@
         background-color: white;
         border-radius: 10px;
         width: 60%;
+        border: 1px solid var(--border-color);
 }
 #create-film .col-form {
         width: 50%;
@@ -179,7 +177,7 @@
         width: 50%;
 }
 #film-display {
-        padding: 40px;
+        padding: 0px 40px 40px 40px;
         background-color: white;
         border-radius: 10px;
         width: 29%;
