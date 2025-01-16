@@ -7,7 +7,7 @@
         color: #ffffff;
 }
 .tags-item:hover {
-        background-color: var(--blue-color);
+        background-color: var(--blue-neon);
         border-radius: 8px;
 }
 .tags-item-icon {

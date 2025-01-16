@@ -10,7 +10,7 @@ export function createEditButtonCell(editContainerClass, item, handleEditCallbac
         
         const editButton = document.createElement('div');
         editButton.classList.add('btn-edit');
-        editButton.innerHTML = `<i class="fa-solid fa-pen" style="color: aliceblue;"></i>`;
+        editButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
         editButton.onclick = () => handleEditCallback(item, editButton);
         
         editCell.appendChild(editButton);
@@ -20,14 +20,13 @@ export function createEditButtonCell(editContainerClass, item, handleEditCallbac
         return editCell;
 }
 
+// Delete cell
 export function createDeleteButtonCell(itemId, deleteClass, handleDeleteCallback) {
         const deleteCell = document.createElement('td');
-        deleteCell.style.display = 'flex';
-        deleteCell.style.justifyContent = 'center';
         const deleteContainer = document.createElement('div');
         const deleteButton = document.createElement('div');
         deleteButton.classList.add(deleteClass);
-        deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
+        deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
         deleteButton.onclick = () => handleDeleteCallback(itemId);
         deleteCell.appendChild(deleteButton);
         
