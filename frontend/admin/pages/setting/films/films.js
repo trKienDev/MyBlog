@@ -11,6 +11,7 @@ import { errorSweetAlert, confirmSweetAlert, showToastNotification, successSweet
 import { fetchAPI, postAPI, deleteAPI, putAPI } from "../../../../services/apiService.js";
 import { displayVideo, removeVideo, handleVideoUpload } from "../../../services/module/videoHandler.js";
 import { selectTag } from "../../../services/module/tagHandler.js";
+import { videoFormObject } from "../../../services/module/videoForm.js";
 
 let videoDataList = [];
 
@@ -133,18 +134,13 @@ function createFilm(btnCreateElement) {
                                         const story = document.getElementById('film-story').value;
 
                                         // --* videoForm *---
-                                        const videoForm = new FormData();
-                                        videoForm.append("name", name);
-                                        videoForm.append("actress", actress);
-                                        videoForm.append("codeAV", codeElement.value);
-                                        videoForm.append("videoname", videoName);
+                                        const videoFormInstance = new videoFormObject(name, actress, codeElement.value, videoName);
                                         // Thêm video và tag vào FormData
                                         for(let i = 0; i < videoDataList.length; i++) {
                                                 const item = videoDataList[i];
-                                                videoForm.append(`video_${i}`, item.file); // Video file
-                                                videoForm.append(`video_tag_${i}`, item.tag); // Tag tương ứng
+                                                videoFormInstance.addVideo(item.file, item.tag);
                                         }
-                                        console.log("videoForm: ", videoForm);
+                                        const videoForm = videoFormInstance.toFormData();
                                         // Gửi formData qua fetch hoặc XHR
                                         const videoResponse = await postAPI(config2.endpoints.videoCreate, videoForm);
                                         const videoData = await videoResponse.json();

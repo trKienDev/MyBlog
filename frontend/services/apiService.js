@@ -28,7 +28,7 @@ export async function fetchAPI(endpoint, options = {}) {
 
         if(!response.ok) {
                 const errorData = await response.json();
-                showToastNotification("fail", "fail to read tag name");
+                showToastNotification("fail", errorData.message);
                 throw new Error(errorData.message || `HTTP error: ${response.status }`);
         }
 
@@ -38,7 +38,7 @@ export async function fetchAPI(endpoint, options = {}) {
 export async function postAPI(endpoint, body) {
         const defaultHeaders = body instanceof FormData ? {} : { 'Content-Type': 'application/json' };
 
-        return fetchAPI(endpoint, {
+        return fetchAPI (endpoint, {
                 method: "POST",
                 header: {
                         defaultHeaders,

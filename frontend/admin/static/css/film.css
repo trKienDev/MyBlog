@@ -56,36 +56,6 @@
 #films-table .tags {
         width: 10%;
 }
-#films-table .btn-edit {
-        border-radius: 8px;
-        width: 50%;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: background 0.8s, filter 0.8s;
-        background-color: var(--blue-background);
-        color: #ffffff;
-}
-#films-table .btn-edit:hover {
-        filter: brightness(1.5);
-}
-#films-table .btn-delete {
-        border-radius: 8px;
-        width: 100%;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: background 0.8s, filter 0.8s;
-        background-color: var(--red-background);
-        color: #ffffff;
-}
-#films-table .btn-delete:hover {
-        filter: brightness(1.5);
-}
 #films-table .thumbnail-image {
         height: 50px;
         width: 35px;

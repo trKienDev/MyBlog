@@ -32,8 +32,8 @@
         width: 100%;
         height: 100%;
         background-color: white;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
 }
 #story-table input {
         cursor: pointer;
@@ -42,12 +42,6 @@
 }
 .story-container {
         padding: 10px 20px 14px;
-}
-#story-table .table-title {
-        background-color: #435d7d ;
-        color: white;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
 }
 #story-table .table-title .row {
         font-size: 20px;
@@ -62,22 +56,10 @@
         display: flex;
         justify-content: center;
 }
-#story-table .table-title .btn-save {
-        padding: 10px 24px;
-        background-color: #61b939;
-        font-size: 15px;
-        color: white;
-        border: 0px;
-        font-family: Lexend;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.8s, filter 0.8s;
-}
-#story-table .table-title .btn-save:hover {
-        filter: brightness(1.3);
-}
 #story-table table {
         color: black;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
 }
 #story-table table th, td {
         text-align: center !important;
@@ -213,30 +195,8 @@
         filter: brightness(2);
 }
 #story-table .btn-edit {
-        background-color: var(--blue-background);
-        border-radius: 8px;
-        width: 100%;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: background 0.8s, filter 0.8s;
-}
-#story-table .btn-edit:hover {
-        filter: brightness(2);
+        width: 60%;
 }
 #story-table .btn-delete {
-        background-color: var(--red-background);
-        border-radius: 8px;
-        width: 50%;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: background 0.8s, filter 0.8s;
-}
-#story-table .btn-delete:hover {
-        filter: brightness(2);
+        width: 40%;
 }

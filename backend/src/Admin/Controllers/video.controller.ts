@@ -66,8 +66,8 @@ const upload = multer({
 export const createVideo = async (req: IncomingMessage, res: ServerResponse) => {
     upload(req as any, res as any, async (err: any) => {
         const customReq = req as CustomRequest;
-
-        // Kiểm tra lỗi validate file
+        
+        // Kiểm tra lỗi validate file   
         if (customReq.fileValidationError) {
             return sendResponse(res, 400, { message: "Only MP4 video files are allowed." });
         }
@@ -79,7 +79,7 @@ export const createVideo = async (req: IncomingMessage, res: ServerResponse) => 
 
         const files = customReq.files;
         const body = customReq.body;
-
+        console.log("video.controller.ts - customReqfiles: ", customReq.files);
         // Kiểm tra xem file có được upload không
         if (!files || Object.keys(files).length === 0) {
             res.statusCode = 400;

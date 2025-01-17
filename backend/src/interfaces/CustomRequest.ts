@@ -1,4 +1,4 @@
-// Khai báo interface tùy chỉnh cho req 
+    // Khai báo interface tùy chỉnh cho req 
 // Vì bạn không sử dụng express, req là một instance của IncomingMessage. 
 // Chúng ta cần mở rộng kiểu của nó để thêm các thuộc tính file và body.
 

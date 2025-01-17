@@ -44,6 +44,8 @@ export async function loadStory() {
 
                         // Delete button cell
                         const deleteCell = createDeleteButtonCell(item._id, 'btn-delete', handleDelete);
+                        deleteCell.style.display = "flex";
+                        deleteCell.style.justifyContent = "center";
                         tr.appendChild(deleteCell);
 
                         tbody.appendChild(tr);   
