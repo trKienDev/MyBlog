@@ -7,13 +7,8 @@
         background-color: white;
         border-radius: 8px;
 }
-#studio-table table thead tr th {
-        border-bottom: 3px solid #435d7d;
-}
 #studio-table table tr th {
         padding: 12px 15px;
-        color: #435d7d;
-        font-size: 20px;
 }
 #studio-table tr {
         height: 50px;
@@ -100,6 +95,7 @@
         width: 80%;
         background-color: white;
         border-radius: 8px;
+        border: 1px solid var(--secondary-border);
 }
 #codeAV-create .codeAV-form span {
         font-weight: bold;

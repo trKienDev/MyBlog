@@ -4,16 +4,10 @@
 }
 #actress-table table {
         width: 100%;
-        background-color: white;
-        border-radius: 8px;
 }
-#actress-table table thead tr th {
-        border-bottom: 3px solid #435d7d;
-}
+
 #actress-table table tr th {
         padding: 12px 15px;
-        color: #435d7d;
-        font-size: 20px;
 }
 #actress-table tr {
         height: 50px;
@@ -22,19 +16,7 @@
         padding: 20px 15px;
         font-size: 20px;
 }
-#actress-table table tbody tr td {
-        border-bottom: 1px solid #bdbaba;
-}
-#actress-table table tbody tr:nth-last-child(1) td {
-        border-bottom: 0px;
-}
-#actress-table table tbody tr:nth-last-child(1) td:hover {
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
-}
-#actress-table table tbody tr:hover {
-        background-color: rgb(229, 235, 236);
-}
+
 #actress-table .actress {
         width: 20%;
 }

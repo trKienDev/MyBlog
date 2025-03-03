@@ -3,7 +3,7 @@
                 <div class="heading">
                         <h1>Setting actress</h1>
                 </div>
-                <div class="body" style="display: block;">
+                <div class="body" style="display: flex;">
                         <div id="actress-table">
                                 <table cellpadding="0" cellspacing="0">
                                         <thead>
@@ -20,7 +20,7 @@
                                                         <th class="thBody">Body</th>
                                                         <th class="breast">Breast</th>
                                                         <th class="studio">Studio</th>
-                                                        <th class="films">Films</th>
+                                                        <th class="films">Skin</th>
                                                         <th style="width: 6%;"></th>
                                                 </tr>
                                         </thead>
@@ -49,6 +49,9 @@
                                                 </tr>
                                         </tbody>
                                 </table>
+                        </div>
+                        <div id="search-actress">
+                                <input type="text" id="searchInput" placeholder="Search by name..." style="width: 200px; padding: 5px;">
                         </div>
                 </div>
         </div>
@@ -100,3 +103,24 @@
                 </form>
         </div>
 </div>
+
+<script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+    const searchValue = this.value.trim().toLowerCase();  // Không phân biệt hoa thường
+    const rows = document.querySelectorAll('#actress-table tbody tr');
+
+    rows.forEach(row => {
+        const nameCell = row.querySelector('td:nth-child(2)');  // Lấy trực tiếp ô tên
+        if (nameCell) {
+            const name = nameCell.innerText.trim().toLowerCase();
+            if (name.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    });
+});
+
+    </script>
+    

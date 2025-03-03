@@ -6,74 +6,72 @@ import { loadTagsTable } from '../../pages/setting/tags/tags.js';
 import { loadFilm } from '../../pages/setting/films/films.js';
 import { loadStory } from '../../pages/setting/story/story.js';
 
-// Load ActressTable
 document.addEventListener("DOMContentLoaded", function() {
-    // Event listener đã có cho trang setting
-    const settingsLink = document.querySelector('a[href="/admin/pages/setting"]');
-    settingsLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        // Sử dụng config để cấu hình URL
-        const url = `${config.frontendDomain}${config.endpoints.settingPage}`;
-        loadContent(url, 'dynamic-data', () => {
-            const sidebarLink = document.querySelector('a[href="/admin/pages/setting/sidebar"]');
-            addLinkEventHandler(sidebarLink, '/admin/pages/setting/sidebar/sidebar.html', loadSidebarTable);
-
-            const actressLink = document.querySelector('a[href="/admin/pages/setting/actress"]');
-            addLinkEventHandler(actressLink, '/admin/pages/setting/actress/actress.html', loadActressTable);
-
-            const studioLink = document.querySelector('a[href="/admin/pages/setting/studio"]');
-            addLinkEventHandler(studioLink, '/admin/pages/setting/studio/studio.html', loadStudioTable);
-
-            const tagLink = document.querySelector('a[href="/admin/pages/setting/tags"]');
-            addLinkEventHandler(tagLink, '/admin/pages/setting/tags/tags.html', loadTagsTable);
-
-            const filmLink = document.querySelector('a[href="/admin/pages/setting/films"]');
-            addLinkEventHandler(filmLink, '/admin/pages/setting/films/films.html', loadFilm);
-
-            const storyLink = document.querySelector('a[href="/admin/pages/setting/story"]');
-            addLinkEventHandler(storyLink, '/admin/pages/setting/story/story.html', loadStory);
-        });
-    });
+      const settingsLink = document.querySelector('a[href="/admin/pages/setting"]');
+      settingsLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const url = `${config.frontendDomain}${config.endpoints.settingPage}`;
+            updateURL('settings');
+            loadContent(url, 'dynamic-data', setupSettingPageLinks);
+      });
 });
 
+function setupSettingPageLinks() {
+      addLinkEventHandler('a[href="/admin/pages/setting/sidebar"]', '/admin/pages/setting/sidebar/sidebar.html', loadSidebarTable, 'settings/sidebar');
+      addLinkEventHandler('a[href="/admin/pages/setting/actress"]', '/admin/pages/setting/actress/actress.html', loadActressTable, 'settings/actress');
+      addLinkEventHandler('a[href="/admin/pages/setting/studio"]', '/admin/pages/setting/studio/studio.html', loadStudioTable, 'setting/studio');
+      addLinkEventHandler('a[href="/admin/pages/setting/tags"]', '/admin/pages/setting/tags/tags.html', loadTagsTable, 'settings/tag');
+      addLinkEventHandler('a[href="/admin/pages/setting/films"]', '/admin/pages/setting/films/films.html', loadFilm, 'settings/film');
+      addLinkEventHandler('a[href="/admin/pages/setting/story"]', '/admin/pages/setting/story/story.html', loadStory, 'settings/story');
+}
+
+function addLinkEventHandler(selector, url, callback, updateUrl) {
+      const link = document.querySelector(selector);
+      if (link) {
+            link.addEventListener('click', function(event) {
+                  event.preventDefault();
+                  updateURL(updateUrl);
+                  loadContent(url, 'dynamic-data', callback);
+            });
+      }
+}
+
 export function loadContent(url, dynamicDataId = 'dynamic-data', callback) {
-    fetch(url)
-        .then(response => {
+fetch(url)
+      .then(response => {
             if (!response.ok) {
-                throw new Error(`Failed to fetch page: ${response.status}`);
+                  throw new Error(`Failed to fetch page: ${response.status}`);
             }
             return response.text();
-        })
-        .then(html => {
+      })
+      .then(html => {
             const dynamicDataElement = document.getElementById(dynamicDataId);
             if (dynamicDataElement) {
-                dynamicDataElement.innerHTML = html; // Insert the HTML content
-                
-                // Execute scripts inside the loaded HTML
-                const scripts = dynamicDataElement.querySelectorAll('script');
-                scripts.forEach(script => {
-                    const newScript = document.createElement('script');
-                    newScript.textContent = script.textContent;
-                    document.body.appendChild(newScript);
-                    document.body.removeChild(newScript);
-                });
-
-                // Optional callback after content is loaded (e.g., to load more specific logic)
-                if (callback && typeof callback === 'function') {
-                    callback();
-                }
+                  dynamicDataElement.innerHTML = html;
+                  const scripts = dynamicDataElement.querySelectorAll('script');
+                  scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;
+                        document.body.appendChild(newScript);
+                        document.body.removeChild(newScript);
+                  });
+                  if (callback && typeof callback === 'function') {
+                        callback();
+                  }
             } else {
-                console.error(`Element with ID ${dynamicDataId} does not exist`);
+                  console.error(`Element with ID ${dynamicDataId} does not exist`);
             }
-        })
-        .catch(error => {
+      })
+      .catch(error => {
             console.error('Error loading content:', error);
-        });
+      });
 }
 
-function addLinkEventHandler(link, url, callback) {
-    link.addEventListener('click', function(event) {
-        event.preventDefault();
-        loadContent(url, 'dynamic-data', callback);
-    });
+function updateURL(path) {
+      history.pushState({}, '', path);
 }
+
+window.addEventListener('popstate', function() {
+    // Reload the correct content when user navigates back/forward
+    loadContent(location.pathname, 'dynamic-data', setupSettingPageLinks);
+});
