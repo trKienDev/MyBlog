@@ -8,6 +8,7 @@ const config = {
                 adminPage: '/admin',
                 adminPages: 'admin/pages',
                 settingPage: '/admin/pages/setting.html', 
+                filmPage: '/admin/pages/films/films.html', 
                 // sidebar page
                 sidebarList: '/admin/sidebar/read',
                 sidebarCreate: '/admin/sidebar/create',

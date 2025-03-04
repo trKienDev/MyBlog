@@ -5,6 +5,7 @@ import { loadStudioTable } from '../../pages/setting/studio/studio.js';
 import { loadTagsTable } from '../../pages/setting/tags/tags.js';
 import { loadFilm } from '../../pages/setting/films/films.js';
 import { loadStory } from '../../pages/setting/story/story.js';
+import { loadFilmList } from '../../pages/films/films.js';
 
 document.addEventListener("DOMContentLoaded", function() {
       const settingsLink = document.querySelector('a[href="/admin/pages/setting"]');
@@ -13,6 +14,13 @@ document.addEventListener("DOMContentLoaded", function() {
             const url = `${config.frontendDomain}${config.endpoints.settingPage}`;
             updateURL('settings');
             loadContent(url, 'dynamic-data', setupSettingPageLinks);
+      });
+
+      const filmsLink = document.querySelector('a[href="/admin/pages/films"]');
+      filmsLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const url = `${config.frontendDomain}${config.endpoints.filmPage}`;
+            loadContent(url, 'dynamic-data', loadFilmList);
       });
 });
 
