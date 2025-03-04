@@ -11,10 +11,10 @@
         border-radius: 8px;
 }
 .tags-item-icon {
-        width: 30px; /* Đặt chiều rộng cố định, điều chỉnh giá trị tùy theo ý muốn */
-        display: inline-block; /* Đảm bảo rằng các icon nằm cạnh văn bản */
-        text-align: center; /* Canh giữa icon trong khung */
-        margin-right: 10px; /* Khoảng cách giữa icon và văn bản */
+        width: 30px; 
+        display: inline-block; 
+        text-align: center; 
+        margin-right: 10px; 
 }
 #setting-menu .body {
         padding-top: 20px;
@@ -85,9 +85,6 @@
 }
 #tags-table table thead tr th {
         border-bottom: 3px solid #435d7d;
-}
-#tags-table table tbody tr:hover {
-        background-color: rgb(229, 235, 236);
 }
 #tags-table table tbody tr td {
         border-bottom: 1px solid #bdbaba;

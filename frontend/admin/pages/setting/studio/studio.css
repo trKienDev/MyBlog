@@ -1,6 +1,17 @@
-#studio-table {
+.studio-container {
         width: 45%;
-        margin-right: 100px;
+}
+#search-studio .search-container {
+        padding-bottom: 20px;
+}
+#search-studio .search-box {
+        margin-bottom: 0px;
+        width: 150px;
+        border: 1px solid var(--secondary-border);
+        padding: 5px;
+}
+#studio-table {
+        width: auto;
 }
 #studio-table table {
         width: 100%;
@@ -26,9 +37,6 @@
 #studio-table table tbody tr:nth-last-child(1) td:hover {
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
-}
-#studio-table table tbody tr:hover {
-        background-color: rgb(229, 235, 236);
 }
 #studio-table .btn-edit {
         background-color: var(--blue-background);

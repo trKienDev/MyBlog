@@ -68,6 +68,7 @@ export function loadStudioTable() {
         handleImageUpload("profile-image", "image-upload"); // Setup image upload logic
         createNewStudio("studioForm", "studioModal"); // Handle form submission for creating a new studio
         document.getElementById('sidebar-form').addEventListener('submit', createNewCodeAV);
+        searchStudioByName('search-input');
 }
 
 async function loadStudioOptions() {
@@ -254,3 +255,18 @@ async function createNewCodeAV(event) {
         }
 }
 
+function searchStudioByName(searchInputElement) {
+        const searchInput = document.getElementById(searchInputElement);
+        searchInput.addEventListener('keyup', function() {
+                const searchValue = this.value.trim().toLowerCase();  // Không phân biệt hoa thường
+                const rows = document.querySelectorAll('#studio-table tbody tr');
+            
+                rows.forEach(row => {
+                        const nameCell = row.querySelector('td:nth-child(2)');  // Lấy trực tiếp ô tên
+                        if (nameCell) {
+                                const name = nameCell.innerText.trim().toLowerCase();
+                                row.style.display = name.includes(searchValue) ? '' : 'none';
+                        }
+                });
+        });
+}

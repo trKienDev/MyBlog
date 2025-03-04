@@ -14,7 +14,7 @@ body {
       --primary-color: #0969da;
       --primary-color_hover: #0864d1;
       --secondary-color: #f6f8fa;
-      --secondary-color: #eff2f5;
+      --secondary-color_hover: #eff2f5;
       --blue-color: #1F51FF;
       --brigh-blue: #1586d7;
       --red-color: #ff3131;
@@ -169,7 +169,7 @@ table tbody tr:hover {
 }
 
 .btn-create {
-        background-color: var(--green-background);
+        background-color: var(--blue-background);
         max-width: 100px;
         padding: 10px 10px;
         color: white;
@@ -179,7 +179,7 @@ table tbody tr:hover {
         transition: background 0.8s, filter 0.8s;
 }
 .btn-create:hover {
-        filter: brightness(1.3);
+        filter: brightness(2);
 }
 .modal {
         display: none; /* Hidden by default */

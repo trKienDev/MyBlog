@@ -92,6 +92,7 @@ export function loadActressTable() {
         setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
         handleImageUpload("profile-image", "image-upload"); // setup image upload logic
         createNewActress("actressForm", "actressModal"); // submit form
+        searchActressByName('search-input');
 }
 
 async function createNewActress(formId, modalId) {
@@ -254,6 +255,20 @@ async function handleDelete(actressId) {
         }
 }
     
-
+async function searchActressByName(searchInputElement) {
+        const searchInput = document.getElementById(searchInputElement);
+        searchInput.addEventListener('keyup', function() {
+                const searchValue = this.value.trim().toLowerCase();  // Không phân biệt hoa thường
+                const rows = document.querySelectorAll('#actress-table tbody tr');
+            
+                rows.forEach(row => {
+                        const nameCell = row.querySelector('td:nth-child(2)');  // Lấy trực tiếp ô tên
+                        if (nameCell) {
+                                const name = nameCell.innerText.trim().toLowerCase();
+                                row.style.display = name.includes(searchValue) ? '' : 'none';
+                        }
+                });
+        });
+}
 
 

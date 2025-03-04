@@ -3,7 +3,7 @@
                 <div class="heading">
                         <h1>Setting actress</h1>
                 </div>
-                <div class="body" style="display: flex;">
+                <div class="body" style="display: flex; justify-content: space-between;">
                         <div id="actress-table">
                                 <table cellpadding="0" cellspacing="0">
                                         <thead>
@@ -25,33 +25,19 @@
                                                 </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>
-                                                                <div class="btn-edit">
-                                                                        <i class="fa-solid fa-pen" style="color: aliceblue;"></i>
-                                                                </div>
-                                                        </td>
-                                                        <td>
-                                                                <p>Leonardo Di Carpio</p>
-                                                        </td>
-                                                        <td>    
-                                                                <img src="/admin/static/images/face/LeonardoDiCarpio.jpg" class="profile">
-                                                        </td>
-                                                        <td>Strengh</td>
-                                                        <td>A</td>
-                                                        <td>S1</td>
-                                                        <td>100</td>
-                                                        <td style="display: flex; justify-content: center;">
-                                                                <div class="btn-delete">
-                                                                        <i class="fa-solid fa-trash" style="color: aliceblue;"></i>
-                                                                </div>
-                                                        </td>
-                                                </tr>
                                         </tbody>
                                 </table>
                         </div>
                         <div id="search-actress">
-                                <input type="text" id="searchInput" placeholder="Search by name..." style="width: 200px; padding: 5px;">
+                                <div class="search-container">
+                                        <div class="search-title">
+                                                <span style="font-weight: bold; font-size: 25px;">Search</span>
+                                        </div>
+                                        <div class="search-box">
+                                                <input type="text" id="search-input" placeholder="Search by name..." style="width: 200px; padding: 5px;">
+                                        </div>
+                                        
+                                </div>
                         </div>
                 </div>
         </div>
