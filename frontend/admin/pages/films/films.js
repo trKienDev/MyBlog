@@ -16,16 +16,30 @@ export function loadFilmList() {
                   filmListElement.classList.add("film-list");
                   filmList_container.appendChild(filmListElement);
                   console.log(filmList);
-                  filmList.array.forEach(film => {
+                  filmList.forEach(film => {
                         const filmItem = document.createElement("div");
                         filmItem.classList.add('film-item');
 
-                        const Image = document.createElement("img");
-                        thumbnail.src = `${config2.domain}/uploads/thumbnail/${film.thumbnail}`;
-                        filmImage.classList.add("film-thumbnail");
-                        
-                        const actress = document.createElement("")
+                        const image = document.createElement("img");
+                        image.src = `${config2.domain}/uploads/thumbnail/${film.thumbnail}`;
+                        image.classList.add("film-thumbnail");
+                        filmItem.appendChild(image);
+
+                        const filmInfo = document.createElement("div");
+                        filmInfo.classList.add("film-z`info");
+                        const filmCode = document.createElement("div");
+                        filmCode.classList.add("film-code");
+                        const filmCodeSpan = document.createElement("span");
+                        filmCodeSpan.classList.add("code");
+                        filmCodeSpan.textContent = film.name;
+                        filmCode.appendChild(filmCodeSpan);
+                        filmInfo.appendChild(filmCode);
+
+                        filmItem.appendChild(filmInfo);
+                        filmListElement.appendChild(filmItem);
                   });
+
+                  filmList_container.appendChild(filmListElement);
             });
       } catch(error) {
             console.error("error in frontend: ", error);
