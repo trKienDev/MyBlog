@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import { handleUpload } from '../../middlewares/uploadFile.js';
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { sendResponse, sendError } from "../../middlewares/response.js"
+import { send } from "process";
 
 const actressUploadPath = path.join(process.cwd(), "..", "..", "uploads","actress", "avatar");
 
@@ -55,6 +56,28 @@ export const getActress = async ( req: IncomingMessage , res: ServerResponse ) =
                 sendError(res, 500, error);
         } 
 };
+
+export const getActressById = async (req: CustomRequest, res: ServerResponse) => {
+        try {
+                const urlPath = req.url?.split("/");
+                const actressID = urlPath?.[urlPath.length - 1]; // Lấy ID từ URL
+
+                if(!actressID) {
+                        return sendError(res, 404, new Error("Invalid actress Id."));
+                }
+
+                const actress = await ActressModel.findById(actressID);
+                
+                if(!actress) {
+                        return sendError(res, 404, new Error("Actress not found !"));
+                }
+
+                sendResponse(res, 200, actress);
+        } catch (error) {
+                console.error("Error in backend - getActressById: ", error);
+        }
+}
+
 
 export const updateActress = async (req: CustomRequest, res: ServerResponse) => {
         const urlPath = req.url?.split("/");

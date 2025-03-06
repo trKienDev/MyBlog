@@ -19,6 +19,27 @@ export const getStudio = async (req: IncomingMessage, res: ServerResponse) => {
         }
 };
 
+export const getStudioById = async (req: CustomRequest, res: ServerResponse) => {
+        try {
+                const urlPath = req.url?.split("/");
+                const studioID =  urlPath?.[urlPath.length - 1];
+                
+                if(!studioID) {
+                        return sendError(res, 404, new Error("Invalid studio Id."));
+                }
+
+                const studio = await StudioModel.findById(studioID);
+                if(!studio) {
+                        return sendError(res, 404, new Error("studio not found!"));
+                }
+
+                sendResponse(res, 200, studio);
+        } catch(error) {
+                console.error("Error in getStudioById - studio.controller.ts: ", error);
+                sendError(res, 500, new Error('Error in getStudioById - studio.controller.ts.'));
+        }
+};
+
 export const createStudio = async (req: CustomRequest, res: ServerResponse) => {
         try {
                 await handleUpload(req, studioUploadPath);

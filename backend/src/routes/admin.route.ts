@@ -3,8 +3,8 @@ import { getAdminPage } from '../Admin/Controllers/admin.controller.js';
 import { getAboutPage } from '../Admin/Controllers/about.controller.js';
 import { getCodeAV, createCodeAV, updateCodeAV, deleteCodeAV } from '../Admin/Controllers/codeAV.controller.js';
 import { getSidebarItems, createSidebarItem, deleteSidebarItem, updateSidebarItem } from '../Admin/Controllers/sidebar.controller.js';
-import { getActress, createActress, updateActress, deleteActress } from '../Admin/Controllers/actress.controller.js';
-import { getStudio, createStudio, updateStudio, deleteStudio } from '../Admin/Controllers/studio.controller.js';
+import { getActress, createActress, updateActress, deleteActress, getActressById } from '../Admin/Controllers/actress.controller.js';
+import { getStudio, createStudio, updateStudio, deleteStudio, getStudioById } from '../Admin/Controllers/studio.controller.js';
 import { getTags, getTagVideo, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
 import { createVideo, getVideoById, updateVideo, deleteVideo } from '../Admin/Controllers/video.controller.js';
 import { createFilm, getFilm, updateFilm, deleteFilm } from '../Admin/Controllers/film.controller.js';
@@ -35,6 +35,8 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
       // actress 
       else if ( url?.startsWith ( '/admin/actress/read' ) && method === 'GET' ) {
             getActress ( req , res );
+      } else if( url?.startsWith ( '/admin/actress/get' ) && method === 'GET' ) {
+            getActressById ( req as CustomRequest, res );
       } else if ( url?.startsWith ( '/admin/actress/create' ) && method === 'POST' ) {
             createActress ( req as CustomRequest, res );
       } else if ( url?.startsWith ( '/admin/actress/update' ) && method === 'PUT' ) {
@@ -45,6 +47,8 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
       // studio
       else if ( url?.startsWith ( '/admin/studio/read' ) && method === 'GET' ) {
             getStudio ( req as CustomRequest, res );
+      } else if ( url?.startsWith ( '/admin/studio/get' ) && method === 'GET' ) {
+            getStudioById ( req as CustomRequest, res );
       } else if ( url?.startsWith ( '/admin/studio/create' ) && method === 'POST' ) {
             createStudio ( req as CustomRequest, res );
       } else if ( url?.startsWith ( '/admin/studio/update' ) && method === 'PUT' ) {
