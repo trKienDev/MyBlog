@@ -15,11 +15,13 @@ const config = {
                 sidebarDelete: '/admin/sidebar/delete',
                 sidebarUpdate: '/admin/sidebar/update',
                 // actress
+                actressGet: '/admin/actress/get',
                 actressList: '/admin/actress/read',
                 actressCreate: '/admin/actress/create',
                 actressUpdate: "/admin/actress/update", 
                 actressDelete: '/admin/actress/delete',
                 // studio
+                studioGet: '/admin/studio/get',
                 studioList: '/admin/studio/read',
                 studioCreate: '/admin/studio/create',
                 studioUpdate: '/admin/studio/update',
