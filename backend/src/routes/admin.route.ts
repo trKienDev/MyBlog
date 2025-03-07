@@ -8,7 +8,7 @@ import { getStudio, createStudio, updateStudio, deleteStudio, getStudioById } fr
 import { getTags, getTagVideo, createTag, updateTag, deleteTag } from '../Admin/Controllers/tag.controller.js';
 import { createVideo, getVideoById, updateVideo, deleteVideo } from '../Admin/Controllers/video.controller.js';
 import { createFilm, getFilm, updateFilm, deleteFilm } from '../Admin/Controllers/film.controller.js';
-import { createStory, getStory, updateStory, deleteStory } from '../Admin/Controllers/story.controller.js';
+import { createStory, getStory, updateStory, deleteStory, getStoryById } from '../Admin/Controllers/story.controller.js';
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { attachParams } from '../middlewares/attachParams.js';
 
@@ -101,7 +101,9 @@ export const adminRoutes = (req: IncomingMessage, res: ServerResponse) => {
       // Story
       else if ( url?.startsWith ( '/admin/story/create' ) && method === 'POST' ) {
             createStory ( req, res );
-      } else if ( url?.startsWith ( '/admin/story/read' ) && method === 'GET' ) {
+      } else if ( url?.startsWith ( '/admin/story/get' ) && method === 'GET' ) {
+            getStoryById ( req as CustomRequest, res );
+      }  else if ( url?.startsWith ( '/admin/story/read' ) && method === 'GET' ) {
             getStory ( req, res );
       } else if ( url?.startsWith ( '/admin/story/update' ) && method === 'PUT' ) {
             updateStory ( req, res );

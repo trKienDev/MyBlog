@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import StoryModel from "../models/story.model.js";
 import { sendResponse, sendError } from "../../middlewares/response.js";
+import { CustomRequest } from '../../interfaces/CustomRequest.js';
 
 export const createStory = async (req: IncomingMessage, res: ServerResponse ) => {
         let body = '';
@@ -35,6 +36,26 @@ export const getStory = async (req: IncomingMessage, res: ServerResponse) => {
         } catch(error) {
                 console.error('Error getting stories: ', error);
                 sendError(res, 500, new Error('Error retrieving stories from the database.'));
+        }
+};
+
+export const getStoryById = async (req: CustomRequest, res: ServerResponse)  => {
+        try {
+                const urlPath = req.url?.split("/");
+
+                const StoryID = urlPath?.[urlPath.length - 1];
+                if(!StoryID) {
+                        return sendError(res, 404, new Error("Invalid story Id."));
+                }
+
+                const story = await StoryModel.findById(StoryID);
+                if(!story) {
+                        return sendError(res, 404, new Error("story not found!"));
+                }
+                sendResponse(res, 200, story);
+        } catch(error) {
+                console.error("Error in getStoryById - story.controller.ts: ", error);
+                sendError(res, 500, new Error('Error in getStoryById - story.controller.ts.'));
         }
 };
 
