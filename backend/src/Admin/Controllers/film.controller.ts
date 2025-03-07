@@ -15,7 +15,7 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
         try {
                 await handleUpload(req, thumbnailUploadPath); 
 
-                const { name, actress, code, releaseDate, studio, tag, videos, story } = (req as any).body;
+                const { name, actress, code, releaseDate, studio, tag, videos, story, rating } = (req as any).body;
                 const tags = tag.split(',').map((id: string) => new mongoose.Types.ObjectId(id.trim()));
 
                 const existingFilm = await FilmModel.findOne({ name }); 
@@ -39,7 +39,8 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
                         tag_id: tags,
                         release_date: releaseDate,
                         video: videos.split(',').map((id: string) => new mongoose.Types.ObjectId(id.trim())),
-                        thumbnail: thumbnailName // Lưu URL của ảnh vào thuộc tính image
+                        thumbnail: thumbnailName, 
+                        rating: rating ? Number(rating) : 0 
                 });
 
                 await newFilm.save();
@@ -48,7 +49,6 @@ export const createFilm = async (req: CustomRequest, res: ServerResponse) => {``
                 const err = error as Error;
                 console.error("Error creating film:", err.message);
 
-                // Trả về phản hồi lỗi
                 return sendError(res, 500, { message: "Failed to create film.", error: err.message });
         }
 };
