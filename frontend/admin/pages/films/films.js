@@ -1,4 +1,5 @@
 import config2 from "../../services/config.js";
+import { getValueFromId } from "../../services/HelperFunction/fetchAPI.js";
 
 export async function loadFilmList() {
       try {
@@ -15,8 +16,11 @@ export async function loadFilmList() {
                   const filmListElement = document.createElement("div");
                   filmListElement.classList.add("film-list");
                   filmList_container.appendChild(filmListElement);
-                  console.log(filmList);
                   filmList.forEach(film => {
+                        console.log("film: ", film);      
+
+                        const storyDetail = getStoryDetail(film.story_id._id);
+                        console.log("story detail: ", storyDetail);
                         const filmItem = document.createElement("div");
                         filmItem.classList.add('film-item');
 
@@ -39,7 +43,28 @@ export async function loadFilmList() {
                         filmCodeSpan.textContent = film.name;
                         filmCodeDiv.appendChild(filmCodeSpan);
                         filmInfo.appendChild(filmCodeDiv);
-                                               
+                        
+                        const ratingContainer = document.createElement("div");
+                        ratingContainer.classList.add("film-rating");
+                        const filmRating = film.rating || 1;
+                        for(let i = 1; i <= filmRating; i++) {
+                              const star = document.createElement("i"); 
+                              star.classList.add("fa", "fa-star");
+                              star.style.color = "gold";
+                              ratingContainer.appendChild(star);
+                        }
+                        if (filmRating > 0) {
+                              filmInfo.appendChild(ratingContainer);
+                        }
+                        filmInfo.appendChild(ratingContainer);
+
+                        const infoIcon = document.createElement("i");
+                        infoIcon.classList.add("fa-solid", "fa-circle-info", "film-info-icon");
+                        infoIcon.addEventListener("mouseover", () => {
+                              console.log(`info film: ${film.name}`);
+                        });
+                        filmThumbnailWrapper.appendChild(infoIcon);
+
                         filmThumbnailWrapper.appendChild(filmInfo);
                         filmItem.appendChild(filmThumbnailWrapper);
 
@@ -76,9 +101,22 @@ async function getStudioName(studioId) {
             }
 
             const studioName = await response.json();
-            console.log(studioName);
             return studioName.name;
       } catch(error) {
             console.error("error in getStudioName - film.js: ", error);
+      }
+}
+
+async function getStoryDetail(storyId) {
+      try {
+            console.log("story id:", storyId);
+            const response = await fetch(`${config2.domain}${config2.endpoints.storyGet}/${storyId}`) ;
+            if(!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const storyDetail = await response.json();
+            return storyDetail.detail;
+      } catch(error) {  
+            console.error("error in getStoryname - film.js: ", error);
       }
 }

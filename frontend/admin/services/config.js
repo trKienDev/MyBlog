@@ -49,6 +49,7 @@ const config = {
                 filmDelete: '/admin/film/delete',
                 // story
                 storyCreate: '/admin/story/create',
+                storyGet: '/admin/story/get',
                 storyList: '/admin/story/read',
                 storyUpdate: '/admin/story/update',
                 storyDelete: '/admin/story/delete'
