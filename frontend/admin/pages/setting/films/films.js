@@ -7,6 +7,7 @@ import { loadTag } from '../../../services/loadElement/loadTag.js';
 import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
 import { loadStory } from "../../../services/loadElement/loadStory.js";
 import { errorSweetAlert, confirmSweetAlert, showToastNotification, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
+import { initializeRatingFeature, userRating } from "../../../services/HelperFunction/starRating.js";
 
 let videoDataList = [];
 
@@ -141,7 +142,6 @@ export function loadFilm() {
       searchFilmByCode('search-input');
 }
 
-
 function createFilm(btnCreateElement) {
       const btnCreate = document.querySelector(btnCreateElement); 
       if (btnCreate) {
@@ -158,6 +158,9 @@ function createFilm(btnCreateElement) {
                         handleVideoUpload("video-upload", "video-uploaded");
                         smoothScrolling("video-list");
                         handleThumbnail("thumbnail-upload", "video-thumbnail");
+
+                        const intialRating = 0;
+                        initializeRatingFeature(".film-rating", intialRating);
 
                         document.getElementById('create-film').addEventListener('submit', async function(event) {
                               event.preventDefault(); 
@@ -192,7 +195,7 @@ function createFilm(btnCreateElement) {
 
                               // story
                               const story = document.getElementById('film-story').value;
-
+                              
                               // --* videoForm *---
                               const videoForm = new FormData();
                               videoForm.append("name", name);
@@ -227,6 +230,8 @@ function createFilm(btnCreateElement) {
                               filmForm.append("releaseDate", releaseDate);
                               filmForm.append("file", thumbnailFile);
                               filmForm.append('videos', videoIds.join(','));
+                              filmForm.append("rating", userRating);
+                              console.log("film form: ", filmForm);
 
                               try {
                                     const filmResponse = await fetch(`${config2.domain}${config2.endpoints.filmCreate}`, {
@@ -420,6 +425,8 @@ async function handleEdit(item, btnEditElement) {
                                     });
                               });
                   }
+
+                  initializeRatingFeature(".film-rating", item.rating);
 
                   // User submit form
                   document.getElementById("create-film").addEventListener('submit', async function(event) {
@@ -790,3 +797,4 @@ searchInput.addEventListener('keyup', function() {
       });
 });
 }
+

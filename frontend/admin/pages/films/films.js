@@ -32,46 +32,14 @@ export async function loadFilmList() {
                         const filmInfo = document.createElement("div");
                         filmInfo.classList.add("film-info");
 
-                        const filmActressDiv = document.createElement("div");
-                        filmActressDiv.classList.add("film-actress");
-                        const filmActressSpan = document.createElement("span");
-                        filmActressSpan.classList.add("name");
-                        getActressName(film.actress_id._id)
-                        .then(actress => {
-                              filmActressSpan.textContent = actress;
-                        })
-                        .catch(error => {
-                              console.error("Error fetching actress name: ", error);
-                        });
-                        filmActressDiv.appendChild(filmActressSpan);
-                        filmInfo.appendChild(filmActressDiv);
-                        
-                        const row = document.createElement("div");
-                        row.classList.add("row");
-
-                        const filmCode = document.createElement("div");
-                        filmCode.classList.add("film-code");
+                        const filmCodeDiv = document.createElement("div");
+                        filmCodeDiv.classList.add("film-code");
                         const filmCodeSpan = document.createElement("span");
                         filmCodeSpan.classList.add("code");
                         filmCodeSpan.textContent = film.name;
-                        filmCode.appendChild(filmCodeSpan);
-                        row.appendChild(filmCode);
-
-                        const filmStudioDiv = document.createElement("div");
-                        filmStudioDiv.classList.add("film-studio");
-                        const filmStudioSpan = document.createElement("span");
-                        filmStudioSpan.classList.add("studio");
-                        getStudioName(film.studio_id._id)
-                        .then(studio => {
-                              filmStudioSpan.textContent = studio;
-                        })
-                        .catch(error => {
-                              console.error("Error fetching studio name: ", error);
-                        });
-                        filmStudioDiv.appendChild(filmStudioSpan);
-                        row.appendChild(filmStudioDiv);
-                        filmInfo.appendChild(row);
-                        
+                        filmCodeDiv.appendChild(filmCodeSpan);
+                        filmInfo.appendChild(filmCodeDiv);
+                                               
                         filmThumbnailWrapper.appendChild(filmInfo);
                         filmItem.appendChild(filmThumbnailWrapper);
 
