@@ -93,4 +93,27 @@
       transition: transform 0.2s ease-in-out, background-color 0.3s;
       cursor: pointer;
 }
-
+#film-management .film-info-popup {
+      position: absolute;
+      background-color: white;
+      color: black;
+      padding: 10px;
+      border: 1px solid rgba(31, 81, 255, 0.9);
+      border-radius: 5px;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-90%);
+      z-index: 10;
+      white-space: nowrap;
+      display: block;
+      width: 300%;
+      font-family: 'Lexend';
+      font-size: 12px;
+      text-transform: lowercase;
+      font-weight: 300;
+      line-height: 1.5;
+      box-shadow: 
+        rgba(31, 81, 255, 0.3) 0px 0px 5px,   /* Viền vàng nhẹ */
+        rgba(31, 81, 255, 0.5) 0px 4px 8px,   /* Bóng vàng nhạt */
+        rgba(0, 0, 0, 0.2) 0px 2px 4px inset; 
+} 
