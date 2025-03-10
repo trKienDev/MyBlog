@@ -57,7 +57,7 @@ export async function loadFilmList() {
                   const infoIcon = document.createElement("i");
                   infoIcon.classList.add("fa-solid", "fa-circle-info", "film-info-icon");
                   infoIcon.addEventListener("mouseover", async () => {
-                        let infoContainer = filmThumbnailWrapper.querySelector("film-info-popup");
+                        let infoContainer = filmThumbnailWrapper.querySelector(".film-info-popup");
                         if(!infoContainer) {
                               infoContainer = await createInfoDiv(film);
                               infoIcon.appendChild(infoContainer);
@@ -66,9 +66,11 @@ export async function loadFilmList() {
                   infoIcon.addEventListener("mouseleave", () => {
                         let infoContainer = filmThumbnailWrapper.querySelector(".film-info-popup");
                         if(infoContainer) {
+                              console.log("remove");
                               infoContainer.remove();
                         }
-                  })
+                  });
+
 
                   filmThumbnailWrapper.appendChild(infoIcon);
 

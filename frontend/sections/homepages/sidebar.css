@@ -1,0 +1,9 @@
+#sidebar-container a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 10px 0;
+}
