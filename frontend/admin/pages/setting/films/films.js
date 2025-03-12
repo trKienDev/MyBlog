@@ -366,37 +366,37 @@ async function handleEdit(item, btnEditElement) {
 
                   // Hiển thị danh sách tag
                   if(item.tag_id && item.tag_id.length > 0) {
-                              const tagsListElement = document.getElementById("tags-selected");
-                              const tagSelectElement = document.getElementById("film-tag");
-                              const selectedTagIds = [];
+                        const tagsListElement = document.getElementById("tags-selected");
+                        const tagSelectElement = document.getElementById("film-tag");
+                        const selectedTagIds = [];
 
-                              while(tagsListElement.firstChild) {
-                                    tagsListElement.removeChild(tagsListElement.firstChild);
+                        while(tagsListElement.firstChild) {
+                              tagsListElement.removeChild(tagsListElement.firstChild);
+                        }
+
+                        item.tag_id.forEach(tagId => {
+                              const tagItem = document.createElement("div");
+                              tagItem.className = "tag-item";
+                              tagItem.dataset.tagId = tagId;
+
+                              const tagOption = Array.from(tagSelectElement.options).find(option => option.value === tagId);
+                              if(tagOption) {
+                                    tagItem.textContent = tagOption.textContent;
+                              } else {
+                                    tagItem.textContent = "Unknown tag";
                               }
 
-                              item.tag_id.forEach(tagId => {
-                                    const tagItem = document.createElement("div");
-                                    tagItem.className = "tag-item";
-                                    tagItem.dataset.tagId = tagId;
-
-                                    const tagOption = Array.from(tagSelectElement.options).find(option => option.value === tagId);
-                                    if(tagOption) {
-                                          tagItem.textContent = tagOption.textContent;
-                                    } else {
-                                          tagItem.textContent = "Unknown tag";
+                              tagItem.addEventListener("click", () => {
+                                    tagsListElement.removeChild(tagItem); // Xóa tag khỏi giao diện
+                                    const index = selectedTagIds.indexOf(tagId); // Xóa ID khỏi mảng
+                                    if(index > -1) {
+                                                selectedTagIds.splice(index, 1);
                                     }
-
-                                    tagItem.addEventListener("click", () => {
-                                          tagsListElement.removeChild(tagItem); // Xóa tag khỏi giao diện
-                                          const index = selectedTagIds.indexOf(tagId); // Xóa ID khỏi mảng
-                                          if(index > -1) {
-                                                      selectedTagIds.splice(index, 1);
-                                          }
-                                    });
-
-                                    selectedTagIds.push(tagId);
-                                    tagsListElement.appendChild(tagItem);
                               });
+
+                              selectedTagIds.push(tagId);
+                              tagsListElement.appendChild(tagItem);
+                        });
                   }
 
                   // Hiển thị danh sách video

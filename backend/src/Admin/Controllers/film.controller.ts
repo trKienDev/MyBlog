@@ -64,11 +64,28 @@ export const getFilm = async (req: IncomingMessage, res: ServerResponse) => {
       }
 };
 
+export const getFilmById = async (req: CustomRequest, res: ServerResponse) => {
+      try {
+            console.log("run getFIlmById");
+            const urlPath = req.url?.split("/");
+            const filmId = urlPath?.[urlPath.length - 1];
+
+            const film = await FilmModel.findById(filmId);
+            if(!film) {
+                  return sendError(res, 404, new Error("Film is not found!"));
+            }
+
+            sendResponse(res, 200, film);
+      } catch(error) {
+            sendError(res, 500, error);
+      }
+}
+
 export const getFilmByTagId = async (req:CustomRequest, res: ServerResponse) => {
       try {
             const urlPath = req.url?.split("/");
             const tagId = urlPath?.[urlPath.length - 1];
-            console.log("tagId: ", tagId);
+
             const films = await FilmModel.find({
                   tag_id: new mongoose.Types.ObjectId(tagId)
             });

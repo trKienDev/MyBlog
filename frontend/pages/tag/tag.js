@@ -15,7 +15,6 @@ function getTagFromUrl() {
 }
 
 async function loadFilmsByTag(tag_id) {
-      console.log("Tag id: ", tag_id);
       try {
             const response = await fetch(`${config.domain}${config.endpoints.getFilmByTagId}/${tag_id}`);
             if(!response.ok) {
@@ -77,8 +76,10 @@ function loadHeader() {
 }
 
 function createFilmItem(film) {
+      const filmItem_link = document.createElement("a");
+      filmItem_link.href = `/pages/films/film-video.html?id=${film._id}&code=${film.name}`;
+      filmItem_link.classList.add("film-item");
       const filmItem_div = document.createElement("div");
-      filmItem_div.classList.add("film-item");
 
       const filmThumbnailWrapper = document.createElement("div");
       filmThumbnailWrapper.classList.add("film-thumbnail-wrapper");
@@ -132,7 +133,8 @@ function createFilmItem(film) {
       filmThumbnailWrapper.appendChild(infoIcon);
       filmThumbnailWrapper.appendChild(filmInfo);
       filmItem_div.appendChild(filmThumbnailWrapper);
-      return filmItem_div
+      filmItem_link.appendChild(filmItem_div);
+      return filmItem_link;
 }
 
 async function createInfoDiv(film) {

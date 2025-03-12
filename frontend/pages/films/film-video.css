@@ -1,0 +1,14 @@
+.film-info {
+      display: flex;
+      align-items: center;
+}
+#film-title {
+      background: var(--hot-pink);
+      color: white;
+      padding: 5px 8px 5px 12px;
+      border-radius: 2px;
+      text-decoration: none;
+      margin-left: 15px;
+}
+
+.col-left {}

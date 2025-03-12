@@ -7,6 +7,7 @@ const config = {
                 // tag
                 tagList: '/admin/tags/read',
                 getFilmByTagId: '/film/tag',
+                getFilmById: '/film/id',
         }
 }
 
