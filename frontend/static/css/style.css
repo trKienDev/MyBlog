@@ -4,6 +4,17 @@ body {
       color: white;
 }
 
+:root {
+      --primary-color: #0969da;
+      --primary-color_hover: #0864d1;
+      --secondary-color: #f6f8fa;
+      --secondary-color_hover: #eff2f5;
+      --hot-pink: #FF69B4;
+      --yellow: #FFFF00;
+      --bright-yellow: #FFEA00;
+      --gold: #FFD700;
+}
+
 .container {
       width: 100%;
       max-width: 1200px;

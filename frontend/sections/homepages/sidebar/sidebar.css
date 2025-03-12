@@ -1,0 +1,23 @@
+#list-sidebar .sidebar-item {
+      padding-bottom: 10px;
+}
+
+#list-sidebar .sidebar-item a {
+      display: flex;
+      margin-right: 50px;
+      border-radius: 8px;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 10px;
+}
+#list-sidebar .sidebar-item a:hover {
+      background-color: var(--hot-pink);
+      
+}
+#list-sidebar .sidebar-item-icon {
+      width: 20px;
+      padding-right: 10px;
+}

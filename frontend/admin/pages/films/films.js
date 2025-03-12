@@ -14,10 +14,7 @@ export async function loadFilmList() {
             filmListElement.classList.add("film-list");
             filmList_container.appendChild(filmListElement);
 
-            for(const film of filmList) {
-                  console.log("film: ", film);      
-                  const storyDetail = await getValueFromId(film.story_id._id, "storyGet", "detail");
-
+            for(const film of filmList) {     
                   const filmItem = document.createElement("div");
                   filmItem.classList.add('film-item');
 
@@ -70,7 +67,6 @@ export async function loadFilmList() {
                               infoContainer.remove();
                         }
                   });
-
 
                   filmThumbnailWrapper.appendChild(infoIcon);
 

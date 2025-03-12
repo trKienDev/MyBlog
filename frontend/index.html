@@ -14,40 +14,4 @@
 </body>
 </html>
 
-<script>
-        document.addEventListener("DOMContentLoaded", function(){
-                fetch('sections/homepages/videos-tag.html')
-                .then(response => {
-                        console.log("response: ", response);
-                        if(!response.ok) {
-                                throw new Error('Network response was not OK');
-                        }
-                        return response.text();
-                })
-                .then(data => {
-                        document.getElementById('videos-tag').innerHTML = data;
-                })
-                .catch(error => {
-                        console.error('error loading video-tag.html: ', error);
-                });
-        });
-</script>
-
-<!-- sidebar - homepage -->
-<script>
-        document.addEventListener("DOMContentLoaded", function() {
-                fetch('sections/homepages/sidebar.html')
-                .then(response => {
-                        if(!response.ok) {
-                                throw new Error('Network response was not OK!');
-                        }
-                        return response.text();
-                })
-                .then(data => {
-                        document.getElementById('sidebar').innerHTML = data;
-                })
-                .catch(error => {
-                        console.error('error loading sidebar.html', error);
-                });
-        });
-</script>
+<script type="module" src="./services/loadElement/loadHomeSection.js"></script>

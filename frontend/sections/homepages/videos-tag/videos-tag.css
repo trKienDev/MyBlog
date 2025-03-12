@@ -1,0 +1,21 @@
+#tags-container .row {
+      justify-content: flex-start;
+}
+
+#tags-container .tag-item {
+      padding-right: 30px;
+}
+
+#tags-container .tag-name {
+      background: var(--gold);
+      color: black;
+      padding: 5px 8px 5px 12px;
+      clip-path: polygon(10px 0%, 100% 0%, 100% 100%, 10px 100%, 0 50%);
+      transition: 0.5s ease-in-out;
+      border-radius: 2px;
+      text-decoration: none;
+}
+#tags-container .tag-name:hover {
+      filter: brightness(1.5);
+      cursor: pointer;
+}
