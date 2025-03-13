@@ -768,9 +768,9 @@ function displayVideo(videoUrl, index, videoListDiv, removeCallback) {
             videoElement.addEventListener('seeked', function() {
                   videoElement.pause();
                   videoElement.style.width = '100%';
-                  videoElement.style.height = '255px';
+                  videoElement.style.height = '100%';
                   videoElement.style.objectFit = 'cover';
-                  videoElement.style.borderRadius = '8px';
+                  videoElement.style.borderRadius = '5px';
             });
       });
 }

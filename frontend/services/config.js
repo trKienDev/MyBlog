@@ -8,6 +8,7 @@ const config = {
                 tagList: '/admin/tags/read',
                 getFilmByTagId: '/film/tag',
                 getFilmById: '/film/id',
+                videoGetById: '/admin/video/get_video_by_id',
         }
 }
 

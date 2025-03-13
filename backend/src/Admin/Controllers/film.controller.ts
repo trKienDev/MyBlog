@@ -66,7 +66,6 @@ export const getFilm = async (req: IncomingMessage, res: ServerResponse) => {
 
 export const getFilmById = async (req: CustomRequest, res: ServerResponse) => {
       try {
-            console.log("run getFIlmById");
             const urlPath = req.url?.split("/");
             const filmId = urlPath?.[urlPath.length - 1];
 
