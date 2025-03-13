@@ -179,10 +179,10 @@ function createFilm(btnCreateElement) {
                               
                               // Lấy file từ input video-thumbnail
                               const thumbnailInput = document.getElementById('video-thumbnail');
-                              const thumbnailFile = thumbnailInput.files[0]; // Lấy file từ input
+                              const thumbnailFile = thumbnailInput.files[0]; 
                               if (!thumbnailFile) {
                                     alert("Please upload a thumbnail before submitting!");
-                                    return; // Nếu không có file thì dừng
+                                    return; 
                               }
                               
                               // video tag
@@ -235,20 +235,20 @@ function createFilm(btnCreateElement) {
 
                               try {
                                     const filmResponse = await fetch(`${config2.domain}${config2.endpoints.filmCreate}`, {
-                                                method: 'POST',
-                                                body: filmForm
+                                          method: 'POST',
+                                          body: filmForm
                                     });
 
                                     if(filmResponse.status === 409) {
-                                                errorSweetAlert('This film already exist !');
-                                                return;
+                                          errorSweetAlert('This film already exist !');
+                                          return;
                                     }
 
                                     if(filmResponse.status !== 201) {
-                                                console.error('Failed to create actress. HTTP Status:', filmResponse.status);
-                                                console.error('Error: ', filmResponse);
-                                                errorSweetAlert('An error occurred while creating actress. Please try again.');
-                                                throw new Error(`HTTP error! Status: ${filmResponse.status}`);
+                                          console.error('Failed to create actress. HTTP Status:', filmResponse.status);
+                                          console.error('Error: ', filmResponse);
+                                          errorSweetAlert('An error occurred while creating actress. Please try again.');
+                                          throw new Error(`HTTP error! Status: ${filmResponse.status}`);
                                     }
 
                                     const createdFilm = await filmResponse.json();
@@ -268,26 +268,26 @@ function createFilm(btnCreateElement) {
 
                                     const formElement = document.getElementById('create-film');
                                     if (formElement) {
-                                                formElement.reset(); // Reset the HTML form fields
+                                          formElement.reset(); // Reset the HTML form fields
                                     }
 
                                     const thumbnailElements = document.getElementsByClassName("thumbnail-item");
                                     while (thumbnailElements.length > 0) {
-                                                thumbnailElements[0].remove();
+                                          thumbnailElements[0].remove();
                                     }
                                     
                                     const tagsSelectedDiv = document.getElementById("tags-selected");
                                     if(tagsSelectedDiv) {
-                                                while (tagsSelectedDiv.firstChild) {
-                                                      tagsSelectedDiv.removeChild(tagsSelectedDiv.firstChild);
-                                                }
+                                          while (tagsSelectedDiv.firstChild) {
+                                                tagsSelectedDiv.removeChild(tagsSelectedDiv.firstChild);
+                                          }
                                     }
 
                                     const videoListDiv = document.getElementById("video-list");
                                     if(videoListDiv) {
-                                                while(videoListDiv) {
-                                                      videoListDiv.removeChild(videoListDiv.firstChild);
-                                                }
+                                          while(videoListDiv) {
+                                                videoListDiv.removeChild(videoListDiv.firstChild);
+                                          }
                                     }
                               }
                         });
@@ -347,21 +347,21 @@ async function handleEdit(item, btnEditElement) {
                   
                   // Hiển thị thumbnail
                   if(item.thumbnail) {
-                              const thumbnailElement = document.getElementById("thumbnail-upload");
+                        const thumbnailElement = document.getElementById("thumbnail-upload");
 
-                              const imageElement = document.createElement('img');
-                              imageElement.className = 'thumbnail-item';
-                              imageElement.src = `${config2.domain}/uploads/thumbnail/${item.thumbnail}`;
-                              imageElement.style.width = '100%';
-                              imageElement.style.height = '100%';
-                              imageElement.style.objectFit = 'cover';
-                              imageElement.style.borderRadius = '8px';
+                        const imageElement = document.createElement('img');
+                        imageElement.className = 'thumbnail-item';
+                        imageElement.src = `${config2.domain}/uploads/thumbnail/${item.thumbnail}`;
+                        imageElement.style.width = '100%';
+                        imageElement.style.height = '100%';
+                        imageElement.style.objectFit = 'cover';
+                        imageElement.style.borderRadius = '8px';
 
-                              while(thumbnailElement.firstChild) {
-                                    thumbnailElement.removeChild(thumbnailElement.firstChild);
-                              }
+                        while(thumbnailElement.firstChild) {
+                              thumbnailElement.removeChild(thumbnailElement.firstChild);
+                        }
 
-                              thumbnailElement.appendChild(imageElement);
+                        thumbnailElement.appendChild(imageElement);
                   } 
 
                   // Hiển thị danh sách tag
@@ -401,183 +401,183 @@ async function handleEdit(item, btnEditElement) {
 
                   // Hiển thị danh sách video
                   if(item.video && item.video.length > 0) {
-                              const videoListDiv = document.getElementById("video-list");
-                              
-                              // Xoá danh sách video cũ trong video-list
-                              while (videoListDiv.firstChild) {
-                                    videoListDiv.removeChild(videoListDiv.firstChild);
+                        const videoListDiv = document.getElementById("video-list");
+                        
+                        // Xoá danh sách video cũ trong video-list
+                        while (videoListDiv.firstChild) {
+                              videoListDiv.removeChild(videoListDiv.firstChild);
+                        }
+
+                        // Duyệt qua từng video trong item.video và hiển thị
+                        item.video.forEach( async(videoId, index) => {
+                              const response = await fetch(`${config2.domain}${config2.endpoints.videoGetById}/${videoId}`);
+                              if(!response.ok) {
+                                    console.error(`Failed to fetch video details for ID: ${videoId}`);
+                                    return;
                               }
 
-                              // Duyệt qua từng video trong item.video và hiển thị
-                              item.video.forEach( async(videoId, index) => {
-                                    const response = await fetch(`${config2.domain}${config2.endpoints.videoGetById}/${videoId}`);
-                                    if(!response.ok) {
-                                          console.error(`Failed to fetch video details for ID: ${videoId}`);
-                                          return;
-                                    }
-
-                                    const videoData = await response.json();
-                                    const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
-                                    
-                                    displayVideo(videoUrl, index, videoListDiv, (indexToRemove) => {
-                                          list_videoDeleted.push(videoData.video); // Lưu ID video vào danh sách xóa
-                                          removeVideo(indexToRemove);
-                                    });
+                              const videoData = await response.json();
+                              const videoUrl = `${config2.domain}/uploads/videos/${videoData.video.filePath}`;
+                              
+                              displayVideo(videoUrl, index, videoListDiv, (indexToRemove) => {
+                                    list_videoDeleted.push(videoData.video); // Lưu ID video vào danh sách xóa
+                                    removeVideo(indexToRemove);
                               });
+                        });
                   }
 
                   initializeRatingFeature(".film-rating", item.rating);
 
                   // User submit form
                   document.getElementById("create-film").addEventListener('submit', async function(event) {
-                              event.preventDefault();
+                        event.preventDefault();
+                        showLoading();
+                        // studio
+                        const studio = document.getElementById('film-studio').value;
 
-                              // studio
-                              const studio = document.getElementById('film-studio').value;
+                        // film-code
+                        const codeElement = document.getElementById('film-codeAV');
+                        const codeName = codeElement.options[codeElement.selectedIndex].textContent;
+                        const codeNumber = document.getElementById('code-number').value;
+                        const name = codeName + "-" + codeNumber;
 
-                              // film-code
-                              const codeElement = document.getElementById('film-codeAV');
-                              const codeName = codeElement.options[codeElement.selectedIndex].textContent;
-                              const codeNumber = document.getElementById('code-number').value;
-                              const name = codeName + "-" + codeNumber;
+                        // videoname
+                        const tagElement = document.getElementById('video-tag');
+                        const tagName = tagElement.options[tagElement.selectedIndex].textContent;
+                        const videoName = name + "_" + tagName;
 
-                              // videoname
-                              const tagElement = document.getElementById('video-tag');
-                              const tagName = tagElement.options[tagElement.selectedIndex].textContent;
-                              const videoName = name + "_" + tagName;
+                        // actress name
+                        const actress = document.getElementById('film-actress').value;
 
-                              // actress name
-                              const actress = document.getElementById('film-actress').value;
+                        // thumbnail
+                        const thumbnailInput = document.getElementById('video-thumbnail');
+                        const thumbnailFile = thumbnailInput.files[0]; 
 
-                              // thumbnail
-                              const thumbnailInput = document.getElementById('video-thumbnail');
-                              const thumbnailFile = thumbnailInput.files[0]; 
+                        // story
+                        const story = document.getElementById("film-story").value;
 
-                              // story
-                              const story = document.getElementById("film-story").value;
+                        // release date
+                        const releaseDate = document.getElementById('release_date').value;
 
-                              // release date
-                              const releaseDate = document.getElementById('release_date').value;
+                        // tag
+                        const tagItems = document.querySelectorAll('#tags-selected .tag-item');
+                        const dataTagIds = Array.from(tagItems).map(item => item.getAttribute('data-tag-id'));
 
-                              // tag
-                              const tagItems = document.querySelectorAll('#tags-selected .tag-item');
-                              const dataTagIds = Array.from(tagItems).map(item => item.getAttribute('data-tag-id'));
+                        // Add video
+                        let list_addedVideoIds = [];
+                        if(list_videoAdded.length > 0) {
+                              const videoForm = new FormData();
+                              videoForm.append("name", name);
+                              videoForm.append("actress", actress);
+                              videoForm.append("codeAV", codeElement.value);
+                              videoForm.append("videoname", videoName);
 
-                              // Add video
-                              let list_addedVideoIds = [];
-                              if(list_videoAdded.length > 0) {
-                                    const videoForm = new FormData();
-                                    videoForm.append("name", name);
-                                    videoForm.append("actress", actress);
-                                    videoForm.append("codeAV", codeElement.value);
-                                    videoForm.append("videoname", videoName);
-
-                                    list_videoAdded.forEach((video, index) => {
-                                          videoForm.append(`video_${index}`, video.file);
-                                          videoForm.append(`video_tag_${index}`, video.tag);
-                                    });
-
-                                    try {
-                                          const videoResponse = await fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
-                                                      method: 'POST',
-                                                      body: videoForm
-                                          });
-
-                                          if(!videoResponse.ok) {
-                                                      const errorData = await videoResponse.json();
-                                                      console.error("Failed to add videos: ", errorData);
-                                                      throw new Error(errorData.message || "Failed to upload video");
-                                          }
-
-                                          const uploadedVideos = await videoResponse.json();
-                                          list_addedVideoIds = uploadedVideos.map((video) => video._id);
-                                    } catch(error) {
-                                          console.error("Error while uploading videos: ", error.message);
-                                          return;
-                                    }
-                              }
-
-                              // Delete video
-                              let list_videoDeletedIds = [];
-                              if(list_videoDeleted.length > 0) {
-                                    try {
-                                          const deletePromises = list_videoDeleted.map(videoId => 
-                                                      fetch(`${config2.domain}${config2.endpoints.videoDelete}/${videoId._id}`, {
-                                                            method: 'DELETE'
-                                                      })
-                                          );
-
-                                          const deleteReponses = await Promise.all(deletePromises);
-
-                                          deleteReponses.forEach(async (response, index) => {
-                                                      if(!response.ok) {
-                                                            const errorData = (await response).json();
-                                                            console.error(`Failed to delete video with ID ${list_videoDeleted[index]}: `, errorData);
-                                                            throw new Error(errorData.message || "Failed to delete video");
-                                                      }
-                                          });
-
-                                          list_videoDeletedIds = list_videoDeleted;
-                                          console.log("Delete video successfully");
-                                    } catch(error) {
-                                          console.error("Error while deleting video: ", error.message);
-                                          return;
-                                    }
-                              }
-                              
-                              // update film
-                              let currentVideoIds = item.video || [];
-                              for(let i = 0; i < currentVideoIds.length; i++) {
-                                    for(let k = 0; k < list_videoDeletedIds.length; k++) {
-                                          if(currentVideoIds[i] == list_videoDeletedIds[k]._id) {
-                                                      currentVideoIds.splice(i, 1);
-                                          }
-                                    }
-                              }
-                              
-                              if(list_addedVideoIds.length > 0) {
-                                    for(let i = 0; i < list_addedVideoIds.length; i++) {
-                                          currentVideoIds.push(list_addedVideoIds[i]);
-                                    }
-                              }
-
-                              const filmForm = new FormData();
-                              filmForm.append("name", name);
-                              filmForm.append("studio", studio);
-                              filmForm.append("code", codeElement.value);
-                              filmForm.append("releaseDate", releaseDate);
-                              filmForm.append("actress", actress);
-                              filmForm.append("story", story);
-                              filmForm.append("tag", dataTagIds);
-                              if(thumbnailFile) {
-                                    filmForm.append("file", thumbnailFile);
-                              }
-                              filmForm.append("videos", currentVideoIds.join(','));
+                              list_videoAdded.forEach((video, index) => {
+                                    videoForm.append(`video_${index}`, video.file);
+                                    videoForm.append(`video_tag_${index}`, video.tag);
+                              });
 
                               try {
-                                    const response = await fetch(`${config2.domain}${config2.endpoints.filmUpdate}/${item._id}`, {
-                                          method: "PUT",
-                                          body: filmForm,
+                                    const videoResponse = await fetch(`${config2.domain}${config2.endpoints.videoCreate}`, {
+                                          method: 'POST',
+                                          body: videoForm
                                     });
-      
-                                    if(!response.ok) {
-                                          const errorData = await response.json();
-                                          throw new Error(errorData.message || "Failed to update film");
-                                    }
-                                    
-                                    const updatedFilm = await response.json();
-      
-                                    successSweetAlert("Film updated");
-      
-                                    videoDataList = [];
-                              } catch(error) {
-                                    console.error("Error upadte fim in frontend: ", error.message);
-                                    errorSweetAlert('Error in frontend');
-                              } finally {
-                                    videoDataList = [];
-                              }
-                  });
 
+                                    if(!videoResponse.ok) {
+                                          const errorData = await videoResponse.json();
+                                          console.error("Failed to add videos: ", errorData);
+                                          throw new Error(errorData.message || "Failed to upload video");
+                                    }
+
+                                    const uploadedVideos = await videoResponse.json();
+                                    list_addedVideoIds = uploadedVideos.map((video) => video._id);
+                              } catch(error) {
+                                    console.error("Error while uploading videos: ", error.message);
+                                    return;
+                              }
+                        }
+
+                        // Delete video
+                        let list_videoDeletedIds = [];
+                        if(list_videoDeleted.length > 0) {
+                              try {
+                                    const deletePromises = list_videoDeleted.map(videoId => 
+                                                fetch(`${config2.domain}${config2.endpoints.videoDelete}/${videoId._id}`, {
+                                                      method: 'DELETE'
+                                                })
+                                    );
+
+                                    const deleteReponses = await Promise.all(deletePromises);
+
+                                    deleteReponses.forEach(async (response, index) => {
+                                          if(!response.ok) {
+                                                const errorData = (await response).json();
+                                                console.error(`Failed to delete video with ID ${list_videoDeleted[index]}: `, errorData);
+                                                throw new Error(errorData.message || "Failed to delete video");
+                                          }
+                                    });
+
+                                    list_videoDeletedIds = list_videoDeleted;
+                                    console.log("Delete video successfully");
+                              } catch(error) {
+                                    console.error("Error while deleting video: ", error.message);
+                                    return;
+                              }
+                        }
+                        
+                        // update film
+                        let currentVideoIds = item.video || [];
+                        for(let i = 0; i < currentVideoIds.length; i++) {
+                              for(let k = 0; k < list_videoDeletedIds.length; k++) {
+                                    if(currentVideoIds[i] == list_videoDeletedIds[k]._id) {
+                                          currentVideoIds.splice(i, 1);
+                                    }
+                              }
+                        }
+                        
+                        if(list_addedVideoIds.length > 0) {
+                              for(let i = 0; i < list_addedVideoIds.length; i++) {
+                                    currentVideoIds.push(list_addedVideoIds[i]);
+                              }
+                        }
+
+                        const filmForm = new FormData();
+                        filmForm.append("name", name);
+                        filmForm.append("studio", studio);
+                        filmForm.append("code", codeElement.value);
+                        filmForm.append("releaseDate", releaseDate);
+                        filmForm.append("actress", actress);
+                        filmForm.append("story", story);
+                        filmForm.append("tag", dataTagIds);
+                        if(thumbnailFile) {
+                              filmForm.append("file", thumbnailFile);
+                        }
+                        filmForm.append("videos", currentVideoIds.join(','));
+
+                        try {
+                              const response = await fetch(`${config2.domain}${config2.endpoints.filmUpdate}/${item._id}`, {
+                                    method: "PUT",
+                                    body: filmForm,
+                              });
+
+                              if(!response.ok) {
+                                    const errorData = await response.json();
+                                    throw new Error(errorData.message || "Failed to update film");
+                              }
+                              
+                              const updatedFilm = await response.json();
+
+                              successSweetAlert("Film updated");
+
+                              videoDataList = [];
+                        } catch(error) {
+                              console.error("Error upadte fim in frontend: ", error.message);
+                              errorSweetAlert('Error in frontend');
+                        } finally {
+                              videoDataList = [];
+                              hideLoading();
+                        }
+                  });
             });
       }
 }
@@ -783,18 +783,24 @@ function updateVideoIndexes(videoListDiv) {
 }
 
 function searchFilmByCode(code) {
-const searchInput = document.getElementById(code);
-searchInput.addEventListener('keyup', function() {
-      const searchValue = this.value.trim().toLowerCase();  // Không phân biệt hoa thường
-      const rows = document.querySelectorAll('#films-table tbody tr');
+      const searchInput = document.getElementById(code);
+      searchInput.addEventListener('keyup', function() {
+            const searchValue = this.value.trim().toLowerCase();  // Không phân biệt hoa thường
+            const rows = document.querySelectorAll('#films-table tbody tr');
 
-      rows.forEach(row => {
-            const nameCell = row.querySelector('td:nth-child(2)');  // Lấy trực tiếp ô tên
-            if (nameCell) {
-                        const name = nameCell.innerText.trim().toLowerCase();
-                        row.style.display = name.includes(searchValue) ? '' : 'none';
-            }
+            rows.forEach(row => {
+                  const nameCell = row.querySelector('td:nth-child(2)');  // Lấy trực tiếp ô tên
+                  if (nameCell) {
+                              const name = nameCell.innerText.trim().toLowerCase();
+                              row.style.display = name.includes(searchValue) ? '' : 'none';
+                  }
+            });
       });
-});
 }
 
+function showLoading() {
+      document.getElementById("loading-overlay").style.display = "flex";
+}
+function hideLoading() {
+      document.getElementById("loading-overlay").style.display = "none";
+}
