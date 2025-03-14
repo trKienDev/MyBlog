@@ -1,4 +1,4 @@
-const apiConfig = {
+const adminApiConfig = {
       backendDomain: 'http://localhost:3000',
       frontendDomain: 'http://localhost:8081',  // Domain của frontend
       apiVersion: 'v1',
@@ -10,7 +10,7 @@ const apiConfig = {
             filmPage: '/admin/pages/films/films.html', 
 
             // actress
-            actressGet: '/admin/actress/get',
+            // actressGet: '/admin/actresses',
             actressList: '/admin/actresses',
             actressCreate: '/admin/actress/create',
             actressUpdate: "/admin/actress/update", 
@@ -18,6 +18,7 @@ const apiConfig = {
             // studio
             studioGet: '/admin/studio/get',
             studioList: '/admin/studio/read',
+            // studioList: '/admin/studio'
             studioCreate: '/admin/studio/create',
             studioUpdate: '/admin/studio/update',
             studioDelete: '/admin/studio/delete',
@@ -55,4 +56,4 @@ const apiConfig = {
       }
 }
 
-export default apiConfig;  
+export default adminApiConfig;  

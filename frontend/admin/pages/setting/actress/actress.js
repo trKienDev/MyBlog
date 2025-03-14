@@ -1,11 +1,11 @@
-import apiConfig from "../../../../config/apiConfig.js";
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { handleImageUpload } from "../../../services/HelperFunction/image.js";
 import { loadStudios } from '../../../services/loadElement/loadStudios.js';
 import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
+import adminApiConfig from "../../../adminApiConfig.js";
 
 export function loadActressTable() {
-      fetch(`${apiConfig.backendDomain}${apiConfig.endpoints.actressList}`) 
+      fetch(`${adminApiConfig.backendDomain}${adminApiConfig.endpoints.actressList}`) 
       .then(response => {
             if (!response.ok) {
                   throw new Error(`HTTP error! Status: ${response.status}`);
@@ -13,8 +13,10 @@ export function loadActressTable() {
             return response.json(); // Chuyển đổi phản hồi sang JSON
       })
       .then(actressList => {
+            console.log("actress list: ", actressList);
+
             const tbody = document.querySelector('#actress-table tbody');
-            tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
+            tbody.innerHTML = ''; 
 
             actressList.forEach(item => {
                   const tr = document.createElement('tr');
@@ -24,9 +26,6 @@ export function loadActressTable() {
                   const editCell = document.createElement('td');
                   const editContainer = document.createElement('div');
                   editContainer.classList.add('edit-container');
-                  editContainer.style.width = '100%'; // Full width of the cell
-                  editContainer.style.display = 'flex';
-                  editContainer.style.justifyContent = 'center';
                   const editButton = document.createElement('div');
                   editButton.classList.add('btn-edit');
                   editButton.innerHTML = `<i class="fa-solid fa-pen" style="color: aliceblue;"></i>`;
@@ -44,8 +43,7 @@ export function loadActressTable() {
                   // Image cell
                   const imageCell = document.createElement('td');
                   const image = document.createElement('img');
-                  // image.src = item.image || '/admin/static/images/face/profile-default.jpg'; // Fallback image if URL is missing
-                  image.src = `${apiConfig.backendDomain}/uploads/actress/avatar/${item.image}`
+                  image.src = `${adminApiConfig.backendDomain}/uploads/actress/avatar/${item.image}`
                   image.classList.add('profile');
                   imageCell.appendChild(image);
                   tr.appendChild(imageCell);
@@ -67,20 +65,18 @@ export function loadActressTable() {
 
                   // Films cell
                   const filmsCell = document.createElement('td');
-                  filmsCell.textContent = item.skin || ''; // Assuming `films` is a field in the fetched data
+                  filmsCell.textContent = item.skin || ''; 
                   tr.appendChild(filmsCell);
 
                   // Delete button cell
                   const deleteCell = document.createElement('td');
-                  const deleteContainer = document.createElement('div');
                   const deleteButton = document.createElement('div');
                   deleteButton.classList.add('btn-delete');
-                  deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
-                  deleteButton.onclick = () => handleDelete(item._id); // function to handle delete action
+                  deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: white;"></i>`;
+                  deleteButton.onclick = () => handleDelete(item._id); 
                   deleteCell.appendChild(deleteButton);
                   tr.appendChild(deleteCell);
 
-                  // Append the row to the table body
                   tbody.appendChild(tr);                        
             });
       })
@@ -88,11 +84,11 @@ export function loadActressTable() {
             console.error('Error fetching actress data: ', error);
       });
 
-      loadStudios("actress-studio");
-      setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
-      handleImageUpload("profile-image", "image-upload"); // setup image upload logic
-      createNewActress("actressForm", "actressModal"); // submit form
-      searchActressByName('search-input');
+      // loadStudios("actress-studio");
+      // setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
+      // handleImageUpload("profile-image", "image-upload"); // setup image upload logic
+      // createNewActress("actressForm", "actressModal"); // submit form
+      // searchActressByName('search-input');
 }
 
 async function createNewActress(formId, modalId) {
@@ -182,15 +178,15 @@ async function handleEdit(actress) {
             try {
                   // Gửi yêu cầu cập nhật tới API
                   const response = await fetch(
-                              `${apiConfig.backendDomain}${apiConfig.endpoints.actressUpdate}/${actress._id}`, {
-                                    method: "PUT",
-                                    body: formData,
-                              }
+                        `${apiConfig.backendDomain}${apiConfig.endpoints.actressUpdate}/${actress._id}`, {
+                              method: "PUT",
+                              body: formData,
+                        }
                   );
 
                   if (!response.ok) {
-                              errorSweetAlert('error in backend');
-                              throw new Error(`HTTP error! Status: ${response.status}`);
+                        errorSweetAlert('error in backend');
+                        throw new Error(`HTTP error! Status: ${response.status}`);
                   }
 
                   const updatedActress = await response.json();

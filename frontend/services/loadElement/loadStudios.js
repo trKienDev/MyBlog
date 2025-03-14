@@ -1,8 +1,8 @@
-import config3 from '../config.js';
+import adminApiConfig3 from "../../admin/adminApiConfig";
 
 export async function loadStudios(studioElement) {
         try {
-                const response = await fetch(`${config3.domain}${config3.endpoints.studioList}`) ;
+                const response = await fetch(`${adminApiConfig3.backendDomain}${adminApiConfig3.endpoints.studioList}`) ;
                 if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                 }
