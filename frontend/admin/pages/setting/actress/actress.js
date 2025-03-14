@@ -1,274 +1,274 @@
-import config2 from "../../../services/config.js";
+import apiConfig from "../../../../config/apiConfig.js";
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { handleImageUpload } from "../../../services/HelperFunction/image.js";
 import { loadStudios } from '../../../services/loadElement/loadStudios.js';
 import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
 
 export function loadActressTable() {
-        fetch(`${config2.domain}${config2.endpoints.actressList}`) 
-        .then(response => {
-                if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json(); // Chuyển đổi phản hồi sang JSON
-        })
-        .then(actressList => {
-                const tbody = document.querySelector('#actress-table tbody');
-                tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
+      fetch(`${apiConfig.backendDomain}${apiConfig.endpoints.actressList}`) 
+      .then(response => {
+            if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); // Chuyển đổi phản hồi sang JSON
+      })
+      .then(actressList => {
+            const tbody = document.querySelector('#actress-table tbody');
+            tbody.innerHTML = ''; // Xóa nội dung cũ (nếu có)
 
-                actressList.forEach(item => {
-                        const tr = document.createElement('tr');
-                        tr.setAttribute('data-id', item._id);
+            actressList.forEach(item => {
+                  const tr = document.createElement('tr');
+                  tr.setAttribute('data-id', item._id);
 
-                        // Edit button cell
-                        const editCell = document.createElement('td');
-                        const editContainer = document.createElement('div');
-                        editContainer.classList.add('edit-container');
-                        editContainer.style.width = '100%'; // Full width of the cell
-                        editContainer.style.display = 'flex';
-                        editContainer.style.justifyContent = 'center';
-                        const editButton = document.createElement('div');
-                        editButton.classList.add('btn-edit');
-                        editButton.innerHTML = `<i class="fa-solid fa-pen" style="color: aliceblue;"></i>`;
-                        editButton.onclick = () => handleEdit(item); // function to handle edit action
-                        editCell.appendChild(editButton);
-                        editContainer.appendChild(editButton);
-                        editCell.appendChild(editContainer);
-                        tr.appendChild(editCell);
+                  // Edit button cell
+                  const editCell = document.createElement('td');
+                  const editContainer = document.createElement('div');
+                  editContainer.classList.add('edit-container');
+                  editContainer.style.width = '100%'; // Full width of the cell
+                  editContainer.style.display = 'flex';
+                  editContainer.style.justifyContent = 'center';
+                  const editButton = document.createElement('div');
+                  editButton.classList.add('btn-edit');
+                  editButton.innerHTML = `<i class="fa-solid fa-pen" style="color: aliceblue;"></i>`;
+                  editButton.onclick = () => handleEdit(item); // function to handle edit action
+                  editCell.appendChild(editButton);
+                  editContainer.appendChild(editButton);
+                  editCell.appendChild(editContainer);
+                  tr.appendChild(editCell);
 
-                        // Name cell
-                        const nameCell = document.createElement('td');
-                        nameCell.textContent = item.name;
-                        tr.appendChild(nameCell);
+                  // Name cell
+                  const nameCell = document.createElement('td');
+                  nameCell.textContent = item.name;
+                  tr.appendChild(nameCell);
 
-                        // Image cell
-                        const imageCell = document.createElement('td');
-                        const image = document.createElement('img');
-                        // image.src = item.image || '/admin/static/images/face/profile-default.jpg'; // Fallback image if URL is missing
-                        image.src = `${config2.domain}/uploads/actress/avatar/${item.image}`
-                        image.classList.add('profile');
-                        imageCell.appendChild(image);
-                        tr.appendChild(imageCell);
-                        
-                        // Body cell
-                        const bodyCell = document.createElement('td');
-                        bodyCell.textContent = item.body || '';
-                        tr.appendChild(bodyCell);
+                  // Image cell
+                  const imageCell = document.createElement('td');
+                  const image = document.createElement('img');
+                  // image.src = item.image || '/admin/static/images/face/profile-default.jpg'; // Fallback image if URL is missing
+                  image.src = `${apiConfig.backendDomain}/uploads/actress/avatar/${item.image}`
+                  image.classList.add('profile');
+                  imageCell.appendChild(image);
+                  tr.appendChild(imageCell);
+                  
+                  // Body cell
+                  const bodyCell = document.createElement('td');
+                  bodyCell.textContent = item.body || '';
+                  tr.appendChild(bodyCell);
 
-                        // Breast cell
-                        const breastCell = document.createElement('td');
-                        breastCell.textContent = item.breast || '';
-                        tr.appendChild(breastCell);
+                  // Breast cell
+                  const breastCell = document.createElement('td');
+                  breastCell.textContent = item.breast || '';
+                  tr.appendChild(breastCell);
 
-                        // Studio cell
-                        const studioCell = document.createElement('td');
-                        studioCell.textContent = item.studio ? item.studio.name : ''; 
-                        tr.appendChild(studioCell);
+                  // Studio cell
+                  const studioCell = document.createElement('td');
+                  studioCell.textContent = item.studio ? item.studio.name : ''; 
+                  tr.appendChild(studioCell);
 
-                        // Films cell
-                        const filmsCell = document.createElement('td');
-                        filmsCell.textContent = item.skin || ''; // Assuming `films` is a field in the fetched data
-                        tr.appendChild(filmsCell);
+                  // Films cell
+                  const filmsCell = document.createElement('td');
+                  filmsCell.textContent = item.skin || ''; // Assuming `films` is a field in the fetched data
+                  tr.appendChild(filmsCell);
 
-                        // Delete button cell
-                        const deleteCell = document.createElement('td');
-                        const deleteContainer = document.createElement('div');
-                        const deleteButton = document.createElement('div');
-                        deleteButton.classList.add('btn-delete');
-                        deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
-                        deleteButton.onclick = () => handleDelete(item._id); // function to handle delete action
-                        deleteCell.appendChild(deleteButton);
-                        tr.appendChild(deleteCell);
+                  // Delete button cell
+                  const deleteCell = document.createElement('td');
+                  const deleteContainer = document.createElement('div');
+                  const deleteButton = document.createElement('div');
+                  deleteButton.classList.add('btn-delete');
+                  deleteButton.innerHTML = `<i class="fa-solid fa-trash" style="color: aliceblue;"></i>`;
+                  deleteButton.onclick = () => handleDelete(item._id); // function to handle delete action
+                  deleteCell.appendChild(deleteButton);
+                  tr.appendChild(deleteCell);
 
-                        // Append the row to the table body
-                        tbody.appendChild(tr);                        
-                });
-        })
-        .catch(error => {
-                console.error('Error fetching actress data: ', error);
-        });
+                  // Append the row to the table body
+                  tbody.appendChild(tr);                        
+            });
+      })
+      .catch(error => {
+            console.error('Error fetching actress data: ', error);
+      });
 
-        loadStudios("actress-studio");
-        setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
-        handleImageUpload("profile-image", "image-upload"); // setup image upload logic
-        createNewActress("actressForm", "actressModal"); // submit form
-        searchActressByName('search-input');
+      loadStudios("actress-studio");
+      setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
+      handleImageUpload("profile-image", "image-upload"); // setup image upload logic
+      createNewActress("actressForm", "actressModal"); // submit form
+      searchActressByName('search-input');
 }
 
 async function createNewActress(formId, modalId) {
-        const actressForm = document.getElementById(formId);
-        const actressModal = document.getElementById(modalId);
-        const imageUploadInput = document.getElementById("image-upload"); 
-        const profileImage = document.getElementById("profile-image"); 
-       
-        actressForm.onsubmit = async (event) => {
-                event.preventDefault(); 
-                const formData = new FormData(actressForm);
+      const actressForm = document.getElementById(formId);
+      const actressModal = document.getElementById(modalId);
+      const imageUploadInput = document.getElementById("image-upload"); 
+      const profileImage = document.getElementById("profile-image"); 
+      
+      actressForm.onsubmit = async (event) => {
+            event.preventDefault(); 
+            const formData = new FormData(actressForm);
 
-                try {
-                        const response = await fetch(`${config2.domain}${config2.endpoints.actressCreate}`, {
-                                method: 'POST',
-                                body: formData 
-                        });
-                        
-                        // Lỗi - nữ diễn viên đã tồn tại
-                        if (response.status === 409) {
-                                const result = await response.json(); 
-                                const message = result.message || 'An error occurred while creating actress.';
-                                errorSweetAlert(message);
-                                return;
-                        }
+            try {
+                  const response = await fetch(`${apiConfig.backendDomain}${apiConfig.endpoints.actressCreate}`, {
+                              method: 'POST',
+                              body: formData 
+                  });
+                  
+                  // Lỗi - nữ diễn viên đã tồn tại
+                  if (response.status === 409) {
+                              const result = await response.json(); 
+                              const message = result.message || 'An error occurred while creating actress.';
+                              errorSweetAlert(message);
+                              return;
+                  }
 
-                        if (response.status !== 201) {
-                                console.error('Failed to create actress. HTTP Status:', response.status);
-                                console.error('Error: ', response);
-                                errorSweetAlert('Error in backend');    
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
+                  if (response.status !== 201) {
+                              console.error('Failed to create actress. HTTP Status:', response.status);
+                              console.error('Error: ', response);
+                              errorSweetAlert('Error in backend');    
+                              throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
 
-                        const createdActress = await response.json();
+                  const createdActress = await response.json();
 
-                        if (createdActress._id) {
-                                console.log('Actress is created successfully:', createdActress);
-                                successSweetAlert('Actress created successfully!');
-                        } else {
-                                console.error('Invalid response from server:', createdActress);
-                                errorSweetAlert('Error in backend.');                      
-                                throw new Error('Failed to create actress. Invalid response from server.');
-                        }
+                  if (createdActress._id) {
+                              console.log('Actress is created successfully:', createdActress);
+                              successSweetAlert('Actress created successfully!');
+                  } else {
+                              console.error('Invalid response from server:', createdActress);
+                              errorSweetAlert('Error in backend.');                      
+                              throw new Error('Failed to create actress. Invalid response from server.');
+                  }
 
-                        loadActressTable(); // Gọi lại hàm loadActressTable để cập nhật bảng
-                } catch (error) {
-                        console.error('Error creating actress in frontend: ', error.message );
-                        errorSweetAlert('Error in frontend');                
-                } finally {
-                        actressForm.reset();
-                        if(imageUploadInput) { // Reset giá trị của input file
-                                imageUploadInput.value = ""; 
-                        }
-                        if (profileImage) {
-                                profileImage.src = "/admin/static/images/face/upload-profile.jpg"; // Đặt ảnh mặc định
-                        }
-                        actressModal.style.display = "none";
-                }
-        };
+                  loadActressTable(); // Gọi lại hàm loadActressTable để cập nhật bảng
+            } catch (error) {
+                  console.error('Error creating actress in frontend: ', error.message );
+                  errorSweetAlert('Error in frontend');                
+            } finally {
+                  actressForm.reset();
+                  if(imageUploadInput) { // Reset giá trị của input file
+                              imageUploadInput.value = ""; 
+                  }
+                  if (profileImage) {
+                              profileImage.src = "/admin/static/images/face/upload-profile.jpg"; // Đặt ảnh mặc định
+                  }
+                  actressModal.style.display = "none";
+            }
+      };
 }
 
 async function handleEdit(actress) {
-        const actressModal = document.getElementById("actressModal");
-        const actressForm = document.getElementById("actressForm");
-        const profileImage = document.getElementById("profile-image");
-        const imageUploadInput = document.getElementById("image-upload");
+      const actressModal = document.getElementById("actressModal");
+      const actressForm = document.getElementById("actressForm");
+      const profileImage = document.getElementById("profile-image");
+      const imageUploadInput = document.getElementById("image-upload");
 
-        actressModal.style.display = "block";
-        // Điền dữ liệu vào form
-        document.getElementById("actress-name").value = actress.name || "";
-        document.getElementById("actress-birth").value = actress.birth
-                                                                                        ? new Date(actress.birth).toISOString().split("T")[0] : "";
-        document.getElementById("actress-skin").value = actress.skin || "";
-        await loadStudios();
-        document.getElementById("actress-studio").value = actress.studio?._id || "";
-        document.getElementById("actress-breast").value = actress.breast || "";
-        document.getElementById("actress-body").value = actress.body || "";
-        profileImage.src = actress.image
-                                                ? `${config2.domain}/uploads/actress/avatar/${actress.image}`
-                                                : "/admin/static/images/face/upload-profile.jpg";
-        // Xử lý submit form
-        actressForm.onsubmit = async (event) => {
-                event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+      actressModal.style.display = "block";
+      // Điền dữ liệu vào form
+      document.getElementById("actress-name").value = actress.name || "";
+      document.getElementById("actress-birth").value = actress.birth
+                                                                                    ? new Date(actress.birth).toISOString().split("T")[0] : "";
+      document.getElementById("actress-skin").value = actress.skin || "";
+      await loadStudios();
+      document.getElementById("actress-studio").value = actress.studio?._id || "";
+      document.getElementById("actress-breast").value = actress.breast || "";
+      document.getElementById("actress-body").value = actress.body || "";
+      profileImage.src = actress.image
+                                          ? `${apiConfig.backendDomain}/uploads/actress/avatar/${actress.image}`
+                                          : "/admin/static/images/face/upload-profile.jpg";
+      // Xử lý submit form
+      actressForm.onsubmit = async (event) => {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của form
 
-                const formData = new FormData(actressForm);
-                console.log(formData);
-                try {
-                        // Gửi yêu cầu cập nhật tới API
-                        const response = await fetch(
-                                `${config2.domain}${config2.endpoints.actressUpdate}/${actress._id}`, {
-                                        method: "PUT",
-                                        body: formData,
-                                }
-                        );
+            const formData = new FormData(actressForm);
+            console.log(formData);
+            try {
+                  // Gửi yêu cầu cập nhật tới API
+                  const response = await fetch(
+                              `${apiConfig.backendDomain}${apiConfig.endpoints.actressUpdate}/${actress._id}`, {
+                                    method: "PUT",
+                                    body: formData,
+                              }
+                  );
 
-                        if (!response.ok) {
-                                errorSweetAlert('error in backend');
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
+                  if (!response.ok) {
+                              errorSweetAlert('error in backend');
+                              throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
 
-                        const updatedActress = await response.json();
+                  const updatedActress = await response.json();
 
-                        // Hiển thị thông báo thành công
-                        successSweetAlert("Actress updated successfully!");
+                  // Hiển thị thông báo thành công
+                  successSweetAlert("Actress updated successfully!");
 
-                        // Tải lại bảng dữ liệu
-                        loadActressTable();
+                  // Tải lại bảng dữ liệu
+                  loadActressTable();
 
-                        // Đóng modal và reset form
-                        actressModal.style.display = "none";
-                        actressForm.reset();
-                        imageUploadInput.value = ""; // Reset giá trị của input file
-                        profileImage.src = "/admin/static/images/face/upload-profile.jpg"; // Đặt ảnh mặc định
-                } catch (error) {
-                        console.error("Error updating actress in frontend:", error.message);
-                        errorSweetAlert("Error in backend");
-                }
-                
-        };
+                  // Đóng modal và reset form
+                  actressModal.style.display = "none";
+                  actressForm.reset();
+                  imageUploadInput.value = ""; // Reset giá trị của input file
+                  profileImage.src = "/admin/static/images/face/upload-profile.jpg"; // Đặt ảnh mặc định
+            } catch (error) {
+                  console.error("Error updating actress in frontend:", error.message);
+                  errorSweetAlert("Error in backend");
+            }
+            
+      };
 }
 
 async function handleDelete(actressId) {
-        // Hiển thị thông báo xác nhận
-        const result = await Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-        });
-    
-        if (result.isConfirmed) {
-                try {
-                        // Gửi yêu cầu DELETE tới API
-                        const response = await fetch(`${config2.domain}${config2.endpoints.actressDelete}/${actressId}`, {
-                                method: 'DELETE',
-                        });
+      // Hiển thị thông báo xác nhận
+      const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+      });
 
-                        if (!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
+      if (result.isConfirmed) {
+            try {
+                  // Gửi yêu cầu DELETE tới API
+                  const response = await fetch(`${apiConfig.backendDomain}${apiConfig.endpoints.actressDelete}/${actressId}`, {
+                              method: 'DELETE',
+                  });
 
-                        const data = await response.json();
+                  if (!response.ok) {
+                              throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
 
-                        // Hiển thị thông báo thành công
-                        Swal.fire(
-                                'Deleted!',
-                                'Actress has been deleted.',
-                                'success'
-                        );
+                  const data = await response.json();
 
-                        // Gọi lại loadActressTable để cập nhật bảng
-                        loadActressTable();
-                } catch (error) {
-                        console.error('Error deleting actress:', error);
-                        errorSweetAlert("Error in frontend");
-                }
-        }
+                  // Hiển thị thông báo thành công
+                  Swal.fire(
+                              'Deleted!',
+                              'Actress has been deleted.',
+                              'success'
+                  );
+
+                  // Gọi lại loadActressTable để cập nhật bảng
+                  loadActressTable();
+            } catch (error) {
+                  console.error('Error deleting actress:', error);
+                  errorSweetAlert("Error in frontend");
+            }
+      }
 }
-    
+
 async function searchActressByName(searchInputElement) {
-        const searchInput = document.getElementById(searchInputElement);
-        searchInput.addEventListener('keyup', function() {
-                const searchValue = this.value.trim().toLowerCase();  // Không phân biệt hoa thường
-                const rows = document.querySelectorAll('#actress-table tbody tr');
-            
-                rows.forEach(row => {
-                        const nameCell = row.querySelector('td:nth-child(2)');  // Lấy trực tiếp ô tên
-                        if (nameCell) {
-                                const name = nameCell.innerText.trim().toLowerCase();
-                                row.style.display = name.includes(searchValue) ? '' : 'none';
-                        }
-                });
-        });
+      const searchInput = document.getElementById(searchInputElement);
+      searchInput.addEventListener('keyup', function() {
+            const searchValue = this.value.trim().toLowerCase();  // Không phân biệt hoa thường
+            const rows = document.querySelectorAll('#actress-table tbody tr');
+      
+            rows.forEach(row => {
+                  const nameCell = row.querySelector('td:nth-child(2)');  // Lấy trực tiếp ô tên
+                  if (nameCell) {
+                              const name = nameCell.innerText.trim().toLowerCase();
+                              row.style.display = name.includes(searchValue) ? '' : 'none';
+                  }
+            });
+      });
 }
 
 
