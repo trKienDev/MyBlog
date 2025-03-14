@@ -10,9 +10,12 @@ body {
       --secondary-color: #f6f8fa;
       --secondary-color_hover: #eff2f5;
       --hot-pink: #FF69B4;
+      /* yellow */
       --yellow: #FFFF00;
       --bright-yellow: #FFEA00;
       --gold: #FFD700;
+
+
 }
 
 .container {
