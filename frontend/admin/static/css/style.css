@@ -84,7 +84,7 @@ table tbody tr:hover {
       background-color: var(--secondary-color);
 }
 
-#dynamic-data h1, p {
+#dynamic-section h1, p {
       color: #000;
 }
 #container {
@@ -122,18 +122,58 @@ table tbody tr:hover {
 }
 
 
-#dynamic-data {
-      width: 85%;
+#dynamic-section {
+      width: 87%;
 }
 .container  {
       margin: 0 auto; /* Căn giữa container theo chiều ngang */
       padding: 30px 30px 0px; /* Tạo khoảng cách bên trong container */
       box-sizing: border-box; /* Bao gồm padding và border vào kích thước tổng */
 }
-#settingPage .headingTitle {
+#sidebar {
+      width: 13%;
+      background-color: #1E201E;
+      height: 100vh;
+      color: #ffffff;
+}
+#sidebar .sidebar-container {
+      padding: 10px 20px 14px;
+}
+#sidebar .sidebar-item {
+      display: flex;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 15px 0px 15px 10px;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.5s ease;
+}
+#sidebar .sidebar-item:hover {
+      background-color: var(--blue-color);
+      border-radius: 8px;
+      color: white;
+}
+#sidebar .active {
+      background-color: white;
+      color: black;
+      border-radius: 8px;
+}
+#sidebar .active:hover {
+      background-color: white;
+      color: black;
+      border-radius: 8px;
+}
+#sidebar .sidebar-item-icon {
+      width: 30px;
+      display: inline-block;
+      text-align: center;
+      margin-right: 10px;
+}
+
+#settingPage .heading-title {
       margin-bottom: 20px;
 }
-#settingPage .headingBody {
+#settingPage .heading-body {
       padding-top: 30px;
 }
 #settingPage .sidebarRow {
