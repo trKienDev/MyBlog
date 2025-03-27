@@ -1,0 +1,24 @@
+#studio-table table tbody tr td {
+      font-size: 15px;
+}
+#studio .studio-container {
+      width: 45%;
+}
+#studio-modal .modal-content {
+      max-width: 400px;
+}
+#studio-modal .modal-body {
+      display: block;
+}
+#studio .create-studio {
+      display: flex;
+      justify-content: center;
+}
+#studio-table .btn-create {
+      font-size: 15px;
+}
+#studio-table .profile {
+      height: 50px;
+      width: 100px;
+      border-radius: 5px;
+}

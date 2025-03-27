@@ -1,0 +1,107 @@
+<section id="creator">
+      <div class="container">
+            <h1 class="heading-title">Creator Management</h1>
+            <div class="body">
+                  <div id="creator-table">
+                        <table cellpadding="0" cellspacing="0">
+                              <thead>
+                                    <tr>
+                                          <th style="width: 6%;">
+                                                <div class="create-creator">
+                                                      <div class="btn-create" id="openModalButton" style="width: 60px;">
+                                                            Create
+                                                      </div>
+                                                </div>
+                                          </th>
+                                          <th class="creator">Name</th>
+                                          <th class="image">Image</th>
+                                          <th class="thBody">Body</th>
+                                          <th class="breast">Breast</th>
+                                          <th class="studio">Studio</th>
+                                          <th class="films">Skin</th>
+                                          <th style="width: 6%;"></th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                        </table>
+                  </div>
+                  <div id="search-creator">
+                        <div class="search-container">
+                              <div class="search-box">
+                                    <input type="text" id="search-input" placeholder="Search by name..." style="width: 200px; padding: 5px;">
+                              </div>
+                              
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <div id="creatorModal" class="modal">
+            <div class="modal-content">
+                  <span id="closeModalButton" class="close">&times;</span>
+                  <h2 style="text-align: center;">Create new creator</h2>
+                  <form id="creatorForm">
+                        <div class="modal-body">
+                                    <div class="modal-image">
+                                          <img id="profile-image" src="/admin/static/images/face/upload-profile.jpg" alt="">
+                                          <input type="file" id="image-upload" name="file" style="display: none;" accept="image/*">
+                                    </div>
+                                    <div class="modal-info" style="width: 45%">
+                                          <input type="text" name="name" id="creator-name" placeholder="name" required>
+                                          <input type="date" name="birth" id="creator-birth" placeholder="birth" required>
+                                          <!-- <select id="creator-skin" name="skin" required>
+                                                <option value="" disabled selected>Select skin</option>
+                                                <option value="light">Light</option>
+                                                <option value="medium">Medium</option>
+                                                <option value="dark">Dark</option>
+                                          </select> -->
+                                          <div class="custom-dropdown" id="skinDropdown">
+                                                <div class="custom-dropdown_selected">Select skin</div>
+                                                <div class="custom-dropdown_list" style="display: none;">
+                                                      <div class="custom-dropdown_item" data-value="light">Light</div>
+                                                      <div class="custom-dropdown_item" data-value="medium">Medium</div>
+                                                      <div class="custom-dropdown_item" data-value="dark">Dark</div>
+                                                </div>
+                                                <input type="hidden" name="skin" value="" required>
+                                          </div>
+                                          <div class="custom-dropdown" id="studioDropdown">
+                                                <div class="custom-dropdown_selected">Select studio</div>
+                                                <div class="custom-dropdown_list" style="display: none">
+                                                      <div class="custom-dropdown_item" data-value="studioA"> Studio A</div>
+                                                      <div class="custom-dropdown_item" data-value="studioB"> Studio B</div>
+                                                </div>
+                                                <input type="hidden" name="studio" value="" required />
+                                          </div>                                    
+                                          <div class="custom-dropdown" id="breastDropdown">
+                                                <div class="custom-dropdown_selected">Select size</div>
+                                                <div class="custom-dropdown_list" style="display: none;">
+                                                      <div class="custom-dropdown_item" data-value="A">A</div>
+                                                      <div class="custom-dropdown_item" data-value="B">B</div>
+                                                      <div class="custom-dropdown_item" data-value="C">C</div>
+                                                      <div class="custom-dropdown_item" data-value="D">D</div>
+                                                      <div class="custom-dropdown_item" data-value="E">E</div>
+                                                      <div class="custom-dropdown_item" data-value="F">F</div>
+                                                      <div class="custom-dropdown_item" data-value="G">G</div>
+                                                      <div class="custom-dropdown_item" data-value="H">H</div>
+                                                </div>
+                                                <input type="hidden" name="breast" value="" required />
+                                          </div>
+                                          <div class="custom-dropdown" id="bodyDropdown">
+                                                <div class="custom-dropdown_selected">Select body</div>
+                                                <div class="custom-dropdown_list" style="display: none;">
+                                                      <div class="custom-dropdown_item" data-value="thin">Thin</div>
+                                                      <div class="custom-dropdown_item" data-value="slim">Slim</div>
+                                                      <div class="custom-dropdown_item" data-value="chubby">Chubby</div>
+                                                </div>
+                                                <input type="hidden" name="body" value="" required />
+                                          </div>
+                                          <div class="save-button">
+                                                <button type="submit">Save</button>
+                                          </div>
+                                    </div>
+                        </div>
+                  </form>
+            </div>
+      </div>
+</section>

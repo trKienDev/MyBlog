@@ -1,54 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<div id="header"></div>
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- Font -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+      <!-- CSS -->
+            <!-- Admin -->
+            <link rel="stylesheet" href="./static/css/style.css">
+            <link rel="stylesheet" href="./sidebar/sidebar.css">
+            <link rel="stylesheet" href="./creators/creator.css">
+            <link rel="stylesheet" href="./studios/studio.css">
+      <!-- CDN -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 <body>
-        <div id="root">
-                <div id="container">
-                        <nav id="sidebar">
-                                <div class="sidebar-container">
-                                        <div class="search-box">
-                                                <div class="search-icon">
-                                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                                </div>
-                                                <input type="text" class="search-input-text" placeholder="Search for ...">
-                                        </div>
-                                        <nav id="manage-list">
-                                                <a href="/admin/pages/films" class="sidebar-item">
-                                                        <div class="sidebar-item-icon">
-                                                                <i class="fa-solid fa-film"></i>
-                                                        </div>
-                                                        <span class="sidebar-item-name">Films</span>
-                                                </a>
-                                        </nav>
-                                        <hr class="sidebar-separator">
-                                        <nav id="manage-list">
-                                                <a href="/admin/pages/setting" class="sidebar-item">
-                                                        <div class="sidebar-item-icon">
-                                                                <i class="fa-solid fa-gear"></i>
-                                                        </div>
-                                                        <span class="sidebar-item-name">Settings</span>
-                                                </a>
-                                        </nav>
-                                </div>
-                        </nav>
-                        <main id="dynamic-data">
-                                <!-- Nội dung sẽ được tải động vào đây -->
-                        </main>
-                </div>
+      <div id="root">
+            <div id="container">
+                  <nav id="sidebar">
+                              <div class="sidebar-container">
+                                    <a id="creator-link" href="/admin/creators" class="sidebar-item">
+                                          <div class="sidebar-item-icon">
+                                                <i class="fa-solid fa-user"></i>
+                                          </div>
+                                          <span class="sidebar-item-name">Creator</span>
+                                    </a>
+                                    <a id="studio-link"href="/admin/studios" class="sidebar-item">
+                                          <div class="sidebar-item-icon">
+                                                <i class="fa-solid fa-video"></i>
+                                          </div>
+                                          <span class="sidebar-item-name">Studio</span>
+                                    </a>
+                                    <hr class="sidebar-separator">
+                                    <a href="/admin/pages/setting" class="sidebar-item">
+                                          <div class="sidebar-item-icon">
+                                                <i class="fa-solid fa-gear"></i>
+                                          </div>
+                                          <span class="sidebar-item-name">Settings</span>
+                                    </a>
+                              </div>
+                  </nav>
+                  <main id="dynamic-section">
+                              <!-- Nội dung sẽ được tải động vào đây -->
+                  </main>
+            </div>
 
-        </div>
+      </div>
 
-        <script>
-                console.log("Version 1.0.9");
-        </script>   
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-        <script src="../static/js/layout.js"></script>
-        <script type="module" src="./services/loadElement/loadSidebar.js"></script>
-        <script type="module" src="/static/js/loadTitle.js"></script>
-        <script type="module" src="./services/config.js"></script>
-        <script type="module" src="./services/loadElement/loadDynamicPages.js"></script>
-        <script src="../admin/pages/setting/sidebar/createSidebar.js"></script>
-        <script src="https://unpkg.com/pica/dist/pica.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+            console.log("Version 1.0.9");
+      </script>   
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+      <script type="module" src="/static/js/loadTitle.js"></script>
+      <script type="module" src="./services/config.js"></script>
+      <script type="module" src="./initAdmin.js"></script>
+      <script type="module" src="../services//loadElement/loadDynamicSection.js"></script>
+      <script type="module" src="../components/customDropdown.js"></script>
+      <script src="https://unpkg.com/pica/dist/pica.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

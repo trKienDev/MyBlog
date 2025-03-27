@@ -1,10 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
-import * as path from 'path';
-import * as fs from 'fs';
-import Admin from '../models/pages/adminPage.model';
+import { CustomRequest } from "../../interfaces/CustomRequest.js";
 
 // Controller để xử lý route / About
-export const getAdminPage = (req: IncomingMessage, res: ServerResponse) => {
+export const getAdminPage = (req: CustomRequest, res: ServerResponse) => {
         const adminData = {
                 title : "Admin",
         };

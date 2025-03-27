@@ -1,0 +1,50 @@
+<section id="studio">
+      <div class="container">
+            <h1 class="heading-title">Studio Management</h1>
+            <div class="body">
+                  <div class="studio-container">
+                        <div id="studio-table">
+                              <table cellpadding="0" cellspacing="0">
+                                    <thead>
+                                          <tr>
+                                                <th style="width: 6%;">
+                                                      <div class="create-studio">
+                                                            <div class="btn-create" id="openModalButton" style="width: 60px;">
+                                                                  Create
+                                                            </div>
+                                                      </div>
+                                                </th>
+                                                <th class="creator">Name</th>
+                                                <th class="image">Image</th>
+                                                <th style="width: 10%;"></th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                              </table>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <div id="studio-modal" class="modal">
+            <div class="modal-content"> 
+                  <span id="closeModalButton" class="close">&times;</span>
+                  <h2 style="text-align: center;">Create New Studio</h2>
+                  <form id="studio-form">
+                        <div class="modal-body">
+                              <div class="modal-image">
+                                    <img id="profile-image" src="/admin/static/images/studio/studio-upload.png" alt="">
+                                    <input type="file" id="image-upload" name="file" style="display: none;" accept="image/*">
+                              </div>
+                              <div class="modal-info">
+                                    <input type="text" name="name" id="actress-name" placeholder="name" required>
+                                    <div class="save-button">
+                                          <button class="btn-create" type="submit">Save</button>
+                                    </div>
+                              </div>
+                        </div>
+                  </form>
+            </div>
+    </div>
+</section>
