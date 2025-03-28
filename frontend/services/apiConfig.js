@@ -18,9 +18,10 @@ const apiConfig = {
             actressUpdate: "/admin/actress/update", 
             actressDelete: '/admin/actress/delete',
             // studio
-            studioGet: '/admin/studio/get',
-            getAllStudios: '/admin/studios',
+            getAllStudios: '/admin/studios', // GET
             createStudio: '/admin/studio', // POST
+            updateStudio: '/admin/studio', // PUT
+            deleteStudio: '/admin/studio', // DELETE
             // studioList: '/admin/studio'
             studioCreate: '/admin/studio/create',
             studioUpdate: '/admin/studio/update',

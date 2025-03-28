@@ -26,11 +26,7 @@ const createMulterStorage = (uploadPath: string) => {
       });
 };
 
-/**
- * Hàm uploadFile xử lý việc nhận file upload và đổi tên file.
- * Nó trả về một Promise chứa đối tượng { name, imgName }.
- */
-export const uploadFile = (req: CustomRequest, folder: string): Promise<{ name: string; imgName: string }> => {
+export const UploadFile = (req: CustomRequest, folder: string): Promise<{ id: string, name: string; imgName: string }> => {
       return new Promise((resolve, reject) => {
             const uploadPath = getUploadPath(folder);
             ensureUploadPathExists(uploadPath);
@@ -53,14 +49,14 @@ export const uploadFile = (req: CustomRequest, folder: string): Promise<{ name: 
                         return reject(err);
                   }
 
-                  // Lấy tên từ body của request
+                  const id = (req as any).body.id || "";
                   const name = (req as any).body.name || "";
 
                   if ((req as any).file) {
                         const file = (req as any).file as { filename: string; path: string };
                         const oldPath = path.join(uploadPath, file.filename);
                         const timestamp = Date.now();
-                        // Đổi tên file dựa trên name và timestamp
+
                         const newFileName = `${name.replace(/\s+/g, "")}_${timestamp}${path.extname(file.filename)}`;
                         const newPath = path.join(uploadPath, newFileName);
 
@@ -69,11 +65,10 @@ export const uploadFile = (req: CustomRequest, folder: string): Promise<{ name: 
                               return reject(renameErr);
                         }
                         file.filename = newFileName;
-                              return resolve({ name, imgName: file.filename });
+                              return resolve({ id, name, imgName: file.filename });
                         });
                   } else {
-                        // Nếu không có file upload, trả về imgName rỗng
-                        return resolve({ name, imgName: "" });
+                        return resolve({ id, name, imgName: "" });
                   }
             });
       });

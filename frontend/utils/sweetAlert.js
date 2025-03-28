@@ -1,10 +1,10 @@
 export function SuccessSweetAlert(text) {
       Swal.fire({
-                  title: 'Success!',
-                  text: text,
-                  icon: 'success',
-                  confirmButtonTest: 'OK',
-                  confirmButtonColor: '#61b939',
+            title: 'Success!',
+            text: text,
+            icon: 'success',
+            confirmButtonTest: 'OK',
+            confirmButtonColor: '#61b939',
       });
 }
 

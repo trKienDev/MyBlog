@@ -36,7 +36,6 @@ export function loadStudioTable() {
 
                         // Name cell
                         const nameCell = document.createElement('td');
-                        nameCell.style.textAlign = 'center';
                         nameCell.textContent = item.name;
                         tr.appendChild(nameCell);
 

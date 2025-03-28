@@ -12,13 +12,17 @@ body {
 :root {
       /* button */
       --primary-btn: #007bff;
-      --primary-btn_hover: #0054ad;
+      --primary-btn_hover: #0069d9;
       --danger-btn: #dc3545;
-      --danger-btn_hover: #c82333;
+      --danger-btn_hover: #ac1927;
       --light-btn: ##f8f9fa;
       --light-btn_hover: #e2e6ea;
       --info-btn: #17a2b8;
       --info-btn_hover: #138496;
+      --light-btn: #f8f9fa;
+      --light-btn_hover: #e2e6ea;
+      --warning-btn: #ffc107;
+      --warning-btn_hover: #e0a800;
       --secondary-color: #f6f8fa;
       --secondary-color_hover: #eff2f5;
       --blue-color: #1F51FF;
@@ -229,14 +233,26 @@ table tbody tr:hover {
 
 /* button */
 .btn-create {
-      background-color: var(--primary-btn); max-width: 100px; padding: 10px 10px; color: white; border-radius: 8px; text-align: center; cursor: pointer; transition: background 0.8s, filter 0.8s;
+      background-color: var(--primary-btn); 
+      max-width: 100px; 
+      padding: 10px 10px; 
+      color: white; 
+      border-radius: 5px; 
+      text-align: center; 
+      cursor: pointer; 
+      transition: background 0.8s, filter 0.8s;
 }
 .btn-create:hover {
       background-color: var(--primary-btn_hover);
 }
+.edit-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+}
 .btn-edit {
-      background-color: var(--info-btn);
-      border-radius: 8px;
+      background-color: var(--light-btn);
+      border-radius: 5px;
       width: 50%;
       height: 40px;
       display: flex;
@@ -244,13 +260,15 @@ table tbody tr:hover {
       align-items: center;
       cursor: pointer;
       transition: background 0.8s, filter 0.8s;
+      border: 1px solid var(--light-btn_hover);
 }
 .btn-edit:hover {
-      background-color: var(--info-btn_hover);
+      background-color: var(--light-btn_hover);
 }
 .btn-delete {
+      color: white;
       background-color: var(--danger-btn);
-      border-radius: 8px;
+      border-radius: 5px;
       width: 100%;
       height: 40px;
       display: flex;
@@ -292,7 +310,7 @@ table tbody tr:hover {
       display: flex;
       justify-content: space-between;
 }
-.modal-image #profile-image {
+.modal-image #img {
       border: 3px solid transparent;
       border-radius: 8px;
       height: auto;
@@ -300,7 +318,7 @@ table tbody tr:hover {
       cursor: pointer;
       transition: all 0.5s ease;
 }
-.modal-image #profile-image:hover {
+.modal-image #img:hover {
       border: 3px solid var(--blue-background);
 }
 .modal-info input {
