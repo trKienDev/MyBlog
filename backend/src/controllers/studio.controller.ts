@@ -5,12 +5,12 @@ import { StudioRepository } from '../repository/studio.repository.js';
 import { StudioService } from '../services/studio.service.js';
 import { UploadFile } from '../utils/file.utils.js';
 
-const studioRepository = new StudioRepository();
-const studioService = new StudioService(studioRepository);
+const repository = new StudioRepository();
+const service = new StudioService(repository);
 
 export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
       try {
-            const studios = await studioService.GetAllStudios();
+            const studios = await service.GetAllStudios();
             return  sendResponse(res, 200, studios);
       } catch(error) {
             console.error("Error retrieving studios: ", error);
@@ -21,7 +21,7 @@ export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
 export const CreateStudio = async (req: CustomRequest, res: ServerResponse) => {
       try {
             const { name, imgName } = await UploadFile(req, "studio");
-            const newStudio = await studioService.CreateStudio(name, imgName);
+            const newStudio = await service.CreateStudio(name, imgName);
 
             return sendResponse(res, 201, newStudio);
       } catch(error) {
@@ -39,9 +39,9 @@ export const UpdateStudio = async (req: CustomRequest, res: ServerResponse) => {
                   console.error("Cannot find id");
                   return sendError(res, 500, new Error('Cannot found id.'));
             } 
-            await studioService.FindStudioById(id);
+            await service.FindStudioById(id);
             
-            const updateStudio = await studioService.UpdateStudio(id, {name, image: imgName});
+            const updateStudio = await service.UpdateStudio(id, {name, image: imgName});
             return sendResponse(res, 200, updateStudio);
       } catch(error) {
             console.error('Error updating studio:', error);
@@ -56,7 +56,7 @@ export const DeleteStudio = async(req: CustomRequest, res: ServerResponse) => {
                   console.error('Cannot find id');
                   return sendError(res, 500, new Error('Cannot found id.'));
             } 
-            await studioService.DeleteStudio(id);
+            await service.DeleteStudio(id);
             return sendResponse(res, 200, { message: 'Studio deleted successfully'});
       } catch(error) {
             console.error('Error deleting studio in controller:', error);

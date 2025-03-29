@@ -1,10 +1,12 @@
 import apiConfig from "../../../services/apiConfig.js";
-import { ErrorSweetAlert } from "../../utils/sweetAlert.js";
+import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
 import { SetupModalHandlers } from "../../dom/setupPopupModal.js";
+import { HandleImageUpload } from "../../dom/imageUI.js";
 
 export function initCreatorAdmin() {
       createNewCreator("creator-form", "creator-modal");
       SetupModalHandlers("openModalButton", "closeModalButton", "creator-modal");
+      HandleImageUpload("img", "image-upload");
       loadStudios("creator-studio");
 }
 
@@ -41,7 +43,7 @@ async function createNewCreator(formId, modalId) {
                   const createdCreator = await response.json();
 
                   if(createdCreator._id) {
-                        successSweetAlert('Creator created successfully!');
+                        SuccessSweetAlert('Creator created successfully!');
                   } else {
                         ErrorSweetAlert('Error in backend.');                      
                         throw new Error('Failed to create creator. Invalid response from server.');

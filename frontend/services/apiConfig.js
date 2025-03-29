@@ -13,7 +13,7 @@ const apiConfig = {
             // actress
             // actressGet: '/admin/actresses',
             creatorList: 'admin/creators',
-            createCreator: 'admin/creators', // POST
+            createCreator: '/admin/creator', // POST
             actressCreate: '/admin/actress/create',
             actressUpdate: "/admin/actress/update", 
             actressDelete: '/admin/actress/delete',
