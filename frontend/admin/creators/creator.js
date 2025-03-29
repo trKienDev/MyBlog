@@ -3,22 +3,23 @@ import { ErrorSweetAlert } from "../../utils/sweetAlert.js";
 import { SetupModalHandlers } from "../../dom/setupPopupModal.js";
 
 export function initCreatorAdmin() {
-      createNewCreator("creatorForm", "creatorModal");
-      SetupModalHandlers("openModalButton", "closeModalButton", "creatorModal");
+      createNewCreator("creator-form", "creator-modal");
+      SetupModalHandlers("openModalButton", "closeModalButton", "creator-modal");
+      loadStudios("creator-studio");
 }
 
 async function createNewCreator(formId, modalId) {
-      const creatorForm = document.getElementById(formId);
-      const creatorModal = document.getElementById(modalId);
-      const imgUploadInput = document.getElementById("image-upload");
-      const profileImg = document.getElementById("profile-image");
+      const form = document.getElementById(formId);
+      const modal = document.getElementById(modalId);
+      const imgInput = document.getElementById("image-upload");
+      const image = document.getElementById("profile-image");
 
-      creatorForm.onsubmit = async(event) => {
+      form.onsubmit = async(event) => {
             event.preventDefault();
-            const formData = new FormData(creatorForm);
+            const formData = new FormData(form);
             
             try {
-                  const response = await fetch(`${apiConfig.backendDomain}${apiConfig.endpoints.createCreator}`, {
+                  const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.createCreator}`, {
                         method: 'POST',
                         body: formData
                   });
@@ -49,15 +50,35 @@ async function createNewCreator(formId, modalId) {
                   console.error('Error creating creator in frontend: ', error.message);
                   ErrorSweetAlert('Error in frontend');
             } finally {
-                  creatorForm.reset();
-                  if(imgUploadInput) {
-                        imgUploadInput.value = "";
+                  form.reset();
+                  if(imgInput) {
+                        imgInput.value = "";
                   }
-                  if(profileImg) {
-                        profileImg.src = "/admin/static/images/face/upload-profile.jpg"; 
+                  if(image) {
+                        image.src = "/admin/static/images/face/upload-profile.jpg"; 
                   }
-                  creatorModal.style.display = "none";
+                  modal.style.display = "none";
             }
       }
 }
 
+async function loadStudios(studioElement) {
+      try {
+            const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.getAllStudios}`);
+            if(!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const studios = await response.json();
+            const studioSelect = document.getElementById(studioElement);
+            studioSelect.innerHTML = '<option value="" disabled selected>Select studio</option>';
+            studios.forEach(studio => {
+                  const option = document.createElement('option');
+                  option.value = studio._id; 
+                  option.textContent = studio.name; 
+                  studioSelect.appendChild(option);
+            });
+      } catch(error) {
+            console.error('Error loading studios: ', error);
+      }
+}

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface IStudioDocument extends Document {
+export interface IStudio extends Document {
       _id: mongoose.Types.ObjectId;
       name: string;
       image?: string;

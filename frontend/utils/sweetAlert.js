@@ -18,7 +18,7 @@ export function ErrorSweetAlert(text) {
       });
 }
 
-export function confirmSweetAlert(text, confirmCallback) {
+export function ConfirmSweetAlert(text, confirmCallback) {
       Swal.fire({
             title: 'Are you sure ?',
             text: text,

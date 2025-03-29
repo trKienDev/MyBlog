@@ -73,15 +73,14 @@ table tr {
 table tr th {
       color: #000;
       font-weight: bold;
-      font-size: 20px;
       border-bottom: 3px solid #435d7d;
-      padding: 12px 15px;
-      font-size: 20px;
+      padding: 10px 10px;
+      font-size: 18px;
 }
 
 table tbody tr td {
       border-bottom: 1px solid #bdbaba;
-      padding: 20px 15px;
+      padding: 10px 10px;
       font-size: 15px;
       text-align: center;
 }
@@ -234,7 +233,7 @@ table tbody tr:hover {
 /* button */
 .btn-create {
       background-color: var(--primary-btn); 
-      max-width: 100px; 
+      width: 100%;
       padding: 10px 10px; 
       color: white; 
       border-radius: 5px; 
@@ -253,7 +252,7 @@ table tbody tr:hover {
 .btn-edit {
       background-color: var(--light-btn);
       border-radius: 5px;
-      width: 50%;
+      width: 80%;
       height: 40px;
       display: flex;
       justify-content: center;

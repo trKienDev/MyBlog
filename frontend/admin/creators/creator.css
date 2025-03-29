@@ -14,7 +14,6 @@
       padding: 10px 0;
 }
 #creator-table {
-      
       width: 70%;
 }
 #creator-table .creator {
@@ -51,6 +50,9 @@
       justify-content: center;
 }
 #creator-table .btn-create {
-      width: 60px;
+      width: 40px;
       font-size: 15px;
+}
+#creator-form .modal-image {
+      width: 50%;
 }

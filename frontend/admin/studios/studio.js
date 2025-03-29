@@ -1,6 +1,6 @@
 import { SetupModalHandlers }  from "../../dom/setupPopupModal.js"; 
 import { HandleImageUpload } from "../../dom/imageUI.js";
-import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
+import { ErrorSweetAlert, SuccessSweetAlert, ConfirmSweetAlert } from "../../utils/sweetAlert.js";
 import apiConfig from "../../services/apiConfig.js";
 
 export function InitStudioAdmin() {
@@ -68,8 +68,10 @@ async function CreateNewStudio(formId, modalId) {
       const form = document.getElementById(formId);
       const modal = document.getElementById(modalId);
       const imgInput = document.getElementById("image-upload");
-      const studioImg = document.getElementById("studio-img");
+      const image = document.getElementById("img");
       const submitBtn = form.querySelector('button[type="submit"]');
+      
+      const resetOptions = { form, image, imgInput, modal };
 
       form.onsubmit = async (event) => {
             event.preventDefault(); 
@@ -107,10 +109,7 @@ async function CreateNewStudio(formId, modalId) {
                   ErrorSweetAlert("Error in frontend");
             } finally {
                   submitBtn.disabled = false;
-                  form.reset();
-                  if (imgInput) imgInput.value = "";
-                  if (studioImg) studioImg.src = "/admin/static/images/studio/default_studio.png";
-                  modal.style.display = "none";
+                  ResetModal(resetOptions);
             }
       };
 }
@@ -118,24 +117,27 @@ async function CreateNewStudio(formId, modalId) {
 function UpdateStudio(studio) {
       const modal = document.getElementById("studio-modal");
       const form = document.getElementById("studio-form");
+      const imgInput = document.getElementById("image-upload");
       const image = document.getElementById("img");
       const name = document.getElementById("studio-name");  
 
       name.value = studio.name;
       image.src = `${apiConfig.server}/uploads/studio/${studio.image}`;
-
       modal.style.display = "block";
+
+      const resetOptions = { form, image, imgInput, modal };
+      const closeBtn = document.getElementById("closeModalButton");
+      if(closeBtn) {
+            closeBtn.onclick = () => ResetModal(resetOptions);
+      }
 
       form.onsubmit = async(event) => {
             event.preventDefault();
 
             const formData = new FormData(form);
-            formData.append("id", studio._id);
-
-            console.log("form data: ", formData);
 
             try {
-                  const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.updateStudio}`, {
+                  const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.updateStudio}/${studio._id}`, {
                         method: 'PUT',
                         body: formData,
                   });
@@ -152,39 +154,35 @@ function UpdateStudio(studio) {
                   console.error("Error updating studio: ", error);
                   ErrorSweetAlert("Error in frontend");
             } finally {
-                  modal.style.display = " none";
+                  ResetModal(resetOptions);
             }
       };
 }
 
 function DeleteStudio(id) {
-      Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-      }).then(async(result) => {
-            if(result.isConfirmed) {
-                  try {
-                        const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.deleteStudio}/${studioId}`, {
-                              method: 'DELETE',
-                        });
+      ConfirmSweetAlert("You won't be able to revert this!", async () => {
+            try {
+                  const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.deleteStudio}/${id}`, {
+                        method: 'DELETE',
+                  });
 
-                        if(!response.ok) {
-                              errorSweetAlert("Error in backend");
-                              throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-
-                        successSweetAlert("Studio deleted");
-
-                        loadStudioTable();
-                  } catch (error) {
-                        console.error('Error deleting studio: ', error);
-                        errorSweetAlert("Error in frontend");
+                  if (!response.ok) {
+                        ErrorSweetAlert("Error in backend");
+                        throw new Error(`HTTP error! Status: ${response.status}`);
                   }
+
+                  SuccessSweetAlert("Studio deleted");
+                  LoadStudios();
+            } catch (error) {
+                  console.error('Error deleting studio: ', error);
+                  ErrorSweetAlert("Error in frontend");
             }
       });
+}
+    
+function ResetModal({ form, image, imgInput, modal, defaultImg}) {
+      if(form) form.reset();
+      if(image)  image.src = defaultImg || "/admin/static/images/studio/studio-upload.png";
+      if(imgInput) imgInput.value = "";
+      if(modal) modal.style.display = "none";
 }

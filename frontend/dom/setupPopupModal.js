@@ -18,5 +18,5 @@ export function SetupModalHandlers(openButtonId, closeButtonId, modalId) {
             modal.style.display = "none";
       }
 
-      InitDropdownElement
+      InitDropdownElement();
 }

@@ -1,17 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { ICreator } from "./icreator.model";
 
-// Định nghĩa interface cho Actress
-interface ICreator extends Document {
-      name: string;
-      birth: Date;
-      image: string;
-      skin: string;
-      studio: string;
-      body: string;
-      breast: string;
-}
-
-// Định nghĩa schema cho Actress
 const CreatorSchema: Schema = new Schema({
       name: { type: String, required: true },
       birth: { type: Date, required: true, validate: {
@@ -31,8 +20,8 @@ const CreatorSchema: Schema = new Schema({
       timestamp: true 
 });
 
-const CreatorModel = mongoose.model<ICreator>('Creator', CreatorSchema);
-export default CreatorModel;
+const Creator = mongoose.model<ICreator>('Creator', CreatorSchema);
+export default Creator;
 
 
 

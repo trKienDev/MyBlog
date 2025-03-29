@@ -1,7 +1,7 @@
 // studio.service chỉ tập trung xử lý nghiệp vụ liên quan đến studio=
 import fs from "fs";
 import path from "path";
-import { StudioDTO } from "../interfaces/studio.dto.js";
+import { StudioDTO } from "../dtos/studio.dto.js";
 import { IStudioRepository } from "../repository/istudio.repository.js";
 import { FileService } from "../utils/file.service.js";
 
@@ -58,11 +58,12 @@ export class StudioService {
             return updatedStudio;
       }
 
-      // public async DeleteStudio(id: string): Promise<void> {
-      //       const studio = await this.FindStudioById(id);
+      public async DeleteStudio(id: string): Promise<void> {
+            const studio = await this.FindStudioById(id);
+            if(studio.image) {
+                  await FileService.DeleteFile("studio", studio.image);
+            }
 
-      //       if(studio.image) {
-      //             const imgPath = path.join()
-      //       }
-      // }
+            await this.studioRepo.DeleteStudioById(id);
+      }
 }

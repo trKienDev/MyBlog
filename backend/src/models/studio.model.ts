@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { IStudioDocument } from "./istudio.document";
+import { IStudio } from "./istudio.model.js";
 
 // Define schema for Studio
-const StudioSchema: Schema = new Schema<IStudioDocument>({
+const StudioSchema: Schema = new Schema ({
         name: { type: String, required: true },
         image: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
         code: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Code' }], 
@@ -13,5 +13,5 @@ const StudioSchema: Schema = new Schema<IStudioDocument>({
         timestamps: true
 });
 
-const StudioModel = mongoose.model<IStudioDocument>('Studio', StudioSchema);
-export default StudioModel;
+const Studio = mongoose.model<IStudio>('Studio', StudioSchema);
+export default Studio;

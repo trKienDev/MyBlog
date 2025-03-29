@@ -6,10 +6,10 @@
                         <table cellpadding="0" cellspacing="0">
                               <thead>
                                     <tr>
-                                          <th style="width: 6%;">
-                                                <div class="create-creator">
-                                                      <div class="btn-create" id="openModalButton" style="width: 60px;">
-                                                            Create
+                                          <th style="width: 10%;">
+                                                <div class="create-studio">
+                                                      <div class="btn-create" id="openModalButton">
+                                                            <i class="fa-solid fa-square-plus"></i>
                                                       </div>
                                                 </div>
                                           </th>
@@ -37,65 +37,43 @@
             </div>
       </div>
 
-      <div id="creatorModal" class="modal">
+      <div id="creator-modal" class="modal">
             <div class="modal-content">
                   <span id="closeModalButton" class="close">&times;</span>
                   <h2 style="text-align: center;">Create new creator</h2>
-                  <form id="creatorForm">
+                  <form id="creator-form">
                         <div class="modal-body">
                                     <div class="modal-image">
-                                          <img id="profile-image" src="/admin/static/images/face/upload-profile.jpg" alt="">
+                                          <img id="img" src="/admin/static/images/face/upload-profile.jpg" alt="">
                                           <input type="file" id="image-upload" name="file" style="display: none;" accept="image/*">
                                     </div>
                                     <div class="modal-info" style="width: 45%">
                                           <input type="text" name="name" id="creator-name" placeholder="name" required>
                                           <input type="date" name="birth" id="creator-birth" placeholder="birth" required>
-                                          <!-- <select id="creator-skin" name="skin" required>
+                                          <select id="creator-skin" name="skin" required>
                                                 <option value="" disabled selected>Select skin</option>
                                                 <option value="light">Light</option>
                                                 <option value="medium">Medium</option>
                                                 <option value="dark">Dark</option>
-                                          </select> -->
-                                          <div class="custom-dropdown" id="skinDropdown">
-                                                <div class="custom-dropdown_selected">Select skin</div>
-                                                <div class="custom-dropdown_list" style="display: none;">
-                                                      <div class="custom-dropdown_item" data-value="light">Light</div>
-                                                      <div class="custom-dropdown_item" data-value="medium">Medium</div>
-                                                      <div class="custom-dropdown_item" data-value="dark">Dark</div>
-                                                </div>
-                                                <input type="hidden" name="skin" value="" required>
-                                          </div>
-                                          <div class="custom-dropdown" id="studioDropdown">
-                                                <div class="custom-dropdown_selected">Select studio</div>
-                                                <div class="custom-dropdown_list" style="display: none">
-                                                      <div class="custom-dropdown_item" data-value="studioA"> Studio A</div>
-                                                      <div class="custom-dropdown_item" data-value="studioB"> Studio B</div>
-                                                </div>
-                                                <input type="hidden" name="studio" value="" required />
-                                          </div>                                    
-                                          <div class="custom-dropdown" id="breastDropdown">
-                                                <div class="custom-dropdown_selected">Select size</div>
-                                                <div class="custom-dropdown_list" style="display: none;">
-                                                      <div class="custom-dropdown_item" data-value="A">A</div>
-                                                      <div class="custom-dropdown_item" data-value="B">B</div>
-                                                      <div class="custom-dropdown_item" data-value="C">C</div>
-                                                      <div class="custom-dropdown_item" data-value="D">D</div>
-                                                      <div class="custom-dropdown_item" data-value="E">E</div>
-                                                      <div class="custom-dropdown_item" data-value="F">F</div>
-                                                      <div class="custom-dropdown_item" data-value="G">G</div>
-                                                      <div class="custom-dropdown_item" data-value="H">H</div>
-                                                </div>
-                                                <input type="hidden" name="breast" value="" required />
-                                          </div>
-                                          <div class="custom-dropdown" id="bodyDropdown">
-                                                <div class="custom-dropdown_selected">Select body</div>
-                                                <div class="custom-dropdown_list" style="display: none;">
-                                                      <div class="custom-dropdown_item" data-value="thin">Thin</div>
-                                                      <div class="custom-dropdown_item" data-value="slim">Slim</div>
-                                                      <div class="custom-dropdown_item" data-value="chubby">Chubby</div>
-                                                </div>
-                                                <input type="hidden" name="body" value="" required />
-                                          </div>
+                                          </select>
+                                          <select id="creator-studio" name="studio" required></select>                                            
+                                          <select id="creator-breast" name="breast" required>
+                                                <option value="" disabled selected>Select size</option>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
+                                                <option value="D">D</option>
+                                                <option value="E">E</option>
+                                                <option value="F">F</option>
+                                                <option value="G">G</option>
+                                                <option value="H">H</option>
+                                          </select>
+                                          <select id="creator-body" name="body" required>
+                                                <option value="" disabled selected>Select body</option>
+                                                <option value="thin">Thin</option>
+                                                <option value="slim">Slim</option>
+                                                <option value="chubby">Chubby</option>
+                                          </select>
                                           <div class="save-button">
                                                 <button type="submit">Save</button>
                                           </div>
