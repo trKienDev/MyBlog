@@ -13,7 +13,7 @@ export class StudioRepository implements IStudioRepository{
             return MappingDocToDTO(doc);
       }
       
-      async FindAllStudios(): Promise<StudioDTO[]> {
+      async FindStudios(): Promise<StudioDTO[]> {
             const docs = await Studio.find().exec();
             return docs.map(doc => MappingDocToDTO(doc));
       }
@@ -35,7 +35,7 @@ export class StudioRepository implements IStudioRepository{
       async UpdateStudio(id: string, updateData: Partial<StudioDTO>): Promise<StudioDTO> {
             const updateDoc = await Studio.findByIdAndUpdate(id, updateData, { new: true }).exec();
             if(!updateDoc) {
-                  throw new Error('Studio not found');
+                  throw new Error('Error updating studio');
             }
 
             return MappingDocToDTO(updateDoc);

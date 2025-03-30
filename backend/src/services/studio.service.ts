@@ -1,13 +1,11 @@
-// studio.service chỉ tập trung xử lý nghiệp vụ liên quan đến studio=
-import fs from "fs";
-import path from "path";
 import { StudioDTO } from "../dtos/studio.dto.js";
 import { IStudioRepository } from "../repository/istudio.repository.js";
 import { FileService } from "../utils/file.service.js";
+import { CustomRequest } from "../interfaces/CustomRequest.js";
+import { UploadFile } from "../utils/file.utils.js";
 
 export class StudioService {
       private studioRepo: IStudioRepository;
-
       constructor(studioRepository: IStudioRepository) {
             this.studioRepo = studioRepository;
       }
@@ -20,11 +18,12 @@ export class StudioService {
             return studio;
       }
       
-      public async GetAllStudios() {
-            return this.studioRepo.FindAllStudios();
+      public async GetStudios() {
+            return this.studioRepo.FindStudios();
       }
 
-      public async CreateStudio(name: string, imgName: string): Promise<StudioDTO> {
+      public async CreateStudio(req: CustomRequest): Promise<StudioDTO> {
+            const { name, imgName } = await UploadFile(req, "studio");
             const existingStudio = await this.studioRepo.FindStudioByName(name);
             if(existingStudio) {
                   throw new Error('Studio with this name has already existed.');
@@ -34,9 +33,15 @@ export class StudioService {
             return newStudio;
       }
 
-      public async UpdateStudio(id: string, updateData: Partial<StudioDTO>): Promise<StudioDTO> {
+      public async UpdateStudio(req: CustomRequest, id: string): Promise<StudioDTO> {
             const currentStudio = await this.FindStudioById(id);
+            if(!currentStudio) {
+                  throw new Error("Studio not found");
+            }
 
+            const { name, imgName } = await UploadFile(req, "studio");
+            const updateData: Record<string, any> = { name, imgName };
+            
             if(updateData.image !== undefined && updateData.image !== '' && updateData.image !== currentStudio.image && currentStudio.image) {
                   FileService.DeleteFile("studio", currentStudio.image);
             }

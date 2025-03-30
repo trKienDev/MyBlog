@@ -3,7 +3,7 @@ export function HandleImageUpload(imageElementId, fileInputElementId) {
       const fileInput = document.getElementById(fileInputElementId);
 
       imageElement.addEventListener("click", function() {
-              fileInput.click();
+            fileInput.click();
       });
 
       fileInput.addEventListener("change", function(event) {

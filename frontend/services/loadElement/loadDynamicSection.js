@@ -1,24 +1,14 @@
-import api from '../apiConfig.js';
+import apiConfig from '../../../api/api.config.js';
 import { initCreatorAdmin } from '/admin/creators/creator.js';
 import { InitStudioAdmin } from '/admin/studios/studio.js';
 
 let dynamicLoadingElement = 'dynamic-section';
 
 document.addEventListener("DOMContentLoaded", function() {
-      const settingPageLink = document.querySelector('a[href="/admin/pages/setting"]');
-      settingPageLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            const url = `${api.client}${api.endpoints.settingPage}`;
-            loadContent(url, 'dynamic-section', () => {
-                  const creatorSettingLink = document.querySelector('a[href="/admin/pages/setting/actress"]');
-                  addLinkEventHandler(creatorSettingLink, '/admin/pages/setting/actress/actress.html', loadActressTable);
-            });
-      });
-
       const adminCreatorPageLink = document.querySelector('a[href="/admin/creators"]');
       adminCreatorPageLink.addEventListener('click', function(event) {
             event.preventDefault();
-            const url = `${api.client}${api.endpoints.adminCreatorPage}`;
+            const url = `${apiConfig.client}${apiConfig.endpoints.adminCreatorPage}`;
             loadContent(url, dynamicLoadingElement, () => {
                   initCreatorAdmin();
             });
@@ -27,20 +17,13 @@ document.addEventListener("DOMContentLoaded", function() {
       const adminStudiosPageLink = document.getElementById('studio-link');
       adminStudiosPageLink.addEventListener('click', function(event) {
             event.preventDefault();
-            const url = `${api.client}${api.endpoints.adminStudioPage}`;
+            const url = `${apiConfig.client}${apiConfig.endpoints.adminStudioPage}`;
             loadContent(url, dynamicLoadingElement, () => {
                   InitStudioAdmin();
             });
       });
 
 });
-
-function addLinkEventHandler(link, url, callback) {
-      link.addEventListener('click', function(event) {
-            event.preventDefault();
-            loadContent(url, dynamicLoadingElement, callback);
-      });
-}
 
 export function loadContent(url, dynamicDataId = 'dynamic-data', callback) {
       fetch(url)

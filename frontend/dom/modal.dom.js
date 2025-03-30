@@ -1,4 +1,4 @@
-import { InitDropdownElement } from "../../../components/customDropdown.js";
+import { InitDropdownElement } from "../components/customDropdown.js";
 
 export function SetupModalHandlers(openButtonId, closeButtonId, modalId) {
       const openButton = document.getElementById(openButtonId);
@@ -19,4 +19,11 @@ export function SetupModalHandlers(openButtonId, closeButtonId, modalId) {
       }
 
       InitDropdownElement();
+}
+
+export function ResetModal({ form, image, imgInput, modal, defaultImg}) {
+      if(form) form.reset();
+      if(image)  image.src = defaultImg || "/admin/static/images/studio/studio-upload.png";
+      if(imgInput) imgInput.value = "";
+      if(modal) modal.style.display = "none";
 }

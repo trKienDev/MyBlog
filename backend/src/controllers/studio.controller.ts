@@ -3,14 +3,13 @@ import { ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { StudioRepository } from '../repository/studio.repository.js';
 import { StudioService } from '../services/studio.service.js';
-import { UploadFile } from '../utils/file.utils.js';
 
 const repository = new StudioRepository();
 const service = new StudioService(repository);
 
 export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
       try {
-            const studios = await service.GetAllStudios();
+            const studios = await service.GetStudios();
             return  sendResponse(res, 200, studios);
       } catch(error) {
             console.error("Error retrieving studios: ", error);
@@ -20,8 +19,7 @@ export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
 
 export const CreateStudio = async (req: CustomRequest, res: ServerResponse) => {
       try {
-            const { name, imgName } = await UploadFile(req, "studio");
-            const newStudio = await service.CreateStudio(name, imgName);
+            const newStudio = await service.CreateStudio(req);
 
             return sendResponse(res, 201, newStudio);
       } catch(error) {
@@ -32,16 +30,12 @@ export const CreateStudio = async (req: CustomRequest, res: ServerResponse) => {
 
 export const UpdateStudio = async (req: CustomRequest, res: ServerResponse) => {
       try { 
-            const { name, imgName } = await UploadFile(req, "studio");
-
             const id = req.params?.id;
             if(!id) {
-                  console.error("Cannot find id");
-                  return sendError(res, 500, new Error('Cannot found id.'));
+                  return sendError(res, 400, new Error('Cannot found id.'));
             } 
-            await service.FindStudioById(id);
             
-            const updateStudio = await service.UpdateStudio(id, {name, image: imgName});
+            const updateStudio = await service.UpdateStudio(req, id);
             return sendResponse(res, 200, updateStudio);
       } catch(error) {
             console.error('Error updating studio:', error);
@@ -53,9 +47,9 @@ export const DeleteStudio = async(req: CustomRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
             if(!id) {
-                  console.error('Cannot find id');
                   return sendError(res, 500, new Error('Cannot found id.'));
             } 
+            
             await service.DeleteStudio(id);
             return sendResponse(res, 200, { message: 'Studio deleted successfully'});
       } catch(error) {

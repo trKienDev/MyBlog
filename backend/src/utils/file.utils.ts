@@ -83,7 +83,7 @@ export const UploadFile = async (req: CustomRequest, folder: string): Promise<{ 
       // Lấy thông tin từ req.body
       const id = ExtractIdFromRequest(req);
       const name = ExtractNameFromRequest(req);
-
+      
       let imgName = "";
       if ((req as any).file) {
             // Nếu có file, đổi tên file

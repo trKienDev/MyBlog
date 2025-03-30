@@ -12,13 +12,11 @@ const apiConfig = {
             adminStudioPage: '/admin/studios/studio.html',
             // actress
             // actressGet: '/admin/actresses',
-            creatorList: 'admin/creators',
+            getCreators: '/admin/creators', // GET
             createCreator: '/admin/creator', // POST
-            actressCreate: '/admin/actress/create',
-            actressUpdate: "/admin/actress/update", 
-            actressDelete: '/admin/actress/delete',
+            updateCreator: '/admin/creator', // PUT
             // studio
-            getAllStudios: '/admin/studios', // GET
+            getStudios: '/admin/studios', // GET
             createStudio: '/admin/studio', // POST
             updateStudio: '/admin/studio', // PUT
             deleteStudio: '/admin/studio', // DELETE
