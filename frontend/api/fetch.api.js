@@ -35,6 +35,28 @@ export async function CreateItem(endpoint, form) {
       }
 }
 
+export async function CreateItemJson(endpoint, data) {
+      try {
+            const response = await fetch(`${apiConfig.server}${endpoint}`, {
+                  method: 'POST',
+                  header: {
+                        'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(data)
+            });
+
+            if(!response.ok) {
+                  ErrorSweetAlert("Failed to fetch api");
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            return result;
+      } catch(error) {
+            throw new Error(`Error in api method: ${error}`);
+      }
+}
+
 export async function UpdateItem(endpoint, form) {
       try {
             const response = await fetch(`${apiConfig.server}${endpoint}`, {
@@ -53,3 +75,22 @@ export async function UpdateItem(endpoint, form) {
             throw new Error(`Error in api method: ${error}`);
       }
 }
+
+export async function DeleteItem(endpoint) {
+      try {
+            const response = await fetch(`${apiConfig.server}${endpoint}`, {
+                  method: 'DELETE',
+            });
+      
+            if(!response.ok) {
+                  ErrorSweetAlert("Error in server");
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+      
+            const result = await response.json();
+            return result;
+      } catch(error) {
+            throw new Error(`Error in api method: ${error}`);
+      }
+}
+

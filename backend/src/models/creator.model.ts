@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { ICreator } from "./icreator.model";
+import { ICreator } from "./interface/icreator.model.js";
 
 const CreatorSchema: Schema = new Schema({
       name: { type: String, required: true },

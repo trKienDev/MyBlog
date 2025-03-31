@@ -1,5 +1,5 @@
 import { StudioDTO } from "../dtos/studio.dto.js";
-import { IStudioRepository } from "../repository/istudio.repository.js";
+import { IStudioRepository } from "../repository/interfaces/istudio.repository.js";
 import { FileService } from "../utils/file.service.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { UploadFile } from "../utils/file.utils.js";
@@ -40,22 +40,14 @@ export class StudioService {
             }
 
             const { name, imgName } = await UploadFile(req, "studio");
-            const updateData: Record<string, any> = { name, imgName };
+            const updateData: Record<string, any> = { name };
             
-            if(updateData.image !== undefined && updateData.image !== '' && updateData.image !== currentStudio.image && currentStudio.image) {
+            if(imgName) {
                   FileService.DeleteFile("studio", currentStudio.image);
+                  updateData.image = imgName
             }
 
-            const mergedUpdateData: Partial<StudioDTO> = {
-                  name: updateData.name === '' || updateData.name === undefined
-                        ? currentStudio.name
-                        : updateData.name,
-                  image: updateData.image === '' || updateData.image === undefined
-                        ? currentStudio.image
-                        : updateData.image,
-            };
-
-            const updatedStudio = await this.studioRepo.UpdateStudio(id, mergedUpdateData);
+            const updatedStudio = await this.studioRepo.UpdateStudio(id, updateData);
             if(!updatedStudio) {
                   throw new Error("Studio updated failed.");
             }

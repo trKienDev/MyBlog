@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { IStudio } from "./istudio.model.js";
+import { IStudio } from "./interface/istudio.model.js";
 
 // Define schema for Studio
 const StudioSchema: Schema = new Schema ({

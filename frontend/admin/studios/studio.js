@@ -12,7 +12,7 @@ let defaultImg = "/admin/static/images/studio/studio-upload.png";
 
 export function InitStudioAdmin() {
       RenderStudios(studioTable);
-      CreateNewStudio("studio-form", "studio-modal");
+      CreateNewStudio();
       SetupModalHandlers("openModalButton", "closeModalButton", "studio-modal");
       HandleImageUpload("img", "image-upload"); 
 }
@@ -49,11 +49,8 @@ async function RenderStudios(element) {
       }
 }
 
-async function CreateNewStudio(formId, modalId) {
-      const form = document.getElementById(formId);
-      const modal = document.getElementById(modalId);
-      const imgInput = document.getElementById("image-upload");
-      const image = document.getElementById("img");
+async function CreateNewStudio() {
+      const { form, modal, imgInput, image } = getELement();
       const submitBtn = form.querySelector('button[type="submit"]');
       
       const resetOptions = { form, image, imgInput, modal, defaultImg };
@@ -72,11 +69,11 @@ async function CreateNewStudio(formId, modalId) {
                         RenderStudios(studioTable);
                   } else {
                         ErrorSweetAlert("Error in server");
-                        throw new Error('Failed to create studio. Invalid response from server.');
+                        throw new Error('Failed to create studio');
                   }
             } catch (error) {
                   console.error('Error creating studio in client: ', error.message);
-                  ErrorSweetAlert("Create studio failed");
+                  ErrorSweetAlert("Failed to create tag");
             } finally {
                   submitBtn.disabled = false;
                   ResetModal(resetOptions);
@@ -85,21 +82,17 @@ async function CreateNewStudio(formId, modalId) {
 }
 
 function UpdateStudio(studio) {
-      const modal = document.getElementById(modalId);
-      const form = document.getElementById(formId);
-      const imgInput = document.getElementById("image-upload");
-      const image = document.getElementById("img");
+      const { form, modal, imgInput, image } = getELement();
       const name = document.getElementById("studio-name");  
+
+      const title = document.querySelector("#studio-modal h2");
+      title.innerHTML = "Edit studio";
 
       name.value = studio.name;
       image.src = `${apiConfig.server}/uploads/studio/${studio.image}`;
       modal.style.display = "block";
 
       const resetOptions = { form, image, imgInput, modal, defaultImg };
-      const closeBtn = document.getElementById("closeModalButton");
-      if(closeBtn) {
-            closeBtn.onclick = () => ResetModal(resetOptions);
-      }
 
       form.onsubmit = async(event) => {
             event.preventDefault();
@@ -113,8 +106,7 @@ function UpdateStudio(studio) {
                         SuccessSweetAlert("studio updated");
                         RenderStudios(studioTable);
                   } else {
-                        ErrorSweetAlert("Update studio failed");
-                        throw new Error('Failed to create studio. Invalid response from server.');
+                        ErrorSweetAlert("Failed to update studio");
                   }
             } catch(error) {
                   console.error("Error updating studio: ", error);
@@ -126,24 +118,29 @@ function UpdateStudio(studio) {
 }
 
 function DeleteStudio(id) {
-      ConfirmSweetAlert("You won't be able to revert this!", async () => {
+      ConfirmSweetAlert("Delete this studio ?", async () => {
             try {
-                  const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.deleteStudio}/${id}`, {
-                        method: 'DELETE',
-                  });
-
-                  if (!response.ok) {
-                        ErrorSweetAlert("Error in backend");
-                        throw new Error(`HTTP error! Status: ${response.status}`);
+                  const deletedStudio = await fetchAPI.DeleteItem(`${apiConfig.endpoints.deleteStudio}/${id}`);
+                  if(deletedStudio) {
+                        SuccessSweetAlert("Studio deleted");
+                  } else {
+                        ErrorSweetAlert("Failed to delete studio");
                   }
-
-                  SuccessSweetAlert("Studio deleted");
             } catch (error) {
-                  console.error('Error deleting studio: ', error);
-                  ErrorSweetAlert("Error in frontend");
+                  console.error('client: ', error);
+                  ErrorSweetAlert("Delete studio failed");
             } finally {
                   RenderStudios(studioTable);
             }
       });
 }
-    
+
+function getELement() {
+      const form = document.getElementById(formId);
+      const modal = document.getElementById(modalId);
+      const imgInput = document.getElementById("image-upload");
+      const image = document.getElementById("img");
+
+      return { form, modal, imgInput, image };
+}
+

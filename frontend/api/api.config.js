@@ -10,20 +10,19 @@ const apiConfig = {
             filmPage: '/admin/pages/films/films.html', 
             adminCreatorPage: '/admin/creators/creator.html',
             adminStudioPage: '/admin/studios/studio.html',
-            // actress
-            // actressGet: '/admin/actresses',
+            adminTagPage: '/admin/tags/tag.html',
+            // creator
             getCreators: '/admin/creators', // GET
             createCreator: '/admin/creator', // POST
             updateCreator: '/admin/creator', // PUT
+            deleteCreator: '/admin/creator',
             // studio
             getStudios: '/admin/studios', // GET
             createStudio: '/admin/studio', // POST
             updateStudio: '/admin/studio', // PUT
             deleteStudio: '/admin/studio', // DELETE
-            // studioList: '/admin/studio'
-            studioCreate: '/admin/studio/create',
-            studioUpdate: '/admin/studio/update',
-            studioDelete: '/admin/studio/delete',
+            // tag
+            createTag: '/admin/tag', // POST
             //codeAV
             codeAVList: '/admin/codeAV/read',
             codeAVCreate: '/admin/codeAV/create',

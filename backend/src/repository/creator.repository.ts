@@ -1,7 +1,7 @@
 import { CreatorDTO } from "../dtos/creator.dto.js";
 import Creator from "../models/creator.model.js";
-import { ICreator } from "../models/icreator.model.js";
-import { ICreatorRepository } from "./icreator.repository.js";
+import { ICreator } from "../models/interface/icreator.model.js";
+import { ICreatorRepository } from "./interfaces/icreator.repository.js";
 
 export class CreatorRepository implements ICreatorRepository {
       public async FindById(id: string): Promise<CreatorDTO | null> {
@@ -31,6 +31,13 @@ export class CreatorRepository implements ICreatorRepository {
                   throw new Error('Error updating creator');
             }
             return MappingDocToDTO(updatedDoc);
+      }
+      public async Delete(id: string): Promise<CreatorDTO> {
+            const deletedDoc = await Creator.findByIdAndDelete(id).exec();
+            if(!deletedDoc) {
+                  throw new Error("server: delete creator failed");                  
+            }
+            return MappingDocToDTO(deletedDoc);
       }
 }
 

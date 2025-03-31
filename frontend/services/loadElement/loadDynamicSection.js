@@ -1,4 +1,5 @@
 import apiConfig from '../../../api/api.config.js';
+import { initTagAdmin } from '../../../admin/tags/tag.js';
 import { initCreatorAdmin } from '/admin/creators/creator.js';
 import { InitStudioAdmin } from '/admin/studios/studio.js';
 
@@ -20,6 +21,15 @@ document.addEventListener("DOMContentLoaded", function() {
             const url = `${apiConfig.client}${apiConfig.endpoints.adminStudioPage}`;
             loadContent(url, dynamicLoadingElement, () => {
                   InitStudioAdmin();
+            });
+      });
+
+      const adminTagsPageLink = document.getElementById('tag-link');
+      adminTagsPageLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const url = `${apiConfig.client}${apiConfig.endpoints.adminTagPage}`;
+            loadContent(url, dynamicLoadingElement, () => {
+                  initTagAdmin();
             });
       });
 

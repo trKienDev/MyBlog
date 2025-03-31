@@ -23,6 +23,13 @@ body {
       --light-btn_hover: #e2e6ea;
       --warning-btn: #ffc107;
       --warning-btn_hover: #e0a800;
+
+      /* border */
+      --primary-border: #007bff;
+      --secondary-border: #d1d9e0;
+
+      /* color */
+      --primary-color: #007bff;
       --secondary-color: #f6f8fa;
       --secondary-color_hover: #eff2f5;
       --blue-color: #1F51FF;
@@ -33,18 +40,8 @@ body {
       --smoke-color: #848884;
       --limeGreen-color:  #32CD32;
       --platinum: #E5E4E2;
-      --secondary-border: #d1d9e0;
 
-      /* background */
-      --blue-background: #1056c0;
-      --red-background: #cc0000;
-      --green-background: #61b939;
-      --dark-steel-blue-background: #435d7d;
-      --cadmium-yellow: #FDDA0D;
-      --white-background: #f7f6f6;
-      --persimmon: #EC5800;
-      --golden-yellow: #FFC000;
-      --lime-green: #32CD32;
+      
 }
 
 #sidebar h1, p {
@@ -318,7 +315,7 @@ table tbody tr:hover {
       transition: all 0.5s ease;
 }
 .modal-image #img:hover {
-      border: 3px solid var(--blue-background);
+      border: 3px solid var(--primary-color);
 }
 .modal-info input {
       display: block;

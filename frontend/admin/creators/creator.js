@@ -1,5 +1,5 @@
 import apiConfig from "../../api/api.config.js";
-import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
+import { ConfirmSweetAlert, ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
 import { ResetModal, SetupModalHandlers } from "../../dom/modal.dom.js";
 import { HandleImageUpload } from "../../dom/image.dom.js";
 import * as fetchAPI from "../../api/fetch.api.js";
@@ -12,7 +12,7 @@ let defaultImg = "/admin/static/images/face/upload-profile.jpg";
 
 export function initCreatorAdmin() {
       RenderCreators(tableBody);
-      CreateNewCreator(formId, modalId);
+      CreateNewCreator();
       SetupModalHandlers("openModalButton", "closeModalButton", modalId);
       HandleImageUpload("img", "image-upload");
       LoadStudios("creator-studio");
@@ -61,13 +61,9 @@ async function RenderCreators(element) {
       }
 }
 
-async function CreateNewCreator(formId, modalId) {
-      const form = document.getElementById(formId);
-      const modal = document.getElementById(modalId);
-      const imgInput = document.getElementById("image-upload");
-      const image = document.getElementById("profile-image");
-
-      const resetOption = { form, image, imgInput, modal, defaultImg };
+async function CreateNewCreator() {
+      const { form, modal, imgInput, image } = getELement();
+      const resetOptions = { form, image, imgInput, modal, defaultImg };
 
       form.onsubmit = async(event) => {
             event.preventDefault();
@@ -78,9 +74,9 @@ async function CreateNewCreator(formId, modalId) {
                   const createdCreator = await fetchAPI.CreateItem(apiConfig.endpoints.createCreator, formData);
 
                   if(createdCreator._id) {
-                        SuccessSweetAlert('Creator created successfully!');
+                        SuccessSweetAlert('Creator created');
                   } else {
-                        ErrorSweetAlert('Error in backend.');                      
+                        ErrorSweetAlert('Error in server.');                      
                         throw new Error('Failed to create creator. Invalid response from server.');
                   }
             } catch(error) {
@@ -88,21 +84,18 @@ async function CreateNewCreator(formId, modalId) {
                   ErrorSweetAlert('Create creator failed');
             } finally {
                   RenderCreators(tableBody);
-                  ResetModal(resetOption);
+                  ResetModal(resetOptions);
             }
       }
 }
 
 async function UpdateCreator(creator) {
-      const form = document.getElementById(formId);
-      const modal = document.getElementById(modalId);
-      const imgInput = document.getElementById("image-upload");
-      const image = document.getElementById("img");
+      const { form, modal, imgInput, image } = getELement();
       
-      const resetOption = { form, image, imgInput, modal, defaultImg};
+      const resetOptionss = { form, image, imgInput, modal, defaultImg};
       const closeBtn = document.getElementById("closeModalButton");
       if(closeBtn) {
-            closeBtn.onclick = () => ResetModal(resetOptions);
+            closeBtn.onclick = () => ResetModal(resetOptionss);
       }
 
       modal.style.display = 'block';
@@ -135,15 +128,29 @@ async function UpdateCreator(creator) {
                   console.error("Error updating creator in client: ", error);
                   ErrorSweetAlert("Update creator failed");
             } finally {
-                  ResetModal(resetOption);
+                  ResetModal(resetOptionss);
             }
 
       };
 
 }
 
-async function DeleteCreator(creator) {
-      console.log("creator: ", creator);
+async function DeleteCreator(id) {
+      ConfirmSweetAlert("Delete this creator ?", async () => {
+            try {
+                  const deletedCreator = await fetchAPI.DeleteItem(`${apiConfig.endpoints.deleteCreator}/${id}`);
+                  if(deletedCreator) {
+                        SuccessSweetAlert("Creator deleted");
+                  } else {
+                        ErrorSweetAlert("Failed to delete creator");
+                  }
+            } catch(error) {
+                  console.error("client: ", error);
+                  ErrorSweetAlert("Delete creator failed");
+            } finally {
+                  RenderCreators(tableBody);
+            }
+      });
 }
 
 async function LoadStudios(studioElement) {
@@ -165,4 +172,13 @@ async function LoadStudios(studioElement) {
       } catch(error) {
             console.error('Error loading studios: ', error);
       }
+}
+
+function getELement() {
+      const form = document.getElementById(formId);
+      const modal = document.getElementById(modalId);
+      const imgInput = document.getElementById("image-upload");
+      const image = document.getElementById("img");
+
+      return { form, modal, imgInput, image };
 }

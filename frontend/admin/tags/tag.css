@@ -1,0 +1,46 @@
+#tag .tag-container {
+      display: flex;
+      width: 100%;
+}
+#tag .tag-table {
+      width: 40%;
+}
+#tag-form {
+      margin-left: 50px;
+      padding: 20px;
+      border: 2px solid var(--secondary-border);
+      border-radius: 5px;
+      transition: 0.5s all ease;
+}
+#tag-form:hover {
+      border: 2px solid var(--primary-border);
+}
+#tag-form .title {
+      display: flex;
+      justify-content: center;
+}
+#tag-form span {
+      font-weight: bold;
+}
+#tag-form input {
+      display: block;
+      background-color: #f7f6f6;
+      width: 100%;
+      margin: 10px 0px;
+      padding: 10px 18px;
+      box-sizing: border-box;
+      font-size: 15px;
+      font-family: 'Lexend';
+      border-radius: 5px;
+      border: none;
+}
+#tag-form .button {
+      padding-top: 10px;
+      display: flex;
+      justify-content: center;
+}
+#tag-form button {
+      padding: 12px 25px;
+      font-family: 'Lexend';
+      border: none;
+}

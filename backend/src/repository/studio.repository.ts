@@ -1,8 +1,8 @@
 
 import { StudioDTO } from "../dtos/studio.dto.js";
-import { IStudio } from "../models/istudio.model.js";
+import { IStudio } from "../models/interface/istudio.model.js";
 import Studio from "../models/studio.model.js";
-import { IStudioRepository } from "./istudio.repository.js";
+import { IStudioRepository } from "./interfaces/istudio.repository.js";
 
 export class StudioRepository implements IStudioRepository{
       async FindStudioById(id: string): Promise<StudioDTO | null> {
@@ -53,7 +53,7 @@ function MappingDocToDTO(doc: IStudio): StudioDTO {
       return {
             _id: doc._id.toString(),
             name: doc.name,
-            image: doc?.image,
+            image: doc.image,
       };
 }
 

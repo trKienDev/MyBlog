@@ -1,4 +1,4 @@
-import { StudioDTO } from "../dtos/studio.dto";
+import { StudioDTO } from "../../dtos/studio.dto";
 
 export interface IStudioRepository {
       FindStudioById(id: string): Promise<StudioDTO | null>;
