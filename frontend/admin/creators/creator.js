@@ -1,9 +1,10 @@
 import apiConfig from "../../api/api.config.js";
 import { ConfirmSweetAlert, ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
-import { ResetModal, SetupModalHandlers } from "../../dom/modal.dom.js";
-import { HandleImageUpload } from "../../dom/image.dom.js";
+import { ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
+import { HandleImageUpload } from "../../components/image.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
-import { CreateDeleteButtonCell, CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../dom/table.dom.js";
+import { CreateDeleteButtonCell, CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import { SelectStudios } from "../../components/studio.component.js";
 
 let formId = "creator-form";
 let modalId = "creator-modal";
@@ -15,7 +16,7 @@ export function initCreatorAdmin() {
       CreateNewCreator();
       SetupModalHandlers("openModalButton", "closeModalButton", modalId);
       HandleImageUpload("img", "image-upload");
-      LoadStudios("creator-studio");
+      SelectStudios("creator-studio");
 }
 
 async function RenderCreators(element) {
@@ -153,26 +154,26 @@ async function DeleteCreator(id) {
       });
 }
 
-async function LoadStudios(studioElement) {
-      try {
-            const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.getStudios}`);
-            if(!response.ok) {
-                  throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+// async function LoadStudios(studioElement) {
+//       try {
+//             const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.getStudios}`);
+//             if(!response.ok) {
+//                   throw new Error(`HTTP error! Status: ${response.status}`);
+//             }
 
-            const studios = await response.json();
-            const studioSelect = document.getElementById(studioElement);
-            studioSelect.innerHTML = '<option value="" disabled selected>Select studio</option>';
-            studios.forEach(studio => {
-                  const option = document.createElement('option');
-                  option.value = studio._id; 
-                  option.textContent = studio.name; 
-                  studioSelect.appendChild(option);
-            });
-      } catch(error) {
-            console.error('Error loading studios: ', error);
-      }
-}
+//             const studios = await response.json();
+//             const studioSelect = document.getElementById(studioElement);
+//             studioSelect.innerHTML = '<option value="" disabled selected>Select studio</option>';
+//             studios.forEach(studio => {
+//                   const option = document.createElement('option');
+//                   option.value = studio._id; 
+//                   option.textContent = studio.name; 
+//                   studioSelect.appendChild(option);
+//             });
+//       } catch(error) {
+//             console.error('Error loading studios: ', error);
+//       }
+// }
 
 function getELement() {
       const form = document.getElementById(formId);

@@ -9,7 +9,7 @@ const service = new TagService(repository);
 
 export const getTags = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const tags = await Tag.find();
+            const tags = await repository.GetTags();
             return sendResponse(res, 200, tags);
       } catch(error) {
             return sendError(res, 500, error);

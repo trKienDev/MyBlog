@@ -1,9 +1,10 @@
-import { ResetModal, SetupModalHandlers }  from "../../dom/modal.dom.js";
-import { HandleImageUpload } from "../../dom/image.dom.js";
+import { ResetModal, SetupModalHandlers }  from "../../components/modal.component.js";
+import { HandleImageUpload } from "../../components/image.component.js";
 import { ErrorSweetAlert, SuccessSweetAlert, ConfirmSweetAlert } from "../../utils/sweetAlert.js";
 import apiConfig from "../../api/api.config.js";
 import * as fetchAPI from "../../api/fetch.api.js";
-import { CreateDeleteButtonCell, CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../dom/table.dom.js";
+import { CreateDeleteButtonCell, CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import { SelectStudios } from "../../components/studio.component.js";
 
 let formId = "studio-form";
 let modalId = "studio-modal";
@@ -15,6 +16,7 @@ export function InitStudioAdmin() {
       CreateNewStudio();
       SetupModalHandlers("openModalButton", "closeModalButton", "studio-modal");
       HandleImageUpload("img", "image-upload"); 
+      SelectStudios("studio-selection");
 }
 
 async function RenderStudios(element) {
@@ -143,4 +145,3 @@ function getELement() {
 
       return { form, modal, imgInput, image };
 }
-

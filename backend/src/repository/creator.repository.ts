@@ -4,6 +4,11 @@ import { ICreator } from "../models/interface/icreator.model.js";
 import { ICreatorRepository } from "./interfaces/icreator.repository.js";
 
 export class CreatorRepository implements ICreatorRepository {
+      public async GetCreators(): Promise<CreatorDTO[]> {
+            const creators = await Creator.find().populate('studio', 'name');
+            return creators.map(doc => MappingDocToDTO(doc));
+      }
+      
       public async FindById(id: string): Promise<CreatorDTO | null> {
             const doc = await Creator.findById(id).exec();
             if(!doc) {

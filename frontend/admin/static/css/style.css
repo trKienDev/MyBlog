@@ -74,7 +74,6 @@ table tr th {
       padding: 10px 10px;
       font-size: 18px;
 }
-
 table tbody tr td {
       border-bottom: 1px solid #bdbaba;
       padding: 10px 10px;
@@ -91,7 +90,18 @@ table tbody tr:nth-last-child(1) td:hover {
 table tbody tr:hover {
       background-color: var(--secondary-color);
 }
-
+select {
+      display: block;
+      background-color: #f7f6f6;
+      width: 100%;
+      margin: 10px 0px;
+      padding: 10px 18px;
+      box-sizing: border-box;
+      font-size: 15px;
+      font-family: 'Lexend';
+      border-radius: 5px;
+      border: none;
+}
 #dynamic-section h1, p {
       color: #000;
 }
@@ -460,3 +470,46 @@ table tbody tr:hover {
       background: var(--primary-btn);
       color: white;
 }
+
+/* create form */
+.create-form {
+      margin-left: 50px;
+      padding: 20px;
+      border: 2px solid var(--secondary-border);
+      border-radius: 5px;
+      transition: 0.5s all ease;
+      height: 200px;
+}
+.create-form:hover {
+      border: 2px solid var(--primary-border);
+}
+.create-form .title {
+      display: flex;
+      justify-content: center;
+}
+.create-form span {
+      font-weight: bold;
+}
+.create-form input {
+      display: block;
+      background-color: #f7f6f6;
+      width: 100%;
+      margin: 10px 0px;
+      padding: 10px 18px;
+      box-sizing: border-box;
+      font-size: 15px;
+      font-family: 'Lexend';
+      border-radius: 5px;
+      border: none;
+}
+.create-form .button {
+      padding-top: 10px;
+      display: flex;
+      justify-content: center;
+}
+.create-form button {
+      padding: 12px 25px;
+      font-family: 'Lexend';
+      border: none;
+}
+

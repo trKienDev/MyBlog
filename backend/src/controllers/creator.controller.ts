@@ -3,7 +3,6 @@ import { ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { CreatorRepository } from "../repository/creator.repository.js";
 import { CreatorService } from "../services/creator.service.js";
-import Creator from "../models/creator.model.js";
 import { ValidateIdRequest } from "../interfaces/ValidatedIdRequest.js";
 
 const repository = new CreatorRepository();
@@ -11,7 +10,7 @@ const service = new CreatorService(repository);
 
 export const GetCreators = async ( req: CustomRequest , res: ServerResponse ) => {
       try {
-            const creators = await Creator.find().populate('studio', 'name');
+            const creators = await repository.GetCreators();
             sendResponse(res, 200, creators);
       }
       catch ( error ) {

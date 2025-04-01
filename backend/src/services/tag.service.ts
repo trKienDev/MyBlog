@@ -17,10 +17,7 @@ export class TagService {
                   throw new Error('Missing required information');
             }
 
-            const data: TagDTO = {
-                  name,
-                  kind
-            };
+            const data: TagDTO = { name, kind };
             
             const newTag = await this.tagRepo.Create(data);
             return newTag;

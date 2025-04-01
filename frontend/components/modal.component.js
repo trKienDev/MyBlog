@@ -1,4 +1,3 @@
-import { InitDropdownElement } from "../components/customDropdown.js";
 
 export function SetupModalHandlers(openButtonId, closeButtonId, modalId) {
       const openButton = document.getElementById(openButtonId);
@@ -17,8 +16,6 @@ export function SetupModalHandlers(openButtonId, closeButtonId, modalId) {
       closeButton.onclick = () => {
             modal.style.display = "none";
       }
-
-      InitDropdownElement();
 }
 
 export function ResetModal({ form, image, imgInput, modal, defaultImg}) {

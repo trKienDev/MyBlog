@@ -2,6 +2,7 @@ import apiConfig from '../../../api/api.config.js';
 import { initTagAdmin } from '../../../admin/tags/tag.js';
 import { initCreatorAdmin } from '/admin/creators/creator.js';
 import { InitStudioAdmin } from '/admin/studios/studio.js';
+import { initCodeAdmin } from '/admin/codes/code.js';
 
 let dynamicLoadingElement = 'dynamic-section';
 
@@ -21,6 +22,15 @@ document.addEventListener("DOMContentLoaded", function() {
             const url = `${apiConfig.client}${apiConfig.endpoints.adminStudioPage}`;
             loadContent(url, dynamicLoadingElement, () => {
                   InitStudioAdmin();
+            });
+      });
+
+      const adminCodesPageLink = document.getElementById('code-link');
+      adminCodesPageLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const url = `${apiConfig.client}${apiConfig.endpoints.adminCodePage}`;
+            loadContent(url, dynamicLoadingElement, () => {
+                  initCodeAdmin();
             });
       });
 

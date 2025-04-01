@@ -18,10 +18,6 @@ export class StudioService {
             return studio;
       }
       
-      public async GetStudios() {
-            return this.studioRepo.FindStudios();
-      }
-
       public async CreateStudio(req: CustomRequest): Promise<StudioDTO> {
             const { name, imgName } = await UploadFile(req, "studio");
             const existingStudio = await this.studioRepo.FindStudioByName(name);

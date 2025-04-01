@@ -2,8 +2,8 @@ import mongoose, { Schema } from "mongoose";
 import { ICode } from "./interface/icode.model";
 
 const CodeSchema: Schema = new Schema({
+      studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio' },
       code: { type: String, required: true },
-      studio: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio' }
 }, {
       collection: 'Codes',
       timestamps: true,

@@ -1,3 +1,6 @@
+#studio .body {
+      justify-content: unset;
+}
 #studio-table table tbody tr td {
       font-size: 15px;
 }
@@ -21,4 +24,8 @@
       height: 50px;
       width: 100px;
       border-radius: 5px;
+}
+#studio .code-container {
+      margin-left: 50px;
+      padding: 20px;
 }

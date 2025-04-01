@@ -1,7 +1,7 @@
 import apiConfig from "../../api/api.config.js";
 import * as fetchApi from "../../api/fetch.api.js";
 import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
-import * as htmlHandler from "../../dom/table.dom.js";
+import * as htmlHandler from "../../components/table.component.js";
 
 
 
@@ -17,7 +17,7 @@ async function RenderTags() {
             tbody.innerHTML = '';
 
             const tags = await fetchApi.GetList(apiConfig.endpoints.getTags);
-
+            console.log("tags: ", tags);
             tags.forEach(tag => {  
                   console.log("tag: ", tag);
                   const row = document.createElement('tr');

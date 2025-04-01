@@ -48,8 +48,6 @@ export function CreateImageCell(imgSrc, imgClass) {
       return imageCell;
 }
 
-// Date Cell
-
 // Helper function
 export function clickToDisplayLargeImg(image, imgClass, imgWidth, imgHeight) {
       image.addEventListener('click', (e) => {
@@ -88,3 +86,4 @@ export function clickToDisplayLargeImg(image, imgClass, imgWidth, imgHeight) {
             }, 0);
       });
 }
+

@@ -10,7 +10,7 @@ const service = new StudioService(repository);
 
 export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
       try {
-            const studios = await service.GetStudios();
+            const studios = await repository.FindStudios();
             return  sendResponse(res, 200, studios);
       } catch(error) {
             console.error("Error retrieving studios: ", error);

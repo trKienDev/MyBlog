@@ -10,6 +10,10 @@ export class CreatorService {
             this.creatorRepo = creatorRepository;
       }
 
+      public async GetAllCreators() {
+            return 
+      }
+
       public async FindCreatorById(id: string): Promise<CreatorDTO> {
             const creator = await this.creatorRepo.FindById(id);
             if(!creator) { 

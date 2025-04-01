@@ -11,6 +11,7 @@ const apiConfig = {
             adminCreatorPage: '/admin/creators/creator.html',
             adminStudioPage: '/admin/studios/studio.html',
             adminTagPage: '/admin/tags/tag.html',
+            adminCodePage: '/admin/codes/code.html',
             // creator
             getCreators: '/admin/creators', // GET
             createCreator: '/admin/creator', // POST
@@ -24,6 +25,9 @@ const apiConfig = {
             // tag
             getTags: '/admin/tags', // GET
             createTag: '/admin/tag', // POST
+
+            //code
+            createCode: '/admin/code', // POST
             //codeAV
             codeAVList: '/admin/codeAV/read',
             codeAVCreate: '/admin/codeAV/create',

@@ -4,6 +4,11 @@ import Tag from "../models/tag.model.js";
 import { ITagRepository } from "./interfaces/itag.repository.js";
 
 export class TagRepostory implements ITagRepository{
+      public async GetTags(): Promise<TagDTO[]> {
+            const tags = await Tag.find();
+            return tags.map(tag => MappingDocToDTO(tag));
+      }
+      
       public async Create(data: TagDTO): Promise<TagDTO> {
             const tag = new Tag(data);
             const savedTag = await tag.save();
