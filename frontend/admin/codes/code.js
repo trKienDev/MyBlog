@@ -13,11 +13,11 @@ async function CreateNewCode() {
       document.getElementById('form').addEventListener('submit', async(event) => {
             event.preventDefault();
             const studioSelection = document.getElementById('form-studio');
-            const studio = studioSelection.value;
+            const studio = studioSelection;
             const codeInput = document.getElementById('form-code');
-            const code = codeInput.value;
+            const code = codeInput;
 
-            const data = { studio: studio, code: code };
+            const data = { studio: studio.value , code: code.value };
             try {
                   const createdCode = await fetchAPI.CreateItemJson(`${apiConfig.endpoints.createCode}`, data);
                   if(createdCode._id) {
@@ -28,6 +28,9 @@ async function CreateNewCode() {
             } catch(error) {
                   console.error('Error creating code: ', error.message);
                   ErrorSweetAlert("Failed to create code");
+            } finally {
+                  studio.value = "";
+                  code.value = "";
             }
       });
 }

@@ -39,12 +39,9 @@ async function RenderTags() {
 async function CreateNewTag() {
       document.getElementById('form').addEventListener('submit', async(event) => {
             event.preventDefault();
-            const name = document.getElementById('name').value;
-            const kind = document.getElementById('kind').value;
-            const data = {
-                  name: name,
-                  kind: kind,
-            };
+            const name = document.getElementById('name');
+            const kind = document.getElementById('kind');
+            const data = { name: name.value, kind: kind.value };
             
             try {
                   const createdTag = await fetchApi.CreateItemJson(`${apiConfig.endpoints.createTag}`, data);
@@ -57,7 +54,10 @@ async function CreateNewTag() {
             } catch(error) {
                   console.error('Error creating tag: ', error.message);
                   ErrorSweetAlert("Failed to create tag");
-            } 
+            } finally {
+                  name.value = "";
+                  kind.value = "";
+            }
       })
 };
 

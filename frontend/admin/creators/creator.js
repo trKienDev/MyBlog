@@ -154,27 +154,6 @@ async function DeleteCreator(id) {
       });
 }
 
-// async function LoadStudios(studioElement) {
-//       try {
-//             const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.getStudios}`);
-//             if(!response.ok) {
-//                   throw new Error(`HTTP error! Status: ${response.status}`);
-//             }
-
-//             const studios = await response.json();
-//             const studioSelect = document.getElementById(studioElement);
-//             studioSelect.innerHTML = '<option value="" disabled selected>Select studio</option>';
-//             studios.forEach(studio => {
-//                   const option = document.createElement('option');
-//                   option.value = studio._id; 
-//                   option.textContent = studio.name; 
-//                   studioSelect.appendChild(option);
-//             });
-//       } catch(error) {
-//             console.error('Error loading studios: ', error);
-//       }
-// }
-
 function getELement() {
       const form = document.getElementById(formId);
       const modal = document.getElementById(modalId);
