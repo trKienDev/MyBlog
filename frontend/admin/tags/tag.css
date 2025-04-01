@@ -2,8 +2,8 @@
       display: flex;
       width: 100%;
 }
-#tag .tag-table {
-      width: 40%;
+#tag #tag-table {
+      width: 20%;
 }
 #tag-form {
       margin-left: 50px;
@@ -11,6 +11,7 @@
       border: 2px solid var(--secondary-border);
       border-radius: 5px;
       transition: 0.5s all ease;
+      height: 200px;
 }
 #tag-form:hover {
       border: 2px solid var(--primary-border);

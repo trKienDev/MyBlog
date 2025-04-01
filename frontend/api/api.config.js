@@ -22,6 +22,7 @@ const apiConfig = {
             updateStudio: '/admin/studio', // PUT
             deleteStudio: '/admin/studio', // DELETE
             // tag
+            getTags: '/admin/tags', // GET
             createTag: '/admin/tag', // POST
             //codeAV
             codeAVList: '/admin/codeAV/read',

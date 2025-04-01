@@ -2,9 +2,19 @@ import { IncomingMessage, ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { TagRepostory } from "../repository/tag.repository.js";
 import { TagService } from "../services/tag.service.js";
+import Tag from "../models/tag.model.js";
 
 const repository = new TagRepostory();
 const service = new TagService(repository);
+
+export const getTags = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const tags = await Tag.find();
+            return sendResponse(res, 200, tags);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
 
 export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
       try {

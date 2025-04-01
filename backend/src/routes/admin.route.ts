@@ -1,7 +1,8 @@
 import { getAdminPage } from "../Admin/Controllers/admin.controller.js";
+import { createCode } from "../controllers/code.controller.js";
 import { CreateCreator, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
 import { CreateStudio, DeleteStudio, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
-import { createTag } from "../controllers/tag.controller.js";
+import { getTags, createTag } from "../controllers/tag.controller.js";
 import { Route } from "../interfaces/Route.js";
 import { ValidateId } from "../middlewares/validateId.js";
 import { createRouter } from "./routes.js";
@@ -19,7 +20,10 @@ const adminRoutes: Route[] = [
       { method: 'PUT', path: '/admin/creator/:id', handler: ValidateId(UpdateCreator) },
       { method: 'DELETE', path: '/admin/creator/:id', handler: ValidateId(DeleteCreator) },
       // tag
+      { method: 'GET', path: '/admin/tags', handler: getTags },
       { method: 'POST', path: '/admin/tag', handler: createTag},
+      // code
+      { method: 'POST', path: '/admin/code', handler: createCode },
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);
