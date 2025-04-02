@@ -16,12 +16,14 @@ async function RenderTags() {
             const tbody = document.querySelector("#tag-table tbody");
             tbody.innerHTML = '';
 
-            const tags = await fetchApi.GetList(apiConfig.endpoints.getTags);
-            console.log("tags: ", tags);
+            const result = await fetchApi.GetList(apiConfig.endpoints.getTags);
+            if(result.success === false) {
+                  throw new Error(result.error);
+            }
+
+            const tags = result.data;
             tags.forEach(tag => {  
-                  console.log("tag: ", tag);
-                  const row = document.createElement('tr');
-                  row.setAttribute('data-id', tag._id);
+                  const row = htmlHandler.createTrWithId(tag._id);
 
                   const name = htmlHandler.CreateTdTextCell(tag.name);
                   row.appendChild(name);
@@ -33,6 +35,7 @@ async function RenderTags() {
             });   
       } catch(error) {
             console.error('Error getting tags: ', error);
+            ErrorSweetAlert(error);
       }
 }
 
@@ -44,16 +47,16 @@ async function CreateNewTag() {
             const data = { name: name.value, kind: kind.value };
             
             try {
-                  const createdTag = await fetchApi.CreateItemJson(`${apiConfig.endpoints.createTag}`, data);
-                  if(createdTag._id) {
-                        SuccessSweetAlert("tag created");
-                        RenderTags();
-                  } else {
-                        ErrorSweetAlert("failed to create tag");
+                  const result = await fetchApi.CreateItemJson(`${apiConfig.endpoints.createTag}`, data);
+                  if(result.success === false) {
+                        throw new Error(result.error);
                   }
+      
+                  SuccessSweetAlert("tag created");
+                  RenderTags();
             } catch(error) {
                   console.error('Error creating tag: ', error.message);
-                  ErrorSweetAlert("Failed to create tag");
+                  ErrorSweetAlert(error);
             } finally {
                   name.value = "";
                   kind.value = "";

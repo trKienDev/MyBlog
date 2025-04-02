@@ -16,7 +16,7 @@ export function handleRoutes(req: CustomRequest, res: ServerResponse) {
             userRoutes(req, res);
             return;
       }
-
+      console.error("Error handleRoutes in route.ts");
       res.statusCode = 404;
       res.end('Route nor found');
 }
@@ -27,6 +27,7 @@ export function createRouter(routes: Route[]) {
             // Tách query string (nếu có) khỏi url
             const [pathname] = url ? url.split('?') : [''];
 
+            // console.log("pathname: ", pathname);
             // Duyệt qua danh sách routes để tìm route phù hợp
             const matchedRoute = routes.find(route => {
                   // Tách route.path và pathname thành các segment
@@ -50,7 +51,7 @@ export function createRouter(routes: Route[]) {
 
                   return true;
             });
-            
+
             if(matchedRoute) {
                   // Nếu có tham số, ví dụ /admin/studio/:id
                   // thì tách ra để truyền vào req (nếu cần)
@@ -67,6 +68,7 @@ export function createRouter(routes: Route[]) {
                   req.params = params;
                   matchedRoute.handler(req, res);
             } else {
+                  console.error("route does not matched in createRoute - routes.ts");
                   res.statusCode = 404;
                   res.setHeader('Content-Type', 'text/plain');
                   res.end('Not found');

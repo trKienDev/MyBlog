@@ -3,20 +3,19 @@ import { HandleImageUpload } from "../../components/image.component.js";
 import { ErrorSweetAlert, SuccessSweetAlert, ConfirmSweetAlert } from "../../utils/sweetAlert.js";
 import apiConfig from "../../api/api.config.js";
 import * as fetchAPI from "../../api/fetch.api.js";
-import { CreateDeleteButtonCell, CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
-import { SelectStudios } from "../../components/studio.component.js";
+import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import { SelectStudios } from "../../components/select.component.js";
 
 let formId = "studio-form";
 let modalId = "studio-modal";
 let studioTable = "#studio-table tbody";
 let defaultImg = "/admin/static/images/studio/studio-upload.png";
 
-export function InitStudioAdmin() {
+export function initStudioAdmin() {
       RenderStudios(studioTable);
       CreateNewStudio();
-      SetupModalHandlers("openModalButton", "closeModalButton", "studio-modal");
+      SetupModalHandlers("open-modal_button", "close-modal_button", modalId);
       HandleImageUpload("img", "image-upload"); 
-      SelectStudios("studio-selection");
 }
 
 async function RenderStudios(element) {
@@ -24,8 +23,12 @@ async function RenderStudios(element) {
             const tbody = document.querySelector(element);
             tbody.innerHTML = '';
 
-            const studios = await fetchAPI.GetList(apiConfig.endpoints.getStudios);
+            const result = await fetchAPI.GetList(apiConfig.endpoints.getStudios);
+            if(result.success === false) {
+                  throw new Error(result.error);
+            }
 
+            const studios = result.data;
             studios.forEach(studio => {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', studio._id);
@@ -40,14 +43,12 @@ async function RenderStudios(element) {
                   const image = CreateImageCell(imgSrc, 'profile');
                   tr.appendChild(image);
 
-                  const deleteBtn = CreateDeleteButtonCell(studio._id, 'btn-delete', DeleteStudio);
-                  tr.appendChild(deleteBtn);
-
                   tbody.appendChild(tr);
             });
 
       } catch(error) {
             console.error('Error loading studios: ', error);
+            ErrorSweetAlert(error);
       }
 }
 
@@ -64,18 +65,16 @@ async function CreateNewStudio() {
             const formData = new FormData(form);
 
             try {
-                  const createdStudio = await fetchAPI.CreateItem(apiConfig.endpoints.createStudio, formData);
-
-                  if (createdStudio._id) {
-                        SuccessSweetAlert("studio created");
-                        RenderStudios(studioTable);
-                  } else {
-                        ErrorSweetAlert("Error in server");
-                        throw new Error('Failed to create studio');
+                  const result = await fetchAPI.CreateItem(apiConfig.endpoints.createStudio, formData);
+                  if(result.success === false) {
+                        throw new Error(result.error);
                   }
+
+                  SuccessSweetAlert("studio created");
+                  RenderStudios(studioTable);
             } catch (error) {
                   console.error('Error creating studio in client: ', error.message);
-                  ErrorSweetAlert("Failed to create tag");
+                  ErrorSweetAlert(error);
             } finally {
                   submitBtn.disabled = false;
                   ResetModal(resetOptions);
@@ -102,39 +101,20 @@ function UpdateStudio(studio) {
             const formData = new FormData(form);
 
             try {
-                  const updatedStudio = await fetchAPI.UpdateItem(`${apiConfig.endpoints.updateStudio}/${studio._id}`, formData);
-
-                  if (updatedStudio._id) {
-                        SuccessSweetAlert("studio updated");
-                        RenderStudios(studioTable);
-                  } else {
-                        ErrorSweetAlert("Failed to update studio");
+                  const result = await fetchAPI.UpdateItem(`${apiConfig.endpoints.updateStudio}/${studio._id}`, formData);
+                  if(result.success === false) {
+                        throw new Error(result.error);
                   }
+
+                  SuccessSweetAlert("studio updated");
+                  RenderStudios(studioTable);
             } catch(error) {
                   console.error("Error updating studio: ", error);
-                  ErrorSweetAlert("Update studio failed");
+                  ErrorSweetAlert(error);
             } finally {
                   ResetModal(resetOptions);
             }
       };
-}
-
-function DeleteStudio(id) {
-      ConfirmSweetAlert("Delete this studio ?", async () => {
-            try {
-                  const deletedStudio = await fetchAPI.DeleteItem(`${apiConfig.endpoints.deleteStudio}/${id}`);
-                  if(deletedStudio) {
-                        SuccessSweetAlert("Studio deleted");
-                  } else {
-                        ErrorSweetAlert("Failed to delete studio");
-                  }
-            } catch (error) {
-                  console.error('client: ', error);
-                  ErrorSweetAlert("Delete studio failed");
-            } finally {
-                  RenderStudios(studioTable);
-            }
-      });
 }
 
 function getELement() {

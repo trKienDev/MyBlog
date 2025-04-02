@@ -4,9 +4,15 @@ import { ICreator } from "../models/interface/icreator.model.js";
 import { ICreatorRepository } from "./interfaces/icreator.repository.js";
 
 export class CreatorRepository implements ICreatorRepository {
-      public async GetCreators(): Promise<CreatorDTO[]> {
-            const creators = await Creator.find().populate('studio', 'name');
-            return creators.map(doc => MappingDocToDTO(doc));
+      public async GetCreators(): Promise<CreatorDTO[] | null> {
+            try {
+                  const creators = await Creator.find();
+                  return creators.map(doc => MappingDocToDTO(doc));
+            } catch(error) {
+                  console.log("Error in GetCreators: ", error);
+                  return null;
+            }
+            
       }
       
       public async FindById(id: string): Promise<CreatorDTO | null> {
@@ -55,6 +61,5 @@ function MappingDocToDTO(doc: ICreator): CreatorDTO {
             body: doc.body,
             breast: doc.breast,
             skin: doc.skin,
-            studio: doc.studio.toString(),
       }
 }

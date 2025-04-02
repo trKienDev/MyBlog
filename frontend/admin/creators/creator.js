@@ -1,10 +1,9 @@
 import apiConfig from "../../api/api.config.js";
-import { ConfirmSweetAlert, ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
+import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
 import { ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
-import { CreateDeleteButtonCell, CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
-import { SelectStudios } from "../../components/studio.component.js";
+import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
 
 let formId = "creator-form";
 let modalId = "creator-modal";
@@ -14,18 +13,22 @@ let defaultImg = "/admin/static/images/face/upload-profile.jpg";
 export function initCreatorAdmin() {
       RenderCreators(tableBody);
       CreateNewCreator();
-      SetupModalHandlers("openModalButton", "closeModalButton", modalId);
+      SetupModalHandlers("open-modal_button", "close-modal_button", modalId);
       HandleImageUpload("img", "image-upload");
-      SelectStudios("creator-studio");
 }
 
 async function RenderCreators(element) {
       try {
+            const result = await fetchAPI.GetList(apiConfig.endpoints.getCreators);
+            if(result.success === false) {
+                  throw new Error(result.error);
+            }
+
+            const creators = result.data;
             const tbody = document.querySelector(element);
             tbody.innerHTML = '';
 
-            const creators = await fetchAPI.GetList(apiConfig.endpoints.getCreators);
-
+            
             creators.forEach(creator => {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', creator._id);
@@ -46,19 +49,14 @@ async function RenderCreators(element) {
                   const breast = CreateTdTextCell(creator.breast);
                   tr.appendChild(breast);
 
-                  const studio = CreateTdTextCell(creator?.studio?.name);
-                  tr.appendChild(studio);
-
                   const skin = CreateTdTextCell(creator.skin);
                   tr.appendChild(skin);
-                  
-                  const deleteBtn = CreateDeleteButtonCell(creator._id, 'btn-delete', DeleteCreator);
-                  tr.appendChild(deleteBtn);
 
                   tbody.appendChild(tr); 
             });
       } catch(error) {
             console.error('Error loading creators: ', error);
+            ErrorSweetAlert(error);
       }
 }
 
@@ -72,17 +70,15 @@ async function CreateNewCreator() {
             const formData = new FormData(form);
 
             try {
-                  const createdCreator = await fetchAPI.CreateItem(apiConfig.endpoints.createCreator, formData);
-
-                  if(createdCreator._id) {
-                        SuccessSweetAlert('Creator created');
-                  } else {
-                        ErrorSweetAlert('Error in server.');                      
-                        throw new Error('Failed to create creator. Invalid response from server.');
+                  const result = await fetchAPI.CreateItem(apiConfig.endpoints.createCreator, formData);
+                  if(result.success === false) {
+                        throw new Error(result.error);
                   }
+
+                  SuccessSweetAlert('Creator created');
             } catch(error) {
-                  console.error('Error creating creator in client: ', error.message);
-                  ErrorSweetAlert('Create creator failed');
+                  console.error('Error creating creator in client: ', error);
+                  ErrorSweetAlert(error);
             } finally {
                   RenderCreators(tableBody);
                   ResetModal(resetOptions);
@@ -101,11 +97,10 @@ async function UpdateCreator(creator) {
 
       modal.style.display = 'block';
 
-      await LoadStudios("creator-studio");
       document.getElementById("creator-name").value = creator.name || "";
       document.getElementById("creator-birth").value = creator.birth ? new Date(creator.birth).toISOString().split("T")[0] : "";
       document.getElementById("creator-skin").value = creator.skin || "";
-      document.getElementById("creator-studio").value = creator.studio?._id || "";
+
       document.getElementById("creator-breast").value = creator.breast || "";
       document.getElementById("creator-body").value = creator.body || "";
       image.src = creator.image ? `${apiConfig.server}/uploads/creator/avatar/${creator.image}` : defaultImg;
@@ -116,42 +111,20 @@ async function UpdateCreator(creator) {
             const formData = new FormData(form);
             
             try {
-                  const updatedCreator = await fetchAPI.UpdateItem(`${apiConfig.endpoints.updateCreator}/${creator._id}`, formData);
-
-                  if (updatedCreator._id) {
-                        SuccessSweetAlert("creator updated");
-                        RenderCreators(tableBody);
-                  } else {
-                        ErrorSweetAlert("Update creator failed");
-                        throw new Error('Failed to create creator. Invalid response from server.');
+                  const result = await fetchAPI.UpdateItem(`${apiConfig.endpoints.updateCreator}/${creator._id}`, formData);
+                  if(result.success === false) {
+                        throw new Error(result.error);
                   }
+
+                  SuccessSweetAlert("creator updated");
+                  RenderCreators(tableBody);
             } catch(error) {
                   console.error("Error updating creator in client: ", error);
-                  ErrorSweetAlert("Update creator failed");
+                  ErrorSweetAlert(error);
             } finally {
                   ResetModal(resetOptionss);
             }
-
       };
-
-}
-
-async function DeleteCreator(id) {
-      ConfirmSweetAlert("Delete this creator ?", async () => {
-            try {
-                  const deletedCreator = await fetchAPI.DeleteItem(`${apiConfig.endpoints.deleteCreator}/${id}`);
-                  if(deletedCreator) {
-                        SuccessSweetAlert("Creator deleted");
-                  } else {
-                        ErrorSweetAlert("Failed to delete creator");
-                  }
-            } catch(error) {
-                  console.error("client: ", error);
-                  ErrorSweetAlert("Delete creator failed");
-            } finally {
-                  RenderCreators(tableBody);
-            }
-      });
 }
 
 function getELement() {

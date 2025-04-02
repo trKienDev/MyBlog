@@ -6,7 +6,7 @@ export interface ICreator extends Document {
       birth: Date;
       image: string;
       skin: string;
-      studio: mongoose.Types.ObjectId[];
+      studio_id: mongoose.Types.ObjectId[];
       body: string;
       breast: string;
 }

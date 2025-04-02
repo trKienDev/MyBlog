@@ -1,3 +1,9 @@
+export function createTrWithId(id) {
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-id', id);
+      return tr;
+}
+
 // Edit Cell
 export function CreateEditButtonCell(editContainerClass, item, handleEditCallback) {
       const editCell = document.createElement('td');

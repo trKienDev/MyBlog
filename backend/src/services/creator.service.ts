@@ -25,7 +25,7 @@ export class CreatorService {
 
       async CreateCreator(req: CustomRequest) {
             const { imgName } = await UploadFile(req, "creator/avatar");
-            const { name, birth, skin, studio, body, breast } = req.body;
+            const { name, birth, skin, body, breast } = req.body;
             const existingCreator = await this.creatorRepo.FindByNameAndBirth(name, birth);
             if(existingCreator) {
                   return { success: false, code: 409, message: 'Creator has already existed' };
@@ -35,7 +35,6 @@ export class CreatorService {
                   name,
                   birth: new Date(birth),
                   skin,
-                  studio,
                   body,
                   breast,
                   image: imgName
@@ -53,7 +52,7 @@ export class CreatorService {
 
             const { imgName } = await UploadFile(req, "creator/avatar");
             const { name, birth, skin, studio, breast, body } = req.body;
-            const updateData: Record<string, any> = { name, birth, skin, studio, body, breast };
+            const updateData: Record<string, any> = { name, birth, skin, body, breast };
 
             if(imgName) {
                   FileService.DeleteFile("creator/avatar", currentCreator.image);

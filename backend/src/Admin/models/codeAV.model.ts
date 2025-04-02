@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface ICode extends Document {
+interface iCode extends Document {
         codeName: string;
         studio: mongoose.Types.ObjectId[];
 }
@@ -14,5 +14,5 @@ const CodeSchema: Schema = new Schema({
         timestamps: true // Automatically add createdAt and updatedAt timestamps
 });    
 
-const CodeModel = mongoose.model<ICode>('CodeAV', CodeSchema);
+const CodeModel = mongoose.model<iCode>('CodeAV', CodeSchema);
 export default CodeModel;

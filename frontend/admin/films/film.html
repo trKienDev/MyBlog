@@ -1,0 +1,77 @@
+<section id="films">
+      <div class="container">
+            <h1 class="heading-title">Films Management</h1>
+           <div class="body">
+                  <div id="film-table">
+                        <table cellpadding="0" cellspacing="0">
+                              <thead>
+                                    <tr>
+                                          <th>
+                                                <div class="create-film">
+                                                      <div class="btn-create" id="open-modal_button">
+                                                            <i class="fa-solid fa-square-plus"></i>
+                                                      </div>
+                                                </div>
+                                          </th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+
+                              </tbody>
+
+                        </table>
+                  </div>
+           </div>
+      </div>
+
+      <div id="create-modal" class="modal">
+            <div class="modal-content">
+                  <div id="close-modal_button">
+                        <div class="btn-close">
+                              <i class="fa-solid fa-xmark"></i>
+                        </div>
+                  </div>
+                  <h2 style="text-align: center;">Create new film</h2>
+                  <form id="film-form">
+                        <div class="modal-body">
+                              <div class="modal-left">
+                                    <div>
+                                          <select id="film-studio"></select>
+                                    </div>
+                                    <div class="row">
+                                          <select id="film-code">
+                                                <option value="" disabled selected>Select code</option>
+                                          </select>
+                                          <input type="number" name="code" id="code-number" placeholder="123">
+                                    </div>
+                                    <div>
+                                          <select name="creator" id="film-creator"></select>
+                                    </div>
+                                    <div>
+                                          <select name="tag" id="film-tag"></select>
+                                    </div>
+                                    <div>
+                                          <select name="collection" id="film-collection"></select>
+                                    </div>
+                                    <div class="row">
+                                          <input type="date" name="release_date" id="release_date" placeholder="25 Mar 2025">
+                                          <select name="film-rating" id="film-rating">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                          </select>
+                                    </div>
+                              </div>
+                              <div class="modal-right">
+                                    <div class="modal-thumbnail">
+                                          <img id="thumbnail-image" src="" alt="film-thumbnail">
+                                          <input type="file" id="thumbnail-upload" name="file" style="display: none;" accept="image/*">
+                                    </div>
+                              </div>
+                        </div>
+                  </form>
+            </div>
+      </div>
+</section>

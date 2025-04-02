@@ -11,10 +11,13 @@ const service = new CreatorService(repository);
 export const GetCreators = async ( req: CustomRequest , res: ServerResponse ) => {
       try {
             const creators = await repository.GetCreators();
-            sendResponse(res, 200, creators);
+            if(creators == null) {
+                  return sendError(res, 500, 'Failed to get creators');
+            }
+            return sendResponse(res, 200, creators);
       }
       catch ( error ) {
-              sendError(res, 500, error);
+            return sendError(res, 500, error);
       } 
 };
 

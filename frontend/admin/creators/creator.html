@@ -8,7 +8,7 @@
                                     <tr>
                                           <th style="width: 1%;">
                                                 <div class="create-studio">
-                                                      <div class="btn-create" id="openModalButton">
+                                                      <div class="btn-create" id="open-modal_button">
                                                             <i class="fa-solid fa-square-plus"></i>
                                                       </div>
                                                 </div>
@@ -17,9 +17,7 @@
                                           <th class="image">Image</th>
                                           <th class="thBody">Body</th>
                                           <th class="breast">Breast</th>
-                                          <th class="studio">Studio</th>
                                           <th class="films">Skin</th>
-                                          <th style="width: 5%;"></th>
                                     </tr>
                               </thead>
                               <tbody>
@@ -39,7 +37,11 @@
 
       <div id="creator-modal" class="modal">
             <div class="modal-content">
-                  <span id="closeModalButton" class="close">&times;</span>
+                  <div id="close-modal_button">
+                        <div class="btn-close">
+                              <i class="fa-solid fa-xmark"></i>
+                        </div>
+                  </div>
                   <h2 style="text-align: center;">Create new creator</h2>
                   <form id="creator-form">
                         <div class="modal-body">
@@ -55,8 +57,7 @@
                                                 <option value="light">Light</option>
                                                 <option value="medium">Medium</option>
                                                 <option value="dark">Dark</option>
-                                          </select>
-                                          <select id="creator-studio" name="studio" required></select>                                            
+                                          </select>                           
                                           <select id="creator-breast" name="breast" required>
                                                 <option value="" disabled selected>Select size</option>
                                                 <option value="A">A</option>

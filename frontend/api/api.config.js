@@ -12,22 +12,31 @@ const apiConfig = {
             adminStudioPage: '/admin/studios/studio.html',
             adminTagPage: '/admin/tags/tag.html',
             adminCodePage: '/admin/codes/code.html',
+            adminFilmPage: '/admin/films/film.html',
+            
             // creator
             getCreators: '/admin/creators', // GET
             createCreator: '/admin/creator', // POST
             updateCreator: '/admin/creator', // PUT
             deleteCreator: '/admin/creator',
+            
             // studio
             getStudios: '/admin/studios', // GET
             createStudio: '/admin/studio', // POST
             updateStudio: '/admin/studio', // PUT
             deleteStudio: '/admin/studio', // DELETE
+            
             // tag
             getTags: '/admin/tags', // GET
             createTag: '/admin/tag', // POST
-
+            
             //code
+            getCodes: '/admin/codes', // GET
+            getCodesByStudio: '/admin/codes/studio', // GET
             createCode: '/admin/code', // POST
+            
+            // collection
+            createCollection: '/admin/collection', // POST
             //codeAV
             codeAVList: '/admin/codeAV/read',
             codeAVCreate: '/admin/codeAV/create',

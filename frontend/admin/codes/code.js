@@ -1,34 +1,70 @@
-import { SelectStudios } from "../../components/studio.component.js";
+import { SelectStudios } from "../../components/select.component.js";
 import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
 import * as fetchAPI from "../../api/fetch.api.js";
+import * as htmlHandler from "../../components/table.component.js";
 import apiConfig from "../../api/api.config.js";
 
+let formStudio = "form-studio";
+let studioSelection = "studio-selection";
+
 export function initCodeAdmin() {
-      SelectStudios("studio");
-      SelectStudios("form-studio");
+      SelectStudios(studioSelection);
+      SelectStudios(formStudio);
       CreateNewCode();
+      RenderCodeBySelectedStudio();
+}
+
+async function RenderCodeBySelectedStudio() {
+      const studio = document.getElementById(studioSelection);
+      studio.addEventListener("change", function(event) {
+            const value = event.target.value;
+            return RenderCodes(value);
+      });
+}
+
+async function RenderCodes(studio_id) {
+      try {
+            const tbody = document.querySelector("#list-codes tbody");
+            tbody.innerHTML = '';
+
+            const result = await fetchAPI.GetList(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
+            if(result.success === false) {
+                  throw new Error(result.error);
+            }
+
+            const codes = result.data;
+            codes.forEach(item => {
+                  const row = htmlHandler.createTrWithId(item._id);
+                  const code = htmlHandler.CreateTdTextCell(item.code);
+                  row.appendChild(code);
+                  tbody.appendChild(row);
+            });
+      } catch(error) {
+            console.error('Error rendering codes: ', error);
+      }
 }
 
 async function CreateNewCode() {
       document.getElementById('form').addEventListener('submit', async(event) => {
             event.preventDefault();
-            const studioSelection = document.getElementById('form-studio');
-            const studio = studioSelection;
-            const codeInput = document.getElementById('form-code');
-            const code = codeInput;
+            const studio = document.getElementById(formStudio);
+            const code = document.getElementById('form-code');
 
             const data = { studio: studio.value , code: code.value };
             try {
-                  const createdCode = await fetchAPI.CreateItemJson(`${apiConfig.endpoints.createCode}`, data);
-                  if(createdCode._id) {
-                        SuccessSweetAlert("code created");
-                  } else {
-                        ErrorSweetAlert("failed to create code");
+                  const result = await fetchAPI.CreateItemJson(`${apiConfig.endpoints.createCode}`, data);
+                  if(result.success === false) {
+                        throw new Error(result.error);
                   }
+                  
+                  SuccessSweetAlert("code created");
             } catch(error) {
                   console.error('Error creating code: ', error.message);
-                  ErrorSweetAlert("Failed to create code");
+                  ErrorSweetAlert(error);
             } finally {
+                  const selectStudio = document.getElementById(studioSelection);
+                  selectStudio.value = studio.value;
+                  RenderCodes(studio.value);
                   studio.value = "";
                   code.value = "";
             }

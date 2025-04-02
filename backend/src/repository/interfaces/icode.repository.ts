@@ -1,5 +1,7 @@
 import { CodeDTO } from "../../dtos/code.dto";
 
-export interface ICodeRepository {
+export interface iCodeRepository {
+      GetCodes(): Promise<CodeDTO[]>;
+      getCodesByStudio(studioId: string): Promise<CodeDTO[]>;
       CreateCode(data: CodeDTO): Promise<CodeDTO>;
 }

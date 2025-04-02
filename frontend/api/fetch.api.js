@@ -5,14 +5,14 @@ export async function GetList(endpoint) {
       try {
             const response = await fetch(`${apiConfig.server}${endpoint}`);
             if(!response.ok) {
-                  throw new Error(`HTTP error! Status: ${response.status}`);
+                  const error = await response.json();
+                  return { success: false, error: error.message };
             }
 
-            const list = await response.json();
-            return list;
+            const result = await response.json();
+            return { success: true, data: result };
       } catch(error) {
-            console.error('Error api - get list: ', error);
-            throw error;
+            throw new Error(`Error in GET api: ${error}`);
       }
 }
 
@@ -22,14 +22,13 @@ export async function CreateItem(endpoint, form) {
                   method: 'POST',
                   body: form
             });
-
             if(!response.ok) {
-                  ErrorSweetAlert("Error in server");
-                  throw new Error(`HTTP error! Status: ${response.status}`);
+                  const error = await response.json();
+                  return { success: false, error: error.message };
             }
 
             const result = await response.json();
-            return result;
+            return { success: true, data: result };
       } catch(error) {
             throw new Error(`Error in api method: ${error}`);
       }
@@ -46,12 +45,12 @@ export async function CreateItemJson(endpoint, data) {
             });
 
             if(!response.ok) {
-                  ErrorSweetAlert("Failed to fetch api");
-                  throw new Error(`HTTP error! Status: ${response.status}`);
+                  const error = await response.json();
+                  return { success: false, error: error.message };
             }
 
             const result = await response.json();
-            return result;
+            return { success: true, data: result };
       } catch(error) {
             throw new Error(`Error in api method: ${error}`);
       }
@@ -65,12 +64,12 @@ export async function UpdateItem(endpoint, form) {
             });
       
             if(!response.ok) {
-                  ErrorSweetAlert("Error in server");
-                  throw new Error(`HTTP error! Status: ${response.status}`);
+                  const error = await response.json();
+                  return { success: false, error: error.message };
             }
       
             const result = await response.json();
-            return result;
+            return { success: true, data: result };
       } catch(error) {
             throw new Error(`Error in api method: ${error}`);
       }
@@ -83,12 +82,12 @@ export async function DeleteItem(endpoint) {
             });
       
             if(!response.ok) {
-                  ErrorSweetAlert("Error in server");
-                  throw new Error(`HTTP error! Status: ${response.status}`);
+                  const error = await response.json();
+                  return { success: false, error: error.message };
             }
-      
+            
             const result = await response.json();
-            return result;
+            return { success: true, data: result };
       } catch(error) {
             throw new Error(`Error in api method: ${error}`);
       }

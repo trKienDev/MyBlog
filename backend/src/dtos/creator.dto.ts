@@ -1,3 +1,5 @@
+import { StudioDTO } from "./studio.dto";
+
 export interface CreatorDTO {
       _id?: string;
       name: string;
@@ -6,5 +8,5 @@ export interface CreatorDTO {
       body: string;
       breast: string;
       skin: string;
-      studio: string;
+      studio_id?: string[];
 }

@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { ICode } from "./interface/icode.model";
+import { iCode } from "./interface/icode.model";
 
 const CodeSchema: Schema = new Schema({
       studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio' },
@@ -9,5 +9,5 @@ const CodeSchema: Schema = new Schema({
       timestamps: true,
 });
 
-const Code = mongoose.model<ICode>('Code', CodeSchema);
+const Code = mongoose.model<iCode>('Code', CodeSchema);
 export default Code;
