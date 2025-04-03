@@ -1,7 +1,7 @@
 import config2 from "../../../services/config.js";
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { handleImageUpload } from "../../../services/HelperFunction/image.js";
-import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
+import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweet-alert.js";
 
 export function loadStudioTable() {
         fetch(`${config2.domain}${config2.endpoints.studioList}`)

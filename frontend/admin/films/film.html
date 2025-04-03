@@ -21,6 +21,25 @@
 
                         </table>
                   </div>
+                  <div id="collection-table">
+                        <table cellpadding="0" cellspacing="0">
+                              <thead>
+                                    <tr>
+                                          <th>
+                                                <div class="create-collection">
+                                                      <div class="btn-create" id="open-modal_button">
+                                                            <i class="fa-solid fa-square-plus"></i>
+                                                      </div>
+                                                </div>
+                                          </th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+
+                              </tbody>
+
+                        </table>
+                  </div>
            </div>
       </div>
 
@@ -36,7 +55,7 @@
                         <div class="modal-body">
                               <div class="modal-left">
                                     <div>
-                                          <select id="film-studio"></select>
+                                          <select id="film-studio"z></select>
                                     </div>
                                     <div class="row">
                                           <select id="film-code">
@@ -45,13 +64,13 @@
                                           <input type="number" name="code" id="code-number" placeholder="123">
                                     </div>
                                     <div>
-                                          <select name="creator" id="film-creator"></select>
-                                    </div>
-                                    <div>
                                           <select name="tag" id="film-tag"></select>
                                     </div>
                                     <div>
-                                          <select name="collection" id="film-collection"></select>
+                                          <select name="collection" id="film-collection">
+                                                <option value="" disabled selected>Select collection</option>
+                                                <option value="0">No collection</option>
+                                          </select>
                                     </div>
                                     <div class="row">
                                           <input type="date" name="release_date" id="release_date" placeholder="25 Mar 2025">

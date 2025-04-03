@@ -1,6 +1,6 @@
 import apiConfig from "../../api/api.config.js";
 import * as fetchApi from "../../api/fetch.api.js";
-import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
+import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
 import * as htmlHandler from "../../components/table.component.js";
 
 

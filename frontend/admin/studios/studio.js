@@ -1,6 +1,6 @@
 import { ResetModal, SetupModalHandlers }  from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
-import { ErrorSweetAlert, SuccessSweetAlert, ConfirmSweetAlert } from "../../utils/sweetAlert.js";
+import { ErrorSweetAlert, SuccessSweetAlert, ConfirmSweetAlert } from "../../utils/sweet-alert.js";
 import apiConfig from "../../api/api.config.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";

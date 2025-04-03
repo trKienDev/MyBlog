@@ -28,6 +28,7 @@ const apiConfig = {
             
             // tag
             getTags: '/admin/tags', // GET
+            getFilmTags: '/admin/tags/film', // GET
             createTag: '/admin/tag', // POST
             
             //code

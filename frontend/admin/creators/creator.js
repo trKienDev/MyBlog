@@ -1,5 +1,5 @@
 import apiConfig from "../../api/api.config.js";
-import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
+import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
 import { ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";

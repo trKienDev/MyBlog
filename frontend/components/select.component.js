@@ -1,8 +1,8 @@
 import apiConfig from "../api/api.config.js";
 import * as fetchAPI from "../api/fetch.api.js";
-import { ErrorSweetAlert } from "../utils/sweetAlert.js";
+import { ErrorSweetAlert } from "../utils/sweet-alert.js";
 
-export async function SelectStudios(studioElement) {
+export async function SelectStudios(studioId) {
       try {
             const result = await fetchAPI.GetList(apiConfig.endpoints.getStudios);
             if(result.success === false) {
@@ -10,21 +10,14 @@ export async function SelectStudios(studioElement) {
             }
             
             const studios = result.data;
-            const studioSelect = document.getElementById(studioElement);
-            studioSelect.innerHTML = '<option value="" disabled selected>Select studio</option>';
-            studios.forEach(studio => {
-                  const option = document.createElement('option');
-                  option.value = studio._id; 
-                  option.textContent = studio.name; 
-                  studioSelect.appendChild(option);
-            });
+            RenderSelectElement(studioId, studios, 'studio', 'name');
       } catch(error) {
             console.error('Error render studio elements in select.component.js', error);
             ErrorSweetAlert(error);
       }
 }
 
-export async function SelectCodes(codeElement) {
+export async function SelectCodes(codeId) {
       try {
             const result = await fetchAPI.GetList(apiConfig.endpoints.getCodes);
             if(result.success === false) {
@@ -32,22 +25,14 @@ export async function SelectCodes(codeElement) {
             }
 
             const codes = result.data;
-
-            const codeSelect = document.getElementById(codeElement);
-            codeSelect.innerHTML = '<option value="" disabled selected>Select code</option>';
-            codes.forEach(code => {
-                  const option = document.createElement('option');
-                  option.value = code._id;
-                  option.textContent = code.code;
-                  codeSelect.appendChild(option);
-            });
+            RenderSelectElement(codeId, codes, 'code', 'code');
       } catch(error) {
             console.error('Error render code elements in select.component.js', error);
             ErrorSweetAlert(error);
       }
 }
 
-export async function selectCodeByStudio(codeElement, studio_id) {
+export async function selectCodeByStudio(codeId, studio_id) {
       try {
             const result = await fetchAPI.GetList(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
             if(result.success === false) {
@@ -55,38 +40,54 @@ export async function selectCodeByStudio(codeElement, studio_id) {
             }
 
             const codes = result.data;
-            const codeSelect = document.getElementById(codeElement);
-            codeSelect.innerHTML = '';
-
-            codes.forEach(code => {
-                  const option = document.createElement('option');
-                  option.value = code._id;
-                  option.textContent = code.code;
-                  codeSelect.appendChild(option);
-            });
+            RenderSelectElement(codeId, codes, '', 'code', 1);
       } catch(error) {
             console.error('Error getting codes by studio: ', error);
       }
 }
 
-export async function selectCreators(creatorElement) {
+export async function selectCreators(creatorId) {
       try {
             const result = await fetchAPI.GetList(apiConfig.endpoints.getCreators);
             if(result.success === false) {
                   throw new Error(result.error);
             }
             
-            const studios = result.data;
-            const creatorSelect = document.getElementById(creatorElement);
-            creatorSelect.innerHTML = '<option value="" disabled selected>Select creator</option>';
-            studios.forEach(creator => {
+            const creators = result.data;
+            RenderSelectElement(creatorId, creators, 'creator', 'name');
+      } catch(error) {
+            console.error('Error render creator elements in select.component.js: ', error);
+            ErrorSweetAlert(error);
+      }
+}
+
+export async function SelectFilmTags(tagId) {
+      try {
+            const result = await fetchAPI.GetList(apiConfig.endpoints.getFilmTags);
+            if(result.success === false) {
+                  throw new Error(result.error);
+            }
+            const tags = result.data;
+            RenderSelectElement(tagId, tags, 'tag', 'name');
+      } catch(error) {
+            console.error('Error render tag element in select.component.js: ', error);
+            ErrorSweetAlert(error);
+      }
+}
+
+function RenderSelectElement(selectId, data, placeholder, value, option) {
+      try {
+            const selectElement = document.getElementById(selectId);
+            selectElement.innerHTML = `<option value="" disabled selected multiple>Select ${placeholder}</option>`;
+            if(option === 1 ) selectElement.innerHTML = '';
+            data.forEach(item => {
                   const option = document.createElement('option');
-                  option.value = creator._id; 
-                  option.textContent = creator.name; 
-                  creatorSelect.appendChild(option);
+                  option.value = item._id;
+                  option.textContent = item[value];
+                  selectElement.appendChild(option);
             });
       } catch(error) {
-            console.error('Error render creator elements in select.component.js', error);
+            console.error('Error in RenderSelectElement: ', error);
             ErrorSweetAlert(error);
       }
 }

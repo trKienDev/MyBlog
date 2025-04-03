@@ -3,7 +3,7 @@ import { createCode, getCodes, getCodesByStudio } from "../controllers/code.cont
 import { createCollection } from "../controllers/collection.controller.js";
 import { CreateCreator, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
 import { CreateStudio, DeleteStudio, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
-import { getTags, createTag } from "../controllers/tag.controller.js";
+import { getTags, createTag, GetFilmTags } from "../controllers/tag.controller.js";
 import { Route } from "../interfaces/Route.js";
 import { ValidateId } from "../middlewares/validateId.js";
 import { createRouter } from "./routes.js";
@@ -22,6 +22,7 @@ const adminRoutes: Route[] = [
       { method: 'DELETE', path: '/admin/creator/:id', handler: ValidateId(DeleteCreator) },
       // tag
       { method: 'GET', path: '/admin/tags', handler: getTags },
+      { method: 'GET', path: '/admin/tags/film', handler: GetFilmTags },
       { method: 'POST', path: '/admin/tag', handler: createTag},
       // code
       { method: 'GET', path: '/admin/codes', handler: getCodes },

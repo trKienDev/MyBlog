@@ -1,5 +1,5 @@
 import config2 from "../../../services/config.js";
-import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
+import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweet-alert.js";
 
 export function loadTagsTable() {
         fetch(`${config2.domain}${config2.endpoints.tagList}`) 

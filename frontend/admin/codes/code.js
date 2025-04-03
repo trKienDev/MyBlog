@@ -1,5 +1,5 @@
 import { SelectStudios } from "../../components/select.component.js";
-import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweetAlert.js";
+import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import * as htmlHandler from "../../components/table.component.js";
 import apiConfig from "../../api/api.config.js";

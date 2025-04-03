@@ -1,7 +1,7 @@
 import config2 from "../../../services/config.js";
 import { loadContent } from '../../../services/loadElement/loadDynamicPages.js';
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
-import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
+import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweet-alert.js";
 
 
 export function loadStory() {

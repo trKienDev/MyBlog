@@ -15,6 +15,15 @@ export const getTags = async(req: IncomingMessage, res: ServerResponse) => {
       }
 }
 
+export const GetFilmTags = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const filmTags = await repository.GetFilmTags();
+            return sendResponse(res, 200, filmTags);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
 export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
       try {
             const createdTag = await service.CreateTag(req);

@@ -1,4 +1,3 @@
-import { ErrorSweetAlert } from "../utils/sweetAlert.js";
 import apiConfig from "./api.config.js";
 
 export async function GetList(endpoint) {
@@ -8,7 +7,6 @@ export async function GetList(endpoint) {
                   const error = await response.json();
                   return { success: false, error: error.message };
             }
-
             const result = await response.json();
             return { success: true, data: result };
       } catch(error) {
@@ -92,4 +90,3 @@ export async function DeleteItem(endpoint) {
             throw new Error(`Error in api method: ${error}`);
       }
 }
-

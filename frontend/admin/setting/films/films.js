@@ -6,7 +6,7 @@ import { loadActress } from '../../../services/loadElement/loadActress.js';
 import { loadTag } from '../../../services/loadElement/loadTag.js';
 import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
 import { loadStory } from "../../../services/loadElement/loadStory.js";
-import { errorSweetAlert, confirmSweetAlert, showToastNotification, successSweetAlert } from "../../../services/HelperFunction/sweetAlert.js";
+import { errorSweetAlert, confirmSweetAlert, showToastNotification, successSweetAlert } from "../../../services/HelperFunction/sweet-alert.js";
 import { initializeRatingFeature, userRating } from "../../../services/HelperFunction/starRating.js";
 
 let videoDataList = [];
