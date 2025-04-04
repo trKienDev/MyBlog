@@ -3,7 +3,7 @@ import { ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { CreatorRepository } from "../repository/creator.repository.js";
 import { CreatorService } from "../services/creator.service.js";
-import { ValidateIdRequest } from "../interfaces/ValidatedIdRequest.js";
+import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 
 const repository = new CreatorRepository();
 const service = new CreatorService(repository);

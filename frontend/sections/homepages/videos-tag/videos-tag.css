@@ -50,6 +50,7 @@
       color: white;
       font-family: 'Lexend';
 }
+
 #tag-search:focus, #tag-search:focus-visible {
       outline: none !important;
       border-color: transparent !important;

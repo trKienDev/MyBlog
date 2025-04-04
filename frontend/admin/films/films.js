@@ -1,31 +1,31 @@
 import { ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
-import { selectCodeByStudio, SelectCodes, selectCreators, SelectFilmTags, SelectStudios } from "../../components/select.component.js";
-let modalId = "create-modal";
+import { selectCodeByStudio, SelectFilmTags, SelectStudios } from "../../components/select.component.js";
+import { InitSelectSearch } from "../../components/select-search.component.js";
+import * as fetchAPI from "../../api/fetch.api.js";
+import apiConfig from "../../api/api.config.js";
 
+let modalId = "create-modal";
 let filmStudio = 'film-studio';
 let filmCode = 'film-code';
 let filmTag = 'film-tag';
 
-export function initFilmAdmin() {
+export async function initFilmAdmin() {
       SetupModalHandlers("open-modal_button", "close-modal_button", modalId);
-      CreateNewFilm();
-      SelectStudios(filmStudio);
       SelectFilmTags(filmTag);
-      GetStudioSelected();
+      InitSelectSearch(apiConfig.endpoints.getStudios, 'name');
+      getCodeByStudio();
 }
 
-async function CreateNewFilm() {
 
-}
+function getCodeByStudio() {
+      const optionsContainer = document.querySelector(`#${filmStudio} .content ul.options`);
 
-function GetStudioSelected() {
-      const studio = document.getElementById(filmStudio);
-      studio.addEventListener("change", function(event) {
-            const value = event.target.value;
-            return getCodeByStudio(value);
+      optionsContainer.addEventListener("click", (event) => {
+            const li = event.target.closest("li");
+            if(li && optionsContainer.contains(li)) {
+                  const studio_id = li.getAttribute("value");
+                  selectCodeByStudio(filmCode, studio_id);
+            }
       });
 }
 
-function getCodeByStudio(studio_id) {
-      selectCodeByStudio(filmCode, studio_id);
-}

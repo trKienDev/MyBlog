@@ -1,5 +1,5 @@
 import { IncomingMessage } from "http";
-import { parseJSON } from "../middlewares/jsonParser.js";
+import { parseJSON } from "../middlewares/json-parser.js";
 import { TagDTO } from "../dtos/tag.dto.js";
 import { ITagRepository } from "../repository/interfaces/itag.repository.js";
 

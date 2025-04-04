@@ -1,6 +1,6 @@
 import { IncomingMessage } from "http";
 import { iCodeRepository } from "../repository/interfaces/icode.repository.js";
-import { parseJSON } from "../middlewares/jsonParser.js";
+import { parseJSON } from "../middlewares/json-parser.js";
 import { CodeDTO } from "../dtos/code.dto.js";
 
 export class CodeService {

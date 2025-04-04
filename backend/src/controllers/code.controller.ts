@@ -3,7 +3,7 @@ import { sendError, sendResponse } from "../middlewares/response.js";
 import { CodeRepository } from "../repository/code.repository.js";
 import { CodeService } from "../services/code.service.js";
 import { send } from "process";
-import { ValidateIdRequest } from "../interfaces/ValidatedIdRequest.js";
+import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 
 const repository = new CodeRepository();
 const service = new CodeService(repository);

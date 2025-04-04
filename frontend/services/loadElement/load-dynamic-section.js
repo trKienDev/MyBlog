@@ -55,6 +55,6 @@ async function loadContent(url, dynamicDataId = 'dynamic-data', callback) {
                   console.error(`Element with ID ${dynamicDataId} does not exist`);
             }
       } catch(error) {
-            console.error('Error loading content: ', content);
+            console.error('Error loading content: ', error);
       }
 }

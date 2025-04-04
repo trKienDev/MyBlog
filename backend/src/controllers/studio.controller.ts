@@ -3,7 +3,7 @@ import { ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { StudioRepository } from '../repository/studio.repository.js';
 import { StudioService } from '../services/studio.service.js';
-import { ValidateIdRequest } from "../interfaces/ValidatedIdRequest.js";
+import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 
 const repository = new StudioRepository();
 const service = new StudioService(repository);

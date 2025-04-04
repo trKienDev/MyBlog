@@ -5,7 +5,7 @@ import { CreateCreator, DeleteCreator, GetCreators, UpdateCreator } from "../con
 import { CreateStudio, DeleteStudio, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
 import { getTags, createTag, GetFilmTags } from "../controllers/tag.controller.js";
 import { Route } from "../interfaces/Route.js";
-import { ValidateId } from "../middlewares/validateId.js";
+import { ValidateId } from "../middlewares/validate-id.js";
 import { createRouter } from "./routes.js";
 
 const adminRoutes: Route[] = [

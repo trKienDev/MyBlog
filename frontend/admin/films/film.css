@@ -13,3 +13,10 @@
       width: 40%;
       margin-left: 10px;
 }
+#film-studio {
+      margin: 10px 0;
+}
+#film-studio .row {
+      align-items: center;
+}
+

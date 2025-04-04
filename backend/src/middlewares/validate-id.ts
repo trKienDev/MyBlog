@@ -1,6 +1,6 @@
 import { CustomRequest } from '../interfaces/CustomRequest';
 import { ServerResponse } from 'http';
-import { ValidateIdRequest } from '../interfaces/ValidatedIdRequest';
+import { ValidateIdRequest } from '../interfaces/validated-id-request';
 import { sendError } from './response.js';
 
 export const ValidateId = ( handler: (req: ValidateIdRequest, res: ServerResponse) => Promise<void> | void ) => {
