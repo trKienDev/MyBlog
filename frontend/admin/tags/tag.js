@@ -3,13 +3,10 @@ import * as fetchApi from "../../api/fetch.api.js";
 import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
 import * as htmlHandler from "../../components/table.component.js";
 
-
-
 export function initTagAdmin() {
       RenderTags();
       CreateNewTag();
 }
-
 
 async function RenderTags() {
       try {

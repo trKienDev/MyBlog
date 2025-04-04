@@ -3,7 +3,7 @@ import { iCollection } from "./interface/icollection.model";
 
 const CollectionSchema: Schema = new Schema({
       name: { type: String, require:  true },
-      film_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Film'},
+      film_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Film'}],
 }, {
       collection: 'Collections',
       timestamps: true

@@ -1,8 +1,8 @@
 import * as fetchAPI from "../api/fetch.api.js";
 
-export async function InitSelectSearch(endpoint, value) {
+export async function InitSelectSearch(elmentId, endpoint, value) {
       const list = await GetSelectList(endpoint);
-      CreateSelectSearchElement(list, value);
+      CreateSelectSearchElement(elmentId, list, value);
 }
  
 async function GetSelectList(endpoint) {
@@ -14,11 +14,12 @@ async function GetSelectList(endpoint) {
       return list;
 }
 
-function CreateSelectSearchElement(list, value) {
-      const wrapper = document.querySelector(".wrapper");
-      const selectBtn = wrapper.querySelector(".select-btn");
-      const searchInput = wrapper.querySelector("input");
-      const options = wrapper.querySelector(".options");
+function CreateSelectSearchElement(elmentId, list, value) {
+      const elementId = document.querySelector(`#${elmentId}`),
+      wrapper = elementId.querySelector(".wrapper"),
+      selectBtn = wrapper.querySelector(".select-btn"),
+      searchInput = wrapper.querySelector("input"),
+      options = wrapper.querySelector(".options");
       
       RenderList(list, value, options, null);
 

@@ -21,25 +21,6 @@
 
                         </table>
                   </div>
-                  <div id="collection-table">
-                        <table cellpadding="0" cellspacing="0">
-                              <thead>
-                                    <tr>
-                                          <th>
-                                                <div class="create-collection">
-                                                      <div class="btn-create" id="open-modal_button">
-                                                            <i class="fa-solid fa-square-plus"></i>
-                                                      </div>
-                                                </div>
-                                          </th>
-                                    </tr>
-                              </thead>
-                              <tbody>
-
-                              </tbody>
-
-                        </table>
-                  </div>
            </div>
       </div>
 
@@ -55,7 +36,7 @@
                         <div class="modal-body">
                               <div class="modal-left">
                                     <div id="film-studio">
-                                          <div id="select-search">
+                                          <div class="select-search_component">
                                                 <div class="wrapper">
                                                       <div class="select-btn">
                                                             <span>Select studio</span>
@@ -76,14 +57,37 @@
                                           </select>
                                           <input type="number" name="code" id="code-number" placeholder="123">
                                     </div>
-                                    <div>
-                                          <select name="tag" id="film-tag"></select>
+                                    <div id="film-tag">
+                                          <div class="select-search_component">
+                                                <div class="wrapper">
+                                                      <div class="select-btn">
+                                                            <span>Select tag</span>
+                                                            <i class="caret-down fa-solid fa-caret-down"></i>
+                                                      </div>
+                                                      <div class="content">
+                                                            <div class="search row ">
+                                                                  <input type="text" placeholder="search tag ... ">
+                                                            </div>
+                                                            <ul class="options"></ul>
+                                                      </div>
+                                                </div>
+                                          </div>
                                     </div>
-                                    <div>
-                                          <select name="collection" id="film-collection">
-                                                <option value="" disabled selected>Select collection</option>
-                                                <option value="0">No collection</option>
-                                          </select>
+                                    <div id="film-collection">
+                                          <div class="select-search_component">
+                                                <div class="wrapper">
+                                                      <div class="select-btn">
+                                                            <span>Select colletion</span>
+                                                            <i class="caret-down fa-solid fa-caret-down"></i>
+                                                      </div>
+                                                      <div class="content">
+                                                            <div class="search row ">
+                                                                  <input type="text" placeholder="search colletion ... ">
+                                                            </div>
+                                                            <ul class="options"></ul>
+                                                      </div>
+                                                </div>
+                                          </div>
                                     </div>
                                     <div class="row">
                                           <input type="date" name="release_date" id="release_date" placeholder="25 Mar 2025">
@@ -98,7 +102,7 @@
                               </div>
                               <div class="modal-right">
                                     <div class="modal-thumbnail">
-                                          <img id="thumbnail-image" src="" alt="film-thumbnail">
+                                          <img id="thumbnail-image" src="/admin/static/images/film/thumbnail-upload_default.png" alt="film-thumbnail">
                                           <input type="file" id="thumbnail-upload" name="file" style="display: none;" accept="image/*">
                                     </div>
                               </div>

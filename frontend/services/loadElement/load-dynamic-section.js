@@ -4,6 +4,7 @@ import { initCreatorAdmin } from '/admin/creators/creator.js';
 import { initStudioAdmin } from '/admin/studios/studio.js';
 import { initCodeAdmin } from '/admin/codes/code.js';
 import { initFilmAdmin } from '/admin/films/films.js';
+import { InitCollectionAdmin } from '/admin/collections/collection.js';
 
 let dynamicLoadingElement = 'dynamic-section';
 
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       navigateLink('film-link', apiConfig.endpoints.adminFilmPage, initFilmAdmin );
       navigateLink('code-link', apiConfig.endpoints.adminCodePage, initCodeAdmin);
       navigateLink('tag-link', apiConfig.endpoints.adminTagPage, initTagAdmin);
+      navigateLink('collection-link', apiConfig.endpoints.adminCollectionPage, InitCollectionAdmin);
 });
 
 function navigateLink(linkId, endpoint, callback = () => {}) {

@@ -1,6 +1,6 @@
 import { getAdminPage } from "../Admin/Controllers/admin.controller.js";
 import { createCode, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
-import { createCollection } from "../controllers/collection.controller.js";
+import { createCollection, GetCollections } from "../controllers/collection.controller.js";
 import { CreateCreator, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
 import { CreateStudio, DeleteStudio, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
 import { getTags, createTag, GetFilmTags } from "../controllers/tag.controller.js";
@@ -29,6 +29,7 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/codes/studio/:id', handler: ValidateId(getCodesByStudio) },
       { method: 'POST', path: '/admin/code', handler: createCode },
       // collection
+      { method: 'GET', path: '/admin/collections', handler: GetCollections },
       { method: 'POST', path: '/admin/collection', handler: createCollection },
 ]
 

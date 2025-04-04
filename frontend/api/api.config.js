@@ -13,7 +13,8 @@ const apiConfig = {
             adminTagPage: '/admin/tags/tag.html',
             adminCodePage: '/admin/codes/code.html',
             adminFilmPage: '/admin/films/film.html',
-            
+            adminCollectionPage: '/admin/collections/collection.html',
+
             // creator
             getCreators: '/admin/creators', // GET
             createCreator: '/admin/creator', // POST
@@ -37,7 +38,9 @@ const apiConfig = {
             createCode: '/admin/code', // POST
             
             // collection
+            getCollections: '/admin/collections', // GET
             createCollection: '/admin/collection', // POST
+
             //codeAV
             codeAVList: '/admin/codeAV/read',
             codeAVCreate: '/admin/codeAV/create',

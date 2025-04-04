@@ -8,14 +8,15 @@ let modalId = "create-modal";
 let filmStudio = 'film-studio';
 let filmCode = 'film-code';
 let filmTag = 'film-tag';
+let filmCollection = 'film-collection';
 
 export async function initFilmAdmin() {
       SetupModalHandlers("open-modal_button", "close-modal_button", modalId);
-      SelectFilmTags(filmTag);
-      InitSelectSearch(apiConfig.endpoints.getStudios, 'name');
+      InitSelectSearch(filmStudio, apiConfig.endpoints.getStudios, 'name');
+      InitSelectSearch(filmTag, apiConfig.endpoints.getFilmTags, 'name');
+      InitSelectSearch(filmCollection, apiConfig.endpoints.getCollections, 'name');
       getCodeByStudio();
 }
-
 
 function getCodeByStudio() {
       const optionsContainer = document.querySelector(`#${filmStudio} .content ul.options`);

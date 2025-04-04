@@ -4,8 +4,14 @@ import { iCollectionRepository } from "./interfaces/icollection.repository.js";
 import { iCollection } from "../models/interface/icollection.model.js";
 
 export class CollectionRepository implements iCollectionRepository {
+      public async GetCollections(): Promise<CollectionDTO[]> {
+            const collections = await Collection.find();
+            return collections.map(collection => MappingDocToDTO(collection));
+      }
+      
       public async CreateCollection(data: string): Promise<CollectionDTO> {
-            const collection = new Collection(data);
+            console.log("run CreateCollection in repository");
+            const collection = new Collection({ name: data });
             const createdCollection = await collection.save();
             return MappingDocToDTO(createdCollection);
       }
