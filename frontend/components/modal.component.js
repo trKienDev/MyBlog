@@ -24,3 +24,4 @@ export function ResetModal({ form, image, imgInput, modal, defaultImg}) {
       if(imgInput) imgInput.value = "";
       if(modal) modal.style.display = "none";
 }
+

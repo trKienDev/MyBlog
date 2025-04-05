@@ -72,3 +72,16 @@ function HandleSelectionOption(list, value, options, button, wrapper) {
       });
 }
 
+export function getSelectedOption(selectId) {
+      let valueId = '';
+      const optionsContainer = document.querySelector(`#${selectId} .content ul.options`);
+      optionsContainer.addEventListener('click', (event) => {
+            const li = event.target.closest('li');
+            if(li && optionsContainer.contains(li)) {
+                  console.log("found li");
+                  const valueId = li.getAttribute('value');
+                  return valueId;
+            }
+      });
+      return valueId;
+}
