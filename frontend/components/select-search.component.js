@@ -61,10 +61,10 @@ function FilterOption(list, value, searchInput) {
 function HandleSelectionOption(list, value, options, button, wrapper) {
       options.addEventListener("click", (e) => {
             if (e.target && e.target.nodeName === "LI") {
-                  const selectedOption = e.target.innerText;
+                  const selectedOption = e.target;
                   const span = button.querySelector("span");
-                  span.innerText = selectedOption;
-
+                  span.innerText = selectedOption.innerText;
+                  span.setAttribute("item-id", selectedOption.getAttribute("value"));
                   wrapper.classList.remove("active");
 
                   RenderList(list, value, options, selectedOption);
@@ -72,16 +72,8 @@ function HandleSelectionOption(list, value, options, button, wrapper) {
       });
 }
 
-export function getSelectedOption(selectId) {
-      let valueId = '';
-      const optionsContainer = document.querySelector(`#${selectId} .content ul.options`);
-      optionsContainer.addEventListener('click', (event) => {
-            const li = event.target.closest('li');
-            if(li && optionsContainer.contains(li)) {
-                  console.log("found li");
-                  const valueId = li.getAttribute('value');
-                  return valueId;
-            }
-      });
-      return valueId;
+export function getSelectedOptionId(selectId) {
+      const studioSelection = document.querySelector(`#${selectId} .select-btn span`);
+      const selectedStudioId = studioSelection.getAttribute("item-id");
+      return selectedStudioId;
 }

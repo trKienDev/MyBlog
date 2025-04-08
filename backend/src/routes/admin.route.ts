@@ -31,6 +31,7 @@ const adminRoutes: Route[] = [
       // collection
       { method: 'GET', path: '/admin/collections', handler: GetCollections },
       { method: 'POST', path: '/admin/collection', handler: createCollection },
+      
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);

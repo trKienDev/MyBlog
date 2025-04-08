@@ -5,10 +5,10 @@ import * as htmlHandler from "../../components/table.component.js";
 
 export function InitCollectionAdmin() {
       CreateNewCollection();
-      RenderTags();
+      RenderCollections();
 }
 
-async function RenderTags() {
+async function RenderCollections() {
       try {
             const tbody = document.querySelector("#collection-table tbody");
             tbody.innerHTML = '';
@@ -48,9 +48,10 @@ async function CreateNewCollection() {
                   }
 
                   sweetAlert.SuccessSweetAlert('collection created');
+                  RenderCollections();
             } catch(error) {
                   console.error('Error creating collection: ', error.message);
                   sweetAlert.ErrorSweetAlert(error);
-            }
+            } 
       });
 }

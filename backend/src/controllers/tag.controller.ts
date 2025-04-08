@@ -21,7 +21,7 @@ export const GetFilmTags = async(req: IncomingMessage, res: ServerResponse) => {
             return sendResponse(res, 200, filmTags);
       } catch(error) {
             return sendError(res, 500, error);
-      }
+      }     
 }
 
 export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
