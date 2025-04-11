@@ -6,6 +6,8 @@ import * as fetchAPI from "../../api/fetch.api.js";
 import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
 
 let formId = "creator-form";
+let imgId = "img";
+let imgInputId = "image-upload";
 let modalId = "creator-modal";
 let tableBody = "#creator-table tbody";
 let defaultImg = "/admin/static/images/face/upload-profile.jpg";
@@ -13,7 +15,7 @@ let defaultImg = "/admin/static/images/face/upload-profile.jpg";
 export function initCreatorAdmin() {
       RenderCreators(tableBody);
       CreateNewCreator();
-      SetupModalHandlers("open-modal_button", "close-modal_button", modalId);
+      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, () => ResetModal(formId, imgId, imgInputId, defaultImg ));
       HandleImageUpload("img", "image-upload");
 }
 

@@ -9,12 +9,14 @@ import { SelectStudios } from "../../components/select.component.js";
 let formId = "studio-form";
 let modalId = "studio-modal";
 let studioTable = "#studio-table tbody";
+let imgId = "img";
+let imgInputId = 'image-upload';
 let defaultImg = "/admin/static/images/studio/studio-upload.png";
 
 export function initStudioAdmin() {
       RenderStudios(studioTable);
       CreateNewStudio();
-      SetupModalHandlers("open-modal_button", "close-modal_button", modalId);
+      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, () => ResetModal(formId, imgId, imgInputId, defaultImg));
       HandleImageUpload("img", "image-upload"); 
 }
 

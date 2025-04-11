@@ -1,5 +1,5 @@
 
-export function SetupModalHandlers(openButtonId, closeButtonId, modalId) {
+export function SetupModalHandlers(openButtonId, closeButtonId, modalId, callback) {
       const openButton = document.getElementById(openButtonId);
       const closeButton = document.getElementById(closeButtonId);
       const modal = document.getElementById(modalId);
@@ -15,13 +15,19 @@ export function SetupModalHandlers(openButtonId, closeButtonId, modalId) {
 
       closeButton.onclick = () => {
             modal.style.display = "none";
+            if(typeof callback === 'function') {
+                  callback();
+            }
       }
 }
 
-export function ResetModal({ form, image, imgInput, modal, defaultImg}) {
+export function ResetModal(formId, imgId, imgInputId, defaultImg) {
+      const form = document.getElementById(formId);
+      const image = document.getElementById(imgId);
+      const imgInput = document.getElementById(imgInputId);
+
       if(form) form.reset();
-      if(image)  image.src = defaultImg || "/admin/static/images/studio/studio-upload.png";
+      if(image) image.src = defaultImg || "/admin/static/images/studio/studio-upload.png";
       if(imgInput) imgInput.value = "";
-      if(modal) modal.style.display = "none";
 }
 

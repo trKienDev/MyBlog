@@ -77,3 +77,14 @@ export function getSelectedOptionId(selectId) {
       const selectedStudioId = studioSelection.getAttribute("item-id");
       return selectedStudioId;
 }
+
+export function ResetSelectSearch(configs) {
+      configs.forEach(({ id, placeholder }) => {
+            const studioSelectEl = document.getElementById(id),
+            selectBtn = studioSelectEl.querySelector(".select-btn"),
+            span = selectBtn.querySelector("span");
+            span.removeAttribute("item-id");
+            span.innerText = placeholder;
+      });     
+      
+}

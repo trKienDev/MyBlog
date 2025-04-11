@@ -1,6 +1,6 @@
 import { ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
 import { selectCodeByStudio, SelectFilmTags, SelectStudios } from "../../components/select.component.js";
-import { getSelectedOptionId, InitSelectSearch } from "../../components/select-search.component.js";
+import { getSelectedOptionId, InitSelectSearch, ResetSelectSearch } from "../../components/select-search.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import apiConfig from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
@@ -17,9 +17,10 @@ let filmFormId = 'film-form';
 let codeNumberId = 'code-number';
 let selectedTagContaierId = 'selected-tag_container';
 let selectedTagClass = 'selected-tag';
+let defaultThumbnailImg = '/admin/static/images/film/thumbnail-upload_default.png';
 
 export async function initFilmAdmin() {
-      SetupModalHandlers("open-modal_button", "close-modal_button", modalId);
+      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, ResetFilmModal);
       InitSelectSearch(filmStudioId, apiConfig.endpoints.getStudios, 'name');
       InitSelectSearch(filmTagId, apiConfig.endpoints.getFilmTags, 'name');
       InitSelectSearch(filmCollectionId, apiConfig.endpoints.getCollections, 'name');
@@ -48,11 +49,11 @@ async function createNewFilm() {
             event.preventDefault();
             
             const studioId = getSelectedOptionId(filmStudioId);
-            const codeId = getCodeId(filmCodeId);            
+            const codeId = getSelectedCodeOpt(filmCodeId).getAttribute("value");            
             const filmName = GetFilmName(filmCodeId, codeNumberId);
             const collectionId = getSelectedOptionId(filmCollectionId);
-            
-      });
+
+      });   
 }
 
 async function uploadThumbnail() {
@@ -66,18 +67,16 @@ async function uploadThumbnail() {
       }
 }
 
-function getCodeId(filmCodeId) {
-      let codeSelectionElement = document.getElementById(filmCodeId),
-      codeOption = codeSelectionElement.querySelector('option');
-      const codeId = codeOption.getAttribute("value");
-      return codeId;
-}
-
-function GetFilmName(codeSelectId, codeNumbebId) {
-      const codeNumber = document.getElementById(codeNumbebId).value;  
-      let codeSelectionElement = document.getElementById(codeSelectId);
+function getSelectedCodeOpt(filmCodeId) {
+      let codeSelectionElement = document.getElementById(filmCodeId);
       const selectedCodeIndex = codeSelectionElement.selectedIndex;
       const selectedCodeOption = codeSelectionElement.options[selectedCodeIndex];
+      return selectedCodeOption;
+}
+
+function GetFilmName(filmCodeId, codeNumbebId) {
+      const codeNumber = document.getElementById(codeNumbebId).value;  
+      const selectedCodeOption = getSelectedCodeOpt(filmCodeId);
       const selectedCodeText = selectedCodeOption.innerText;
       const filmName = selectedCodeText + "-" + codeNumber;
       return filmName;
@@ -89,6 +88,12 @@ async function displaySelectedTag(selectId, containerId, selectedTagClass) {
             console.error('selectedTagContainer not found!');
             return;
       } 
+
+      selectedTagContainer.addEventListener('click', (event) => {
+            if(event.target.classList.contains('selected-tag')) {
+                  event.target.remove();
+            }
+      });
 
       observeSelectChange(selectId, ({ tagId, tagName}) => {
             const existTag = Array.from(selectedTagContainer.children).some(child => 
@@ -131,4 +136,28 @@ function observeSelectChange(selectId, callback) {
       });
 
       return observer;
+}
+
+function ResetFilmModal() {
+      ResetSelectSearch([
+            { id: "film-studio", placeholder: "Select studio" },
+            { id: "film-collection", placeholder: "Select collection" },
+            { id: "film-tag", placeholder: "Select tag" }
+      ]);
+      ResetModal(filmFormId, thumbnailimgId, thumbnailUploadId, defaultThumbnailImg);
+      ResetCodeSelection();
+      ResetTagSelection();
+}
+
+function ResetCodeSelection() {
+      const codeSelectEl = document.getElementById(filmCodeId);
+      codeSelectEl.innerHTML = '';
+      const option = document.createElement("option");
+      option.innerText = 'Select code';
+      codeSelectEl.appendChild(option);
+}
+
+function ResetTagSelection() {
+      const tagContainer = document.getElementById(selectedTagContaierId);
+      tagContainer.innerHTML = '';
 }
