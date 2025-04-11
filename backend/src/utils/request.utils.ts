@@ -7,3 +7,7 @@ export const ExtractIdFromRequest = (req: CustomRequest): string => {
 export const ExtractNameFromRequest = (req: CustomRequest): string => {
       return (req as any).body.name || "";
 }
+
+export const ExtractParamFromRequest = (req: CustomRequest, param: string): string => {
+      return (req as any).body[param] || "";
+}

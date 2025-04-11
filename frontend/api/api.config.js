@@ -41,6 +41,9 @@ const apiConfig = {
             getCollections: '/admin/collections', // GET
             createCollection: '/admin/collection', // POST
 
+            // film
+            createFilm: '/admin/film', // POST
+
             //codeAV
             codeAVList: '/admin/codeAV/read',
             codeAVCreate: '/admin/codeAV/create',

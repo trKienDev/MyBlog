@@ -15,6 +15,7 @@ export interface CustomRequest extends IncomingMessage {
 export const parseJSON = (req: IncomingMessage, requiredFields?: string[]): Promise<any> => {
       return new Promise((resolve, reject) => {
             try {
+
                   let body = '';
                   req.on('data', (chunk) => {
                         body += chunk.toString();

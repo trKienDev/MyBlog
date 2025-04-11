@@ -42,7 +42,7 @@
 }
 .selected-tag_container {
       background: #f7f6f6;
-      padding: 10px 15px;
+      padding: 10px 8px;
       min-height: 85px;
       border-radius: 5px;
       display: flex;

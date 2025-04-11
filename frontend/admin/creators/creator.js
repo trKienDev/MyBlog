@@ -82,6 +82,7 @@ async function CreateNewCreator() {
                   console.error('Error creating creator in client: ', error);
                   ErrorSweetAlert(error);
             } finally {
+                  modal.style.display = "none";
                   RenderCreators(tableBody);
                   ResetModal(resetOptions);
             }
@@ -124,6 +125,7 @@ async function UpdateCreator(creator) {
                   console.error("Error updating creator in client: ", error);
                   ErrorSweetAlert(error);
             } finally {
+                  modal.style.display = "none";
                   ResetModal(resetOptionss);
             }
       };

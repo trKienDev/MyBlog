@@ -79,6 +79,7 @@ async function CreateNewStudio() {
                   ErrorSweetAlert(error);
             } finally {
                   submitBtn.disabled = false;
+                  modal.style.display = "none";
                   ResetModal(resetOptions);
             }
       };
@@ -114,6 +115,7 @@ function UpdateStudio(studio) {
                   console.error("Error updating studio: ", error);
                   ErrorSweetAlert(error);
             } finally {
+                  modal.style.display = "none";
                   ResetModal(resetOptions);
             }
       };

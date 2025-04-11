@@ -1,15 +1,16 @@
 import mongoose, { Schema } from "mongoose";
+import { iFilm } from "./interface/ifilm.model";
 
 const FilmSchema: Schema  = new Schema({
       name: { type: String },
       code_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Code'},
       studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio'},
       creator_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Creator'},
-      tag_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Tag'},
+      tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
       collection_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Collection'},
       video_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Video'},
       thumbnail: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
-      release_date: { 
+      date: { 
             type: Date, 
             validate: {
                   validator: function(value: Date) {
@@ -23,6 +24,9 @@ const FilmSchema: Schema  = new Schema({
             min: 1, max: 5,
       }
 }, {
-      collection: 'Film',
+      collection: 'Films',
       timestamps: true
 });
+
+const Film = mongoose.model<iFilm>('Film', FilmSchema);
+export default Film;

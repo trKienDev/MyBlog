@@ -68,28 +68,33 @@ const RenameUploadedFile = (uploadPath: string, originalFileName: string, name: 
  * Hàm UploadFile xử lý việc nhận file upload, đổi tên file và trả về thông tin.
  */
 export const UploadFile = async (req: CustomRequest, folder: string): Promise<{ id: string, name: string, imgName: string }> => {
-      const uploadPath = GetUploadPath(folder);
-      EnsureUploadPathExists(uploadPath);
+      try {
+            const uploadPath = GetUploadPath(folder);
+            EnsureUploadPathExists(uploadPath);
 
-      const storage = CreateMulterStorage(uploadPath);
-      const upload = multer({ 
-            storage, 
-            fileFilter: FileFilter 
-      });
-      
-      // Xử lý upload file
-      await HandleMulterUpload(req, upload);
+            const storage = CreateMulterStorage(uploadPath);
+            const upload = multer({ 
+                  storage, 
+                  fileFilter: FileFilter 
+            });
+            
+            // Xử lý upload file
+            await HandleMulterUpload(req, upload);
 
-      // Lấy thông tin từ req.body
-      const id = ExtractIdFromRequest(req);
-      const name = ExtractNameFromRequest(req);
-      
-      let imgName = "";
-      if ((req as any).file) {
-            // Nếu có file, đổi tên file
-            const file = (req as any).file as { filename: string };
-            imgName = await RenameUploadedFile(uploadPath, file.filename, name);
+            // Lấy thông tin từ req.body
+            const id = ExtractIdFromRequest(req);
+            const name = ExtractNameFromRequest(req);
+            
+            let imgName = "";
+            if ((req as any).file) {
+                  // Nếu có file, đổi tên file
+                  const file = (req as any).file as { filename: string };
+                  imgName = await RenameUploadedFile(uploadPath, file.filename, name);
+            }
+            
+            return { id, name, imgName };
+      } catch(error) {
+            console.error("Error in UploadFile - file.utils.ts: ", error);
+            throw error;
       }
-      
-      return { id, name, imgName };
 };

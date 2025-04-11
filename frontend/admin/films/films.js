@@ -4,6 +4,7 @@ import { getSelectedOptionId, InitSelectSearch, ResetSelectSearch } from "../../
 import * as fetchAPI from "../../api/fetch.api.js";
 import apiConfig from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
+import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
 
 let modalId = "create-modal";
 let filmStudioId = 'film-studio';
@@ -42,9 +43,8 @@ function getCodeByStudio() {
       });
 }
 
-async function createNewFilm() {
-      let formData = new FormData();
-      
+async function createNewFilm() {  
+      const submitBtn = document.getElementById(submitBtnId);
       document.getElementById(filmFormId).addEventListener('submit', async function(event) {
             event.preventDefault();
             
@@ -52,7 +52,45 @@ async function createNewFilm() {
             const codeId = getSelectedCodeOpt(filmCodeId).getAttribute("value");            
             const filmName = GetFilmName(filmCodeId, codeNumberId);
             const collectionId = getSelectedOptionId(filmCollectionId);
+            
+            const thumbnailInput = document.getElementById("thumbnail-upload");
+            const thumbnailFile = thumbnailInput.files[0];
+            if(!thumbnailFile) {
+                  alert("Please upload a thumbnail before submitting");
+                  return;
+            }
 
+            const releaseDate = document.getElementById('release-date').value;
+            const rating = document.getElementById('film-rating').value;
+
+            const selectedTagContainer = document.getElementById('selected-tag_container');
+            const tagNodeList = selectedTagContainer.querySelectorAll('.selected-tag');
+            const selectedTags = Array.from(tagNodeList).map(div => div.getAttribute('value'));
+
+            const formData = new FormData();
+            formData.append("studio_id", studioId);
+            formData.append("code_id", codeId);
+            formData.append("name", filmName);
+            formData.append("collection_id", collectionId);
+            formData.append("file", thumbnailFile);
+            formData.append("date", releaseDate);
+            formData.append("rating", rating);
+            formData.append("tag_ids", selectedTags);
+            console.log("film data: ", formData);
+            try {
+                  const result = await fetchAPI.CreateItem(apiConfig.endpoints.createFilm, formData);
+                  if(result.success === false) {
+                        throw new Error(result.error);
+                  }
+
+                  SuccessSweetAlert("film created");
+            } catch(error) {
+                  console.error('Error creating film in client: ', error.message);
+                  ErrorSweetAlert(error);
+            } finally {
+                  submitBtn.disabled = false;
+                  ResetFilmModal();
+            }
       });   
 }
 

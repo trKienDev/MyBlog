@@ -16,7 +16,7 @@ const CreatorSchema: Schema = new Schema({
       breast: { type: String, required: false, enum: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] },
 }, 
 {   
-      collection: 'Creator', 
+      collection: 'Creators', 
       timestamp: true 
 });
 

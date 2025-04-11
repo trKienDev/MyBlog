@@ -5,10 +5,10 @@ export interface iFilm extends Document {
       code_id: mongoose.Types.ObjectId;
       studio_id: mongoose.Types.ObjectId[];
       creator_id: mongoose.Types.ObjectId[];
-      tag_id: mongoose.Types.ObjectId[];
+      tag_ids: mongoose.Types.ObjectId[];
       collection_id: mongoose.Types.ObjectId;
       video_id: mongoose.Types.ObjectId[];
-      release_date: Date,
+      date: Date,
       thumbnail: string;
       rating: number;
 }
