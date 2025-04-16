@@ -61,6 +61,7 @@ async function createNewFilm() {
             }
 
             const releaseDate = document.getElementById('release-date').value;
+            console.log("date: ", typeof(releaseDate));
             const rating = document.getElementById('film-rating').value;
 
             const selectedTagContainer = document.getElementById('selected-tag_container');

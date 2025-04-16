@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { iFilm } from "./interface/ifilm.model";
+import { iFilm } from "./interface/ifilm.model.js";
 
 const FilmSchema: Schema  = new Schema({
       name: { type: String },
