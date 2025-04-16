@@ -8,6 +8,17 @@ import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 const repository = new StudioRepository();
 const service = new StudioService(repository);
 
+export const GetStudioById = async(req: ValidateIdRequest, res: ServerResponse) => {
+      try {
+            const id = req.params?.id;
+            const studio = await repository.FindStudioById(id);
+            return sendResponse(res, 200, studio);
+      } catch(error) {
+            console.error("Error retrieving studio by id: ", error);
+            return sendError(res, 500, new Error("Error retrieving studio from repository"));
+      }
+}
+
 export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
       try {
             const studios = await repository.FindStudios();

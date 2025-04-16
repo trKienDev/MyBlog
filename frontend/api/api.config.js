@@ -23,6 +23,7 @@ const apiConfig = {
             
             // studio
             getStudios: '/admin/studios', // GET
+            getStudioById: '/admin/studio', // GET
             createStudio: '/admin/studio', // POST
             updateStudio: '/admin/studio', // PUT
             deleteStudio: '/admin/studio', // DELETE
@@ -42,8 +43,9 @@ const apiConfig = {
             createCollection: '/admin/collection', // POST
 
             // film
+            getFilms: '/admin/films', // GET
             createFilm: '/admin/film', // POST
-
+            
             //codeAV
             codeAVList: '/admin/codeAV/read',
             codeAVCreate: '/admin/codeAV/create',

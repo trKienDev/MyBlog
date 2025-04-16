@@ -9,7 +9,7 @@ export class CreatorRepository implements ICreatorRepository {
                   const creators = await Creator.find();
                   return creators.map(doc => MappingDocToDTO(doc));
             } catch(error) {
-                  console.log("Error in GetCreators: ", error);
+                  console.error("Error in GetCreators: ", error);
                   return null;
             }
             

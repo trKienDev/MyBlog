@@ -1,0 +1,64 @@
+#film-form .modal-left {
+      width: 50%;
+      margin: 0px 10px;
+}
+#film-form .modal-right {
+      width: 44.5%;
+      display: flex;
+      justify-content: end;
+}
+#code-number {
+      width: 80%;
+      margin-left: 10px;
+}
+#film-rating {
+      width: 40%;
+      margin-left: 10px;
+}
+#film-studio .row {
+      align-items: center;
+}
+#thumbnail-image {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 5px;
+}
+#thumbnail-image:hover {
+      cursor: pointer;
+}
+.save-button {
+      padding-top: 10px;
+}
+.btn-create {
+      border: none;
+}
+#films .modal-thumbnail {
+      height: 400px;
+      width: 267px;
+}
+#release-date {
+      margin-left: 4px;
+}
+.selected-tag_container {
+      background: #f7f6f6;
+      padding: 10px 8px;
+      min-height: 85px;
+      border-radius: 5px;
+      display: flex;
+}
+.selected-tag {
+      width: fit-content;
+      height: fit-content;
+      padding: 5px 10px;
+      margin: 0px 2px;
+      background: var(--warning-btn);
+      border-radius: 5px;
+      transition: 0.5s ease-in-out;
+}
+
+.selected-tag:hover {
+      background: var(--danger-btn);
+      cursor: pointer;
+}
+

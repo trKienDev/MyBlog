@@ -1,10 +1,13 @@
-import { ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
+import { CloseModal, ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
 import { selectCodeByStudio, SelectFilmTags, SelectStudios } from "../../components/select.component.js";
 import { getSelectedOptionId, InitSelectSearch, ResetSelectSearch } from "../../components/select-search.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import apiConfig from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
 import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
+import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import { GetStudioById } from "../studios/studio.js";
+import { GetDateFromStr } from "../../utils/get-date-from-str.js";
 
 let modalId = "create-modal";
 let filmStudioId = 'film-studio';
@@ -19,9 +22,12 @@ let codeNumberId = 'code-number';
 let selectedTagContaierId = 'selected-tag_container';
 let selectedTagClass = 'selected-tag';
 let defaultThumbnailImg = '/admin/static/images/film/thumbnail-upload_default.png';
+let closeModalBtnId= 'close-modal_button';
+let filmTableBody = '#film-table tbody';
 
 export async function initFilmAdmin() {
-      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, ResetFilmModal);
+      SetupModalHandlers("open-modal_button", closeModalBtnId, modalId, ResetFilmModal);
+      RenderFilms(filmTableBody);
       InitSelectSearch(filmStudioId, apiConfig.endpoints.getStudios, 'name');
       InitSelectSearch(filmTagId, apiConfig.endpoints.getFilmTags, 'name');
       InitSelectSearch(filmCollectionId, apiConfig.endpoints.getCollections, 'name');
@@ -31,16 +37,49 @@ export async function initFilmAdmin() {
       displaySelectedTag(filmTagId, selectedTagContaierId, selectedTagClass);
 }
 
-function getCodeByStudio() {
-      const optionsContainer = document.querySelector(`#${filmStudioId} .content ul.options`);
-
-      optionsContainer.addEventListener("click", (event) => {
-            const li = event.target.closest("li");
-            if(li && optionsContainer.contains(li)) {
-                  const studio_id = li.getAttribute("value");
-                  selectCodeByStudio(filmCodeId, studio_id);
+async function RenderFilms(element) {
+      try {
+            const result = await fetchAPI.GetList(apiConfig.endpoints.getFilms);
+            if(result.success === false) {
+                  throw new Error(result.error);
             }
-      });
+
+            const films = result.data;
+            const tbody = document.querySelector(element);
+            tbody.innerHTML = '';
+
+            films.forEach(async (film) => {
+                  const tr = document.createElement('tr');
+                  tr.setAttribute('data-id', film._id);
+
+                  const editBtn = CreateEditButtonCell('edit-container', film);
+                  tr.appendChild(editBtn);
+
+                  const name = CreateTdTextCell(film.name);
+                  tr.appendChild(name);
+
+                  const imgSrc = `${apiConfig.server}/uploads/film/${film.thumbnail}`;
+                  const image = CreateImageCell(imgSrc, 'film-thumbnail');
+                  tr.appendChild(image);
+
+                  const filmStudio = await GetStudioById(film.studio_id);
+                  const studio = CreateTdTextCell(filmStudio.name);
+                  tr.appendChild(studio);
+
+                  const filmDate = new Date(film.date);
+                  const formattedDate = GetDateFromStr(filmDate);
+                  const date = CreateTdTextCell(formattedDate);
+                  tr.appendChild(date);
+
+                  const rating = CreateTdTextCell(film.rating);
+                  tr.appendChild(rating);
+
+                  tbody.appendChild(tr);
+            });
+      } catch(error) {
+            console.error('Error loading films: ', error);
+            ErrorSweetAlert(error);
+      }
 }
 
 async function createNewFilm() {  
@@ -61,7 +100,6 @@ async function createNewFilm() {
             }
 
             const releaseDate = document.getElementById('release-date').value;
-            console.log("date: ", typeof(releaseDate));
             const rating = document.getElementById('film-rating').value;
 
             const selectedTagContainer = document.getElementById('selected-tag_container');
@@ -78,6 +116,7 @@ async function createNewFilm() {
             formData.append("rating", rating);
             formData.append("tag_ids", selectedTags);
             console.log("film data: ", formData);
+
             try {
                   const result = await fetchAPI.CreateItem(apiConfig.endpoints.createFilm, formData);
                   if(result.success === false) {
@@ -93,6 +132,18 @@ async function createNewFilm() {
                   ResetFilmModal();
             }
       });   
+}
+
+function getCodeByStudio() {
+      const optionsContainer = document.querySelector(`#${filmStudioId} .content ul.options`);
+
+      optionsContainer.addEventListener("click", (event) => {
+            const li = event.target.closest("li");
+            if(li && optionsContainer.contains(li)) {
+                  const studio_id = li.getAttribute("value");
+                  selectCodeByStudio(filmCodeId, studio_id);
+            }
+      });
 }
 
 async function uploadThumbnail() {
@@ -200,3 +251,4 @@ function ResetTagSelection() {
       const tagContainer = document.getElementById(selectedTagContaierId);
       tagContainer.innerHTML = '';
 }
+

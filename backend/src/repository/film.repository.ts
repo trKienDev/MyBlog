@@ -2,8 +2,18 @@ import mongoose from "mongoose";
 import { CreateFilmDTO, FilmDTO } from "../dtos/film.dto.js";
 import { iFilmRepository } from "./interfaces/ifilm.repository.js";
 import Film from "../models/film.model.js";
+import { iFilm } from "../models/interface/ifilm.model.js";
 
 export class FilmRepository implements iFilmRepository {
+      public async GetFilms(): Promise<FilmDTO[] | null> {
+            try {
+                  const films = await Film.find();
+                  return films.map(doc => MappingDocToDTO(doc));
+            } catch(error) {
+                  console.error('Error in GetFilms: ', error);
+                  return null;
+            }
+      }
       public async CreateFilm(data: CreateFilmDTO): Promise<CreateFilmDTO> {
             const newFilm = new Film({
                   name: data.name,
@@ -34,5 +44,17 @@ export class FilmRepository implements iFilmRepository {
 
       public async FindFilmByName(name: string): Promise<FilmDTO | null> {
             return await Film.findOne({ name });
+      }
+}
+
+function MappingDocToDTO(doc: iFilm): FilmDTO {
+      return {
+            _id: doc._id,
+            name: doc.name,
+            studio_id: doc.studio_id,
+            creators_id: doc.creators_id,
+            date: doc.date,
+            thumbnail: doc.thumbnail,
+            rating: doc.rating,
       }
 }

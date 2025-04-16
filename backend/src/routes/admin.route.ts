@@ -2,8 +2,8 @@ import { getAdminPage } from "../Admin/Controllers/admin.controller.js";
 import { createCode, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
 import { createCollection, GetCollections } from "../controllers/collection.controller.js";
 import { CreateCreator, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
-import { CreateFilm } from "../controllers/film.controller.js";
-import { CreateStudio, DeleteStudio, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
+import { CreateFilm, GetFilms } from "../controllers/film.controller.js";
+import { CreateStudio, DeleteStudio, GetStudioById, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
 import { getTags, createTag, GetFilmTags } from "../controllers/tag.controller.js";
 import { Route } from "../interfaces/Route.js";
 import { ValidateId } from "../middlewares/validate-id.js";
@@ -13,6 +13,7 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin', handler: getAdminPage },
       // studio 
       { method: 'GET', path: '/admin/studios', handler: GetStudios },
+      { method: 'GET', path: '/admin/studio/:id', handler: ValidateId(GetStudioById) },
       { method: 'POST', path: '/admin/studio', handler: CreateStudio },
       { method: 'PUT', path: '/admin/studio/:id', handler: ValidateId(UpdateStudio) },
       { method: 'DELETE', path: '/admin/studio/:id', handler: ValidateId(DeleteStudio) },
@@ -33,6 +34,7 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/collections', handler: GetCollections },
       { method: 'POST', path: '/admin/collection', handler: createCollection },
       // film
+      { method: 'GET', path: '/admin/films', handler: GetFilms },
       { method: 'POST', path: '/admin/film', handler: CreateFilm },
 ]
 

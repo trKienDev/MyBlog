@@ -54,6 +54,15 @@ async function RenderStudios(element) {
       }
 }
 
+export async function GetStudioById(studio_id) {
+      const result = await fetchAPI.GetList(`${apiConfig.endpoints.getStudioById}/${studio_id}`);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+
+      return result.data;
+}
+
 async function CreateNewStudio() {
       const { form, modal, imgInput, image } = getELement();
       const submitBtn = form.querySelector('button[type="submit"]');

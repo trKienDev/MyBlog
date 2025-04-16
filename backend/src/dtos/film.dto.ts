@@ -12,6 +12,11 @@ export interface CreateFilmDTO {
 }
 
 export interface FilmDTO {
-      id?: mongoose.Types.ObjectId;
+      _id?: mongoose.Types.ObjectId;
       name: string;
+      studio_id: mongoose.Types.ObjectId;
+      creators_id?: mongoose.Types.ObjectId[];
+      date: Date;
+      thumbnail: string;
+      rating: number;
 }

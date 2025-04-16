@@ -31,3 +31,7 @@ export function ResetModal(formId, imgId, imgInputId, defaultImg) {
       if(imgInput) imgInput.value = "";
 }
 
+export function CloseModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.style.display = 'none';
+}
