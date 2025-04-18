@@ -9,6 +9,10 @@ export class CodeRepository implements iCodeRepository {
             const codes = await Code.find();
             return codes.map(code => MappingDocToDTO(code));
       }
+      public async GetCodeById(code_id: string): Promise<CodeDTO | null> {
+            const code = await Code.findById(code_id);
+            return code ? MappingDocToDTO(code) : null;
+      }
       public async getCodesByStudio(studioId: string): Promise<CodeDTO[]> {
             const studioObjectId = new mongoose.Types.ObjectId(studioId);
             const codes = await Code.find({studio_id: studioObjectId});

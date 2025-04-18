@@ -11,13 +11,21 @@ export function CreateEditButtonCell(editContainerClass, item, handleEditCallbac
       const editContainer = document.createElement('div');
       editContainer.classList.add(editContainerClass);
 
-      const editButton = document.createElement('div');
-      editButton.classList.add('btn-edit');
-      editButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
-      editButton.onclick = () => handleEditCallback(item, editButton);
+      const edit_button = document.createElement('button');
+      edit_button.classList.add('btn');
+      edit_button.classList.add('btn-edit');
+      edit_button.setAttribute('type', 'button');
+      edit_button.setAttribute('aria-label', `update ${item.name || item._id}`);
+      edit_button.setAttribute('title', 'update');
 
-      editCell.appendChild(editButton);
-      editContainer.appendChild(editButton);
+      edit_button.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
+      
+      if(typeof handleEditCallback === 'function') {
+            edit_button.onclick = () => handleEditCallback(item);
+      }
+
+      editCell.appendChild(edit_button);
+      editContainer.appendChild(edit_button);
       editCell.appendChild(editContainer);
 
       return editCell;

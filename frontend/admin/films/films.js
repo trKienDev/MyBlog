@@ -1,4 +1,4 @@
-import { CloseModal, ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
+import { CloseModal, openModal, ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
 import { selectCodeByStudio, SelectFilmTags, SelectStudios } from "../../components/select.component.js";
 import { getSelectedOptionId, InitSelectSearch, ResetSelectSearch } from "../../components/select-search.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
@@ -6,12 +6,13 @@ import apiConfig from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
 import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
 import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
-import { GetStudioById } from "../studios/studio.js";
-import { GetDateFromStr } from "../../utils/get-date-from-str.js";
+import { GetStudioById } from "../../api/studio.api.js";
+import { GetDateFromStr } from "../../utils/date.js";
+import { updateFilm } from "./update-film.js";
 
-let modalId = "create-modal";
-let filmStudioId = 'film-studio';
-let filmCodeId = 'film-code';
+export let modalId = "create-modal";
+export let filmStudio_id = 'film-studio';
+export let filmCode_id = 'film-code';
 let filmTagId = 'film-tag';
 let filmCollectionId = 'film-collection';
 let thumbnailimgId = 'thumbnail-image';
@@ -24,11 +25,12 @@ let selectedTagClass = 'selected-tag';
 let defaultThumbnailImg = '/admin/static/images/film/thumbnail-upload_default.png';
 let closeModalBtnId= 'close-modal_button';
 let filmTableBody = '#film-table tbody';
+let openModalBtnId = 'open-modal_btn';
 
 export async function initFilmAdmin() {
-      SetupModalHandlers("open-modal_button", closeModalBtnId, modalId, ResetFilmModal);
+      SetupModalHandlers(openModalBtnId, closeModalBtnId, modalId, ResetFilmModal);
       RenderFilms(filmTableBody);
-      InitSelectSearch(filmStudioId, apiConfig.endpoints.getStudios, 'name');
+      InitSelectSearch(filmStudio_id, apiConfig.endpoints.getStudios, 'name');
       InitSelectSearch(filmTagId, apiConfig.endpoints.getFilmTags, 'name');
       InitSelectSearch(filmCollectionId, apiConfig.endpoints.getCollections, 'name');
       uploadThumbnail();
@@ -52,15 +54,11 @@ async function RenderFilms(element) {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', film._id);
 
-                  const editBtn = CreateEditButtonCell('edit-container', film);
+                  const editBtn = CreateEditButtonCell('edit-container', film, updateFilm);
                   tr.appendChild(editBtn);
 
                   const name = CreateTdTextCell(film.name);
                   tr.appendChild(name);
-
-                  const imgSrc = `${apiConfig.server}/uploads/film/${film.thumbnail}`;
-                  const image = CreateImageCell(imgSrc, 'film-thumbnail');
-                  tr.appendChild(image);
 
                   const filmStudio = await GetStudioById(film.studio_id);
                   const studio = CreateTdTextCell(filmStudio.name);
@@ -82,14 +80,17 @@ async function RenderFilms(element) {
       }
 }
 
+
+
+
 async function createNewFilm() {  
       const submitBtn = document.getElementById(submitBtnId);
       document.getElementById(filmFormId).addEventListener('submit', async function(event) {
             event.preventDefault();
             
-            const studioId = getSelectedOptionId(filmStudioId);
-            const codeId = getSelectedCodeOpt(filmCodeId).getAttribute("value");            
-            const filmName = GetFilmName(filmCodeId, codeNumberId);
+            const studioId = getSelectedOptionId(filmStudio_id);
+            const codeId = getSelectedCodeOpt(filmCode_id).getAttribute("value");            
+            const filmName = GetFilmName(filmCode_id, codeNumberId);
             const collectionId = getSelectedOptionId(filmCollectionId);
             
             const thumbnailInput = document.getElementById("thumbnail-upload");
@@ -134,14 +135,15 @@ async function createNewFilm() {
       });   
 }
 
+
 function getCodeByStudio() {
-      const optionsContainer = document.querySelector(`#${filmStudioId} .content ul.options`);
+      const optionsContainer = document.querySelector(`#${filmStudio_id} .content ul.options`);
 
       optionsContainer.addEventListener("click", (event) => {
             const li = event.target.closest("li");
             if(li && optionsContainer.contains(li)) {
                   const studio_id = li.getAttribute("value");
-                  selectCodeByStudio(filmCodeId, studio_id);
+                  selectCodeByStudio(filmCode_id, studio_id);
             }
       });
 }
@@ -157,16 +159,16 @@ async function uploadThumbnail() {
       }
 }
 
-function getSelectedCodeOpt(filmCodeId) {
-      let codeSelectionElement = document.getElementById(filmCodeId);
+export function getSelectedCodeOpt(filmCode_id) {
+      let codeSelectionElement = document.getElementById(filmCode_id);
       const selectedCodeIndex = codeSelectionElement.selectedIndex;
       const selectedCodeOption = codeSelectionElement.options[selectedCodeIndex];
       return selectedCodeOption;
 }
 
-function GetFilmName(filmCodeId, codeNumbebId) {
+function GetFilmName(filmCode_id, codeNumbebId) {
       const codeNumber = document.getElementById(codeNumbebId).value;  
-      const selectedCodeOption = getSelectedCodeOpt(filmCodeId);
+      const selectedCodeOption = getSelectedCodeOpt(filmCode_id);
       const selectedCodeText = selectedCodeOption.innerText;
       const filmName = selectedCodeText + "-" + codeNumber;
       return filmName;
@@ -240,7 +242,7 @@ function ResetFilmModal() {
 }
 
 function ResetCodeSelection() {
-      const codeSelectEl = document.getElementById(filmCodeId);
+      const codeSelectEl = document.getElementById(filmCode_id);
       codeSelectEl.innerHTML = '';
       const option = document.createElement("option");
       option.innerText = 'Select code';

@@ -1,3 +1,10 @@
 #film-container {
       width: 50%;
 }
+.create-film {
+      display: flex;
+      justify-content: center;
+}
+#film-table .btn-create {
+      width: 50%;
+}

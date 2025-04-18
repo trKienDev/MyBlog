@@ -17,6 +17,19 @@ export const getCodes = async(req: IncomingMessage, res: ServerResponse) => {
       }
 }
 
+export const getCode_byId = async(req: ValidateIdRequest, res: ServerResponse) => {
+      try {
+            const id = req.params?.id;
+            const code = await repository.GetCodeById(id);
+            if(code == null) {
+                  return sendResponse(res, 404, 'code not found!');
+            } 
+            return sendResponse(res, 200, code);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+};
+
 export const getCodesByStudio = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;

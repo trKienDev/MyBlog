@@ -27,7 +27,8 @@ body {
       --light-btn_hover: #e2e6ea;
       --warning-btn: #ffc107;
       --warning-btn_hover: #e0a800;
-
+      --update-btn: #FF5F1F;
+      --update-btn_hover: #d84005;
       /* border */
       --primary-border: #007bff;
       --secondary-border: #d1d9e0;

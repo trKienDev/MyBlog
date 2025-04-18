@@ -35,6 +35,7 @@ const apiConfig = {
             
             //code
             getCodes: '/admin/codes', // GET
+            getCode_byId: '/admin/code', // GET
             getCodesByStudio: '/admin/codes/studio', // GET
             createCode: '/admin/code', // POST
             

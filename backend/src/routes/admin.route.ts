@@ -1,5 +1,5 @@
 import { getAdminPage } from "../Admin/Controllers/admin.controller.js";
-import { createCode, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
+import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
 import { createCollection, GetCollections } from "../controllers/collection.controller.js";
 import { CreateCreator, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
 import { CreateFilm, GetFilms } from "../controllers/film.controller.js";
@@ -28,6 +28,7 @@ const adminRoutes: Route[] = [
       { method: 'POST', path: '/admin/tag', handler: createTag},
       // code
       { method: 'GET', path: '/admin/codes', handler: getCodes },
+      { method: 'GET', path: '/admin/codes/:id', handler: ValidateId(getCode_byId) },
       { method: 'GET', path: '/admin/codes/studio/:id', handler: ValidateId(getCodesByStudio) },
       { method: 'POST', path: '/admin/code', handler: createCode },
       // collection
@@ -36,6 +37,7 @@ const adminRoutes: Route[] = [
       // film
       { method: 'GET', path: '/admin/films', handler: GetFilms },
       { method: 'POST', path: '/admin/film', handler: CreateFilm },
+      // code
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);

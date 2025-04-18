@@ -2,23 +2,32 @@
 export function SetupModalHandlers(openButtonId, closeButtonId, modalId, callback) {
       const openButton = document.getElementById(openButtonId);
       const closeButton = document.getElementById(closeButtonId);
-      const modal = document.getElementById(modalId);
 
-      if (!openButton || !closeButton || !modal) {
+      if (!openButton || !closeButton) {
             console.error('Modal elements not found.');
             return;
       }
 
       openButton.onclick = () => {
-            modal.style.display = "block";
+            openModal(modalId);
       };
 
       closeButton.onclick = () => {
-            modal.style.display = "none";
+            closeModal(modalId);
             if(typeof callback === 'function') {
                   callback();
             }
       }
+}
+
+export function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.style.display = 'block';
+}
+
+export function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.style.display = 'none';
 }
 
 export function ResetModal(formId, imgId, imgInputId, defaultImg) {

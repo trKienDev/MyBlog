@@ -4,7 +4,6 @@ import { ErrorSweetAlert, SuccessSweetAlert, ConfirmSweetAlert } from "../../uti
 import apiConfig from "../../api/api.config.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
-import { SelectStudios } from "../../components/select.component.js";
 
 let formId = "studio-form";
 let modalId = "studio-modal";
@@ -54,14 +53,7 @@ async function RenderStudios(element) {
       }
 }
 
-export async function GetStudioById(studio_id) {
-      const result = await fetchAPI.GetList(`${apiConfig.endpoints.getStudioById}/${studio_id}`);
-      if(result.success === false) {
-            throw new Error(result.error);
-      }
 
-      return result.data;
-}
 
 async function CreateNewStudio() {
       const { form, modal, imgInput, image } = getELement();
