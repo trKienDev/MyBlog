@@ -14,7 +14,9 @@ export let modalId = "create-modal";
 export let filmStudio_id = 'film-studio';
 export let filmCode_id = 'film-code';
 let filmTagId = 'film-tag';
-let filmCollectionId = 'film-collection';
+export let filmCollection_id = 'film-collection';
+export let filmDate_id = 'release-date';
+export let filmRating_id = 'film-rating';
 let thumbnailimgId = 'thumbnail-image';
 let thumbnailUploadId = 'thumbnail-upload';
 let submitBtnId = 'submit-btn';
@@ -32,7 +34,7 @@ export async function initFilmAdmin() {
       RenderFilms(filmTableBody);
       InitSelectSearch(filmStudio_id, apiConfig.endpoints.getStudios, 'name');
       InitSelectSearch(filmTagId, apiConfig.endpoints.getFilmTags, 'name');
-      InitSelectSearch(filmCollectionId, apiConfig.endpoints.getCollections, 'name');
+      InitSelectSearch(filmCollection_id, apiConfig.endpoints.getCollections, 'name');
       uploadThumbnail();
       getCodeByStudio();
       createNewFilm();
@@ -41,7 +43,7 @@ export async function initFilmAdmin() {
 
 async function RenderFilms(element) {
       try {
-            const result = await fetchAPI.GetList(apiConfig.endpoints.getFilms);
+            const result = await fetchAPI.Get(apiConfig.endpoints.getFilms);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -91,7 +93,7 @@ async function createNewFilm() {
             const studioId = getSelectedOptionId(filmStudio_id);
             const codeId = getSelectedCodeOpt(filmCode_id).getAttribute("value");            
             const filmName = GetFilmName(filmCode_id, codeNumberId);
-            const collectionId = getSelectedOptionId(filmCollectionId);
+            const collectionId = getSelectedOptionId(filmCollection_id);
             
             const thumbnailInput = document.getElementById("thumbnail-upload");
             const thumbnailFile = thumbnailInput.files[0];
@@ -100,8 +102,8 @@ async function createNewFilm() {
                   return;
             }
 
-            const releaseDate = document.getElementById('release-date').value;
-            const rating = document.getElementById('film-rating').value;
+            const releaseDate = document.getElementById(filmDate_id).value;
+            const rating = document.getElementById(filmRating_id).value;
 
             const selectedTagContainer = document.getElementById('selected-tag_container');
             const tagNodeList = selectedTagContainer.querySelectorAll('.selected-tag');
@@ -134,7 +136,6 @@ async function createNewFilm() {
             }
       });   
 }
-
 
 function getCodeByStudio() {
       const optionsContainer = document.querySelector(`#${filmStudio_id} .content ul.options`);

@@ -27,7 +27,7 @@ async function RenderCodes(studio_id) {
             const tbody = document.querySelector("#list-codes tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchAPI.GetList(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
+            const result = await fetchAPI.Get(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
             if(result.success === false) {
                   throw new Error(result.error);
             }

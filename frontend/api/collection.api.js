@@ -1,11 +1,11 @@
 import apiConfig from './api.config.js';
 import * as fetchAPI from './fetch.api.js';
 
-export async function getCode_byId(code_id) {
-      const result = await fetchAPI.Get(`${apiConfig.endpoints.getCode_byId}/${code_id}`);
+export async function GetCollectionName_byId(id) {
+      const result = await fetchAPI.Get(`${apiConfig.endpoints.getCollection_byId}/${id}`);
       if(result.success === false) {
             throw new Error(result.error);
       }
 
-      return result.data;
+      return result.data.name;
 }

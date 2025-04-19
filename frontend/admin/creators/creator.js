@@ -21,7 +21,7 @@ export function initCreatorAdmin() {
 
 async function RenderCreators(element) {
       try {
-            const result = await fetchAPI.GetList(apiConfig.endpoints.getCreators);
+            const result = await fetchAPI.Get(apiConfig.endpoints.getCreators);
             if(result.success === false) {
                   throw new Error(result.error);
             }

@@ -6,7 +6,7 @@ export async function InitSelectSearch(elmentId, endpoint, value) {
 }
  
 async function GetSelectList(endpoint) {
-      const result = await fetchAPI.GetList(endpoint);
+      const result = await fetchAPI.Get(endpoint);
       if(result.success === false) {
             throw new Error(result.error);
       }
@@ -87,4 +87,11 @@ export function ResetSelectSearch(configs) {
             span.innerText = placeholder;
       });     
       
+}
+
+export async function LoadInfo_selectSearch(film, element_id, field_id, getFunc) {
+      const el = document.getElementById(element_id);
+      const span = el.querySelector('span');
+      span.setAttribute('item-id', film[field_id]);
+      span.innerText = await getFunc(film[field_id]);
 }

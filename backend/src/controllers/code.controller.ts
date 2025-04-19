@@ -22,7 +22,7 @@ export const getCode_byId = async(req: ValidateIdRequest, res: ServerResponse) =
             const id = req.params?.id;
             const code = await repository.GetCodeById(id);
             if(code == null) {
-                  return sendResponse(res, 404, 'code not found!');
+                  return sendError(res, 404, 'code not found!');
             } 
             return sendResponse(res, 200, code);
       } catch(error) {

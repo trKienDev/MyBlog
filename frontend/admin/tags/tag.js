@@ -13,7 +13,7 @@ async function RenderTags() {
             const tbody = document.querySelector("#tag-table tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchApi.GetList(apiConfig.endpoints.getTags);
+            const result = await fetchApi.Get(apiConfig.endpoints.getTags);
             if(result.success === false) {
                   throw new Error(result.error);
             }

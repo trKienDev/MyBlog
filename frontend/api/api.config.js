@@ -40,6 +40,7 @@ const apiConfig = {
             createCode: '/admin/code', // POST
             
             // collection
+            getCollection_byId: '/admin/collection', // GET
             getCollections: '/admin/collections', // GET
             createCollection: '/admin/collection', // POST
 

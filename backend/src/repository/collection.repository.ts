@@ -9,6 +9,11 @@ export class CollectionRepository implements iCollectionRepository {
             return collections.map(collection => MappingDocToDTO(collection));
       }
       
+      public async GetCollection_byId(id: string): Promise<CollectionDTO | null> {
+            const collection = await Collection.findById(id);
+            return collection ? MappingDocToDTO(collection) : null;
+      }
+
       public async CreateCollection(data: string): Promise<CollectionDTO> {
             console.log("run CreateCollection in repository");
             const collection = new Collection({ name: data });

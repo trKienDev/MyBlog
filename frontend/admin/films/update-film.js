@@ -1,8 +1,10 @@
-import { getCode_byId } from "../../api/code.api.js";
+import { GetCollectionName_byId } from "../../api/collection.api.js";
 import { GetStudioName_byId } from "../../api/studio.api.js";
 import { openModal } from "../../components/modal.component.js";
+import { LoadInfo_selectSearch } from "../../components/select-search.component.js";
+import { selectCodeByStudio } from "../../components/select.component.js";
 
-import { filmCode_id, filmStudio_id, getSelectedCodeOpt, modalId } from "./films.js";
+import { filmCode_id, filmCollection_id, filmDate_id, filmRating_id, filmStudio_id, getSelectedCodeOpt, modalId } from "./films.js";
 
 export async function updateFilm(film) {
       openModal(modalId);     
@@ -14,20 +16,27 @@ export async function updateFilm(film) {
       h2_el.innerText = `Update ${film.name}`;
       console.log("film: ", film);
 
-      await loadStudio(film);
+      await LoadInfo_selectSearch(film, filmStudio_id, 'studio_id', GetStudioName_byId);
+      await LoadInfo_selectSearch(film, filmCollection_id, 'collection_id', GetCollectionName_byId);
+      selectCodeByStudio(filmCode_id, film.studio_id);
 
-      const filmCode_option = getSelectedCodeOpt(filmCode_id);
-      filmCode_option.innerText = 'Hello';
-      const filmCode = getCode_byId(film.code_id);
+      const filmCode_selEl = document.getElementById(filmCode_id);
+      filmCode_selEl.value = film.code_id;
 
+      const film_name = film.name;
+      const film_numb = film_name.split('-')[1]; 
+      const filmNumb_input = document.getElementById('code-number');
+      filmNumb_input.value = film_numb;
+
+      const date_input = document.getElementById(filmDate_id);
+      const film_date = new Date(film.date);
+      const formatted_date = film_date.toISOString().split('T')[0];
+      date_input.value = formatted_date;
+
+      const film_rating = document.getElementById(filmRating_id);
+      film_rating.value = film.rating;
+
+      
 }
-
-async function loadStudio(film) {
-      const filmStudio_el = document.getElementById(filmStudio_id),
-      filmStudio_span = filmStudio_el.querySelector('span');
-      filmStudio_span.setAttribute('item-id', film.studio_id);
-      filmStudio_span.innerText = await GetStudioName_byId(film.studio_id);
-}
-
 
 

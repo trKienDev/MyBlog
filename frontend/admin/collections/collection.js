@@ -13,7 +13,7 @@ async function RenderCollections() {
             const tbody = document.querySelector("#collection-table tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchApi.GetList(apiConfig.endpoints.getCollections);
+            const result = await fetchApi.Get(apiConfig.endpoints.getCollections);
             if(result.success === false) {
                   throw new Error(result.error);
             }

@@ -1,6 +1,6 @@
 import apiConfig from "./api.config.js";
 
-export async function GetList(endpoint) {
+export async function Get(endpoint) {
       try {
             const response = await fetch(`${apiConfig.server}${endpoint}`);
             if(!response.ok) {
