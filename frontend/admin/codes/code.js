@@ -1,5 +1,5 @@
 import { SelectStudios } from "../../components/select.component.js";
-import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
+import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import * as htmlHandler from "../../components/table.component.js";
 import apiConfig from "../../api/api.config.js";
@@ -57,10 +57,10 @@ async function CreateNewCode() {
                         throw new Error(result.error);
                   }
                   
-                  SuccessSweetAlert("code created");
+                  success_sweetAlert("code created");
             } catch(error) {
                   console.error('Error creating code: ', error.message);
-                  ErrorSweetAlert(error);
+                  error_sweetAlert(error);
             } finally {
                   const selectStudio = document.getElementById(studioSelection);
                   selectStudio.value = studio.value;

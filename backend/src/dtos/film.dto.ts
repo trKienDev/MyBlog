@@ -18,6 +18,7 @@ export interface FilmDTO {
       creators_id?: mongoose.Types.ObjectId[];
       collection_id?: mongoose.Types.ObjectId;
       code_id?: mongoose.Types.ObjectId;
+      tag_ids?: mongoose.Types.ObjectId[];
       date: Date;
       thumbnail: string;
       rating: number;

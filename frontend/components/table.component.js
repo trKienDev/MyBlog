@@ -5,7 +5,7 @@ export function createTrWithId(id) {
 }
 
 // Edit Cell
-export function CreateEditButtonCell(editContainerClass, item, handleEditCallback) {
+export async function create_editBtn(editContainerClass, item, handleEditCallback) {
       const editCell = document.createElement('td');
 
       const editContainer = document.createElement('div');

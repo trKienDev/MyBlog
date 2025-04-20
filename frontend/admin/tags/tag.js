@@ -1,6 +1,6 @@
 import apiConfig from "../../api/api.config.js";
 import * as fetchApi from "../../api/fetch.api.js";
-import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
+import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import * as htmlHandler from "../../components/table.component.js";
 
 export function initTagAdmin() {
@@ -32,7 +32,7 @@ async function RenderTags() {
             });   
       } catch(error) {
             console.error('Error getting tags: ', error);
-            ErrorSweetAlert(error);
+            error_sweetAlert(error);
       }
 }
 
@@ -49,11 +49,11 @@ async function CreateNewTag() {
                         throw new Error(result.error);
                   }
       
-                  SuccessSweetAlert("tag created");
+                  success_sweetAlert("tag created");
                   RenderTags();
             } catch(error) {
                   console.error('Error creating tag: ', error.message);
-                  ErrorSweetAlert(error);
+                  error_sweetAlert(error);
             } finally {
                   name.value = "";
                   kind.value = "";

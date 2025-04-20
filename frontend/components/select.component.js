@@ -1,6 +1,6 @@
 import apiConfig from "../api/api.config.js";
 import * as fetchAPI from "../api/fetch.api.js";
-import { ErrorSweetAlert } from "../utils/sweet-alert.js";
+import { error_sweetAlert } from "../utils/sweet-alert.js";
 
 export async function SelectStudios(studioId) {
       try {
@@ -13,7 +13,7 @@ export async function SelectStudios(studioId) {
             RenderSelectElement(studioId, studios, 'studio', 'name');
       } catch(error) {
             console.error('Error render studio elements in select.component.js', error);
-            ErrorSweetAlert(error);
+            error_sweetAlert(error);
       }
 }
 
@@ -28,7 +28,7 @@ export async function SelectCodes(codeId) {
             RenderSelectElement(codeId, codes, 'code', 'code');
       } catch(error) {
             console.error('Error render code elements in select.component.js', error);
-            ErrorSweetAlert(error);
+            error_sweetAlert(error);
       }
 }
 
@@ -58,7 +58,7 @@ export async function selectCreators(creatorId) {
             RenderSelectElement(creatorId, creators, 'creator', 'name');
       } catch(error) {
             console.error('Error render creator elements in select.component.js: ', error);
-            ErrorSweetAlert(error);
+            error_sweetAlert(error);
       }
 }
 
@@ -72,7 +72,7 @@ export async function SelectFilmTags(tagId) {
             RenderSelectElement(tagId, tags, 'tag', 'name');
       } catch(error) {
             console.error('Error render tag element in select.component.js: ', error);
-            ErrorSweetAlert(error);
+            error_sweetAlert(error);
       }
 }
 
@@ -89,7 +89,7 @@ function RenderSelectElement(selectId, data, placeholder, value, option) {
             });
       } catch(error) {
             console.error('Error in RenderSelectElement: ', error);
-            ErrorSweetAlert(error);
+            error_sweetAlert(error);
       }
 }
 

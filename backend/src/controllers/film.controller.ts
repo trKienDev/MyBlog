@@ -3,6 +3,7 @@ import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { FilmRepository } from "../repository/film.repository.js";
 import { FilmService } from "../services/film.service.js";
+import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 
 const repository = new FilmRepository();
 const service = new FilmService(repository);
@@ -25,6 +26,15 @@ export const CreateFilm = async(req: CustomRequest, res: ServerResponse) => {
             sendResponse(res, 201, newFilm);
       } catch(error) {
             console.error("Error creating film: ", error);
+            return sendError(res, 500, error);
+      }
+}
+
+export const update_film = async(req: ValidateIdRequest, res: ServerResponse) => {
+      try {
+            const id = req.params?.id;
+            console.log("id: ", id);
+      } catch(error) {
             return sendError(res, 500, error);
       }
 }

@@ -1,9 +1,9 @@
 import apiConfig from "../../api/api.config.js";
-import { ErrorSweetAlert, SuccessSweetAlert } from "../../utils/sweet-alert.js";
+import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import { ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
-import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
 
 let formId = "creator-form";
 let imgId = "img";
@@ -35,7 +35,7 @@ async function RenderCreators(element) {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', creator._id);
 
-                  const editBtn = CreateEditButtonCell('edit-container', creator, UpdateCreator);
+                  const editBtn = create_editBtn('edit-container', creator, UpdateCreator);
                   tr.appendChild(editBtn);
 
                   const name = CreateTdTextCell(creator.name);
@@ -58,7 +58,7 @@ async function RenderCreators(element) {
             });
       } catch(error) {
             console.error('Error loading creators: ', error);
-            ErrorSweetAlert(error);
+            error_sweetAlert(error);
       }
 }
 
@@ -77,10 +77,10 @@ async function CreateNewCreator() {
                         throw new Error(result.error);
                   }
 
-                  SuccessSweetAlert('Creator created');
+                  success_sweetAlert('Creator created');
             } catch(error) {
                   console.error('Error creating creator in client: ', error);
-                  ErrorSweetAlert(error);
+                  error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
                   RenderCreators(tableBody);
@@ -119,11 +119,11 @@ async function UpdateCreator(creator) {
                         throw new Error(result.error);
                   }
 
-                  SuccessSweetAlert("creator updated");
+                  success_sweetAlert("creator updated");
                   RenderCreators(tableBody);
             } catch(error) {
                   console.error("Error updating creator in client: ", error);
-                  ErrorSweetAlert(error);
+                  error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
                   ResetModal(resetOptionss);

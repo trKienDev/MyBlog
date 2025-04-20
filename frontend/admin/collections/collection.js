@@ -29,7 +29,7 @@ async function RenderCollections() {
             });   
       } catch(error) {
             console.error('Error getting tags: ', error);
-            sweetAlert.ErrorSweetAlert(error);
+            sweetAlert.error_sweetAlert(error);
       }
 }
 
@@ -47,11 +47,11 @@ async function CreateNewCollection() {
                         throw new Error(result.error);
                   }
 
-                  sweetAlert.SuccessSweetAlert('collection created');
+                  sweetAlert.success_sweetAlert('collection created');
                   RenderCollections();
             } catch(error) {
                   console.error('Error creating collection: ', error.message);
-                  sweetAlert.ErrorSweetAlert(error);
+                  sweetAlert.error_sweetAlert(error);
             } 
       });
 }

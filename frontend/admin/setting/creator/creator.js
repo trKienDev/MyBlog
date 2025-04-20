@@ -83,12 +83,6 @@ export function loadCreatorTable() {
       .catch(error => {
             console.error('Error fetching actress data: ', error);
       });
-
-      // loadStudios("actress-studio");
-      // setupModalHandlers("openModalButton", "closeModalButton", "actressModal"); // open modal
-      // handleImageUpload("profile-image", "image-upload"); // setup image upload logic
-      // createNewCreator("creatorForm", "creatorModal"); // submit form
-      // searchActressByName('search-input');
 }
 
 async function createNewCreator(formId, modalId) {

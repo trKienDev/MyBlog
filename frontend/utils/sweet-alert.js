@@ -1,4 +1,4 @@
-export function SuccessSweetAlert(text) {
+export function success_sweetAlert(text) {
       Swal.fire({
             title: 'Success!',
             text: text,
@@ -8,7 +8,7 @@ export function SuccessSweetAlert(text) {
       });
 }
 
-export function ErrorSweetAlert(text) {
+export function error_sweetAlert(text) {
       Swal.fire({
             title: 'Error!',
             text: text,

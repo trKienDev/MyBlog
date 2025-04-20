@@ -3,7 +3,7 @@ import { initTagAdmin } from '../../../admin/tags/tag.js';
 import { initCreatorAdmin } from '/admin/creators/creator.js';
 import { initStudioAdmin } from '/admin/studios/studio.js';
 import { initCodeAdmin } from '/admin/codes/code.js';
-import { initFilmAdmin } from '/admin/films/films.js';
+import { init_filmAdmin } from '/admin/films/films.js';
 import { InitCollectionAdmin } from '/admin/collections/collection.js';
 
 let dynamicLoadingElement = 'dynamic-section';
@@ -11,7 +11,7 @@ let dynamicLoadingElement = 'dynamic-section';
 document.addEventListener("DOMContentLoaded", () => {
       navigateLink('creator-link', apiConfig.endpoints.adminCreatorPage, initCreatorAdmin);
       navigateLink('studio-link', apiConfig.endpoints.adminStudioPage, initStudioAdmin);
-      navigateLink('film-link', apiConfig.endpoints.adminFilmPage, initFilmAdmin );
+      navigateLink('film-link', apiConfig.endpoints.adminFilmPage, init_filmAdmin );
       navigateLink('code-link', apiConfig.endpoints.adminCodePage, initCodeAdmin);
       navigateLink('tag-link', apiConfig.endpoints.adminTagPage, initTagAdmin);
       navigateLink('collection-link', apiConfig.endpoints.adminCollectionPage, InitCollectionAdmin);

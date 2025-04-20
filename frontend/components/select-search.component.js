@@ -1,6 +1,6 @@
 import * as fetchAPI from "../api/fetch.api.js";
 
-export async function InitSelectSearch(elmentId, endpoint, value) {
+export async function init_selectSearch(elmentId, endpoint, value) {
       const list = await GetSelectList(endpoint);
       CreateSelectSearchElement(elmentId, list, value);
 }
@@ -72,7 +72,7 @@ function HandleSelectionOption(list, value, options, button, wrapper) {
       });
 }
 
-export function getSelectedOptionId(selectId) {
+export function get_selectedOption_byId(selectId) {
       const studioSelection = document.querySelector(`#${selectId} .select-btn span`);
       const selectedStudioId = studioSelection.getAttribute("item-id");
       return selectedStudioId;

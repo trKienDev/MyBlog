@@ -1,9 +1,9 @@
 import { ResetModal, SetupModalHandlers }  from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
-import { ErrorSweetAlert, SuccessSweetAlert, ConfirmSweetAlert } from "../../utils/sweet-alert.js";
+import { error_sweetAlert, success_sweetAlert, ConfirmSweetAlert } from "../../utils/sweet-alert.js";
 import apiConfig from "../../api/api.config.js";
 import * as fetchAPI from "../../api/fetch.api.js";
-import { CreateEditButtonCell, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
 
 let formId = "studio-form";
 let modalId = "studio-modal";
@@ -34,7 +34,7 @@ async function RenderStudios(element) {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', studio._id);
 
-                  const editBtn = CreateEditButtonCell('edit-container', studio, UpdateStudio);
+                  const editBtn = create_editBtn('edit-container', studio, UpdateStudio);
                   tr.appendChild(editBtn);
 
                   const name = CreateTdTextCell(studio?.name);
@@ -49,7 +49,7 @@ async function RenderStudios(element) {
 
       } catch(error) {
             console.error('Error loading studios: ', error);
-            ErrorSweetAlert(error);
+            error_sweetAlert(error);
       }
 }
 
@@ -73,11 +73,11 @@ async function CreateNewStudio() {
                         throw new Error(result.error);
                   }
 
-                  SuccessSweetAlert("studio created");
+                  success_sweetAlert("studio created");
                   RenderStudios(studioTable);
             } catch (error) {
                   console.error('Error creating studio in client: ', error.message);
-                  ErrorSweetAlert(error);
+                  error_sweetAlert(error);
             } finally {
                   submitBtn.disabled = false;
                   modal.style.display = "none";
@@ -110,11 +110,11 @@ function UpdateStudio(studio) {
                         throw new Error(result.error);
                   }
 
-                  SuccessSweetAlert("studio updated");
+                  success_sweetAlert("studio updated");
                   RenderStudios(studioTable);
             } catch(error) {
                   console.error("Error updating studio: ", error);
-                  ErrorSweetAlert(error);
+                  error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
                   ResetModal(resetOptions);

@@ -58,5 +58,6 @@ function MappingDocToDTO(doc: iFilm): FilmDTO {
             rating: doc.rating,
             collection_id: doc.collection_id,
             code_id: doc.code_id,
+            tag_ids: doc.tag_ids,
       }
 }

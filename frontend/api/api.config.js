@@ -30,6 +30,7 @@ const apiConfig = {
             
             // tag
             getTags: '/admin/tags', // GET
+            getTag_byId: '/admin/tag', // GET
             getFilmTags: '/admin/tags/film', // GET
             createTag: '/admin/tag', // POST
             
@@ -47,6 +48,7 @@ const apiConfig = {
             // film
             getFilms: '/admin/films', // GET
             createFilm: '/admin/film', // POST
+            update_film: '/admin/film', // PUT
             
             //codeAV
             codeAVList: '/admin/codeAV/read',

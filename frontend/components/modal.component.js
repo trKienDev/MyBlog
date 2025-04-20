@@ -9,7 +9,7 @@ export function SetupModalHandlers(openButtonId, closeButtonId, modalId, callbac
       }
 
       openButton.onclick = () => {
-            openModal(modalId);
+            open_modal(modalId);
       };
 
       closeButton.onclick = () => {
@@ -20,7 +20,7 @@ export function SetupModalHandlers(openButtonId, closeButtonId, modalId, callbac
       }
 }
 
-export function openModal(modalId) {
+export function open_modal(modalId) {
       const modal = document.getElementById(modalId);
       modal.style.display = 'block';
 }
@@ -43,4 +43,13 @@ export function ResetModal(formId, imgId, imgInputId, defaultImg) {
 export function CloseModal(modalId) {
       const modal = document.getElementById(modalId);
       modal.style.display = 'none';
+}
+
+export function change_modalTitle(modal_id, submitBtn_selector, remove_class, add_class, title) {
+      const modal = document.getElementById(modal_id),
+      h2_el = modal.querySelector('h2');
+      const submit_btn = modal.querySelector(submitBtn_selector);
+      submit_btn.classList.remove(remove_class);
+      submit_btn.classList.add(add_class);
+      h2_el.innerText = title;
 }
