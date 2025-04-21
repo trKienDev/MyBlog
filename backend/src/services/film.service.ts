@@ -1,5 +1,6 @@
-import { CreateFilmDTO } from "../dtos/film.dto.js";
+import { CreateFilmDTO, updateFilm_dto } from "../dtos/film.dto.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
+import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { iFilmRepository } from "../repository/interfaces/ifilm.repository.js";
 import { UploadFile } from "../utils/file.utils.js";
 import { ExtractParamFromRequest } from "../utils/request.utils.js";
@@ -42,4 +43,10 @@ export class FilmService {
 
             return await this.filmRepository.CreateFilm(newFilm);
       }      
+
+      public async update_film(req: ValidateIdRequest): Promise<void> {
+            const id = req.params.id;2
+            let new_thumbnail: string | undefined;
+            
+      }
 }

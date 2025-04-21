@@ -18,13 +18,12 @@ export let filmTag_id = 'film-tag';
 export let filmCollection_id = 'film-collection';
 export let filmDate_id = 'release-date';
 export let filmRating_id = 'film-rating';
-export let thumbnail_ImgId = 'thumbnail-image';
+export let thumbnailImg_id = 'thumbnail-image';
 export let thumbnailUpload_id = 'thumbnail-upload';
 export let submitBtn_id = 'submit-btn';
 export let filmForm_id = 'film-form';
 export let codeNumber_id = 'code-number';
 export let selectedTagContaier_id = 'selected-tag_container';
-export let selectedTagClass = 'selected-tag';
 let defaultThumbnailImg = '/admin/static/images/film/thumbnail-upload_default.png';
 let closeModalBtnId= 'close-modal_button';
 let filmTableBody = '#film-table tbody';
@@ -37,10 +36,10 @@ export async function init_filmAdmin() {
       init_selectSearch(filmStudio_id, apiConfig.endpoints.getStudios, 'name');
       init_selectSearch(filmTag_id, apiConfig.endpoints.getFilmTags, 'name');
       init_selectSearch(filmCollection_id, apiConfig.endpoints.getCollections, 'name');
-      uploadThumbnail();
+      upload_thumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
       getCodeByStudio();
       create_film();
-      displaySelectedTag(filmTag_id, selectedTagContaier_id, selectedTagClass);
+      displaySelectedTag(filmTag_id, selectedTagContaier_id, selectedTag_class);
 }
 
 async function render_films(element) {
@@ -96,9 +95,9 @@ function getCodeByStudio() {
       });
 }
 
-async function uploadThumbnail() {
+export async function upload_thumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id) {
       while(true) {
-            const result = await waitForUploadOrSubmit(thumbnail_ImgId, thumbnailUpload_id, submitBtn_id);
+            const result = await waitForUploadOrSubmit(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
             if(result.type === 'upload') {
                   document.getElementById('thumbnail-image').src = URL.createObjectURL(result.file);
             } else if(result.type === 'submit') {
@@ -122,26 +121,26 @@ export function get_filmName(filmCode_id, codeNumbebId) {
       return filmName;
 }
 
-async function displaySelectedTag(selectId, containerId, selectedTagClass) {
-      const selectedTagContainer = document.getElementById(containerId);
-      if(!selectedTagContainer) {
-            console.error('selectedTagContainer not found!');
+async function displaySelectedTag(select_id, container_id, selectedTag_class) {
+      const selectedTag_container = document.getElementById(container_id);
+      if(!selectedTag_container) {
+            console.error('selectedTag_container not found!');
             return;
       } 
 
-      selectedTagContainer.addEventListener('click', (event) => {
+      selectedTag_container.addEventListener('click', (event) => {
             if(event.target.classList.contains('selected-tag')) {
                   event.target.remove();
             }
       });
 
-      observeSelectChange(selectId, ({ tagId, tagName}) => {
-            const existTag = Array.from(selectedTagContainer.children).some(child => 
-                  child.innerText === tagName || child.getAttribute('value') === tagId
+      observe_selectChange(select_id, ({ tag_id, tag_name}) => {
+            const existTag = Array.from(selectedTag_container.children).some(child => 
+                  child.innerText === tag_name || child.getAttribute('value') === tag_id
             );
             if(!existTag) {
-                  const tag_div = create_tagDiv(tagId, tagName, selectedTagClass)
-                  selectedTagContainer.appendChild(tag_div);
+                  const tag_div = create_tagDiv(tag_id, tag_name, selectedTag_class)
+                  selectedTag_container.appendChild(tag_div);
             }
       });
 }
@@ -154,8 +153,8 @@ export function create_tagDiv(tag_id, tag_name, selected_tag_class) {
       return newTag_div;
 }
 
-function observeSelectChange(selectId, callback) {
-      const span = document.querySelector(`#${selectId} .select-btn span`);
+export function observe_selectChange(select_id, callback) {
+      const span = document.querySelector(`#${select_id} .select-btn span`);
       if(!span) {
             console.error('Span not found!');
             return;
@@ -164,10 +163,10 @@ function observeSelectChange(selectId, callback) {
       const observer = new MutationObserver((mutationsList) => {
             for(const mutation of mutationsList) {
                   if (mutation.type === 'attributes' && mutation.attributeName === 'item-id') {
-                        const tagId = span.getAttribute('item-id');
-                        const tagName = span.textContent.trim();
-                        if(tagId && tagName) {
-                              callback({ tagId, tagName});
+                        const tag_id = span.getAttribute('item-id');
+                        const tag_name = span.textContent.trim();
+                        if(tag_id && tag_name) {
+                              callback({ tag_id, tag_name});
                         }
                   }
             }
@@ -189,7 +188,7 @@ export function ResetFilmModal() {
             { id: "film-collection", placeholder: "Select collection" },
             { id: "film-tag", placeholder: "Select tag" }
       ]);
-      ResetModal(filmForm_id, thumbnail_ImgId, thumbnailUpload_id, defaultThumbnailImg);
+      ResetModal(filmForm_id, thumbnailImg_id, thumbnailUpload_id, defaultThumbnailImg);
       ResetCodeSelection();
       ResetTagSelection();
 }

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { CreateFilmDTO, FilmDTO } from "../dtos/film.dto.js";
+import { CreateFilmDTO, FilmDTO, updateFilm_dto } from "../dtos/film.dto.js";
 import { iFilmRepository } from "./interfaces/ifilm.repository.js";
 import Film from "../models/film.model.js";
 import { iFilm } from "../models/interface/ifilm.model.js";
@@ -13,6 +13,9 @@ export class FilmRepository implements iFilmRepository {
                   console.error('Error in GetFilms: ', error);
                   return null;
             }
+      }
+      public async FindFilmByName(name: string): Promise<FilmDTO | null> {
+            return await Film.findOne({ name });
       }
       public async CreateFilm(data: CreateFilmDTO): Promise<CreateFilmDTO> {
             const newFilm = new Film({
@@ -41,9 +44,28 @@ export class FilmRepository implements iFilmRepository {
 
             return createdFilm;
       }
+      public async update_film(id: string, data: Partial<updateFilm_dto>): Promise<updateFilm_dto> {
+            const updated_film = await Film.findByIdAndUpdate(
+                  new mongoose.Types.ObjectId(id), { $set: data }, { new: true, runValidators: true }
+            );
 
-      public async FindFilmByName(name: string): Promise<FilmDTO | null> {
-            return await Film.findOne({ name });
+            if(!updated_film) {
+                  throw Object.assign(new Error("Cannot find film to update"), { statusCode: 404 });
+            }
+
+            const result: updateFilm_dto = {
+                  _id: updated_film._id.toString(),
+                  name: updated_film.name,
+                  code_id: updated_film.code_id.toString(),
+                  studio_id: updated_film.studio_id.toString(),
+                  collection_id: updated_film.collection_id.toString(),
+                  date: updated_film.date,
+                  thumbnail: updated_film.thumbnail,
+                  rating: updated_film.rating,
+                  tag_ids: updated_film.tag_ids.map(item => item.toString()),
+            }
+
+            return result;
       }
 }
 

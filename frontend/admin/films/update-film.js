@@ -5,7 +5,7 @@ import { get_TagById } from "../../api/tag.api.js";
 import { change_modalTitle, open_modal } from "../../components/modal.component.js";
 import { get_selectedOption_byId, init_selectSearch, LoadInfo_selectSearch } from "../../components/select-search.component.js";
 import { selectCodeByStudio } from "../../components/select.component.js";
-import { codeNumber_id, create_tagDiv, filmCode_id, filmCollection_id, filmDate_id, filmForm_id, filmRating_id, filmStudio_id, filmTag_id, get_filmName, get_selectedCode_option, modal_id, selectedTagClass, selectedTagContaier_id, thumbnail_ImgId, thumbnailUpload_id } from "./films.js";
+import { codeNumber_id, create_tagDiv, filmCode_id, filmCollection_id, filmDate_id, filmForm_id, filmRating_id, filmStudio_id, filmTag_id, get_filmName, get_selectedCode_option, modal_id, observe_selectChange, selectedTag_class, selectedTagContaier_id, submitBtn_id, thumbnailImg_id, thumbnailUpload_id, upload_thumbnail } from "./films.js";
 
 export async function update_film(film) {
       try {                 
@@ -21,42 +21,55 @@ export async function update_film(film) {
             init_selectSearch(filmTag_id, apiConfig.endpoints.getFilmTags, 'name');
             open_modal(modal_id);     
             change_modalTitle(modal_id, '#submit-btn', 'btn-create', 'btn-update', `Update ${film.name}`);
+            upload_thumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
+
+            const selectedTag_container = document.getElementById(selectedTagContaier_id);
+            selectedTag_container.addEventListener('click', (event) => {
+                  if(event.target.classList.contains('selected-tag')) {
+                        event.target.remove();
+                  }
+            });
+            observe_selectChange(filmTag_id, ({ tag_id, tag_name}) => {
+                  const existTag = Array.from(selectedTag_container.children).some(child => 
+                        child.innerText === tag_name || child.getAttribute('value') === tag_id
+                  );
+                  if(!existTag) {
+                        const tag_div = create_tagDiv(tag_id, tag_name, selectedTag_class)
+                        selectedTag_container.appendChild(tag_div);
+                  }
+            });
 
             cloned_form.addEventListener('submit', async function(event) {
                   event.preventDefault();
+                  const form_data = new FormData();
+
                   const studioId = get_selectedOption_byId(filmStudio_id);
                   const codeId = get_selectedCode_option(filmCode_id).getAttribute("value");            
                   const filmName = get_filmName(filmCode_id, codeNumber_id);
-                  const collectionId = get_selectedOption_byId(filmCollection_id);
-                  
-                  // Nếu user upload file thì tiến hành ghi nhận
+                  const collectionId = get_selectedOption_byId(filmCollection_id);         
+                  const releaseDate = document.getElementById(filmDate_id).value;
+                  const rating = document.getElementById(filmRating_id).value;
+                  const tagNode_list = selectedTag_container.querySelectorAll('.selected-tag');
+                  const selected_tags = Array.from(tagNode_list).map(div => div.getAttribute('value'));
+
                   const thumbnail_input = document.getElementById(thumbnailUpload_id);
                   if(thumbnail_input.files && thumbnail_input.files.length > 0) {
                         const thumbnail_file = thumbnail_input.files[0];
-                        formData.append('file', thumbnail_file);
+                        form_data.append('file', thumbnail_file);
                   }
-                  
-      
-                  const releaseDate = document.getElementById(filmDate_id).value;
-                  const rating = document.getElementById(filmRating_id).value;
-      
-                  const selectedTagContainer = document.getElementById(selectedTagContaier_id);
-                  const tagNodeList = selectedTagContainer.querySelectorAll('.selected-tag');
-                  const selectedTags = Array.from(tagNodeList).map(div => div.getAttribute('value'));
-      
-                  const formData = new FormData();
-                  formData.append("studio_id", studioId);
-                  formData.append("code_id", codeId);
-                  formData.append("name", filmName);
-                  formData.append("collection_id", collectionId);
-                  formData.append("date", releaseDate);
-                  formData.append("rating", rating);
-                  formData.append("tag_ids", selectedTags);
-                  console.log("film data: ", formData);
+
+                  form_data.append("studio_id", studioId);
+                  form_data.append("code_id", codeId);
+                  form_data.append("name", filmName);
+                  form_data.append("collection_id", collectionId);
+                  form_data.append("date", releaseDate);
+                  form_data.append("rating", rating);
+                  form_data.append("tag_ids", selected_tags);
+                  console.log("film data: ", form_data);
                   try {
                         const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.update_film}/${film._id}}`, {
                               method: "PUT",
-                              body: formData,
+                              body: form_data,
                         });
 
                         console.log("response: ", response);
@@ -69,7 +82,6 @@ export async function update_film(film) {
             console.error('Error in update_film: ', error);
       }
 }
-
 
 async function populate_filmForm(film) {
       await LoadInfo_selectSearch(film, filmStudio_id, 'studio_id', GetStudioName_byId);
@@ -95,10 +107,10 @@ async function populate_filmForm(film) {
 
       film.tag_ids.forEach(async(tag_el) => {
             const tag = await get_TagById(tag_el);
-            const tag_div = create_tagDiv(tag._id, tag.name, selectedTagClass);
+            const tag_div = create_tagDiv(tag._id, tag.name, selectedTag_class);
             selectTag_container.appendChild(tag_div);
       });
       
-      const film_thumbnail = document.getElementById(thumbnail_ImgId);
+      const film_thumbnail = document.getElementById(thumbnailImg_id);
       film_thumbnail.src = `${apiConfig.server}/uploads/film/${film.thumbnail}`;
 } 

@@ -47,6 +47,7 @@
       border-bottom: 1px solid var(--smoke-color);
       border-bottom-right-radius: 0px;
       border-bottom-left-radius: 0px;
+      background-color: white;
 }
 .select-search_component input:focus-visible {
       outline: none !important;
