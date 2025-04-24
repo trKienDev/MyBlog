@@ -57,7 +57,7 @@ export class CreatorService {
 
             const updatedCreator = await this.creatorRepo.UpdateCreator(id, updateData);
             if(!updatedCreator) {
-                  throw new Error("Creator not found after updated.");
+                  throw new Error("Error updating creator.");
             }
 
             return updatedCreator;

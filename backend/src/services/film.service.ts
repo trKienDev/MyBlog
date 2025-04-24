@@ -1,20 +1,23 @@
-import { CreateFilmDTO, updateFilm_dto } from "../dtos/film.dto.js";
+import { ServerResponse } from "http";
+import { CreateFilmDTO, FilmDTO, updateFilm_dto } from "../dtos/film.dto.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { sendError } from "../middlewares/response.js";
 import { iFilmRepository } from "../repository/interfaces/ifilm.repository.js";
 import { UploadFile } from "../utils/file.utils.js";
 import { ExtractParamFromRequest } from "../utils/request.utils.js";
+import { FileService } from "../utils/file.service.js";
 
 export class FilmService {
-      private filmRepository: iFilmRepository;
+      private film_repository: iFilmRepository;
 
       constructor(filmRepository: iFilmRepository) {
-            this.filmRepository = filmRepository;
+            this.film_repository = filmRepository;
       }
 
       public async CreateFilm(req: CustomRequest): Promise<CreateFilmDTO> {
             const { name, imgName } = await UploadFile(req, "film");
-            const existingFilm = await this.filmRepository.FindFilmByName(name);
+            const existingFilm = await this.film_repository.FindFilmByName(name);
             if (existingFilm) {
                   throw new Error('Film with this name has already existed.');
             }
@@ -41,12 +44,39 @@ export class FilmService {
                   thumbnail: thumbnail,
             };
 
-            return await this.filmRepository.CreateFilm(newFilm);
+            return await this.film_repository.CreateFilm(newFilm);
       }      
 
-      public async update_film(req: ValidateIdRequest): Promise<void> {
-            const id = req.params.id;2
-            let new_thumbnail: string | undefined;
+      public async update_film(req: ValidateIdRequest): Promise<updateFilm_dto | null> {
+            const id = req.params?.id;
+            const existing_film = await this.film_repository.getFilm_byId(id);
             
+            if(!existing_film) {
+                  throw new Error('Film not found');
+            }
+
+            const { name, imgName } = await UploadFile(req, "film");
+            const studio_id = ExtractParamFromRequest(req, "studio_id");
+            const code_id = ExtractParamFromRequest(req, "code_id");
+            const tags_param = ExtractParamFromRequest(req, "tag_ids");
+            const collection_id = ExtractParamFromRequest(req, "collection_id");
+            const date_str = ExtractParamFromRequest(req, "date");
+            const date: Date = new Date(date_str);
+            const rating = ExtractParamFromRequest(req, "rating");
+            const tag_ids: string[] = tags_param.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+            
+            const updateFilm_data: Record<string, any> = { name, studio_id, code_id, collection_id, date, rating, tag_ids };
+
+            if(imgName) {
+                  FileService.DeleteFile("film", existing_film.thumbnail);
+                  updateFilm_data.thumbnail = imgName;
+            }
+
+            const updated_film = await this.film_repository.update_film(id, updateFilm_data);
+            if(!updated_film) {
+                  throw new Error("Error updating film");
+            }
+
+            return updated_film;
       }
 }

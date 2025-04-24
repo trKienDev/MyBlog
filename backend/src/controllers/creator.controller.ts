@@ -35,7 +35,6 @@ export const CreateCreator = async (req: CustomRequest, res: ServerResponse) => 
 export const UpdateCreator = async (req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
-
             const updatedCreator = await service.UpdateCreator(req, id);
             sendResponse(res, 200, updatedCreator);
       }

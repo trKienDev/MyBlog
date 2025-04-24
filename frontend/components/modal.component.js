@@ -13,24 +13,24 @@ export function SetupModalHandlers(openButtonId, closeButtonId, modalId, callbac
       };
 
       closeButton.onclick = () => {
-            closeModal(modalId);
+            close_modal(modalId);
             if(typeof callback === 'function') {
                   callback();
             }
       }
 }
 
-export function open_modal(modalId) {
-      const modal = document.getElementById(modalId);
+export function open_modal(modal_id) {
+      const modal = document.getElementById(modal_id);
       modal.style.display = 'block';
 }
 
-export function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
+export function close_modal(modal_id) {
+      const modal = document.getElementById(modal_id);
       modal.style.display = 'none';
 }
 
-export function ResetModal(formId, imgId, imgInputId, defaultImg) {
+export function reset_modal(formId, imgId, imgInputId, defaultImg) {
       const form = document.getElementById(formId);
       const image = document.getElementById(imgId);
       const imgInput = document.getElementById(imgInputId);
@@ -38,11 +38,6 @@ export function ResetModal(formId, imgId, imgInputId, defaultImg) {
       if(form) form.reset();
       if(image) image.src = defaultImg || "/admin/static/images/studio/studio-upload.png";
       if(imgInput) imgInput.value = "";
-}
-
-export function CloseModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.style.display = 'none';
 }
 
 export function change_modalTitle(modal_id, submitBtn_selector, remove_class, add_class, title) {

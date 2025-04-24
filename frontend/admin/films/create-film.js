@@ -1,8 +1,9 @@
 import { get_selectedOption_byId } from "../../components/select-search.component.js";
-import { codeNumber_id, filmCode_id, filmCollection_id, filmDate_id, filmForm_id, filmRating_id, filmStudio_id, get_filmName, get_selectedCode_option, get_selectedTags, ResetFilmModal, selectedTag_class, selectedTagContaier_id, submitBtn_id, thumbnailUpload_id } from "./films.js";
+import { codeNumber_id, filmCode_id, filmCollection_id, filmDate_id, filmForm_id, filmRating_id, filmStudio_id, get_filmName, get_selectedCode_option, get_selectedTags, modal_id, resetFilm_modal, selectedTag_class, selectedTagContaier_id, submitBtn_id, thumbnailUpload_id } from "./films.js";
 import * as fetchAPI from './../../api/fetch.api.js';
 import apiConfig from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
+import { close_modal } from "../../components/modal.component.js";
 
 export async function create_film() {
       try {
@@ -28,6 +29,7 @@ export async function create_film() {
                         error_createFilm(error);
                   } finally {
                         submit_btn.disabled = false;
+                        close_modal(modal_id);
                   }
             });
       } catch(error) {
@@ -84,7 +86,7 @@ async function submit_filmData(form_data) {
 
 function success_createFilm() {
       success_sweetAlert("Film created successfully");
-      ResetFilmModal();
+      resetFilm_modal();
 }
 
 function error_createFilm(error) {

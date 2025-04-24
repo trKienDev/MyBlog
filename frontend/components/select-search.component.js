@@ -89,7 +89,7 @@ export function ResetSelectSearch(configs) {
       
 }
 
-export async function LoadInfo_selectSearch(film, element_id, field_id, getFunc) {
+export async function loadInfo_selectSearch(film, element_id, field_id, getFunc) {
       const el = document.getElementById(element_id);
       const span = el.querySelector('span');
       span.setAttribute('item-id', film[field_id]);

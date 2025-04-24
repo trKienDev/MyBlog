@@ -20,6 +20,7 @@ export const sendResponse = (res: ServerResponse, statusCode: number, data: any)
  */
 
 export const sendError = (res: ServerResponse, statusCode: number, error: any) => {
+        console.log('run sendError');
         res.statusCode = statusCode;
         res.setHeader('Content-Type', 'application/json');
         res.end(

@@ -3,6 +3,8 @@ import { CreateFilmDTO, FilmDTO, updateFilm_dto } from "../dtos/film.dto.js";
 import { iFilmRepository } from "./interfaces/ifilm.repository.js";
 import Film from "../models/film.model.js";
 import { iFilm } from "../models/interface/ifilm.model.js";
+import { sendError } from "../middlewares/response.js";
+import { ServerResponse } from "http";
 
 export class FilmRepository implements iFilmRepository {
       public async GetFilms(): Promise<FilmDTO[] | null> {
@@ -16,6 +18,16 @@ export class FilmRepository implements iFilmRepository {
       }
       public async FindFilmByName(name: string): Promise<FilmDTO | null> {
             return await Film.findOne({ name });
+      }
+      public async getFilm_byId(id: string): Promise<FilmDTO | null> {
+            try {
+                  const film = await Film.findById(id);
+                  return film ? MappingDocToDTO(film) : null;
+            } catch(error: unknown) {
+                  console.error("Repository error:", error);
+                  // Rethrow để Service có thể catch hoặc để Promise bị reject
+                  throw error instanceof Error ? error : new Error(String(error));
+            }
       }
       public async CreateFilm(data: CreateFilmDTO): Promise<CreateFilmDTO> {
             const newFilm = new Film({
@@ -44,13 +56,12 @@ export class FilmRepository implements iFilmRepository {
 
             return createdFilm;
       }
+
       public async update_film(id: string, data: Partial<updateFilm_dto>): Promise<updateFilm_dto> {
-            const updated_film = await Film.findByIdAndUpdate(
-                  new mongoose.Types.ObjectId(id), { $set: data }, { new: true, runValidators: true }
-            );
+            const updated_film = await Film.findByIdAndUpdate(id, data, { new: true, runValidators: true }).exec();
 
             if(!updated_film) {
-                  throw Object.assign(new Error("Cannot find film to update"), { statusCode: 404 });
+                  throw new Error('Error updating film');
             }
 
             const result: updateFilm_dto = {

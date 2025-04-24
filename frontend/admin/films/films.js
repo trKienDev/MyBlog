@@ -1,4 +1,4 @@
-import { CloseModal, open_modal, ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
+import { open_modal, reset_modal, SetupModalHandlers } from "../../components/modal.component.js";
 import { selectCodeByStudio, SelectFilmTags, SelectStudios } from "../../components/select.component.js";
 import { get_selectedOption_byId, init_selectSearch, ResetSelectSearch } from "../../components/select-search.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
@@ -31,15 +31,15 @@ let openModalBtnId = 'open-modal_btn';
 export let selectedTag_class = 'selected-tag';
 
 export async function init_filmAdmin() {
-      SetupModalHandlers(openModalBtnId, closeModalBtnId, modal_id, ResetFilmModal);
+      SetupModalHandlers(openModalBtnId, closeModalBtnId, modal_id, resetFilm_modal);
       render_films(filmTableBody);
       init_selectSearch(filmStudio_id, apiConfig.endpoints.getStudios, 'name');
       init_selectSearch(filmTag_id, apiConfig.endpoints.getFilmTags, 'name');
       init_selectSearch(filmCollection_id, apiConfig.endpoints.getCollections, 'name');
       upload_thumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
-      getCodeByStudio();
-      create_film();
+      getCode_byStudio(filmStudio_id);
       displaySelectedTag(filmTag_id, selectedTagContaier_id, selectedTag_class);
+      create_film();
 }
 
 async function render_films(element) {
@@ -83,8 +83,8 @@ async function render_films(element) {
       }
 }
 
-function getCodeByStudio() {
-      const optionsContainer = document.querySelector(`#${filmStudio_id} .content ul.options`);
+export function getCode_byStudio(studioEl_id){
+      const optionsContainer = document.querySelector(`#${studioEl_id} .content ul.options`);
 
       optionsContainer.addEventListener("click", (event) => {
             const li = event.target.closest("li");
@@ -182,13 +182,13 @@ export function observe_selectChange(select_id, callback) {
       return observer;
 }
 
-export function ResetFilmModal() {
+export function resetFilm_modal() {
       ResetSelectSearch([
             { id: "film-studio", placeholder: "Select studio" },
             { id: "film-collection", placeholder: "Select collection" },
             { id: "film-tag", placeholder: "Select tag" }
       ]);
-      ResetModal(filmForm_id, thumbnailImg_id, thumbnailUpload_id, defaultThumbnailImg);
+      reset_modal(filmForm_id, thumbnailImg_id, thumbnailUpload_id, defaultThumbnailImg);
       ResetCodeSelection();
       ResetTagSelection();
 }

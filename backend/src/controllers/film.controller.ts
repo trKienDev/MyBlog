@@ -33,8 +33,9 @@ export const CreateFilm = async(req: CustomRequest, res: ServerResponse) => {
 export const update_film = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const updated_film = await service.update_film(req);
-            return sendResponse(res, 200, update_film);
+            return sendResponse(res, 200, updated_film);
       } catch(error) {
+            console.error("Error in update_film - film.controller: ", error);
             return sendError(res, 500, error);
       }
 }

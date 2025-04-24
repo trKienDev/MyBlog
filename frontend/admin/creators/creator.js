@@ -1,6 +1,6 @@
 import apiConfig from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
-import { ResetModal, SetupModalHandlers } from "../../components/modal.component.js";
+import { reset_modal, SetupModalHandlers } from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
@@ -15,7 +15,7 @@ let defaultImg = "/admin/static/images/face/upload-profile.jpg";
 export function initCreatorAdmin() {
       RenderCreators(tableBody);
       CreateNewCreator();
-      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, () => ResetModal(formId, imgId, imgInputId, defaultImg ));
+      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, () => reset_modal(formId, imgId, imgInputId, defaultImg ));
       HandleImageUpload("img", "image-upload");
 }
 
@@ -84,7 +84,7 @@ async function CreateNewCreator() {
             } finally {
                   modal.style.display = "none";
                   RenderCreators(tableBody);
-                  ResetModal(resetOptions);
+                  reset_modal(resetOptions);
             }
       }
 }
@@ -95,7 +95,7 @@ async function UpdateCreator(creator) {
       const resetOptionss = { form, image, imgInput, modal, defaultImg};
       const closeBtn = document.getElementById("closeModalButton");
       if(closeBtn) {
-            closeBtn.onclick = () => ResetModal(resetOptionss);
+            closeBtn.onclick = () => reset_modal(resetOptionss);
       }
 
       modal.style.display = 'block';
@@ -126,7 +126,7 @@ async function UpdateCreator(creator) {
                   error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
-                  ResetModal(resetOptionss);
+                  reset_modal(resetOptionss);
             }
       };
 }

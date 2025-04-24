@@ -1,4 +1,4 @@
-import { ResetModal, SetupModalHandlers }  from "../../components/modal.component.js";
+import { reset_modal, SetupModalHandlers }  from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
 import { error_sweetAlert, success_sweetAlert, ConfirmSweetAlert } from "../../utils/sweet-alert.js";
 import apiConfig from "../../api/api.config.js";
@@ -15,7 +15,7 @@ let defaultImg = "/admin/static/images/studio/studio-upload.png";
 export function initStudioAdmin() {
       RenderStudios(studioTable);
       CreateNewStudio();
-      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, () => ResetModal(formId, imgId, imgInputId, defaultImg));
+      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, () => reset_modal(formId, imgId, imgInputId, defaultImg));
       HandleImageUpload("img", "image-upload"); 
 }
 
@@ -81,7 +81,7 @@ async function CreateNewStudio() {
             } finally {
                   submitBtn.disabled = false;
                   modal.style.display = "none";
-                  ResetModal(resetOptions);
+                  reset_modal(resetOptions);
             }
       };
 }
@@ -117,7 +117,7 @@ function UpdateStudio(studio) {
                   error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
-                  ResetModal(resetOptions);
+                  reset_modal(resetOptions);
             }
       };
 }

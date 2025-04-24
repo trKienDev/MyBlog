@@ -3,9 +3,10 @@ import { GetCollectionName_byId } from "../../api/collection.api.js";
 import { GetStudioName_byId } from "../../api/studio.api.js";
 import { get_TagById } from "../../api/tag.api.js";
 import { change_modalTitle, open_modal } from "../../components/modal.component.js";
-import { get_selectedOption_byId, init_selectSearch, LoadInfo_selectSearch } from "../../components/select-search.component.js";
+import { get_selectedOption_byId, init_selectSearch, loadInfo_selectSearch } from "../../components/select-search.component.js";
 import { selectCodeByStudio } from "../../components/select.component.js";
-import { codeNumber_id, create_tagDiv, filmCode_id, filmCollection_id, filmDate_id, filmForm_id, filmRating_id, filmStudio_id, filmTag_id, get_filmName, get_selectedCode_option, modal_id, observe_selectChange, selectedTag_class, selectedTagContaier_id, submitBtn_id, thumbnailImg_id, thumbnailUpload_id, upload_thumbnail } from "./films.js";
+import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
+import { codeNumber_id, create_tagDiv, filmCode_id, filmCollection_id, filmDate_id, filmForm_id, filmRating_id, filmStudio_id, filmTag_id, get_filmName, get_selectedCode_option, getCode_byStudio, modal_id, observe_selectChange, selectedTag_class, selectedTagContaier_id, submitBtn_id, thumbnailImg_id, thumbnailUpload_id, upload_thumbnail } from "./films.js";
 
 export async function update_film(film) {
       try {                 
@@ -22,6 +23,7 @@ export async function update_film(film) {
             open_modal(modal_id);     
             change_modalTitle(modal_id, '#submit-btn', 'btn-create', 'btn-update', `Update ${film.name}`);
             upload_thumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
+            getCode_byStudio(filmStudio_id);
 
             const selectedTag_container = document.getElementById(selectedTagContaier_id);
             selectedTag_container.addEventListener('click', (event) => {
@@ -66,27 +68,35 @@ export async function update_film(film) {
                   form_data.append("rating", rating);
                   form_data.append("tag_ids", selected_tags);
                   console.log("film data: ", form_data);
+                  console.log("film_id: ", film._id);
                   try {
-                        const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.update_film}/${film._id}}`, {
+                        const response = await fetch(`${apiConfig.server}${apiConfig.endpoints.update_film}/${film._id}`, {
                               method: "PUT",
                               body: form_data,
                         });
 
-                        console.log("response: ", response);
+                        if(!response.ok) {
+                              const error = await response.json();
+                              throw new Error(`Error: ${error}`);
+                        }
+
+                        success_sweetAlert('film updated');
                   } catch(error) {
                         console.error('Error of update_film in server: ', error);
+                        error_sweetAlert(error);
                   }
 
             });
       } catch(error) {
             console.error('Error in update_film: ', error);
+            error_sweetAlert(error);
       }
 }
 
 async function populate_filmForm(film) {
-      await LoadInfo_selectSearch(film, filmStudio_id, 'studio_id', GetStudioName_byId);
+      await loadInfo_selectSearch(film, filmStudio_id, 'studio_id', GetStudioName_byId);
       await selectCodeByStudio(filmCode_id, film.studio_id);
-      await LoadInfo_selectSearch(film, filmCollection_id, 'collection_id', GetCollectionName_byId);
+      await loadInfo_selectSearch(film, filmCollection_id, 'collection_id', GetCollectionName_byId);
 
       const filmCode_selEl = document.getElementById(filmCode_id);
       filmCode_selEl.value = film.code_id;
