@@ -1,6 +1,6 @@
 import { open_modal, reset_modal, SetupModalHandlers } from "../../components/modal.component.js";
-import { selectCodeByStudio, SelectFilmTags, SelectStudios } from "../../components/select.component.js";
-import { get_selectedOption_byId, init_selectSearch, ResetSelectSearch } from "../../components/select-search.component.js";
+import { selectCode_byStudio, SelectFilmTags, SelectStudios } from "../../components/select.component.js";
+import { get_selectedOption_byId, init_selectSearch, reset_selectSearch } from "../../components/select-search.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import apiConfig from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
@@ -23,28 +23,28 @@ export let thumbnailUpload_id = 'thumbnail-upload';
 export let submitBtn_id = 'submit-btn';
 export let filmForm_id = 'film-form';
 export let codeNumber_id = 'code-number';
-export let selectedTagContaier_id = 'selected-tag_container';
-let defaultThumbnailImg = '/admin/static/images/film/thumbnail-upload_default.png';
-let closeModalBtnId= 'close-modal_button';
-let filmTableBody = '#film-table tbody';
-let openModalBtnId = 'open-modal_btn';
+export let selectedTag_contaienr_id = 'selected-tag_container';
+let default_thumbnail = '/admin/static/images/film/thumbnail-upload_default.png';
+let close_modalBtn_id = 'close-modal_button';
+export let film_tableBody = '#film-table tbody';
+let open_modalBtn_id = 'open-modal_btn';
 export let selectedTag_class = 'selected-tag';
 
 export async function init_filmAdmin() {
-      SetupModalHandlers(openModalBtnId, closeModalBtnId, modal_id, resetFilm_modal);
-      render_films(filmTableBody);
+      SetupModalHandlers(open_modalBtn_id, close_modalBtn_id, modal_id, resetFilm_modal);
+      render_films(film_tableBody);
       init_selectSearch(filmStudio_id, apiConfig.endpoints.getStudios, 'name');
       init_selectSearch(filmTag_id, apiConfig.endpoints.getFilmTags, 'name');
       init_selectSearch(filmCollection_id, apiConfig.endpoints.getCollections, 'name');
       upload_thumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
       getCode_byStudio(filmStudio_id);
-      displaySelectedTag(filmTag_id, selectedTagContaier_id, selectedTag_class);
+      display_selectedTag(filmTag_id, selectedTag_contaienr_id, selectedTag_class);
       create_film();
 }
 
-async function render_films(element) {
+export async function render_films(element) {
       try {
-            const result = await fetchAPI.Get(apiConfig.endpoints.getFilms);
+            const result = await fetchAPI.get(apiConfig.endpoints.getFilms);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -57,19 +57,19 @@ async function render_films(element) {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', film._id);
 
-                  const editBtn = await create_editBtn('edit-container', film, update_film);
-                  tr.appendChild(editBtn);
+                  const edit_btn = await create_editBtn('edit-container', film, update_film);
+                  tr.appendChild(edit_btn);
 
                   const name = CreateTdTextCell(film.name);
                   tr.appendChild(name);
 
-                  const filmStudio = await GetStudioById(film.studio_id);
-                  const studio = CreateTdTextCell(filmStudio.name);
+                  const film_studio = await GetStudioById(film.studio_id);
+                  const studio = CreateTdTextCell(film_studio.name);
                   tr.appendChild(studio);
 
-                  const filmDate = new Date(film.date);
-                  const formattedDate = GetDateFromStr(filmDate);
-                  const date = CreateTdTextCell(formattedDate);
+                  const film_date = new Date(film.date);
+                  const formatted_date = GetDateFromStr(film_date);
+                  const date = CreateTdTextCell(formatted_date);
                   tr.appendChild(date);
 
                   const rating = CreateTdTextCell(film.rating);
@@ -84,13 +84,13 @@ async function render_films(element) {
 }
 
 export function getCode_byStudio(studioEl_id){
-      const optionsContainer = document.querySelector(`#${studioEl_id} .content ul.options`);
+      const options_container = document.querySelector(`#${studioEl_id} .content ul.options`);
 
-      optionsContainer.addEventListener("click", (event) => {
+      options_container.addEventListener("click", (event) => {
             const li = event.target.closest("li");
-            if(li && optionsContainer.contains(li)) {
+            if(li && options_container.contains(li)) {
                   const studio_id = li.getAttribute("value");
-                  selectCodeByStudio(filmCode_id, studio_id);
+                  selectCode_byStudio(filmCode_id, studio_id);
             }
       });
 }
@@ -107,21 +107,21 @@ export async function upload_thumbnail(thumbnailImg_id, thumbnailUpload_id, subm
 }
 
 export function get_selectedCode_option(filmCode_id) {
-      let codeSelectionElement = document.getElementById(filmCode_id);
-      const selectedCodeIndex = codeSelectionElement.selectedIndex;
-      const selectedCodeOption = codeSelectionElement.options[selectedCodeIndex];
-      return selectedCodeOption;
+      let codeSelection_element = document.getElementById(filmCode_id);
+      const selectedCode_index = codeSelection_element.selectedIndex;
+      const selectedCode_option = codeSelection_element.options[selectedCode_index];
+      return selectedCode_option;
 }
 
 export function get_filmName(filmCode_id, codeNumbebId) {
-      const codeNumber = document.getElementById(codeNumbebId).value;  
-      const selectedCodeOption = get_selectedCode_option(filmCode_id);
-      const selectedCodeText = selectedCodeOption.innerText;
-      const filmName = selectedCodeText + "-" + codeNumber;
-      return filmName;
+      const code_number = document.getElementById(codeNumbebId).value;  
+      const selectedCode_option = get_selectedCode_option(filmCode_id);
+      const selectedCode_text = selectedCode_option.innerText;
+      const film_name = selectedCode_text + "-" + code_number;
+      return film_name;
 }
 
-async function displaySelectedTag(select_id, container_id, selectedTag_class) {
+export async function display_selectedTag(select_id, container_id, selectedTag_class) {
       const selectedTag_container = document.getElementById(container_id);
       if(!selectedTag_container) {
             console.error('selectedTag_container not found!');
@@ -183,31 +183,57 @@ export function observe_selectChange(select_id, callback) {
 }
 
 export function resetFilm_modal() {
-      ResetSelectSearch([
+      reset_selectSearch([
             { id: "film-studio", placeholder: "Select studio" },
             { id: "film-collection", placeholder: "Select collection" },
             { id: "film-tag", placeholder: "Select tag" }
       ]);
-      reset_modal(filmForm_id, thumbnailImg_id, thumbnailUpload_id, defaultThumbnailImg);
-      ResetCodeSelection();
-      ResetTagSelection();
+      reset_modal(filmForm_id, thumbnailImg_id, thumbnailUpload_id, default_thumbnail);
+      resetCode_selection();
+      resetTag_selection();
 }
 
-function ResetCodeSelection() {
-      const codeSelectEl = document.getElementById(filmCode_id);
-      codeSelectEl.innerHTML = '';
+function resetCode_selection() {
+      const codeSelect_el = document.getElementById(filmCode_id);
+      codeSelect_el.innerHTML = '';
       const option = document.createElement("option");
       option.innerText = 'Select code';
-      codeSelectEl.appendChild(option);
+      codeSelect_el.appendChild(option);
 }
 
-function ResetTagSelection() {
-      const tagContainer = document.getElementById(selectedTagContaier_id);
-      tagContainer.innerHTML = '';
+function resetTag_selection() {
+      const tag_container = document.getElementById(selectedTag_contaienr_id);
+      tag_container.innerHTML = '';
 }
 
 export function get_selectedTags(container_id) {
       const tag_container = document.getElementById(container_id);
       const tag_nodes = tag_container.querySelectorAll(`.${selectedTag_class}`);
       return Array.from(tag_nodes).map(tag => tag.getAttribute('value'));
+}
+
+export function build_filmForm(include_file, thumbnail_file) {
+      const form = new FormData();
+
+      const studio_id = get_selectedOption_byId(filmStudio_id);
+      const code_id = get_selectedCode_option(filmCode_id).value;
+      const name = get_filmName(filmCode_id, codeNumber_id);
+      const collection_id = get_selectedOption_byId(filmCollection_id);
+      const date = document.getElementById(filmDate_id).value;
+      const rating = document.getElementById(filmRating_id).value;
+      const tags = get_selectedTags(selectedTag_contaienr_id);
+
+      form.append("studio_id", studio_id);
+      form.append("code_id", code_id);
+      form.append("name", name);
+      form.append("collection_id", collection_id);
+      form.append("date", date);
+      form.append("rating", rating);
+      form.append("tag_ids", tags);
+
+      if(include_file && thumbnail_file) {
+            form.append("file", thumbnail_file);
+      }
+
+      return form;
 }

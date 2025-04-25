@@ -21,7 +21,7 @@ export function initCreatorAdmin() {
 
 async function RenderCreators(element) {
       try {
-            const result = await fetchAPI.Get(apiConfig.endpoints.getCreators);
+            const result = await fetchAPI.get(apiConfig.endpoints.getCreators);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -72,7 +72,7 @@ async function CreateNewCreator() {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.CreateItem(apiConfig.endpoints.createCreator, formData);
+                  const result = await fetchAPI.create_form(apiConfig.endpoints.createCreator, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -114,7 +114,7 @@ async function UpdateCreator(creator) {
             const formData = new FormData(form);
             
             try {
-                  const result = await fetchAPI.UpdateItem(`${apiConfig.endpoints.updateCreator}/${creator._id}`, formData);
+                  const result = await fetchAPI.update_form(`${apiConfig.endpoints.updateCreator}/${creator._id}`, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }

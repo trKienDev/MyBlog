@@ -24,7 +24,7 @@ async function RenderStudios(element) {
             const tbody = document.querySelector(element);
             tbody.innerHTML = '';
 
-            const result = await fetchAPI.Get(apiConfig.endpoints.getStudios);
+            const result = await fetchAPI.get(apiConfig.endpoints.getStudios);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -68,7 +68,7 @@ async function CreateNewStudio() {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.CreateItem(apiConfig.endpoints.createStudio, formData);
+                  const result = await fetchAPI.create_form(apiConfig.endpoints.createStudio, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -105,7 +105,7 @@ function UpdateStudio(studio) {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.UpdateItem(`${apiConfig.endpoints.updateStudio}/${studio._id}`, formData);
+                  const result = await fetchAPI.update_form(`${apiConfig.endpoints.updateStudio}/${studio._id}`, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }

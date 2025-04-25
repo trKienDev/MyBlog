@@ -27,7 +27,7 @@ async function RenderCodes(studio_id) {
             const tbody = document.querySelector("#list-codes tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchAPI.Get(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
+            const result = await fetchAPI.get(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -52,7 +52,7 @@ async function CreateNewCode() {
 
             const data = { studio: studio.value , code: code.value };
             try {
-                  const result = await fetchAPI.CreateItemJson(`${apiConfig.endpoints.createCode}`, data);
+                  const result = await fetchAPI.create_json(`${apiConfig.endpoints.createCode}`, data);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }

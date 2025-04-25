@@ -1,6 +1,6 @@
 import apiConfig from "./api.config.js";
 
-export async function Get(endpoint) {
+export async function get(endpoint) {
       try {
             const response = await fetch(`${apiConfig.server}${endpoint}`);
             if(!response.ok) {
@@ -14,7 +14,7 @@ export async function Get(endpoint) {
       }
 }
 
-export async function CreateItem(endpoint, form) {
+export async function create_form(endpoint, form) {
       try {
             const response = await fetch(`${apiConfig.server}${endpoint}`, {
                   method: 'POST',
@@ -32,7 +32,7 @@ export async function CreateItem(endpoint, form) {
       }
 }
 
-export async function CreateItemJson(endpoint, data) {
+export async function create_json(endpoint, data) {
       try {
             const response = await fetch(`${apiConfig.server}${endpoint}`, {
                   method: 'POST',
@@ -54,7 +54,7 @@ export async function CreateItemJson(endpoint, data) {
       }
 }
 
-export async function UpdateItem(endpoint, form) {
+export async function update_form(endpoint, form) {
       try {
             const response = await fetch(`${apiConfig.server}${endpoint}`, {
                   method: 'PUT',
@@ -73,7 +73,7 @@ export async function UpdateItem(endpoint, form) {
       }
 }
 
-export async function DeleteItem(endpoint) {
+export async function method_delete(endpoint) {
       try {
             const response = await fetch(`${apiConfig.server}${endpoint}`, {
                   method: 'DELETE',

@@ -4,7 +4,7 @@ import { error_sweetAlert } from "../utils/sweet-alert.js";
 
 export async function SelectStudios(studioId) {
       try {
-            const result = await fetchAPI.Get(apiConfig.endpoints.getStudios);
+            const result = await fetchAPI.get(apiConfig.endpoints.getStudios);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -19,7 +19,7 @@ export async function SelectStudios(studioId) {
 
 export async function SelectCodes(codeId) {
       try {
-            const result = await fetchAPI.Get(apiConfig.endpoints.getCodes);
+            const result = await fetchAPI.get(apiConfig.endpoints.getCodes);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -32,9 +32,9 @@ export async function SelectCodes(codeId) {
       }
 }
 
-export async function selectCodeByStudio(codeId, studio_id) {
+export async function selectCode_byStudio(codeId, studio_id) {
       try {
-            const result = await fetchAPI.Get(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
+            const result = await fetchAPI.get(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -49,7 +49,7 @@ export async function selectCodeByStudio(codeId, studio_id) {
 
 export async function selectCreators(creatorId) {
       try {
-            const result = await fetchAPI.Get(apiConfig.endpoints.getCreators);
+            const result = await fetchAPI.get(apiConfig.endpoints.getCreators);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -64,7 +64,7 @@ export async function selectCreators(creatorId) {
 
 export async function SelectFilmTags(tagId) {
       try {
-            const result = await fetchAPI.Get(apiConfig.endpoints.getFilmTags);
+            const result = await fetchAPI.get(apiConfig.endpoints.getFilmTags);
             if(result.success === false) {
                   throw new Error(result.error);
             }

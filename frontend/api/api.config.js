@@ -6,7 +6,6 @@ const apiConfig = {
             // pages
             adminPage: '/admin',
             adminPages: 'admin/pages',
-            settingPage: '/admin/pages/setting.html', 
             filmPage: '/admin/pages/films/films.html', 
             adminCreatorPage: '/admin/creators/creator.html',
             adminStudioPage: '/admin/studios/studio.html',
@@ -14,7 +13,8 @@ const apiConfig = {
             adminCodePage: '/admin/codes/code.html',
             adminFilmPage: '/admin/films/film.html',
             adminCollectionPage: '/admin/collections/collection.html',
-
+            admin_videoPage: '/admin/videos/video.html',
+            admin_createVideoPage: '/admin/videos/create-video.html',
             // creator
             getCreators: '/admin/creators', // GET
             createCreator: '/admin/creator', // POST

@@ -4,16 +4,16 @@ import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js
 import * as htmlHandler from "../../components/table.component.js";
 
 export function initTagAdmin() {
-      RenderTags();
-      CreateNewTag();
+      render_tags();
+      create_newTag();
 }
 
-async function RenderTags() {
+async function render_tags() {
       try {
             const tbody = document.querySelector("#tag-table tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchApi.Get(apiConfig.endpoints.getTags);
+            const result = await fetchApi.get(apiConfig.endpoints.getTags);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -36,7 +36,7 @@ async function RenderTags() {
       }
 }
 
-async function CreateNewTag() {
+async function create_newTag() {
       document.getElementById('form').addEventListener('submit', async(event) => {
             event.preventDefault();
             const name = document.getElementById('name');
@@ -44,13 +44,13 @@ async function CreateNewTag() {
             const data = { name: name.value, kind: kind.value };
             
             try {
-                  const result = await fetchApi.CreateItemJson(`${apiConfig.endpoints.createTag}`, data);
+                  const result = await fetchApi.create_json(`${apiConfig.endpoints.createTag}`, data);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
       
                   success_sweetAlert("tag created");
-                  RenderTags();
+                  render_tags();
             } catch(error) {
                   console.error('Error creating tag: ', error.message);
                   error_sweetAlert(error);

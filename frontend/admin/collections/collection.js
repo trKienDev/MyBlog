@@ -13,7 +13,7 @@ async function RenderCollections() {
             const tbody = document.querySelector("#collection-table tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchApi.Get(apiConfig.endpoints.getCollections);
+            const result = await fetchApi.get(apiConfig.endpoints.getCollections);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -41,7 +41,7 @@ async function CreateNewCollection() {
             const data = { name: name.value} ;
 
             try {
-                  const result = await fetchApi.CreateItemJson(`${apiConfig.endpoints.createCollection}`, data);
+                  const result = await fetchApi.create_json(`${apiConfig.endpoints.createCollection}`, data);
 
                   if(result.success === false) {
                         throw new Error(result.error);

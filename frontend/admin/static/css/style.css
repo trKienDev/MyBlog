@@ -2,6 +2,8 @@
 @import url('create-form.css');
 @import url('popup-modal.css');
 @import url('button.css');
+@import url('search-form.css');
+
 body {
       font-family: 'Lexend', sans-serif;
       margin: 0;

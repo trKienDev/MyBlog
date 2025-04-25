@@ -6,7 +6,7 @@ export async function init_selectSearch(elmentId, endpoint, value) {
 }
  
 async function GetSelectList(endpoint) {
-      const result = await fetchAPI.Get(endpoint);
+      const result = await fetchAPI.get(endpoint);
       if(result.success === false) {
             throw new Error(result.error);
       }
@@ -78,7 +78,7 @@ export function get_selectedOption_byId(selectId) {
       return selectedStudioId;
 }
 
-export function ResetSelectSearch(configs) {
+export function reset_selectSearch(configs) {
       configs.forEach(({ id, placeholder }) => {
             const studioSelectEl = document.getElementById(id),
             selectBtn = studioSelectEl.querySelector(".select-btn"),
