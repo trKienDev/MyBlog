@@ -22,7 +22,7 @@ const apiConfig = {
             deleteCreator: '/admin/creator',
             
             // studio
-            getStudios: '/admin/studios', // GET
+            get_studios: '/admin/studios', // GET
             getStudioById: '/admin/studio', // GET
             createStudio: '/admin/studio', // POST
             updateStudio: '/admin/studio', // PUT

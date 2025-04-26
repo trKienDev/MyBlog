@@ -36,6 +36,12 @@
 .btn-update:hover {
       background-color: var(--update-btn_hover);
 }
+.btn-search {
+      background-color: var(--search-btn);
+}
+.btn-search:hover {
+      background-color: var(--search-btn_hover);
+}
 .btn-close {
       background-color: var(--danger-btn);
       width: 50px;
@@ -47,3 +53,4 @@
 .btn-close:hover {
       background-color: var(--danger-btn_hover);
 }
+

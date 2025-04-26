@@ -24,7 +24,7 @@ async function RenderStudios(element) {
             const tbody = document.querySelector(element);
             tbody.innerHTML = '';
 
-            const result = await fetchAPI.get(apiConfig.endpoints.getStudios);
+            const result = await fetchAPI.get(apiConfig.endpoints.get_studios);
             if(result.success === false) {
                   throw new Error(result.error);
             }

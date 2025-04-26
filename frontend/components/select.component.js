@@ -4,7 +4,7 @@ import { error_sweetAlert } from "../utils/sweet-alert.js";
 
 export async function SelectStudios(studioId) {
       try {
-            const result = await fetchAPI.get(apiConfig.endpoints.getStudios);
+            const result = await fetchAPI.get(apiConfig.endpoints.get_studios);
             if(result.success === false) {
                   throw new Error(result.error);
             }

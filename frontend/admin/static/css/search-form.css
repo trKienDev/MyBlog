@@ -5,7 +5,7 @@
       transition: 0.5s all ease;
 }
 .search-form:hover {
-      border: 2px solid var(--primary-border);
+      border: 2px solid var(--violent-border);
 }
 .form-title span {
       font-weight: bold;
@@ -13,5 +13,8 @@
       justify-content: center;
 }
 .form-body {
-      padding-top: 20px;
+      padding-top: 10px;
+}
+.btn-search {
+      margin-top: 10px;
 }

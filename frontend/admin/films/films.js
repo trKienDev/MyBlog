@@ -10,17 +10,11 @@ import { GetStudioById } from "../../api/studio.api.js";
 import { GetDateFromStr } from "../../utils/date.js";
 import { update_film } from "./update-film.js";
 import { create_film } from "./create-film.js";
+import { FILM_DATE_ID, FILM_RATING_ID, THUMBNAIL_IMG_ID, THUMBNAIL_UPLOAD_ID } from "./film-css.selector.js";
+// import { FILM_TAG_ID, SUBMIT_BTN_ID } from "../../config/css-selector.js";
+import css_selectors from "../../config/css-selector.js";
 
-export let modal_id = "create-modal";
-export let filmStudio_id = 'film-studio';
-export let filmCode_id = 'film-code';
-export let filmTag_id = 'film-tag';
-export let filmCollection_id = 'film-collection';
-export let filmDate_id = 'release-date';
-export let filmRating_id = 'film-rating';
-export let thumbnailImg_id = 'thumbnail-image';
-export let thumbnailUpload_id = 'thumbnail-upload';
-export let submitBtn_id = 'submit-btn';
+
 export let filmForm_id = 'film-form';
 export let codeNumber_id = 'code-number';
 export let selectedTag_contaienr_id = 'selected-tag_container';
@@ -31,14 +25,14 @@ let open_modalBtn_id = 'open-modal_btn';
 export let selectedTag_class = 'selected-tag';
 
 export async function init_filmAdmin() {
-      SetupModalHandlers(open_modalBtn_id, close_modalBtn_id, modal_id, resetFilm_modal);
+      SetupModalHandlers(open_modalBtn_id, close_modalBtn_id, css_selectors.CREATE_FILM_MODAL_ID, resetFilm_modal);
       render_films(film_tableBody);
-      init_selectSearch(filmStudio_id, apiConfig.endpoints.getStudios, 'name');
-      init_selectSearch(filmTag_id, apiConfig.endpoints.getFilmTags, 'name');
-      init_selectSearch(filmCollection_id, apiConfig.endpoints.getCollections, 'name');
-      upload_thumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
-      getCode_byStudio(filmStudio_id);
-      display_selectedTag(filmTag_id, selectedTag_contaienr_id, selectedTag_class);
+      init_selectSearch(css_selectors.FILM_STUDIO_ID, apiConfig.endpoints.get_studios, 'name');
+      init_selectSearch(css_selectors.FILM_TAG_ID, apiConfig.endpoints.getFilmTags, 'name');
+      init_selectSearch(css_selectors.FILM_COLLECTION_ID, apiConfig.endpoints.getCollections, 'name');
+      upload_thumbnail(THUMBNAIL_IMG_ID, THUMBNAIL_UPLOAD_ID, css_selectors.SUBMIT_BTN_ID);
+      getCode_byStudio(css_selectors.FILM_STUDIO_ID);
+      display_selectedTag(css_selectors.FILM_TAG_ID, selectedTag_contaienr_id, selectedTag_class);
       create_film();
 }
 
@@ -90,7 +84,7 @@ export function getCode_byStudio(studioEl_id){
             const li = event.target.closest("li");
             if(li && options_container.contains(li)) {
                   const studio_id = li.getAttribute("value");
-                  selectCode_byStudio(filmCode_id, studio_id);
+                  selectCode_byStudio(css_selectors.FILM_CODE_ID, studio_id);
             }
       });
 }
@@ -188,12 +182,12 @@ export function resetFilm_modal() {
             { id: "film-collection", placeholder: "Select collection" },
             { id: "film-tag", placeholder: "Select tag" }
       ]);
-      reset_modal(filmForm_id, thumbnailImg_id, thumbnailUpload_id, default_thumbnail);
-      resetCode_selection();
+      reset_modal(filmForm_id, THUMBNAIL_IMG_ID, THUMBNAIL_UPLOAD_ID, default_thumbnail);
+      resetCode_selection(css_selectors.FILM_CODE_ID);
       resetTag_selection();
 }
 
-function resetCode_selection() {
+function resetCode_selection(filmCode_id) {
       const codeSelect_el = document.getElementById(filmCode_id);
       codeSelect_el.innerHTML = '';
       const option = document.createElement("option");
@@ -215,12 +209,12 @@ export function get_selectedTags(container_id) {
 export function build_filmForm(include_file, thumbnail_file) {
       const form = new FormData();
 
-      const studio_id = get_selectedOption_byId(filmStudio_id);
-      const code_id = get_selectedCode_option(filmCode_id).value;
-      const name = get_filmName(filmCode_id, codeNumber_id);
-      const collection_id = get_selectedOption_byId(filmCollection_id);
-      const date = document.getElementById(filmDate_id).value;
-      const rating = document.getElementById(filmRating_id).value;
+      const studio_id = get_selectedOption_byId(css_selectors.FILM_STUDIO_ID);
+      const code_id = get_selectedCode_option(css_selectors.FILM_CODE_ID).value;
+      const name = get_filmName(css_selectors.FILM_CODE_ID, codeNumber_id);
+      const collection_id = get_selectedOption_byId(css_selectors.FILM_COLLECTION_ID);
+      const date = document.getElementById(FILM_DATE_ID).value;
+      const rating = document.getElementById(FILM_RATING_ID).value;
       const tags = get_selectedTags(selectedTag_contaienr_id);
 
       form.append("studio_id", studio_id);
