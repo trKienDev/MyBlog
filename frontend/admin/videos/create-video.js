@@ -33,11 +33,11 @@ async function searchFilm() {
                   showToast('Please select studio', 'warning');
             }
             const code_id = getSelectedCodeOption(id_selectors.films.film_code).value;
+
             const result = await fetchAPI.get(`${api_configs.endpoints.findFilmsByStudioCode}/${studio_id}/${code_id}`);
             if(result.success === false) {
                   throw new Error(result.error);
             }
-
             const films = result.data;
             
             renderFilmTable(films);

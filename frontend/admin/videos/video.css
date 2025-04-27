@@ -24,12 +24,19 @@
       padding: 0 25px;
 }
 #create-video_section .col-video_info {
-      width: 25%;
+      width: 29%;
+
+}
+#create-video_section .submit-video_container {
       padding: 20px;
       border: 2px solid var(--secondary-border);
       border-radius: 5px;
       transition: 0.5s all ease;
-      max-height: 400px;
+      max-height: 300px;
+      min-height: 300px;
+}
+#create-video_section .button {
+      margin-top: 20px;
 }
 #create-video_section .film-thumbnail {
       height: 400px;
