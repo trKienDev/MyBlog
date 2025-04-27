@@ -1,8 +1,8 @@
-import apiConfig from "./api.config.js";
+import api_configs from "./api.config.js";
 
 export async function get(endpoint) {
       try {
-            const response = await fetch(`${apiConfig.server}${endpoint}`);
+            const response = await fetch(`${api_configs.server}${endpoint}`);
             if(!response.ok) {
                   const error = await response.json();
                   return { success: false, error: error.message };
@@ -16,7 +16,7 @@ export async function get(endpoint) {
 
 export async function create_form(endpoint, form) {
       try {
-            const response = await fetch(`${apiConfig.server}${endpoint}`, {
+            const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'POST',
                   body: form
             });
@@ -34,7 +34,7 @@ export async function create_form(endpoint, form) {
 
 export async function create_json(endpoint, data) {
       try {
-            const response = await fetch(`${apiConfig.server}${endpoint}`, {
+            const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'POST',
                   header: {
                         'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ export async function create_json(endpoint, data) {
 
 export async function update_form(endpoint, form) {
       try {
-            const response = await fetch(`${apiConfig.server}${endpoint}`, {
+            const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'PUT',
                   body: form
             });
@@ -75,7 +75,7 @@ export async function update_form(endpoint, form) {
 
 export async function method_delete(endpoint) {
       try {
-            const response = await fetch(`${apiConfig.server}${endpoint}`, {
+            const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'DELETE',
             });
       

@@ -3,8 +3,6 @@ import { CreateFilmDTO, FilmDTO, updateFilm_dto } from "../dtos/film.dto.js";
 import { iFilmRepository } from "./interfaces/ifilm.repository.js";
 import Film from "../models/film.model.js";
 import { iFilm } from "../models/interface/ifilm.model.js";
-import { sendError } from "../middlewares/response.js";
-import { ServerResponse } from "http";
 
 export class FilmRepository implements iFilmRepository {
       public async GetFilms(): Promise<FilmDTO[] | null> {
@@ -16,8 +14,26 @@ export class FilmRepository implements iFilmRepository {
                   return null;
             }
       }
+
       public async FindFilmByName(name: string): Promise<FilmDTO | null> {
             return await Film.findOne({ name });
+      }
+      public async findFilmsByStudioAndCode(studio_id: string, code_id: string): Promise<FilmDTO[] | null> {
+            try {
+                  const films = await Film.find({
+                        studio_id: new mongoose.Types.ObjectId(studio_id),
+                        code_id: new mongoose.Types.ObjectId(code_id)
+                  });
+
+                  if(films.length === 0) {
+                        return null;
+                  }
+                  
+                  return films.map(doc => MappingDocToDTO(doc));
+            } catch(error: unknown) {
+                  console.error("Repository error:", error);
+                  throw error instanceof Error ? error : new Error(String(error));
+            }
       }
       public async getFilm_byId(id: string): Promise<FilmDTO | null> {
             try {
@@ -25,10 +41,10 @@ export class FilmRepository implements iFilmRepository {
                   return film ? MappingDocToDTO(film) : null;
             } catch(error: unknown) {
                   console.error("Repository error:", error);
-                  // Rethrow để Service có thể catch hoặc để Promise bị reject
                   throw error instanceof Error ? error : new Error(String(error));
             }
       }
+
       public async CreateFilm(data: CreateFilmDTO): Promise<CreateFilmDTO> {
             const newFilm = new Film({
                   name: data.name,

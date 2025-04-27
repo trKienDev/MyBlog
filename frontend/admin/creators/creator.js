@@ -1,6 +1,6 @@
-import apiConfig from "../../api/api.config.js";
+import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
-import { reset_modal, SetupModalHandlers } from "../../components/modal.component.js";
+import modal_component from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
@@ -12,16 +12,18 @@ let modalId = "creator-modal";
 let tableBody = "#creator-table tbody";
 let defaultImg = "/admin/static/images/face/upload-profile.jpg";
 
+const { initModal, resetModal } = modal_component;
+
 export function initCreatorAdmin() {
       RenderCreators(tableBody);
       CreateNewCreator();
-      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, () => reset_modal(formId, imgId, imgInputId, defaultImg ));
+      initModal("open-modal_button", "close-modal_button", modalId, () => resetModal(formId, imgId, imgInputId, defaultImg ));
       HandleImageUpload("img", "image-upload");
 }
 
 async function RenderCreators(element) {
       try {
-            const result = await fetchAPI.get(apiConfig.endpoints.getCreators);
+            const result = await fetchAPI.get(api_configs.endpoints.getCreators);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -41,7 +43,7 @@ async function RenderCreators(element) {
                   const name = CreateTdTextCell(creator.name);
                   tr.appendChild(name);
 
-                  const imgSrc = `${apiConfig.server}/uploads/creator/avatar/${creator.image}`;
+                  const imgSrc = `${api_configs.server}/uploads/creator/avatar/${creator.image}`;
                   const image = CreateImageCell(imgSrc, 'profile');
                   tr.appendChild(image);
                   
@@ -72,7 +74,7 @@ async function CreateNewCreator() {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.create_form(apiConfig.endpoints.createCreator, formData);
+                  const result = await fetchAPI.create_form(api_configs.endpoints.createCreator, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -84,7 +86,7 @@ async function CreateNewCreator() {
             } finally {
                   modal.style.display = "none";
                   RenderCreators(tableBody);
-                  reset_modal(resetOptions);
+                  resetModal(resetOptions);
             }
       }
 }
@@ -95,7 +97,7 @@ async function UpdateCreator(creator) {
       const resetOptionss = { form, image, imgInput, modal, defaultImg};
       const closeBtn = document.getElementById("closeModalButton");
       if(closeBtn) {
-            closeBtn.onclick = () => reset_modal(resetOptionss);
+            closeBtn.onclick = () => resetModal(resetOptionss);
       }
 
       modal.style.display = 'block';
@@ -106,7 +108,7 @@ async function UpdateCreator(creator) {
 
       document.getElementById("creator-breast").value = creator.breast || "";
       document.getElementById("creator-body").value = creator.body || "";
-      image.src = creator.image ? `${apiConfig.server}/uploads/creator/avatar/${creator.image}` : defaultImg;
+      image.src = creator.image ? `${api_configs.server}/uploads/creator/avatar/${creator.image}` : defaultImg;
 
       form.onsubmit = async(event) => {
             event.preventDefault();
@@ -114,7 +116,7 @@ async function UpdateCreator(creator) {
             const formData = new FormData(form);
             
             try {
-                  const result = await fetchAPI.update_form(`${apiConfig.endpoints.updateCreator}/${creator._id}`, formData);
+                  const result = await fetchAPI.update_form(`${api_configs.endpoints.updateCreator}/${creator._id}`, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -126,7 +128,7 @@ async function UpdateCreator(creator) {
                   error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
-                  reset_modal(resetOptionss);
+                  resetModal(resetOptionss);
             }
       };
 }

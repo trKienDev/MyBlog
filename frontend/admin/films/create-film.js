@@ -1,40 +1,41 @@
-import { get_selectedOption_byId } from "../../components/select-search.component.js";
-import { build_filmForm, codeNumber_id, film_tableBody, filmForm_id, get_filmName, get_selectedCode_option, get_selectedTags, render_films, resetFilm_modal, selectedTag_class, selectedTag_contaienr_id } from "./films.js";
 import * as fetchAPI from './../../api/fetch.api.js';
-import apiConfig from "../../api/api.config.js";
+import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
-import { close_modal } from "../../components/modal.component.js";
-import css_selectors from "../../config/css-selector.js";
+import modal_component from "../../components/modal.component.js";
+import id_selectors from "../../selectors/element-id.selector.js";
+import { buildFilmForm } from './films.js';
 
-export async function create_film() {
+const { closeModal } = modal_component;
+
+export async function createFilm() {
       try {
-            const film_form = document.getElementById(filmForm_id);
+            const film_form = document.getElementById(id_selectors.films.film_form);
             film_form.addEventListener('submit', async(event) => {
                   event.preventDefault();
-                  const submit_btn = document.getElementById(css_selectors.SUBMIT_BTN_ID);
+                  const submit_btn = document.getElementById();
                   submit_btn.disabled = true;
 
-                  const form_data = collect_filmForm_data(THUMBNAIL_UPLOAD_ID);
+                  const form_data = collectFilmFormData(id_selectors.thumbnail.thumbnail_upload);
                   if(!form_data) {
                         submit_btn.disabled = false;
                         return;
                   }
 
                   try {
-                        const result = await fetchAPI.create_form(apiConfig.endpoints.createFilm, form_data);
+                        const result = await fetchAPI.create_form(api_configs.endpoints.createFilm, form_data);
                         if(result.success === false) {
                               throw new Error(result.error);
                         }
 
                         success_sweetAlert("Film created successfully");
-                        resetFilm_modal();
+                        resetFilmModal();
                   } catch(error) {
                         console.error('Error creating film: ', error.message);
                         error_sweetAlert(error);
                   } finally {
                         submit_btn.disabled = false;
-                        close_modal(css_selectors.CREATE_FILM_MODAL_ID);
-                        render_films(film_tableBody);
+                        closeModal(id_selectors.modal.create_film);
+                        renderFilms(film_tableBody);
                   }
             });
       } catch(error) {
@@ -43,11 +44,11 @@ export async function create_film() {
       }
 }
 
-function collect_filmForm_data(thumbnailUpload_id) {
+function collectFilmFormData(thumbnailUpload_id) {
       const thumbnail = document.getElementById(thumbnailUpload_id).files[0];
       if(!thumbnail) {
             alert('Please upload a thumbnail before submitting');
             return null;
       } 
-      return build_filmForm(true, thumbnail);
+      return buildFilmForm(true, thumbnail);
 }

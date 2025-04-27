@@ -1,11 +1,11 @@
 import * as fetchAPI from "../api/fetch.api.js";
 
-export async function init_selectSearch(elmentId, endpoint, value) {
-      const list = await GetSelectList(endpoint);
-      CreateSelectSearchElement(elmentId, list, value);
+export async function initSelectSearch(elment_id, endpoint, value) {
+      const list = await getSelectList(endpoint);
+      createSelectSearchElement(elment_id, list, value);
 }
  
-async function GetSelectList(endpoint) {
+async function getSelectList(endpoint) {
       const result = await fetchAPI.get(endpoint);
       if(result.success === false) {
             throw new Error(result.error);
@@ -14,82 +14,82 @@ async function GetSelectList(endpoint) {
       return list;
 }
 
-function CreateSelectSearchElement(elmentId, list, value) {
-      const elementId = document.querySelector(`#${elmentId}`),
-      wrapper = elementId.querySelector(".wrapper"),
-      selectBtn = wrapper.querySelector(".select-btn"),
-      searchInput = wrapper.querySelector("input"),
+function createSelectSearchElement(elment_id, list, value) {
+      const element_id = document.querySelector(`#${elment_id}`),
+      wrapper = element_id.querySelector(".wrapper"),
+      select_btn = wrapper.querySelector(".select-btn"),
+      search_input = wrapper.querySelector("input"),
       options = wrapper.querySelector(".options");
-      
-      RenderList(list, value, options, null);
 
-      selectBtn.addEventListener("click", () => {
+      renderList(list, value, options, null);
+
+      select_btn.addEventListener("click", () => {
             wrapper.classList.toggle("active");
       });
 
-      AttachSearchInputHandler(list, value, searchInput, options);
+      attachSearchInput(list, value, search_input, options);
 
-      HandleSelectionOption(list, value, options, selectBtn, wrapper);
+      handleSelectionOption(list, value, options, select_btn, wrapper);
 }
 
-function RenderList(list, value, options, selectedItem) {
+function renderList(list, value, options, selected_item) {
       options.innerHTML = list.map(item => {
-            const selectedClass = item[value] === selectedItem ? "selected" : "";
-            return `<li value="${item._id}" class="${selectedClass}">${item[value]}</li>`;
+            const selected_class = item[value] === selected_item ? "selected" : "";
+            return `<li value="${item._id}" class="${selected_class}">${item[value]}</li>`;
       }).join("");
 }
 
-function AttachSearchInputHandler(list, value, searchInput, options) {
-      searchInput.addEventListener("keyup", () => {
-            const filtered = FilterOption(list, value, searchInput);
+function attachSearchInput(list, value, search_input, options) {
+      search_input.addEventListener("keyup", () => {
+            const filtered = filterOptions(list, value, search_input);
             options.innerHTML = filtered.length ? filtered.map(item => `<li value="${item._id}" >${item[value]}</li>`).join("")
                                                                         : `<p style="color: red; padding-left: 20px;">Oops! not found anything</p>`;
       });
 
-      return searchInput;
+      return search_input;
 }
 
-function FilterOption(list, value, searchInput) {
-      const searchValue = searchInput.value.toLowerCase();
-      const filteredOption = list.filter(item => 
-            item[value].toLowerCase().startsWith(searchValue)
+function filterOptions(list, value, search_input) {
+      const search_value = search_input.value.toLowerCase();
+      const filtered_option = list.filter(item => 
+            item[value].toLowerCase().startsWith(search_value)
       );
 
-      return filteredOption;
+      return filtered_option;
 }
 
-function HandleSelectionOption(list, value, options, button, wrapper) {
+function handleSelectionOption(list, value, options, button, wrapper) {
       options.addEventListener("click", (e) => {
             if (e.target && e.target.nodeName === "LI") {
-                  const selectedOption = e.target;
+                  const selected_option = e.target;
                   const span = button.querySelector("span");
-                  span.innerText = selectedOption.innerText;
-                  span.setAttribute("item-id", selectedOption.getAttribute("value"));
+                  span.innerText = selected_option.innerText;
+                  span.setAttribute("item-id", selected_option.getAttribute("value"));
                   wrapper.classList.remove("active");
 
-                  RenderList(list, value, options, selectedOption);
+                  renderList(list, value, options, selected_option);
             }
       });
 }
 
-export function get_selectedOption_byId(selectId) {
-      const studioSelection = document.querySelector(`#${selectId} .select-btn span`);
-      const selectedStudioId = studioSelection.getAttribute("item-id");
-      return selectedStudioId;
+export function getSelectedOptionById(selectId) {
+      const studioSelect_element = document.querySelector(`#${selectId} .select-btn span`);
+      const selectedStudio_id = studioSelect_element.getAttribute("item-id");
+      return selectedStudio_id;
 }
 
-export function reset_selectSearch(configs) {
+export function resetSelectSearch(configs) {
       configs.forEach(({ id, placeholder }) => {
-            const studioSelectEl = document.getElementById(id),
-            selectBtn = studioSelectEl.querySelector(".select-btn"),
-            span = selectBtn.querySelector("span");
+            const studioSelect_element = document.getElementById(id),
+            select_btn = studioSelect_element.querySelector(".select-btn"),
+            span = select_btn.querySelector("span");
             span.removeAttribute("item-id");
             span.innerText = placeholder;
       });     
       
 }
 
-export async function loadInfo_selectSearch(film, element_id, field_id, getFunc) {
+export async function loadInfoSelectSearch(film, element_id, field_id, getFunc) {
       const el = document.getElementById(element_id);
       const span = el.querySelector('span');
       span.setAttribute('item-id', film[field_id]);

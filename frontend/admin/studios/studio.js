@@ -1,9 +1,11 @@
-import { reset_modal, SetupModalHandlers }  from "../../components/modal.component.js";
+import modal_component from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
-import { error_sweetAlert, success_sweetAlert, ConfirmSweetAlert } from "../../utils/sweet-alert.js";
-import apiConfig from "../../api/api.config.js";
+import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
+import api_configs from "../../api/api.config.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+
+const { initModal, resetModal } = modal_component;
 
 let formId = "studio-form";
 let modalId = "studio-modal";
@@ -15,7 +17,7 @@ let defaultImg = "/admin/static/images/studio/studio-upload.png";
 export function initStudioAdmin() {
       RenderStudios(studioTable);
       CreateNewStudio();
-      SetupModalHandlers("open-modal_button", "close-modal_button", modalId, () => reset_modal(formId, imgId, imgInputId, defaultImg));
+      initModal("open-modal_button", "close-modal_button", modalId, () => resetModal(formId, imgId, imgInputId, defaultImg));
       HandleImageUpload("img", "image-upload"); 
 }
 
@@ -24,7 +26,7 @@ async function RenderStudios(element) {
             const tbody = document.querySelector(element);
             tbody.innerHTML = '';
 
-            const result = await fetchAPI.get(apiConfig.endpoints.get_studios);
+            const result = await fetchAPI.get(api_configs.endpoints.getStudios);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -40,7 +42,7 @@ async function RenderStudios(element) {
                   const name = CreateTdTextCell(studio?.name);
                   tr.appendChild(name);
 
-                  const imgSrc = `${apiConfig.server}/uploads/studio/${studio.image}`;
+                  const imgSrc = `${api_configs.server}/uploads/studio/${studio.image}`;
                   const image = CreateImageCell(imgSrc, 'profile');
                   tr.appendChild(image);
 
@@ -68,7 +70,7 @@ async function CreateNewStudio() {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.create_form(apiConfig.endpoints.createStudio, formData);
+                  const result = await fetchAPI.create_form(api_configs.endpoints.createStudio, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -81,7 +83,7 @@ async function CreateNewStudio() {
             } finally {
                   submitBtn.disabled = false;
                   modal.style.display = "none";
-                  reset_modal(resetOptions);
+                  resetModal(resetOptions);
             }
       };
 }
@@ -94,7 +96,7 @@ function UpdateStudio(studio) {
       title.innerHTML = "Edit studio";
 
       name.value = studio.name;
-      image.src = `${apiConfig.server}/uploads/studio/${studio.image}`;
+      image.src = `${api_configs.server}/uploads/studio/${studio.image}`;
       modal.style.display = "block";
 
       const resetOptions = { form, image, imgInput, modal, defaultImg };
@@ -105,7 +107,7 @@ function UpdateStudio(studio) {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.update_form(`${apiConfig.endpoints.updateStudio}/${studio._id}`, formData);
+                  const result = await fetchAPI.update_form(`${api_configs.endpoints.updateStudio}/${studio._id}`, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -117,7 +119,7 @@ function UpdateStudio(studio) {
                   error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
-                  reset_modal(resetOptions);
+                  resetModal(resetOptions);
             }
       };
 }

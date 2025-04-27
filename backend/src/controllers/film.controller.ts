@@ -4,11 +4,12 @@ import { sendError, sendResponse } from "../middlewares/response.js";
 import { FilmRepository } from "../repository/film.repository.js";
 import { FilmService } from "../services/film.service.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { ExtractParamFromRequest } from "../utils/request.utils.js";
 
 const repository = new FilmRepository();
 const service = new FilmService(repository);
 
-export const GetFilms = async(req: CustomRequest, res: ServerResponse) => {
+const getFilms = async(req: CustomRequest, res: ServerResponse) => {
       try {
             const films = await repository.GetFilms();
             if(films == null) {
@@ -20,7 +21,17 @@ export const GetFilms = async(req: CustomRequest, res: ServerResponse) => {
       }
 }
 
-export const CreateFilm = async(req: CustomRequest, res: ServerResponse) => {
+const findFilmsByStudioAndCode = async(req: CustomRequest, res: ServerResponse) => {
+      try {
+            const { studio_id, code_id } = req.params as { studio_id: string; code_id: string };
+            const films = await repository.findFilmsByStudioAndCode(studio_id, code_id);
+            return sendResponse(res, 200, films);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
+const createFilm = async(req: CustomRequest, res: ServerResponse) => {
       try {
             const newFilm = await service.CreateFilm(req);
             sendResponse(res, 201, newFilm);
@@ -30,7 +41,7 @@ export const CreateFilm = async(req: CustomRequest, res: ServerResponse) => {
       }
 }
 
-export const update_film = async(req: ValidateIdRequest, res: ServerResponse) => {
+const updateFilm = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const updated_film = await service.update_film(req);
             return sendResponse(res, 200, updated_film);
@@ -38,4 +49,11 @@ export const update_film = async(req: ValidateIdRequest, res: ServerResponse) =>
             console.error("Error in update_film - film.controller: ", error);
             return sendError(res, 500, error);
       }
+}
+
+export const filmController = {
+      getFilms,
+      createFilm,
+      updateFilm,
+      findFilmsByStudioAndCode,
 }

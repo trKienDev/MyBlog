@@ -1,5 +1,4 @@
-
-export function SetupModalHandlers(openButtonId, closeButtonId, modalId, callback) {
+function initModal(openButtonId, closeButtonId, modalId, callback) {
       const openButton = document.getElementById(openButtonId);
       const closeButton = document.getElementById(closeButtonId);
 
@@ -9,28 +8,28 @@ export function SetupModalHandlers(openButtonId, closeButtonId, modalId, callbac
       }
 
       openButton.onclick = () => {
-            open_modal(modalId);
+            openModal(modalId);
       };
 
       closeButton.onclick = () => {
-            close_modal(modalId);
+            closeModal(modalId);
             if(typeof callback === 'function') {
                   callback();
             }
       }
 }
 
-export function open_modal(modal_id) {
+function openModal(modal_id) {
       const modal = document.getElementById(modal_id);
       modal.style.display = 'block';
 }
 
-export function close_modal(modal_id) {
+function closeModal(modal_id) {
       const modal = document.getElementById(modal_id);
       modal.style.display = 'none';
 }
 
-export function reset_modal(formId, imgId, imgInputId, defaultImg) {
+function resetModal(formId, imgId, imgInputId, defaultImg) {
       const form = document.getElementById(formId);
       const image = document.getElementById(imgId);
       const imgInput = document.getElementById(imgInputId);
@@ -40,7 +39,7 @@ export function reset_modal(formId, imgId, imgInputId, defaultImg) {
       if(imgInput) imgInput.value = "";
 }
 
-export function change_modalTitle(modal_id, submitBtn_selector, remove_class, add_class, title) {
+function changeTitle(modal_id, submitBtn_selector, remove_class, add_class, title) {
       const modal = document.getElementById(modal_id),
       h2_el = modal.querySelector('h2');
       const submit_btn = modal.querySelector(submitBtn_selector);
@@ -48,3 +47,13 @@ export function change_modalTitle(modal_id, submitBtn_selector, remove_class, ad
       submit_btn.classList.add(add_class);
       h2_el.innerText = title;
 }
+
+const modal_component = {
+      initModal,
+      openModal,
+      closeModal, 
+      resetModal,
+      changeTitle,
+};
+
+export default modal_component;

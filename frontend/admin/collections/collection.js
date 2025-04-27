@@ -1,4 +1,4 @@
-import apiConfig from "../../api/api.config.js";
+import api_configs from "../../api/api.config.js";
 import * as fetchApi from "../../api/fetch.api.js";
 import * as sweetAlert from "../../utils/sweet-alert.js";
 import * as htmlHandler from "../../components/table.component.js";
@@ -13,7 +13,7 @@ async function RenderCollections() {
             const tbody = document.querySelector("#collection-table tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchApi.get(apiConfig.endpoints.getCollections);
+            const result = await fetchApi.get(api_configs.endpoints.getCollections);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -41,7 +41,7 @@ async function CreateNewCollection() {
             const data = { name: name.value} ;
 
             try {
-                  const result = await fetchApi.create_json(`${apiConfig.endpoints.createCollection}`, data);
+                  const result = await fetchApi.create_json(`${api_configs.endpoints.createCollection}`, data);
 
                   if(result.success === false) {
                         throw new Error(result.error);

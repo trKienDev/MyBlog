@@ -1,4 +1,3 @@
-import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { handleImageUpload } from "../../../services/HelperFunction/image.js";
 import { loadStudios } from '../../../services/loadElement/loadStudios.js';
 import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweet-alert.js";

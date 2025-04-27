@@ -1,8 +1,6 @@
-import { ServerResponse } from "http";
 import { CreateFilmDTO, FilmDTO, updateFilm_dto } from "../dtos/film.dto.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
-import { sendError } from "../middlewares/response.js";
 import { iFilmRepository } from "../repository/interfaces/ifilm.repository.js";
 import { UploadFile } from "../utils/file.utils.js";
 import { ExtractParamFromRequest } from "../utils/request.utils.js";

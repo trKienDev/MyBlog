@@ -1,4 +1,4 @@
-const apiConfig = {
+const api_configs = {
       server: 'http://localhost:3000',
       client: 'http://localhost:8081',  // Domain của frontend
       apiVersion: 'v1',
@@ -6,15 +6,15 @@ const apiConfig = {
             // pages
             adminPage: '/admin',
             adminPages: 'admin/pages',
-            filmPage: '/admin/pages/films/films.html', 
             adminCreatorPage: '/admin/creators/creator.html',
             adminStudioPage: '/admin/studios/studio.html',
             adminTagPage: '/admin/tags/tag.html',
             adminCodePage: '/admin/codes/code.html',
             adminFilmPage: '/admin/films/film.html',
             adminCollectionPage: '/admin/collections/collection.html',
-            admin_videoPage: '/admin/videos/video.html',
-            admin_createVideoPage: '/admin/videos/create-video.html',
+            adminVideoPage: '/admin/videos/video.html',
+            adminCreateVideoPage: '/admin/videos/create-video.html',
+
             // creator
             getCreators: '/admin/creators', // GET
             createCreator: '/admin/creator', // POST
@@ -22,7 +22,7 @@ const apiConfig = {
             deleteCreator: '/admin/creator',
             
             // studio
-            get_studios: '/admin/studios', // GET
+            getStudios: '/admin/studios', // GET
             getStudioById: '/admin/studio', // GET
             createStudio: '/admin/studio', // POST
             updateStudio: '/admin/studio', // PUT
@@ -47,9 +47,10 @@ const apiConfig = {
 
             // film
             getFilms: '/admin/films', // GET
+            findFilmsByStudioCode: '/admin/films/studio-code', // GET
             createFilm: '/admin/film', // POST
             update_film: '/admin/film', // PUT
-            
+
             //codeAV
             codeAVList: '/admin/codeAV/read',
             codeAVCreate: '/admin/codeAV/create',
@@ -84,4 +85,4 @@ const apiConfig = {
       }
 }
 
-export default apiConfig;  
+export default api_configs;  

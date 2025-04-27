@@ -1,9 +1,11 @@
-import apiConfig from "../../api/api.config.js";
-import { navigate_link } from "../../services/loadElement/load-dynamic-section.js";
-import { admin_createVideo } from "./create-video.js";
+import api_configs from "../../api/api.config.js";
+import { spaNavigateLink } from "../../services/loadElement/load-dynamic-section.js";
+import { initCreateVideo } from "./create-video.js";
 
 let createVideo_btnId = 'create-video';
 
-export async function admin_intiVideo() {
-      navigate_link(createVideo_btnId, apiConfig.endpoints.admin_createVideoPage, admin_createVideo);
+export async function initVideoAdmin() {
+      spaNavigateLink(createVideo_btnId, api_configs.endpoints.adminCreateVideoPage, initCreateVideo);
 }
+
+

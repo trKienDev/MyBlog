@@ -2,11 +2,11 @@ import { getAdminPage } from "../Admin/Controllers/admin.controller.js";
 import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
 import { createCollection, GetCollection_byId, GetCollections } from "../controllers/collection.controller.js";
 import { CreateCreator, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
-import { CreateFilm, GetFilms, update_film } from "../controllers/film.controller.js";
+import { filmController } from "../controllers/film.controller.js";
 import { CreateStudio, DeleteStudio, GetStudioById, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
 import { getTags, createTag, GetFilmTags, GetTag_byId } from "../controllers/tag.controller.js";
 import { Route } from "../interfaces/Route.js";
-import { ValidateId } from "../middlewares/validate-id.js";
+import { ValidateId, ValidateIds } from "../middlewares/validate-id.js";
 import { createRouter } from "./routes.js";
 
 const adminRoutes: Route[] = [
@@ -37,9 +37,10 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/collection/:id', handler: ValidateId(GetCollection_byId) },
       { method: 'POST', path: '/admin/collection', handler: createCollection },
       // film
-      { method: 'GET', path: '/admin/films', handler: GetFilms },
-      { method: 'POST', path: '/admin/film', handler: CreateFilm },
-      { method: 'PUT', path: '/admin/film/:id', handler: ValidateId(update_film) },
+      { method: 'GET', path: '/admin/films', handler: filmController.getFilms },
+      { method: 'GET', path: '/admin/films/studio-code/:studio_id/:code_id', handler: ValidateIds(['studio_id', 'code_id'], filmController.findFilmsByStudioAndCode) },
+      { method: 'POST', path: '/admin/film', handler: filmController.createFilm },
+      { method: 'PUT', path: '/admin/film/:id', handler: ValidateId(filmController.updateFilm) },
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);

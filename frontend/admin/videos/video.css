@@ -1,3 +1,43 @@
+#create-video .body {
+      justify-content: unset;
+}
 #create-video .search-form {
       width: 150px;
+}
+#searched-films {
+      margin-left: 50px;
+      width: 50%;
+}
+#searched-films tr:hover {
+      cursor: pointer;
+}
+#search-films_section {
+      display: flex;
+      margin-top: 30px;
+}
+#create-video_section {
+      margin-top: 50px;
+      width: 85%;
+}
+#create-video_section .col-video {
+      width: 80%;
+      padding: 0 25px;
+}
+#create-video_section .col-video_info {
+      width: 25%;
+      padding: 20px;
+      border: 2px solid var(--secondary-border);
+      border-radius: 5px;
+      transition: 0.5s all ease;
+      max-height: 400px;
+}
+#create-video_section .film-thumbnail {
+      height: 400px;
+      width: 267px;
+}
+#create-videoo_section .thumbnail-image {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 5px;
 }

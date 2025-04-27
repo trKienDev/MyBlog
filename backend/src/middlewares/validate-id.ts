@@ -16,3 +16,17 @@ export const ValidateId = ( handler: (req: ValidateIdRequest, res: ServerRespons
             return handler(reqWithId, res);
       };
 };
+
+
+export const ValidateIds = (paramNames: string[], handler: (req: CustomRequest, res: ServerResponse) => Promise<void> | void) => {
+      return async (req: CustomRequest, res: ServerResponse) => {
+            const missingParams = paramNames.filter(param => !req.params?.[param]);
+            
+            if (missingParams.length > 0) {
+                  return sendError(res, 400, new Error(`Missing params: ${missingParams.join(', ')}`));
+            }
+
+            return handler(req, res);
+      };
+};
+  

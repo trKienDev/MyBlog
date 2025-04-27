@@ -2,7 +2,7 @@ import { SelectStudios } from "../../components/select.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import * as fetchAPI from "../../api/fetch.api.js";
 import * as htmlHandler from "../../components/table.component.js";
-import apiConfig from "../../api/api.config.js";
+import api_configs from "../../api/api.config.js";
 
 let formStudio = "form-studio";
 let studioSelection = "studio-selection";
@@ -27,7 +27,7 @@ async function RenderCodes(studio_id) {
             const tbody = document.querySelector("#list-codes tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchAPI.get(`${apiConfig.endpoints.getCodesByStudio}/${studio_id}`);
+            const result = await fetchAPI.get(`${api_configs.endpoints.getCodesByStudio}/${studio_id}`);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -52,7 +52,7 @@ async function CreateNewCode() {
 
             const data = { studio: studio.value , code: code.value };
             try {
-                  const result = await fetchAPI.create_json(`${apiConfig.endpoints.createCode}`, data);
+                  const result = await fetchAPI.create_json(`${api_configs.endpoints.createCode}`, data);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
