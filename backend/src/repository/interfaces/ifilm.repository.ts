@@ -1,4 +1,3 @@
-import { ServerResponse } from "http";
 import { CreateFilmDTO, FilmDTO, updateFilm_dto } from "../../dtos/film.dto.js";
 
 export interface iFilmRepository {

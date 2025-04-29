@@ -14,42 +14,45 @@ const api_configs = {
             adminCollectionPage: '/admin/collections/collection.html',
             adminVideoPage: '/admin/videos/video.html',
             adminCreateVideoPage: '/admin/videos/create-video.html',
-
+            adminPlaylistPage: '/admin/playlists/playlist.html',
             // creator
             getCreators: '/admin/creators', // GET
             createCreator: '/admin/creator', // POST
             updateCreator: '/admin/creator', // PUT
             deleteCreator: '/admin/creator',
-            
             // studio
             getStudios: '/admin/studios', // GET
             getStudioById: '/admin/studio', // GET
             createStudio: '/admin/studio', // POST
             updateStudio: '/admin/studio', // PUT
             deleteStudio: '/admin/studio', // DELETE
-            
             // tag
             getTags: '/admin/tags', // GET
             getTag_byId: '/admin/tag', // GET
             getFilmTags: '/admin/tags/film', // GET
+            getTagsByVideo: '/admin/tags/video', // GET
             createTag: '/admin/tag', // POST
-            
             //code
             getCodes: '/admin/codes', // GET
             getCode_byId: '/admin/code', // GET
             getCodesByStudio: '/admin/codes/studio', // GET
             createCode: '/admin/code', // POST
-            
             // collection
             getCollection_byId: '/admin/collection', // GET
             getCollections: '/admin/collections', // GET
             createCollection: '/admin/collection', // POST
-
             // film
             getFilms: '/admin/films', // GET
             findFilmsByStudioCode: '/admin/films/studio-code', // GET
             createFilm: '/admin/film', // POST
             update_film: '/admin/film', // PUT
+            // video
+
+            // playlist
+            getPlaylists: '/admin/playlists', // GET
+            createPlaylist: '/admin/playlist', // POST
+
+
 
             //codeAV
             codeAVList: '/admin/codeAV/read',

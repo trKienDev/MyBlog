@@ -2,8 +2,8 @@ import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import modal_component from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
-import * as fetchAPI from "../../api/fetch.api.js";
 import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import fetch_api from "../../api/fetch.api.js";
 
 let formId = "creator-form";
 let imgId = "img";
@@ -23,7 +23,7 @@ export function initCreatorAdmin() {
 
 async function RenderCreators(element) {
       try {
-            const result = await fetchAPI.get(api_configs.endpoints.getCreators);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getCreators);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -74,7 +74,7 @@ async function CreateNewCreator() {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.create_form(api_configs.endpoints.createCreator, formData);
+                  const result = await fetch_api.createForm(api_configs.endpoints.createCreator, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -116,7 +116,7 @@ async function UpdateCreator(creator) {
             const formData = new FormData(form);
             
             try {
-                  const result = await fetchAPI.update_form(`${api_configs.endpoints.updateCreator}/${creator._id}`, formData);
+                  const result = await fetch_api.updateForm(`${api_configs.endpoints.updateCreator}/${creator._id}`, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }

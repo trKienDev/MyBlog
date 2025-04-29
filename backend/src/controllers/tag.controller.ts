@@ -46,3 +46,16 @@ export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
             return sendError(res, 500, error);
       }
 }
+
+const getTagsByVideo = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const tags_video = await repository.getTagsByVideo();
+            return sendResponse(res, 200, tags_video);
+      } catch(error) {  
+            return sendError(res, 500, error);
+      }
+}
+
+export const tag_controller = {
+      getTagsByVideo,
+}

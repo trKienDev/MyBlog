@@ -3,6 +3,8 @@
 }
 #create-video .search-form {
       width: 150px;
+      height: 194px;
+      overflow-y: auto;
 }
 #searched-films {
       margin-left: 50px;
@@ -34,6 +36,7 @@
       transition: 0.5s all ease;
       max-height: 300px;
       min-height: 300px;
+      overflow-y: auto;
 }
 #create-video_section .button {
       margin-top: 20px;
@@ -47,4 +50,28 @@
       height: 100%;
       object-fit: fill;
       border-radius: 5px;
+}
+th.fiilm-select, td.film-select {
+      width: 40px;
+      text-align: center;
+}
+#searched-films_table tbody tr.selected {
+      background-color: #eef5ff;
+}
+#searched-films_table input[type="checkbox"] {
+      accent-color: var(--primary-color);
+      pointer-events: none;
+}
+.thumbnail-video:hover {
+      transition: all 0.5s ease;
+      filter: brightness(0.9);
+}
+#thumbnail-video {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 5px;
+}
+#thumbnail-video:hover {
+      cursor: pointer;
 }

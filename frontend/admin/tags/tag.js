@@ -1,7 +1,7 @@
 import api_configs from "../../api/api.config.js";
-import * as fetchApi from "../../api/fetch.api.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import * as htmlHandler from "../../components/table.component.js";
+import fetch_api from "../../api/fetch.api.js";
 
 export function initTagAdmin() {
       render_tags();
@@ -13,7 +13,7 @@ async function render_tags() {
             const tbody = document.querySelector("#tag-table tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchApi.get(api_configs.endpoints.getTags);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getTags);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -44,7 +44,7 @@ async function create_newTag() {
             const data = { name: name.value, kind: kind.value };
             
             try {
-                  const result = await fetchApi.create_json(`${api_configs.endpoints.createTag}`, data);
+                  const result = await fetch_api.createJson(`${api_configs.endpoints.createTag}`, data);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }

@@ -2,8 +2,8 @@ import modal_component from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import api_configs from "../../api/api.config.js";
-import * as fetchAPI from "../../api/fetch.api.js";
 import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import fetch_api from "../../api/fetch.api.js";
 
 const { initModal, resetModal } = modal_component;
 
@@ -26,7 +26,7 @@ async function RenderStudios(element) {
             const tbody = document.querySelector(element);
             tbody.innerHTML = '';
 
-            const result = await fetchAPI.get(api_configs.endpoints.getStudios);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getStudios);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -70,7 +70,7 @@ async function CreateNewStudio() {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.create_form(api_configs.endpoints.createStudio, formData);
+                  const result = await fetch_api.createForm(api_configs.endpoints.createStudio, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -99,7 +99,7 @@ function UpdateStudio(studio) {
       image.src = `${api_configs.server}/uploads/studio/${studio.image}`;
       modal.style.display = "block";
 
-      const resetOptions = { form, image, imgInput, modal, defaultImg };
+      const reset_options = { form, image, imgInput, modal, defaultImg };
 
       form.onsubmit = async(event) => {
             event.preventDefault();
@@ -107,7 +107,7 @@ function UpdateStudio(studio) {
             const formData = new FormData(form);
 
             try {
-                  const result = await fetchAPI.update_form(`${api_configs.endpoints.updateStudio}/${studio._id}`, formData);
+                  const result = await fetch_api.updateForm(`${api_configs.endpoints.updateStudio}/${studio._id}`, formData);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -119,7 +119,7 @@ function UpdateStudio(studio) {
                   error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
-                  resetModal(resetOptions);
+                  resetModal(reset_options);
             }
       };
 }

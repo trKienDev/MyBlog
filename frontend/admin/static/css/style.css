@@ -3,6 +3,7 @@
 @import url('popup-modal.css');
 @import url('button.css');
 @import url('search-form.css');
+@import url('../../../static/css/keyword.css');
 
 body {
       font-family: 'Lexend', sans-serif;
@@ -167,17 +168,17 @@ textarea {
 
 .search-box input {
       font-family: 'Lexend', sans-serif;
-      border: none;               /* No border for the input */
-      background-color: transparent; /* Transparent background to match the search box */
-      color: #000000;             /* Text color */
-      outline: none;              /* Remove default focus outline */
-      width: 100%;                /* Take up the remaining width */
-      font-size: 14px;            /* Font size of the input text */
+      border: none;        
+      background-color: transparent; 
+      color: #000000;        
+      outline: none;       
+      width: 100%;           
+      font-size: 14px;      
 }
 
 .search-box input::placeholder {
       font-family: 'Lexend', sans-serif;
-      color: #000000; /* Opaque black */
+      color: #000000; 
 }
 
 
@@ -185,9 +186,9 @@ textarea {
       width: 87%;
 }
 .container  {
-      margin: 0 auto; /* Căn giữa container theo chiều ngang */
-      padding: 30px 30px 0px; /* Tạo khoảng cách bên trong container */
-      box-sizing: border-box; /* Bao gồm padding và border vào kích thước tổng */
+      margin: 0 auto; 
+      padding: 30px 30px 0px;
+      box-sizing: border-box; 
 }
 #sidebar {
       width: 13%;
@@ -238,13 +239,13 @@ textarea {
 }
 #settingPage .sidebarRow {
       display: flex;
-      flex-wrap: wrap; /* Cho phép các phần tử con xuống dòng */
-      justify-content: flex-start; /* Canh đều khoảng cách giữa các phần tử */
-      margin: 0 -15px; /* Giữ khoảng cách padding cũ */
+      flex-wrap: wrap; 
+      justify-content: flex-start;
+      margin: 0 -15px; 
 }
 #settingPage .sidebarItem {
-      flex: 0 1 calc(20% - 30px); /* Đảm bảo mỗi item chiếm 20% chiều rộng, trừ đi khoảng cách padding */
-      margin: 0 15px 15px; /* Tạo khoảng cách giữa các phần tử */
+      flex: 0 1 calc(20% - 30px); 
+      margin: 0 15px 15px; 
 }
 #settingPage .sidebarItem-name {
       padding-left: 10px;
@@ -320,7 +321,7 @@ textarea {
       display: none !important;
 }
 .toast-progress-bar {
-      background-color: #ffffff; /* Màu thanh tiến trình vàng */
+      background-color: #ffffff;
 }
 .custom-dropdown {
       position: relative;

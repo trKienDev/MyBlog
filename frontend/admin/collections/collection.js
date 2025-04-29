@@ -1,7 +1,7 @@
 import api_configs from "../../api/api.config.js";
-import * as fetchApi from "../../api/fetch.api.js";
 import * as sweetAlert from "../../utils/sweet-alert.js";
 import * as htmlHandler from "../../components/table.component.js";
+import fetch_api from "../../api/fetch.api.js";
 
 export function InitCollectionAdmin() {
       CreateNewCollection();
@@ -13,7 +13,7 @@ async function RenderCollections() {
             const tbody = document.querySelector("#collection-table tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchApi.get(api_configs.endpoints.getCollections);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getCollections);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -28,7 +28,7 @@ async function RenderCollections() {
                   tbody.appendChild(row);
             });   
       } catch(error) {
-            console.error('Error getting tags: ', error);
+            console.error('Error getting collections: ', error);
             sweetAlert.error_sweetAlert(error);
       }
 }
@@ -41,7 +41,7 @@ async function CreateNewCollection() {
             const data = { name: name.value} ;
 
             try {
-                  const result = await fetchApi.create_json(`${api_configs.endpoints.createCollection}`, data);
+                  const result = await fetch_api.createJson(`${api_configs.endpoints.createCollection}`, data);
 
                   if(result.success === false) {
                         throw new Error(result.error);

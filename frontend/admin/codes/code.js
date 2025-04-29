@@ -1,8 +1,8 @@
 import { SelectStudios } from "../../components/select.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
-import * as fetchAPI from "../../api/fetch.api.js";
 import * as htmlHandler from "../../components/table.component.js";
 import api_configs from "../../api/api.config.js";
+import fetch_api from "../../api/fetch.api.js";
 
 let formStudio = "form-studio";
 let studioSelection = "studio-selection";
@@ -27,7 +27,7 @@ async function RenderCodes(studio_id) {
             const tbody = document.querySelector("#list-codes tbody");
             tbody.innerHTML = '';
 
-            const result = await fetchAPI.get(`${api_configs.endpoints.getCodesByStudio}/${studio_id}`);
+            const result = await fetch_api.apiGet(`${api_configs.endpoints.getCodesByStudio}/${studio_id}`);
             if(result.success === false) {
                   throw new Error(result.error);
             }

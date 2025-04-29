@@ -15,7 +15,6 @@ export class CollectionRepository implements iCollectionRepository {
       }
 
       public async CreateCollection(data: string): Promise<CollectionDTO> {
-            console.log("run CreateCollection in repository");
             const collection = new Collection({ name: data });
             const createdCollection = await collection.save();
             return MappingDocToDTO(createdCollection);

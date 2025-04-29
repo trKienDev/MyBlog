@@ -1,6 +1,5 @@
 import modal_component from "../../components/modal.component.js";
 import { getSelectedOptionById, initSelectSearch, resetSelectSearch } from "../../components/select-search.component.js";
-import * as fetchAPI from "../../api/fetch.api.js";
 import api_configs from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
@@ -12,6 +11,7 @@ import { updateFilm } from "./update-film.js";
 import { selectCodeByStudio } from "../../components/select.component.js";
 import { getStudioById } from "../../api/studio.api.js";
 import { getDateFromStr } from "../../utils/date.js";
+import fetch_api from "../../api/fetch.api.js";
 
 let default_thumbnail = '/admin/static/images/film/thumbnail-upload_default.png';
 
@@ -31,7 +31,7 @@ export async function initFilmAdmin() {
 
 export async function renderFilms(element) {
       try {
-            const result = await fetchAPI.get(api_configs.endpoints.getFilms);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getFilms);
             if(result.success === false) {
                   throw new Error(result.error);
             }

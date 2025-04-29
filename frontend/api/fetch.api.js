@@ -1,6 +1,6 @@
 import api_configs from "./api.config.js";
 
-export async function get(endpoint) {
+async function apiGet(endpoint) {
       try {
             const response = await fetch(`${api_configs.server}${endpoint}`);
             if(!response.ok) {
@@ -14,7 +14,7 @@ export async function get(endpoint) {
       }
 }
 
-export async function create_form(endpoint, form) {
+async function createForm(endpoint, form) {
       try {
             const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'POST',
@@ -32,7 +32,7 @@ export async function create_form(endpoint, form) {
       }
 }
 
-export async function create_json(endpoint, data) {
+async function createJson(endpoint, data) {
       try {
             const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'POST',
@@ -54,7 +54,7 @@ export async function create_json(endpoint, data) {
       }
 }
 
-export async function update_form(endpoint, form) {
+async function updateForm(endpoint, form) {
       try {
             const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'PUT',
@@ -73,7 +73,7 @@ export async function update_form(endpoint, form) {
       }
 }
 
-export async function method_delete(endpoint) {
+async function apiDelete(endpoint) {
       try {
             const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'DELETE',
@@ -90,3 +90,12 @@ export async function method_delete(endpoint) {
             throw new Error(`Error in api method: ${error}`);
       }
 }
+
+const fetch_api = {
+      apiGet,
+      createForm,
+      createJson,
+      updateForm,
+      apiDelete,
+};
+export default fetch_api;

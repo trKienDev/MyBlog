@@ -1,5 +1,4 @@
 import api_configs from "../../api/api.config.js";
-import * as fetchAPI from '../../api/fetch.api.js';
 import { GetCollectionName_byId } from "../../api/collection.api.js";
 import { GetStudioName_byId } from "../../api/studio.api.js";
 import { clone_resetForm } from "../../components/form.component.js";
@@ -11,6 +10,7 @@ import id_selectors from "../../selectors/element-id.selector.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import { selectCodeByStudio } from "../../components/select.component.js";
 import { getTagById } from "../../api/tag.api.js";
+import fetch_api from "../../api/fetch.api.js";
 
 const { openModal, closeModal} = modal_component;
 
@@ -27,7 +27,7 @@ export async function updateFilm(film) {
 
                   const form_data = collectUpdateForm();
                   try {
-                        const result = await fetchAPI.update_form(`${api_configs.endpoints.update_film}/${film._id}`, form_data);
+                        const result = await fetch_api.updateForm(`${api_configs.endpoints.update_film}/${film._id}`, form_data);
                         if(result.success === false) {
                               throw new Error(result.error);
                         }

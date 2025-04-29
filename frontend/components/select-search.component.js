@@ -1,4 +1,4 @@
-import * as fetchAPI from "../api/fetch.api.js";
+import fetch_api from "../api/fetch.api.js";
 
 export async function initSelectSearch(elment_id, endpoint, value) {
       const list = await getSelectList(endpoint);
@@ -6,7 +6,7 @@ export async function initSelectSearch(elment_id, endpoint, value) {
 }
  
 async function getSelectList(endpoint) {
-      const result = await fetchAPI.get(endpoint);
+      const result = await fetch_api.apiGet(endpoint);
       if(result.success === false) {
             throw new Error(result.error);
       }

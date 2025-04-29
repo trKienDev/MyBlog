@@ -42,7 +42,7 @@
                                                 <th class="film-studio">Studio</th>
                                                 <th class="film-date">Date</th>
                                                 <th class="film-rating">Rating</th>
-                                                <th></th>
+                                                <th class="film-select">Select</th>
                                           </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -62,6 +62,22 @@
                                     <div class="row">
                                           <div class="col-video_info">
                                                 <div class="submit-video_container">
+                                                      <div id="video-playlist" class="mar_top-10px">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select playlist</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search playlist ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
                                                       <div id="video-creator">
                                                             <div class="select-search_component">
                                                                   <div class="wrapper">
@@ -104,9 +120,12 @@
                                                 </div>
                                           </div>
                                           <div class="col-video_upload">
-                                                <video width="711" height="400" controls>
-                                                      <source src="path/to/your-video.mp4" type="video/mp4">
-                                                      Your browser does not support the video tag.
+                                                <div class="thumbnail-video">
+                                                      <img id="thumbnail-video" src="/admin/static/images/video/video-upload.png" alt="film-thumbnail" style="height: 400px; width: 711px;">
+                                                      <input type="file" id="upload-video" accept="video/mp4" style="display: none;">
+                                                </div>
+                                                <video class="d-none" width="711" height="400" controls >
+                                                      <source src="" type="video/mp4">
                                                 </video>
                                           </div>
                                     </div>

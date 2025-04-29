@@ -9,7 +9,6 @@ export class CollectionService {
       }
 
       public async createCollection(req: IncomingMessage) {
-            console.log("run createCollection - collection.service");
             const requiredParam = ['name'];
             const body = await parseJSON(req, requiredParam);
             

@@ -6,6 +6,12 @@ const films = {
       film_collection: 'film-collection',
       film_rating: 'film-rating',
       code_number: 'code-number',
+      search_film: 'search-film',
+}
+const videos = {
+      video_creator: 'video-creator',
+      video_tag: 'video-tag',
+      video_playlist: 'video-playlist',
 }
 const buttons = {
       submit_btn: 'submit-btn',
@@ -16,7 +22,6 @@ const date = {
 const thumbnail = {
       thumbnail_image: 'thumbnail-image',
       thumbnail_upload: 'thumbnail-upload',
-
 }
 const container = {
       selected_tag: 'selected-tag_container',
@@ -28,10 +33,12 @@ const modal = {
 }
 const table = {
       film_tbody: '#film-table tbody',
+      search_film: 'searched-films_table',
 }
 
 const id_selectors = {
       films,
+      videos,
       buttons,
       date,
       thumbnail,

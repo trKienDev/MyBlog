@@ -6,6 +6,7 @@ import { initCodeAdmin } from '/admin/codes/code.js';
 import { initFilmAdmin } from '/admin/films/films.js';
 import { InitCollectionAdmin } from '/admin/collections/collection.js';
 import { initVideoAdmin } from '/admin/videos/video.js';
+import { initPlaylistAdmin } from '/admin/playlists/playlist.js';
 
 let dynamicLoadingElement = 'dynamic-section';
 
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       spaNavigateLink('tag-link', api_configs.endpoints.adminTagPage, initTagAdmin);
       spaNavigateLink('collection-link', api_configs.endpoints.adminCollectionPage, InitCollectionAdmin);
       spaNavigateLink('video-link', api_configs.endpoints.adminVideoPage, initVideoAdmin);
+      spaNavigateLink('playlist-link', api_configs.endpoints.adminPlaylistPage, initPlaylistAdmin);
 });
 
 export function spaNavigateLink(link_id, endpoint, callback = () => {}) {

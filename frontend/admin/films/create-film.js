@@ -1,9 +1,9 @@
-import * as fetchAPI from './../../api/fetch.api.js';
 import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import modal_component from "../../components/modal.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import { buildFilmForm } from './films.js';
+import fetch_api from "../../api/fetch.api.js";
 
 const { closeModal } = modal_component;
 
@@ -22,7 +22,7 @@ export async function createFilm() {
                   }
 
                   try {
-                        const result = await fetchAPI.create_form(api_configs.endpoints.createFilm, form_data);
+                        const result = await fetch_api.createForm(api_configs.endpoints.createFilm, form_data);
                         if(result.success === false) {
                               throw new Error(result.error);
                         }

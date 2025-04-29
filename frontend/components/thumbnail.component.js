@@ -1,12 +1,12 @@
-export function waitForUploadOrSubmit(thumbnailImgId, thumbnailUploadId, submitBtnId) {
+export function waitForUploadOrSubmit(thumbnailImg_id, thumbnailUpload_id, submitBtn_id) {
       return new Promise((resolve) => {
-            const thumbnailImage = document.getElementById(thumbnailImgId);
-            const thumbnailUpload = document.getElementById(thumbnailUploadId);
-            const submitBtn = document.getElementById(submitBtnId);
+            const thumbnail_image = document.getElementById(thumbnailImg_id);
+            const thumbnail_upload = document.getElementById(thumbnailUpload_id);
+            const submit_button = document.getElementById(submitBtn_id);
 
             const onUpload = () => {
-                  if(thumbnailUpload.files.length > 0) {
-                        const file = thumbnailUpload.files[0];
+                  if(thumbnail_upload.files.length > 0) {
+                        const file = thumbnail_upload.files[0];
                         cleanup();
                         resolve({ type: 'upload', file });
                   }
@@ -18,18 +18,15 @@ export function waitForUploadOrSubmit(thumbnailImgId, thumbnailUploadId, submitB
             }
 
             function cleanup() {
-                  thumbnailUpload.removeEventListener('change', onUpload);
-                  submitBtn.removeEventListener('click', onSubmit);
+                  thumbnail_upload.removeEventListener('change', onUpload);
+                  submit_button.removeEventListener('click', onSubmit);
             }
 
-            thumbnailImage.addEventListener('click', () => {
-                  thumbnailUpload.click();
+            thumbnail_image.addEventListener('click', () => {
+                  thumbnail_upload.click();
             });
 
-            thumbnailUpload.addEventListener('change', onUpload);
-            submitBtn.addEventListener('click', onSubmit);
+            thumbnail_upload.addEventListener('change', onUpload);
+            submit_button.addEventListener('click', onSubmit);
       });
 }
-
-
-

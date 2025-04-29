@@ -1,10 +1,10 @@
 import api_configs from "../api/api.config.js";
-import * as fetchAPI from "../api/fetch.api.js";
+import fetch_api from "../api/fetch.api.js";
 import { error_sweetAlert } from "../utils/sweet-alert.js";
 
 export async function SelectStudios(studioId) {
       try {
-            const result = await fetchAPI.get(api_configs.endpoints.getStudios);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getStudios);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -19,7 +19,7 @@ export async function SelectStudios(studioId) {
 
 export async function SelectCodes(codeId) {
       try {
-            const result = await fetchAPI.get(api_configs.endpoints.getCodes);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getCodes);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -34,7 +34,7 @@ export async function SelectCodes(codeId) {
 
 export async function selectCodeByStudio(codeId, studio_id) {
       try {
-            const result = await fetchAPI.get(`${api_configs.endpoints.getCodesByStudio}/${studio_id}`);
+            const result = await fetch_api.apiGet(`${api_configs.endpoints.getCodesByStudio}/${studio_id}`);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -49,7 +49,7 @@ export async function selectCodeByStudio(codeId, studio_id) {
 
 export async function selectCreators(creatorId) {
       try {
-            const result = await fetchAPI.get(api_configs.endpoints.getCreators);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getCreators);
             if(result.success === false) {
                   throw new Error(result.error);
             }
@@ -64,7 +64,7 @@ export async function selectCreators(creatorId) {
 
 export async function SelectFilmTags(tagId) {
       try {
-            const result = await fetchAPI.get(api_configs.endpoints.getFilmTags);
+            const result = await fetch_api.apiGet(api_configs.endpoints.getFilmTags);
             if(result.success === false) {
                   throw new Error(result.error);
             }
