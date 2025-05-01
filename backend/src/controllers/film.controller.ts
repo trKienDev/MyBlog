@@ -4,7 +4,6 @@ import { sendError, sendResponse } from "../middlewares/response.js";
 import { FilmRepository } from "../repository/film.repository.js";
 import { FilmService } from "../services/film.service.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
-import { ExtractParamFromRequest } from "../utils/request.utils.js";
 
 const repository = new FilmRepository();
 const service = new FilmService(repository);

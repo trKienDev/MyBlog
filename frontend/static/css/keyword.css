@@ -1,21 +1,17 @@
 /* width */
-.w-100pct {
-      width: 100%;
-}
+.w-100pct { width: 100%; }
 
 /* height */
-.max-hei_200px {
-      max-height: 200px;
-}
+.max-hei_200px { max-height: 200px; }
 
 /* margin */
-.mar_top-10px {
-      margin-top: 10px;
-}
+.mar_top-10px { margin-top: 10px; }
+
 /* display */
-.d-flex {
-      display: flex;
-}
-.d-none {
-      display: none;
+.d-flex { display: flex; }
+.d-none { display: none; }
+
+border-radius
+.bo-ra_5px {
+      border-radius: 5px;
 }

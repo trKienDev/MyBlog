@@ -1,4 +1,5 @@
 import fetch_api from "../api/fetch.api.js";
+import { showToast } from "../utils/toast-notification.js";
 
 export async function initSelectSearch(elment_id, endpoint, value) {
       const list = await getSelectList(endpoint);
@@ -72,10 +73,24 @@ function handleSelectionOption(list, value, options, button, wrapper) {
       });
 }
 
-export function getSelectedOptionById(selectId) {
-      const studioSelect_element = document.querySelector(`#${selectId} .select-btn span`);
-      const selectedStudio_id = studioSelect_element.getAttribute("item-id");
-      return selectedStudio_id;
+/**
+ * Lấy giá trị option từ dropdown custom.
+ * @param {string} selectId ID của container select
+ * @param {'id'|'text'} option - 'id' để lấy item-id, 'text' để lấy innerText
+ * @returns {string|null} Giá trị tương ứng hoặc null nếu không tìm thấy
+ */
+export function getSelectedOptionValue(select_id, option) {
+      const span = document.querySelector(`#${select_id} .select-btn span`);
+      if(!span) return null;
+
+      switch(option) {
+            case 'id': return span.getAttribute('item-id');
+            case 'text': return span.innerText.trim();
+            default:    
+                  showToast('Unexpected error', 'error');
+                  console.warn(`Unsupported option "${option}'`);
+                  return null;
+      }
 }
 
 export function resetSelectSearch(configs) {

@@ -1,5 +1,5 @@
 import modal_component from "../../components/modal.component.js";
-import { getSelectedOptionById, initSelectSearch, resetSelectSearch } from "../../components/select-search.component.js";
+import { getSelectedOptionValue, initSelectSearch, resetSelectSearch } from "../../components/select-search.component.js";
 import api_configs from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
@@ -15,10 +15,8 @@ import fetch_api from "../../api/fetch.api.js";
 
 let default_thumbnail = '/admin/static/images/film/thumbnail-upload_default.png';
 
-const { resetModal, initModal } = modal_component;
-
 export async function initFilmAdmin() {
-      initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.create_film, resetFilmModal);
+      modal_component.initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.create_film, resetFilmModal);
       renderFilms(id_selectors.table.film_tbody);
       initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
       initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
@@ -175,7 +173,7 @@ export function resetFilmModal() {
             { id: "film-collection", placeholder: "Select collection" },
             { id: "film-tag", placeholder: "Select tag" }
       ]);
-      resetModal(id_selectors.films.film_form, id_selectors.thumbnail.thumbnail_image,id_selectors.thumbnail.thumbnail_upload, default_thumbnail);
+      modal_component.resetModal(id_selectors.films.film_form, id_selectors.thumbnail.thumbnail_image,id_selectors.thumbnail.thumbnail_upload, default_thumbnail);
       resetCodeSelection(id_selectors.container.selected_tag);
       resetTagSelection();
 }
@@ -188,7 +186,7 @@ function resetCodeSelection(filmCode_id) {
       codeSelect_el.appendChild(option);
 }
 
-function resetTagSelection() {
+export function resetTagSelection() {
       const tag_container = document.getElementById(id_selectors.container.selected_tag);
       tag_container.innerHTML = '';
 }
@@ -202,10 +200,10 @@ export function getSelectedTags(container_id, css_class) {
 export function buildFilmForm(include_file, thumbnail_file) {
       const form = new FormData();
 
-      const studio_id = getSelectedOptionById(id_selectors.films.film_studio);
+      const studio_id = getSelectedOptionValue(id_selectors.films.film_studio, 'id');
       const code_id = getSelectedCodeOption(id_selectors.films.film_code).value;
       const name = getFilmName(id_selectors.films.film_code, id_selectors.films.code_number);
-      const collection_id = getSelectedOptionById(id_selectors.films.film_collection);
+      const collection_id = getSelectedOptionValue(id_selectors.films.film_collection, 'id');
       const date = document.getElementById(id_selectors.date.release_date).value;
       const rating = document.getElementById(id_selectors.films.film_rating).value;
       const tags = getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);

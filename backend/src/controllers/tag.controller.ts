@@ -56,6 +56,16 @@ const getTagsByVideo = async(req: IncomingMessage, res: ServerResponse) => {
       }
 }
 
+const getTagsByAction = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const tags_action = await repository.getTagsByAction();
+            return sendResponse(res, 200, tags_action);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
 export const tag_controller = {
       getTagsByVideo,
+      getTagsByAction,
 }

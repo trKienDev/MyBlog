@@ -6,7 +6,7 @@ const getUploadPath = (folder: string) => {
 };
 
 export class FileService {
-      public static async DeleteFile(folder: string, file: string): Promise<void> {
+      public static async deleteFile(folder: string, file: string): Promise<void> {
             const folderPath = getUploadPath(folder);
             const filePath = path.join(folderPath, file);
 

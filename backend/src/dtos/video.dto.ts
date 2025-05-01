@@ -3,8 +3,10 @@ import mongoose from "mongoose";
 export interface VideoDTO {
       _id?: mongoose.Types.ObjectId;
       name: string;
-      creator_id: mongoose.Types.ObjectId;
-      playlist_id?: mongoose.Types.ObjectId;
-      tag_ids: mongoose.Types.ObjectId[];
+      action_id: string;
+      creator_id: string;
+      film_id: string;
+      playlist_id?: string;
+      tag_ids: string[];
       file_path: string;
 }

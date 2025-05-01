@@ -2,7 +2,8 @@ import { CreatorDTO } from "../dtos/creator.dto.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ICreatorRepository } from "../repository/interfaces/icreator.repository.js";
 import { FileService } from "../utils/file.service.js";
-import { UploadFile } from "../utils/file.utils.js";
+import { uploadFile } from "../utils/file.utils.js";
+
 
 export class CreatorService {
       private creatorRepo: ICreatorRepository;
@@ -20,7 +21,7 @@ export class CreatorService {
       }
 
       async CreateCreator(req: CustomRequest) {
-            const { imgName } = await UploadFile(req, "creator/avatar");
+            const { file_name } = await uploadFile(req, "creator/avatar");
             const { name, birth, skin, body, breast } = req.body;
             const existingCreator = await this.creatorRepo.FindByNameAndBirth(name, birth);
             if(existingCreator) {
@@ -33,7 +34,7 @@ export class CreatorService {
                   skin,
                   body,
                   breast,
-                  image: imgName
+                  image: file_name
             };
             
             const newCreator = await this.creatorRepo.Create(data);
@@ -46,13 +47,13 @@ export class CreatorService {
                   throw new Error("Creator not found!");
             }
 
-            const { imgName } = await UploadFile(req, "creator/avatar");
+            const { file_name } = await uploadFile(req, "creator/avatar");
             const { name, birth, skin, studio, breast, body } = req.body;
             const updateData: Record<string, any> = { name, birth, skin, body, breast };
 
-            if(imgName) {
-                  FileService.DeleteFile("creator/avatar", currentCreator.image);
-                  updateData.image = imgName;
+            if(file_name) {
+                  FileService.deleteFile("creator/avatar", currentCreator.image);
+                  updateData.image = file_name;
             }
 
             const updatedCreator = await this.creatorRepo.UpdateCreator(id, updateData);
@@ -66,7 +67,7 @@ export class CreatorService {
       public async DeleteCreator(id: string): Promise<CreatorDTO> {
             const studio = await this.FindCreatorById(id);
             if(!studio.image) {
-                  await FileService.DeleteFile("creator/avatar", studio.image);
+                  await FileService.deleteFile("creator/avatar", studio.image);
             }
 
             return this.creatorRepo.Delete(id);

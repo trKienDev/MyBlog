@@ -2,7 +2,7 @@ import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import modal_component from "../../components/modal.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import { buildFilmForm } from './films.js';
+import { buildFilmForm, resetFilmModal } from './films.js';
 import fetch_api from "../../api/fetch.api.js";
 
 const { closeModal } = modal_component;

@@ -1,48 +1,59 @@
 import api_configs from "../../api/api.config.js";
-import { initSelectSearch } from "../../components/select-search.component.js";
+import { getSelectedOptionValue, initSelectSearch, resetSelectSearch } from "../../components/select-search.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import { error_sweetAlert } from "../../utils/sweet-alert.js";
+import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import { showToast } from "../../utils/toast-notification.js";
-import { displaySelectedTag, getCodeByStudio, getSelectedCodeOption } from "../films/films.js";
+import { displaySelectedTag, getCodeByStudio, getSelectedCodeOption, getSelectedTags, resetTagSelection } from "../films/films.js";
 import { getDateFromStr } from "../../utils/date.js";
 import { CreateTdTextCell } from "../../components/table.component.js";
 import { getStudioById } from "../../api/studio.api.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import { film_api } from "../../api/film.api.js";
+import fetch_api from "../../api/fetch.api.js";
 
 export function initCreateVideo() {
       initSearchFilm();
       searchFilm();
+      initSelectSearch(id_selectors.videos.video_action, api_configs.endpoints.getTagsByAction, 'name');
       initSelectSearch(id_selectors.videos.video_creator, api_configs.endpoints.getCreators, 'name');
       initSelectSearch(id_selectors.videos.video_tag, api_configs.endpoints.getTagsByVideo, 'name');
       initSelectSearch(id_selectors.videos.video_playlist, api_configs.endpoints.getPlaylists, 'name');
       displaySelectedTag(id_selectors.videos.video_tag, id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
+      waitForUploadVideo();
+      createVideo();
+}
 
-      document.getElementById('thumbnail-video').addEventListener('click', function() {
-            document.getElementById('upload-video').click();
-      });
-      
-      document.getElementById('upload-video').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file && file.type === 'video/mp4') {
-                  const videoElement = document.querySelector('video');
-                  const sourceElement = videoElement.querySelector('source');
-                  const thumbnailImage = document.getElementById('thumbnail-video');
+// Core function
+function createVideo() {
+      const createVideo_btn = document.getElementById(id_selectors.videos.create_video_btn);
+      createVideo_btn.addEventListener('click', async () => {
+            const video_info = collectVideoInfo();
+            const video_form = buildVideoForm(video_info);
+            console.log('form: ', video_form);
 
-                  const videoURL = URL.createObjectURL(file);
+            try { 
+                  const result = await fetch_api.createForm(api_configs.endpoints.createVideo, video_form);
+                  if(result.success === false) {
+                        throw new Error(result.error);
+                  }
 
-                  sourceElement.src = videoURL;
-
-                  videoElement.load();
-
-                  videoElement.classList.remove('d-none');
-                  thumbnailImage.style.display = 'none';
-            } else {
-                  alert('Please upload a valid MP4 video.');
+                  success_sweetAlert("Video created successfully");
+                  resetVideoPreview();
+                  resetTagSelection();
+                  resetSelectSearch([
+                        { id: id_selectors.videos.video_action, placeholder: "Select Action" },
+                        { id: id_selectors.videos.video_playlist, placeholder: "Select Playlist" },
+                  ]);
+            } catch(error) {
+                  console.error('Error creating video: ', error.message);
+                  error_sweetAlert(error);
             }
       });
 }
 
+
+
+// Search film
 async function initSearchFilm() {
       try {
             initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
@@ -52,7 +63,6 @@ async function initSearchFilm() {
             error_sweetAlert(error);
       }
 }
-
 async function searchFilm() {
       const search_btn = document.getElementById(id_selectors.films.search_film);
       search_btn.addEventListener('click', async () => {
@@ -70,7 +80,6 @@ async function searchFilm() {
             }
       });
 }
-
 async function renderFilmTable(films) {
       const tbody = document.querySelector(`#${id_selectors.table.search_film} tbody`);
       tbody.innerHTML = '';
@@ -82,6 +91,7 @@ async function renderFilmTable(films) {
       }
 }
 
+// Render film table
 async function createFilmRow(film) {
       const tr = document.createElement('tr');
       tr.setAttribute('data-id', film._id);
@@ -105,7 +115,6 @@ async function createFilmRow(film) {
 
       return { tr, checkbox };
 }
-
 function bindFilmRowEvents(tr, checkbox, film) {
       tr.addEventListener('click', () => {
             const is_selected = tr.classList.contains('selected');
@@ -126,3 +135,91 @@ function bindFilmRowEvents(tr, checkbox, film) {
             thumbnail_element.alt = `${film.name} thumbnail`;
       });
 }
+
+// upload video
+function waitForUploadVideo() {
+      const thumbnail = document.getElementById(id_selectors.videos.thumbnail_video);
+      const upload_input = document.getElementById(id_selectors.videos.upload_video);
+
+      thumbnail.addEventListener('click', () => {
+            upload_input.click();
+      });
+
+      upload_input.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && file.type === 'video/mp4') {
+                  const video_element = document.querySelector('video');
+                  const source_element = video_element.querySelector('source');
+                  const thumbnail_image = document.getElementById('thumbnail-video');
+
+                  const video_url = URL.createObjectURL(file);
+
+                  source_element.src = video_url;
+
+                  video_element.load();
+
+                  video_element.classList.remove('d-none');
+                  thumbnail_image.style.display = 'none';
+            } else {
+                  showToast('Please upload a valid mp4 video', 'error');
+            }
+      });
+}
+
+// create video
+function collectVideoInfo() {
+      const tag_ids = getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
+      if(tag_ids.length === 0) {
+            showToast('Please select at least a tag', 'warning');
+            return;
+      }
+
+      const upload_input = document.getElementById(id_selectors.videos.upload_video);
+      const file = upload_input.files[0];
+      if(!file) {
+            showToast('Please upload your video', 'warning');
+            return;
+      }
+      
+      const action_id = getSelectedOptionValue(id_selectors.videos.video_action, 'id');
+      const action_text = getSelectedOptionValue(id_selectors.videos.video_action, 'text');
+
+      const film_table = document.getElementById(id_selectors.table.search_film),
+      selected_film = film_table.querySelector('tr.selected');
+      const film_id = selected_film.getAttribute('data-id');
+      const film_name = selected_film.querySelector('td').textContent.trim();
+      const video_name = film_name + '_' + action_text;
+
+      const playlist_id = getSelectedOptionValue(id_selectors.videos.video_playlist, 'id');
+      const creator_id = getSelectedOptionValue(id_selectors.videos.video_creator, 'id');
+
+      return { video_name, film_id, action_id, playlist_id, creator_id, tag_ids, file };
+}
+function buildVideoForm(video_info) {
+      const video_form = new FormData();
+      video_form.append("name", video_info.video_name);
+      video_form.append("film_id", video_info.film_id);
+      video_form.append("action_id", video_info.action_id);
+      video_form.append("playlist_id", video_info.playlist_id);
+      video_form.append("creator_id", video_info.creator_id);
+      video_form.append("tag_ids", video_info.tag_ids);
+      video_form.append("file", video_info.file);
+
+      return video_form;
+}
+
+// reset form
+function resetVideoPreview() {
+      const video_element = document.querySelector('video');
+      const source_element = video_element.querySelector('source');
+      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
+      const upload_input = document.getElementById(id_selectors.videos.upload_video);
+
+      source_element.src = "";
+      video_element.load();
+
+      video_element.classList.add('d-none');
+      thumbnail_image.style.display = "";
+      upload_input.value = "";
+}
+

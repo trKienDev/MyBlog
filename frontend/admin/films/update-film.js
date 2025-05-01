@@ -31,6 +31,7 @@ export async function updateFilm(film) {
                         if(result.success === false) {
                               throw new Error(result.error);
                         }
+                        
                         success_sweetAlert('film updated');
                         closeModal(id_selectors.modal.create_film);
                         renderFilms(id_selectors.table.film_tbody);

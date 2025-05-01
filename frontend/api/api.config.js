@@ -30,6 +30,7 @@ const api_configs = {
             getTags: '/admin/tags', // GET
             getTag_byId: '/admin/tag', // GET
             getFilmTags: '/admin/tags/film', // GET
+            getTagsByAction: '/admin/tags/action', // GET
             getTagsByVideo: '/admin/tags/video', // GET
             createTag: '/admin/tag', // POST
             //code
@@ -47,7 +48,8 @@ const api_configs = {
             createFilm: '/admin/film', // POST
             update_film: '/admin/film', // PUT
             // video
-
+            getVideos: '/admin/videos', // GET
+            createVideo: '/admin/video', // POST
             // playlist
             getPlaylists: '/admin/playlists', // GET
             createPlaylist: '/admin/playlist', // POST

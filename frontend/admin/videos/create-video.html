@@ -1,4 +1,4 @@
-<section id="create-video">
+      <section id="create-video">
       <div class="container">
             <h1 class="heading-title">Create video</h1>
             <div id="search-films_section">
@@ -62,7 +62,23 @@
                                     <div class="row">
                                           <div class="col-video_info">
                                                 <div class="submit-video_container">
-                                                      <div id="video-playlist" class="mar_top-10px">
+                                                      <div id="video-action">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select Action</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search action ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                      <div id="video-playlist">
                                                             <div class="select-search_component">
                                                                   <div class="wrapper">
                                                                         <div class="select-btn">
@@ -116,7 +132,7 @@
                                                       </div>
                                                 </div>
                                                 <div class="button">
-                                                      <button class="btn btn-create" type="submit">Create</button>
+                                                      <button id="create-video_btn" class="btn btn-create" type="submit">Create</button>
                                                 </div>
                                           </div>
                                           <div class="col-video_upload">
@@ -124,7 +140,7 @@
                                                       <img id="thumbnail-video" src="/admin/static/images/video/video-upload.png" alt="film-thumbnail" style="height: 400px; width: 711px;">
                                                       <input type="file" id="upload-video" accept="video/mp4" style="display: none;">
                                                 </div>
-                                                <video class="d-none" width="711" height="400" controls >
+                                                <video class="video-frame d-none" width="711" height="400" controls >
                                                       <source src="" type="video/mp4">
                                                 </video>
                                           </div>

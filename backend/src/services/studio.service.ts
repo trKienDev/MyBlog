@@ -2,7 +2,7 @@ import { StudioDTO } from "../dtos/studio.dto.js";
 import { IStudioRepository } from "../repository/interfaces/istudio.repository.js";
 import { FileService } from "../utils/file.service.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { UploadFile } from "../utils/file.utils.js";
+import { uploadFile } from "../utils/file.utils.js";
 
 export class StudioService {
       private studioRepo: IStudioRepository;
@@ -19,13 +19,13 @@ export class StudioService {
       }
       
       public async CreateStudio(req: CustomRequest): Promise<StudioDTO> {
-            const { name, imgName } = await UploadFile(req, "studio");
+            const { name, file_name } = await uploadFile(req, "studio");
             const existingStudio = await this.studioRepo.FindStudioByName(name);
             if(existingStudio) {
                   throw new Error('Studio with this name has already existed.');
             }
       
-            const newStudio = await this.studioRepo.CreateStudio(name, imgName);
+            const newStudio = await this.studioRepo.CreateStudio(name, file_name);
             return newStudio;
       }
 
@@ -35,12 +35,12 @@ export class StudioService {
                   throw new Error("Studio not found");
             }
 
-            const { name, imgName } = await UploadFile(req, "studio");
+            const { name, file_name } = await uploadFile(req, "studio");
             const updateData: Record<string, any> = { name };
             
-            if(imgName) {
-                  FileService.DeleteFile("studio", currentStudio.image);
-                  updateData.image = imgName
+            if(file_name) {
+                  FileService.deleteFile("studio", currentStudio.image);
+                  updateData.image = file_name
             }
 
             const updatedStudio = await this.studioRepo.UpdateStudio(id, updateData);
@@ -54,7 +54,7 @@ export class StudioService {
       public async DeleteStudio(id: string): Promise<void> {
             const studio = await this.FindStudioById(id);
             if(studio.image) {
-                  await FileService.DeleteFile("studio", studio.image);
+                  await FileService.deleteFile("studio", studio.image);
             }
 
             await this.studioRepo.DeleteStudioById(id);

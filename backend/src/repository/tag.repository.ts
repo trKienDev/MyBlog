@@ -23,6 +23,11 @@ export class TagRepostory implements ITagRepository{
             const tags = await Tag.find({ kind: 'video' });
             return tags.map(tag => MappingDocToDTO(tag));
       }
+
+      public async getTagsByAction(): Promise<TagDTO[]> {
+            const tags = await Tag.find({ kind: 'action' });
+            return tags.map(tag => MappingDocToDTO(tag));
+      }
       
       public async Create(data: TagDTO): Promise<TagDTO> {
             const tag = new Tag(data);

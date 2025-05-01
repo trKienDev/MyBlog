@@ -9,9 +9,13 @@ const films = {
       search_film: 'search-film',
 }
 const videos = {
+      video_action: 'video-action',
       video_creator: 'video-creator',
       video_tag: 'video-tag',
       video_playlist: 'video-playlist',
+      create_video_btn: 'create-video_btn',
+      thumbnail_video: 'thumbnail-video',
+      upload_video: 'upload-video',
 }
 const buttons = {
       submit_btn: 'submit-btn',
