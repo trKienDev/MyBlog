@@ -12,7 +12,7 @@ export class FilmService {
       constructor(filmRepository: iFilmRepository) {
             this.film_repository = filmRepository;
       }
-
+      
       public async CreateFilm(req: CustomRequest): Promise<CreateFilmDTO> {
             const { name, file_name } = await uploadFile(req, "film");
             const existing_film = await this.film_repository.FindFilmByName(name);
@@ -46,7 +46,7 @@ export class FilmService {
 
       public async update_film(req: ValidateIdRequest): Promise<updateFilm_dto | null> {
             const id = req.params?.id;
-            const existing_film = await this.film_repository.getFilm_byId(id);
+            const existing_film = await this.film_repository.findById(id);
             
             if(!existing_film) {
                   throw new Error('Film not found');

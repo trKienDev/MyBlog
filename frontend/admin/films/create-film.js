@@ -12,7 +12,7 @@ export async function createFilm() {
             const film_form = document.getElementById(id_selectors.films.film_form);
             film_form.addEventListener('submit', async(event) => {
                   event.preventDefault();
-                  const submit_btn = document.getElementById();
+                  const submit_btn = document.getElementById(id_selectors.buttons.submit_btn);
                   submit_btn.disabled = true;
 
                   const form_data = collectFilmFormData(id_selectors.thumbnail.thumbnail_upload);

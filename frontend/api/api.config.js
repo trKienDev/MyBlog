@@ -14,9 +14,12 @@ const api_configs = {
             adminCollectionPage: '/admin/collections/collection.html',
             adminVideoPage: '/admin/videos/video.html',
             adminCreateVideoPage: '/admin/videos/create-video.html',
+            adminEditVideoPage: '/admin/videos/edit-video.html',
             adminPlaylistPage: '/admin/playlists/playlist.html',
+
             // creator
             getCreators: '/admin/creators', // GET
+            getCreatorById: '/admin/creator', // GET
             createCreator: '/admin/creator', // POST
             updateCreator: '/admin/creator', // PUT
             deleteCreator: '/admin/creator',
@@ -44,6 +47,7 @@ const api_configs = {
             createCollection: '/admin/collection', // POST
             // film
             getFilms: '/admin/films', // GET
+            findFilmById: '/admin/film', // GET
             findFilmsByStudioCode: '/admin/films/studio-code', // GET
             createFilm: '/admin/film', // POST
             update_film: '/admin/film', // PUT

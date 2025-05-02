@@ -1,6 +1,6 @@
 import api_configs from "../../api/api.config.js";
 import fetch_api from "../../api/fetch.api.js";
-import * as htmlHandler from '../../components/table.component.js';
+import table_component from "../../components/table.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 
 export function initPlaylistAdmin() {
@@ -23,9 +23,9 @@ async function renderPlaylists() {
 
             const playlists = result.data;
             playlists.forEach(collection => {  
-                  const row = htmlHandler.createTrWithId(collection._id);
+                  const row = table_component.createTrWithId(collection._id);
 
-                  const name = htmlHandler.CreateTdTextCell(collection.name);
+                  const name = table_component.createTextTd({ i_text: collection.name });
                   row.appendChild(name);
 
                   tbody.appendChild(row);

@@ -1,7 +1,7 @@
 import api_configs from './api.config.js';
 import fetch_api from './fetch.api.js';
 
-export async function getStudioById(studio_id) {
+async function getStudioById(studio_id) {
       const result = await fetch_api.apiGet(`${api_configs.endpoints.getStudioById}/${studio_id}`);
       if(result.success === false) {
             throw new Error(result.error);
@@ -10,11 +10,18 @@ export async function getStudioById(studio_id) {
       return result.data;
 }
 
-export async function GetStudioName_byId(studio_id) {
-      const result = await fetch_api.apiGet(`${api_configs.endpoints.getStudioById}/${studio_id}`);
-      if(result.success === false) {
-            throw new Error(result.error);
-      }
+async function getStudioImgById(studio_id) {
+      const result = await getStudioById(studio_id);
+      return result.image;
+}
 
-      return result.data.name;
+async function getStudioNameById(studio_id) {
+      const result = await getStudioById(studio_id);
+      return result.name;
+}
+
+export const studio_api = {
+      getStudioById,
+      getStudioNameById,
+      getStudioImgById,
 }

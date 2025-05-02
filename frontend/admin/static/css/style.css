@@ -1,8 +1,7 @@
 @import url('select-search.css');
-@import url('create-form.css');
+@import url('./form.css');
 @import url('popup-modal.css');
 @import url('button.css');
-@import url('search-form.css');
 @import url('../../../static/css/keyword.css');
 
 body {

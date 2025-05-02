@@ -3,7 +3,7 @@ import { ServerResponse } from 'http';
 import { ValidateIdRequest } from '../interfaces/validated-id-request';
 import { sendError } from './response.js';
 
-export const ValidateId = ( handler: (req: ValidateIdRequest, res: ServerResponse) => Promise<void> | void ) => {
+const validateId = ( handler: (req: ValidateIdRequest, res: ServerResponse) => Promise<void> | void ) => {
       return async (req: CustomRequest, res: ServerResponse) => {
             const { id } = req.params || {};
             if (!id) {
@@ -18,7 +18,7 @@ export const ValidateId = ( handler: (req: ValidateIdRequest, res: ServerRespons
 };
 
 
-export const ValidateIds = (paramNames: string[], handler: (req: CustomRequest, res: ServerResponse) => Promise<void> | void) => {
+const validateIds = (paramNames: string[], handler: (req: CustomRequest, res: ServerResponse) => Promise<void> | void) => {
       return async (req: CustomRequest, res: ServerResponse) => {
             const missingParams = paramNames.filter(param => !req.params?.[param]);
             
@@ -29,4 +29,9 @@ export const ValidateIds = (paramNames: string[], handler: (req: CustomRequest, 
             return handler(req, res);
       };
 };
+
+export const validated_id = {
+      validateId,
+      validateIds,
+}
   

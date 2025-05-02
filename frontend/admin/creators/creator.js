@@ -2,8 +2,9 @@ import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import modal_component from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
-import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
+import  table_component from "../../components/table.component.js";
 import fetch_api from "../../api/fetch.api.js";
+import css_selectors from "../../selectors/css.selectors.js";
 
 let formId = "creator-form";
 let imgId = "img";
@@ -37,23 +38,23 @@ async function RenderCreators(element) {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', creator._id);
 
-                  const editBtn = create_editBtn('edit-container', creator, UpdateCreator);
+                  const editBtn = table_component.createEditBtn(css_selectors.container.edit_container, creator, UpdateCreator);
                   tr.appendChild(editBtn);
 
-                  const name = CreateTdTextCell(creator.name);
+                  const name = table_component.createTextTd({ i_text: creator.name });
                   tr.appendChild(name);
 
                   const imgSrc = `${api_configs.server}/uploads/creator/avatar/${creator.image}`;
-                  const image = CreateImageCell(imgSrc, 'profile');
+                  const image = table_component.createImageTd(imgSrc, 'profile');
                   tr.appendChild(image);
                   
-                  const body = CreateTdTextCell(creator.body);
+                  const body = table_component.createTextTd({ i_text: creator.body });
                   tr.appendChild(body);
 
-                  const breast = CreateTdTextCell(creator.breast);
+                  const breast = table_component.createTextTd({ i_text: creator.breast });
                   tr.appendChild(breast);
 
-                  const skin = CreateTdTextCell(creator.skin);
+                  const skin = table_component.createTextTd({ i_text: creator.skin });
                   tr.appendChild(skin);
 
                   tbody.appendChild(tr); 

@@ -20,6 +20,19 @@ const getFilms = async(req: CustomRequest, res: ServerResponse) => {
       }
 }
 
+const findFilmById = async(req: ValidateIdRequest, res: ServerResponse) => {
+      try {
+            const id = req.params?.id;
+            const film = await repository.findById(id);
+            if(film == null) {
+                  return sendError(res, 404, 'film not found');
+            }
+            return sendResponse(res, 200, film);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
 const findFilmsByStudioAndCode = async(req: CustomRequest, res: ServerResponse) => {
       try {
             const { studio_id, code_id } = req.params as { studio_id: string; code_id: string };
@@ -52,6 +65,7 @@ const updateFilm = async(req: ValidateIdRequest, res: ServerResponse) => {
 
 export const filmController = {
       getFilms,
+      findFilmById,
       createFilm,
       updateFilm,
       findFilmsByStudioAndCode,

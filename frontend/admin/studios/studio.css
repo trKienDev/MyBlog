@@ -17,7 +17,7 @@
       display: flex;
       justify-content: center;
 }
-#studio-table .btn-create {
+#studio-table .btn-primary {
       font-size: 15px;
 }
 #studio-table .profile {

@@ -163,7 +163,7 @@
         width: 45%;
         font-size: 30px;
 }
-#story-create .create-form {
+#story-create .primary-form {
         width: 80%;
         background-color: white;
         border-radius: 8px;
@@ -171,17 +171,17 @@
 #story-create .form-container {
         padding: 7% 15%;
 }
-#story-create .create-form span {
+#story-create .primary-form span {
         font-weight: bold;
 }
-#story-create .create-form .form-title {
+#story-create .primary-form .form-title {
         display: flex;
         justify-content: center;
 }
-#story-create .create-form .form-body {
+#story-create .primary-form .form-body {
         padding-top: 20px;
 }
-#story-create .create-form .form-body input {
+#story-create .primary-form .form-body input {
         display: block;
         background-color: #f7f6f6;
         width: 100%;
@@ -193,12 +193,12 @@
         border-radius: 5px;
         border: none;
 }
-#story-create .create-form .form-body .button {
+#story-create .primary-form .form-body .button {
         padding-top: 10px;
         display: flex;
         justify-content: center;
 }
-#story-create .create-form .form-body button {
+#story-create .primary-form .form-body button {
         padding: 12px 25px;
         background-color: #1056c0;
         color: white;
@@ -209,7 +209,7 @@
         cursor: pointer;
         transition: background 0.8s, filter 0.8s;
 }
-#story-create .create-form .form-body button:hover {
+#story-create .primary-form .form-body button:hover {
         filter: brightness(2);
 }
 #story-table .btn-edit {

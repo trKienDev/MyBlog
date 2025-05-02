@@ -12,7 +12,7 @@ export class CreatorService {
       }
 
       public async FindCreatorById(id: string): Promise<CreatorDTO> {
-            const creator = await this.creatorRepo.FindById(id);
+            const creator = await this.creatorRepo.findById(id);
             if(!creator) { 
                   throw new Error("Studio not found.");
             }
@@ -42,7 +42,7 @@ export class CreatorService {
       }
 
       public async UpdateCreator(req: CustomRequest, id: string): Promise<CreatorDTO> {
-            const currentCreator = await this.creatorRepo.FindById(id);
+            const currentCreator = await this.creatorRepo.findById(id);
             if(!currentCreator) {
                   throw new Error("Creator not found!");
             }

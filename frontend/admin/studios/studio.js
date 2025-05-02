@@ -2,8 +2,9 @@ import modal_component from "../../components/modal.component.js";
 import { HandleImageUpload } from "../../components/image.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import api_configs from "../../api/api.config.js";
-import { create_editBtn, CreateImageCell, CreateTdTextCell } from "../../components/table.component.js";
 import fetch_api from "../../api/fetch.api.js";
+import table_component from "../../components/table.component.js";
+import css_selectors from "../../selectors/css.selectors.js";
 
 const { initModal, resetModal } = modal_component;
 
@@ -36,14 +37,14 @@ async function RenderStudios(element) {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', studio._id);
 
-                  const editBtn = create_editBtn('edit-container', studio, UpdateStudio);
+                  const editBtn = table_component.createEditBtn(css_selectors.container.edit_container, studio, UpdateStudio);
                   tr.appendChild(editBtn);
 
-                  const name = CreateTdTextCell(studio?.name);
+                  const name = table_component.createTextTd({ i_text: studio?.name });
                   tr.appendChild(name);
 
                   const imgSrc = `${api_configs.server}/uploads/studio/${studio.image}`;
-                  const image = CreateImageCell(imgSrc, 'profile');
+                  const image = table_component.createImageTd(imgSrc, 'profile');
                   tr.appendChild(image);
 
                   tbody.appendChild(tr);

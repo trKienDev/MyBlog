@@ -1,21 +1,18 @@
-.create-form {
-      margin-left: 50px;
+.primary-form {
       padding: 20px;
       border: 2px solid var(--secondary-border);
       border-radius: 5px;
       transition: 0.5s all ease;
 }
-.create-form:hover {
+.primary-form:hover {
       border: 2px solid var(--primary-border);
 }
-.create-form .title {
+.primary-form .title {
       display: flex;
       justify-content: center;
-}
-.create-form span {
       font-weight: bold;
 }
-.create-form input {
+.primary-form .form-input {
       display: block;
       background-color: #f7f6f6;
       width: 100%;
@@ -27,12 +24,12 @@
       border-radius: 5px;
       border: none;
 }
-.create-form .button {
+.primary-form .button {
       padding-top: 10px;
       display: flex;
       justify-content: center;
 }
-.create-form button {
+.primary-form button {
       padding: 12px 25px;
       font-family: 'Lexend';
       border: none;

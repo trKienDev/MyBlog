@@ -160,7 +160,7 @@
         width: 45%;
         font-size: 30px;
 }
-#tags-create .create-form {
+#tags-create .primary-form {
         width: 80%;
         background-color: white;
         border-radius: 8px;
@@ -168,17 +168,17 @@
 #tags-create .form-container {
         padding: 7% 15%;
 }
-#tags-create .create-form span {
+#tags-create .primary-form span {
         font-weight: bold;
 }
-#tags-create .create-form .form-title {
+#tags-create .primary-form .form-title {
         display: flex;
         justify-content: center;
 }
-#tags-create .create-form .form-body {
+#tags-create .primary-form .form-body {
         padding-top: 20px;
 }
-#tags-create .create-form .form-body input {
+#tags-create .primary-form .form-body input {
         display: block;
         background-color: #f7f6f6;
         width: 100%;
@@ -190,12 +190,12 @@
         border-radius: 5px;
         border: none;
 }
-#tags-create .create-form .form-body .button {
+#tags-create .primary-form .form-body .button {
         padding-top: 10px;
         display: flex;
         justify-content: center;
 }
-#tags-create .create-form .form-body button {
+#tags-create .primary-form .form-body button {
         padding: 12px 25px;
         background-color: #1056c0;
         color: white;
@@ -206,6 +206,6 @@
         cursor: pointer;
         transition: background 0.8s, filter 0.8s;
 }
-#tags-create .create-form .form-body button:hover {
+#tags-create .primary-form .form-body button:hover {
         filter: brightness(2);
 }

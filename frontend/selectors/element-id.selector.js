@@ -12,13 +12,17 @@ const videos = {
       video_action: 'video-action',
       video_creator: 'video-creator',
       video_tag: 'video-tag',
+      video_tags: 'video-tags',
       video_playlist: 'video-playlist',
-      create_video_btn: 'create-video_btn',
+      submit_video_btn: 'submit-video_btn',
       thumbnail_video: 'thumbnail-video',
       upload_video: 'upload-video',
+      
 }
 const buttons = {
       submit_btn: 'submit-btn',
+      create_video_btn: 'create-video_btn',
+      
 }
 const date = {
       release_date: 'release-date',
@@ -37,6 +41,7 @@ const modal = {
 }
 const table = {
       film_tbody: '#film-table tbody',
+      video_tbody: 'videos-table tbody',
       search_film: 'searched-films_table',
 }
 

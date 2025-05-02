@@ -1,7 +1,7 @@
 import api_configs from "../../api/api.config.js";
 import * as sweetAlert from "../../utils/sweet-alert.js";
-import * as htmlHandler from "../../components/table.component.js";
 import fetch_api from "../../api/fetch.api.js";
+import table_component from "../../components/table.component.js";
 
 export function InitCollectionAdmin() {
       CreateNewCollection();
@@ -20,9 +20,9 @@ async function RenderCollections() {
 
             const collections = result.data;
             collections.forEach(collection => {  
-                  const row = htmlHandler.createTrWithId(collection._id);
+                  const row = table_component.createTrWithId(collection._id);
 
-                  const name = htmlHandler.CreateTdTextCell(collection.name);
+                  const name = table_component.createTextTd({ i_text: collection.name });
                   row.appendChild(name);
 
                   tbody.appendChild(row);

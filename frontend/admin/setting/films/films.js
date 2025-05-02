@@ -8,6 +8,7 @@ import  { loadVideoTag } from '../../../services/loadElement/loadVideoTag.js';
 import { loadStory } from "../../../services/loadElement/loadStory.js";
 import { errorSweetAlert, confirmSweetAlert, showToastNotification, successSweetAlert } from "../../../services/HelperFunction/sweet-alert.js";
 import { initializeRatingFeature, userRating } from "../../../services/HelperFunction/starRating.js";
+import css_selectors from "../../../selectors/css.selectors.js";
 
 let videoDataList = [];
 
@@ -31,7 +32,7 @@ export function loadFilm() {
                         // Edit button cell
                         const editCell = document.createElement('td');
                         const editContainer = document.createElement('div');
-                        editContainer.classList.add('edit-container');
+                        editContainer.classList.add(css_selectors.container.edit_container);
                         editContainer.style.width = '100%';
                         editContainer.style.display = 'flex';
                         editContainer.style.justifyContent = 'center';
@@ -138,7 +139,7 @@ export function loadFilm() {
       } catch (error) {
             console.error(error.message);
       }
-      createFilm(".btn-create");
+      createFilm(".btn-primary");
       searchFilmByCode('search-input');
 }
 

@@ -3,15 +3,16 @@ import { getSelectedOptionValue, initSelectSearch, resetSelectSearch } from "../
 import api_configs from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
-import { create_editBtn, CreateTdTextCell } from "../../components/table.component.js";
+import table_component from "../../components/table.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import { createFilm } from "./create-film.js";
 import { updateFilm } from "./update-film.js";
 import { selectCodeByStudio } from "../../components/select.component.js";
-import { getStudioById } from "../../api/studio.api.js";
 import { getDateFromStr } from "../../utils/date.js";
 import fetch_api from "../../api/fetch.api.js";
+import { studio_api } from "../../api/studio.api.js";
+import tags_utils from "../../utils/tags.utils.js";
 
 let default_thumbnail = '/admin/static/images/film/thumbnail-upload_default.png';
 
@@ -23,7 +24,7 @@ export async function initFilmAdmin() {
       initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
       uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       getCodeByStudio(id_selectors.films.film_studio);
-      displaySelectedTag(id_selectors.films.film_tag, id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
+      tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.films.film_tag);
       createFilm();
 }
 
@@ -42,22 +43,22 @@ export async function renderFilms(element) {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', film._id);
 
-                  const edit_btn = await create_editBtn('edit-container', film, updateFilm);
+                  const edit_btn = await table_component.createEditBtn(css_selectors.container.edit_container, film, updateFilm);
                   tr.appendChild(edit_btn);
 
-                  const name = CreateTdTextCell(film.name);
+                  const name = table_component.createTextTd({ i_text: film.name });
                   tr.appendChild(name);
 
-                  const film_studio = await getStudioById(film.studio_id);
-                  const studio = CreateTdTextCell(film_studio.name);
+                  const film_studio = await studio_api.getStudioById(film.studio_id);
+                  const studio = table_component.createTextTd({ i_text: film_studio.name });
                   tr.appendChild(studio);
 
                   const film_date = new Date(film.date);
                   const formatted_date = getDateFromStr(film_date);
-                  const date = CreateTdTextCell(formatted_date);
+                  const date = table_component.createTextTd({ i_text: formatted_date });
                   tr.appendChild(date);
 
-                  const rating = CreateTdTextCell(film.rating);
+                  const rating = table_component.createTextTd({ i_text: film.rating });
                   tr.appendChild(rating);
 
                   tbody.appendChild(tr);
@@ -106,67 +107,6 @@ export function getFilmName(filmCode_id, codeNumbebId) {
       return film_name;
 }
 
-export async function displaySelectedTag(select_id, container_id, css_class) {
-      const selectedTag_container = document.getElementById(container_id);
-      if(!selectedTag_container) {
-            console.error('selectedTag_container not found!');
-            return;
-      } 
-
-      selectedTag_container.addEventListener('click', (event) => {
-            if(event.target.classList.contains('selected-tag')) {
-                  event.target.remove();
-            }
-      });
-
-      observeSelectChange(select_id, ({ tag_id, tag_name}) => {
-            const existTag = Array.from(selectedTag_container.children).some(child => 
-                  child.innerText === tag_name || child.getAttribute('value') === tag_id
-            );
-            if(!existTag) {
-                  const tag_div = createTagDiv(tag_id, tag_name, css_class)
-                  selectedTag_container.appendChild(tag_div);
-            }
-      });
-}
-
-export function createTagDiv(tag_id, tag_name, css_class) {
-      const newTag_div = document.createElement("div");
-      newTag_div.innerText = tag_name;
-      newTag_div.setAttribute('value', tag_id);
-      newTag_div.classList.add(css_class);
-      return newTag_div;
-}
-
-export function observeSelectChange(select_id, callback) {
-      const span = document.querySelector(`#${select_id} .select-btn span`);
-      if(!span) {
-            console.error('Span not found!');
-            return;
-      }
-
-      const observer = new MutationObserver((mutationsList) => {
-            for(const mutation of mutationsList) {
-                  if (mutation.type === 'attributes' && mutation.attributeName === 'item-id') {
-                        const tag_id = span.getAttribute('item-id');
-                        const tag_name = span.textContent.trim();
-                        if(tag_id && tag_name) {
-                              callback({ tag_id, tag_name});
-                        }
-                  }
-            }
-      });
-
-      observer.observe(span, {
-            attributes: true,    
-            childList: true,       
-            characterData: true, 
-            subtree: true     
-      });
-
-      return observer;
-}
-
 export function resetFilmModal() {
       resetSelectSearch([
             { id: "film-studio", placeholder: "Select studio" },
@@ -194,7 +134,7 @@ export function resetTagSelection() {
 export function getSelectedTags(container_id, css_class) {
       const tag_container = document.getElementById(container_id);
       const tag_nodes = tag_container.querySelectorAll(`.${css_class}`);
-      return Array.from(tag_nodes).map(tag => tag.getAttribute('value'));
+      return Array.from(tag_nodes).map(tag => tag.getAttribute('id'));
 }
 
 export function buildFilmForm(include_file, thumbnail_file) {

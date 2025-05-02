@@ -2,6 +2,7 @@ import { handleImageUpload } from "../../../services/HelperFunction/image.js";
 import { loadStudios } from '../../../services/loadElement/loadStudios.js';
 import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweet-alert.js";
 import api from "../../../../services/apiConfig.js";
+import css_selectors from "../../../selectors/css.selectors.js";
 
 export function loadCreatorTable() {
       fetch(`${api.backendDomain}${api.endpoints.creatorList}`) 
@@ -24,7 +25,7 @@ export function loadCreatorTable() {
                   // Edit button cell
                   const editCell = document.createElement('td');
                   const editContainer = document.createElement('div');
-                  editContainer.classList.add('edit-container');
+                  editContainer.classList.add(css_selectors.container.edit_container);
                   const editButton = document.createElement('div');
                   editButton.classList.add('btn-edit');
                   editButton.innerHTML = `<i class="fa-solid fa-pen" style="color: aliceblue;"></i>`;

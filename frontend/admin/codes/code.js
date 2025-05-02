@@ -1,8 +1,8 @@
 import { SelectStudios } from "../../components/select.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
-import * as htmlHandler from "../../components/table.component.js";
 import api_configs from "../../api/api.config.js";
 import fetch_api from "../../api/fetch.api.js";
+import table_component from "../../components/table.component.js";
 
 let formStudio = "form-studio";
 let studioSelection = "studio-selection";
@@ -34,8 +34,8 @@ async function RenderCodes(studio_id) {
 
             const codes = result.data;
             codes.forEach(item => {
-                  const row = htmlHandler.createTrWithId(item._id);
-                  const code = htmlHandler.CreateTdTextCell(item.code);
+                  const row = table_component.createTrWithId(item._id);
+                  const code = table_component.createTextTd({i_text: item.code});
                   row.appendChild(code);
                   tbody.appendChild(row);
             });

@@ -1,7 +1,7 @@
 import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
-import * as htmlHandler from "../../components/table.component.js";
 import fetch_api from "../../api/fetch.api.js";
+import table_component from "../../components/table.component.js";
 
 export function initTagAdmin() {
       render_tags();
@@ -20,12 +20,12 @@ async function render_tags() {
 
             const tags = result.data;
             tags.forEach(tag => {  
-                  const row = htmlHandler.createTrWithId(tag._id);
+                  const row = table_component.createTrWithId(tag._id);
 
-                  const name = htmlHandler.CreateTdTextCell(tag.name);
+                  const name = table_component.createTextTd({ i_text: tag.name });
                   row.appendChild(name);
 
-                  const kind = htmlHandler.CreateTdTextCell(tag.kind);
+                  const kind = table_component.createTextTd({ i_text: tag.kind });
                   row.appendChild(kind);
 
                   tbody.appendChild(row);

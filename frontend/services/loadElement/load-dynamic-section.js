@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
 export function spaNavigateLink(link_id, endpoint, callback = () => {}) {
       const link_element = document.getElementById(link_id);
       if (link_element) {
-            if (!link_element.hasAttribute('data-navigate-initialized')) {
-            link_element.addEventListener('click', event => {
-                  event.preventDefault();
-                  loadContentFromUrl(endpoint, callback);
-            });
-            link_element.setAttribute('data-navigate-initialized', 'true'); // Đánh dấu đã gán
+                  if (!link_element.hasAttribute('data-navigate-initialized')) {
+                  link_element.addEventListener('click', event => {
+                        event.preventDefault();
+                        loadContentFromUrl(endpoint, callback);
+                  });
+                  link_element.setAttribute('data-navigate-initialized', 'true'); // Đánh dấu đã gán
             }
       } else {
             console.error(`Element with id: "${link_id}" not found`);
@@ -49,12 +49,12 @@ async function loadContent(url, dynamicDataId = 'dynamic-data', callback) {
             }
 
             const html = await response.text();
-            const dynamicDataElement = document.getElementById(dynamicDataId);
-            if (dynamicDataElement) {
-                  dynamicDataElement.innerHTML = ''; 
-                  dynamicDataElement.innerHTML = html; 
+            const dynamicData_element = document.getElementById(dynamicDataId);
+            if (dynamicData_element) {
+                  dynamicData_element.innerHTML = ''; 
+                  dynamicData_element.innerHTML = html; 
                   
-                  const scripts = dynamicDataElement.querySelectorAll('script');
+                  const scripts = dynamicData_element.querySelectorAll('script');
                   scripts.forEach(script => {
                         const new_script = document.createElement('script');
                         new_script.textContent = script.textContent;

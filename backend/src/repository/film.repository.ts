@@ -14,7 +14,15 @@ export class FilmRepository implements iFilmRepository {
                   return null;
             }
       }
-
+      public async findById(id: string): Promise<FilmDTO | null> {
+            try {
+                  const film = await Film.findById(id);
+                  return film ? MappingDocToDTO(film) : null;
+            } catch(error: unknown) {
+                  console.error("Repository error:", error);
+                  throw error instanceof Error ? error : new Error(String(error));
+            }
+      }
       public async FindFilmByName(name: string): Promise<FilmDTO | null> {
             return await Film.findOne({ name });
       }
@@ -30,15 +38,6 @@ export class FilmRepository implements iFilmRepository {
                   }
                   
                   return films.map(doc => MappingDocToDTO(doc));
-            } catch(error: unknown) {
-                  console.error("Repository error:", error);
-                  throw error instanceof Error ? error : new Error(String(error));
-            }
-      }
-      public async getFilm_byId(id: string): Promise<FilmDTO | null> {
-            try {
-                  const film = await Film.findById(id);
-                  return film ? MappingDocToDTO(film) : null;
             } catch(error: unknown) {
                   console.error("Repository error:", error);
                   throw error instanceof Error ? error : new Error(String(error));

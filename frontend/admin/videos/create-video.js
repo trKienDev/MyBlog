@@ -3,13 +3,14 @@ import { getSelectedOptionValue, initSelectSearch, resetSelectSearch } from "../
 import id_selectors from "../../selectors/element-id.selector.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import { showToast } from "../../utils/toast-notification.js";
-import { displaySelectedTag, getCodeByStudio, getSelectedCodeOption, getSelectedTags, resetTagSelection } from "../films/films.js";
+import { getCodeByStudio, getSelectedCodeOption, getSelectedTags, resetTagSelection } from "../films/films.js";
 import { getDateFromStr } from "../../utils/date.js";
-import { CreateTdTextCell } from "../../components/table.component.js";
-import { getStudioById } from "../../api/studio.api.js";
 import css_selectors from "../../selectors/css.selectors.js";
-import { film_api } from "../../api/film.api.js";
 import fetch_api from "../../api/fetch.api.js";
+import table_component from "../../components/table.component.js";
+import { film_api } from "../../api/film.api.js";
+import { studio_api } from "../../api/studio.api.js";
+import tags_utils from "../../utils/tags.utils.js";
 
 export function initCreateVideo() {
       initSearchFilm();
@@ -18,18 +19,17 @@ export function initCreateVideo() {
       initSelectSearch(id_selectors.videos.video_creator, api_configs.endpoints.getCreators, 'name');
       initSelectSearch(id_selectors.videos.video_tag, api_configs.endpoints.getTagsByVideo, 'name');
       initSelectSearch(id_selectors.videos.video_playlist, api_configs.endpoints.getPlaylists, 'name');
-      displaySelectedTag(id_selectors.videos.video_tag, id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
+      tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.videos.video_tag);
       waitForUploadVideo();
       createVideo();
 }
 
 // Core function
 function createVideo() {
-      const createVideo_btn = document.getElementById(id_selectors.videos.create_video_btn);
-      createVideo_btn.addEventListener('click', async () => {
+      const submitVideo_btn = document.getElementById(id_selectors.videos.submit_video_btn);
+      submitVideo_btn.addEventListener('click', async () => {
             const video_info = collectVideoInfo();
             const video_form = buildVideoForm(video_info);
-            console.log('form: ', video_form);
 
             try { 
                   const result = await fetch_api.createForm(api_configs.endpoints.createVideo, video_form);
@@ -50,8 +50,6 @@ function createVideo() {
             }
       });
 }
-
-
 
 // Search film
 async function initSearchFilm() {
@@ -96,15 +94,15 @@ async function createFilmRow(film) {
       const tr = document.createElement('tr');
       tr.setAttribute('data-id', film._id);
 
-      tr.appendChild(CreateTdTextCell(film.name));
+      tr.appendChild(table_component.createTextTd({ i_text: film.name }));
 
-      const film_studio = await getStudioById(film.studio_id);
-      tr.appendChild(CreateTdTextCell(film_studio.name));
+      const film_studio = await studio_api.getStudioById(film.studio_id);
+      tr.appendChild(table_component.createTextTd({ i_text: film_studio.name, i_id: film.studio_id }));
 
       const formatted_date = getDateFromStr(new Date(film.date));
-      tr.appendChild(CreateTdTextCell(formatted_date));
+      tr.appendChild(table_component.createTextTd({ i_text: formatted_date }));
 
-      tr.appendChild(CreateTdTextCell(film.rating));
+      tr.appendChild(table_component.createTextTd({ i_text: film.rating }));
 
       const select_td = document.createElement('td');
       select_td.classList.add(css_selectors.films.film_select);
@@ -187,18 +185,22 @@ function collectVideoInfo() {
       const film_table = document.getElementById(id_selectors.table.search_film),
       selected_film = film_table.querySelector('tr.selected');
       const film_id = selected_film.getAttribute('data-id');
-      const film_name = selected_film.querySelector('td').textContent.trim();
+      const film_info = selected_film.querySelectorAll('td')
+      const film_name = film_info[0].textContent.trim();
+      const studio_id = film_info[1].getAttribute('data-id');
+
       const video_name = film_name + '_' + action_text;
 
       const playlist_id = getSelectedOptionValue(id_selectors.videos.video_playlist, 'id');
       const creator_id = getSelectedOptionValue(id_selectors.videos.video_creator, 'id');
 
-      return { video_name, film_id, action_id, playlist_id, creator_id, tag_ids, file };
+      return { video_name, film_id, studio_id, action_id, playlist_id, creator_id, tag_ids, file };
 }
 function buildVideoForm(video_info) {
       const video_form = new FormData();
       video_form.append("name", video_info.video_name);
       video_form.append("film_id", video_info.film_id);
+      video_form.append("studio_id", video_info.studio_id);
       video_form.append("action_id", video_info.action_id);
       video_form.append("playlist_id", video_info.playlist_id);
       video_form.append("creator_id", video_info.creator_id);

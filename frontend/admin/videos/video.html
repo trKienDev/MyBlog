@@ -1,18 +1,30 @@
-<section id="video">
+<section id="videos">
       <div class="container">
             <h1 class="heading-title">Video Management</h1>
             <div class="body">
-                  <div id='create-video' class="create-video">
+                  <div id='create-video_btn' class="create-video">
                         <a href="create-video.html">
-                              <div class="btn btn-create d-flex" id="open-modal_btn">
+                              <div class="btn btn-primary d-flex" id="open-modal_btn">
                                     <i class="fa-solid fa-square-plus"></i>
                                     <span style="padding-left: 10px;">create new video</span>
                               </div>
                         </a>
                   </div>
                   <div id="list-video_section">
-                        <div class="list-video_container">
-                              <div id="list-videos"></div>
+                        <h3 class="heading-title">List videos</h3>
+                        <div id="videos-table">
+                              <table cellpadding="0" cellspacing="0">
+                                    <thead>
+                                          <tr>
+                                                <th style="width: 5%;"></th>
+                                                <th class="video">Video</th>
+                                                <th class="video-film">film</th>
+                                                <th class="video-creator">creator</th>
+                                                <th class="video-view" style="width: 5%;">views</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                              </table>
                         </div>
                   </div>
             </div>

@@ -1,4 +1,4 @@
-import { VideoDTO } from "../dtos/video.dto.js";
+import { CreateVideoDTO } from "../dtos/video.dto.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { iVIdeoRepository } from "../repository/interfaces/ivideo.repository.js";
 import { uploadFile } from "../utils/file.utils.js";
@@ -10,8 +10,8 @@ export class VideoService {
             this.video_repository = videoRepository;
       }
 
-      public async createVideo(req: CustomRequest): Promise<VideoDTO | unknown> {
-            const { file_name } = await uploadFile(req, "film");
+      public async createVideo(req: CustomRequest): Promise<CreateVideoDTO | unknown> {
+            const { file_name } = await uploadFile(req, "videos");
             let video_name = request_utils.extractParamFromRequest(req, "name");
 
             const existing_video = await this.video_repository.getVideoByName(video_name);
@@ -24,13 +24,15 @@ export class VideoService {
             const creator_id = request_utils.extractParamFromRequest(req, "creator_id");
             const tagId_array = request_utils.extractParamFromRequest(req, "tag_ids");
             const film_id = request_utils.extractParamFromRequest(req, "film_id");
+            const studio_id = request_utils.extractParamFromRequest(req, "studio_id");
             const tag_ids: string[] = tagId_array.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
             
-            const new_video: VideoDTO = {
+            const new_video: CreateVideoDTO = {
                   name: video_name,
                   action_id: action_id,
                   creator_id: creator_id,
                   film_id: film_id,
+                  studio_id: studio_id,
                   playlist_id: playlist_id,
                   tag_ids: tag_ids,
                   file_path: file_name,

@@ -8,6 +8,19 @@ import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 const repository = new CreatorRepository();
 const service = new CreatorService(repository);
 
+const getCreatorById = async(req: ValidateIdRequest, res: ServerResponse) => {
+      try {
+            const id = req.params?.id;
+            const creator = await repository.findById(id);
+            if(creator == null) {
+                  return sendError(res, 404, 'creator not found');
+            }
+            return sendResponse(res, 200, creator);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
 export const GetCreators = async ( req: CustomRequest , res: ServerResponse ) => {
       try {
             const creators = await repository.GetCreators();
@@ -53,6 +66,10 @@ export const DeleteCreator = async(req: ValidateIdRequest, res: ServerResponse) 
             console.error('Error deleting creator in controller:', error);
             return sendError(res, 500, new Error('Error deleting creator.'));
       }
+}
+
+export const creator_controller = {
+      getCreatorById,
 }
 
 

@@ -2,6 +2,7 @@ import config2 from "../../../services/config.js";
 import { loadContent } from '../../../services/loadElement/loadDynamicPages.js';
 import { setupModalHandlers } from "../../../services/HelperFunction/modal.js";
 import { errorSweetAlert, successSweetAlert } from "../../../services/HelperFunction/sweet-alert.js";
+import css_selectors from "../../../selectors/css.selectors.js";
 
 
 export function loadStory() {
@@ -23,7 +24,7 @@ export function loadStory() {
                         // Edit button cell
                         const editCell = document.createElement('td');
                         const editContainer = document.createElement('div');
-                        editContainer.classList.add('edit-container');
+                        editContainer.classList.add(css_selectors.container.edit_container);
                         editContainer.style.width = '100%'; // Full width of the cell
                         editContainer.style.display = 'flex';
                         editContainer.style.justifyContent = 'center';

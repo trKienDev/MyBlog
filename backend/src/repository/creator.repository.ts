@@ -15,7 +15,7 @@ export class CreatorRepository implements ICreatorRepository {
             
       }
       
-      public async FindById(id: string): Promise<CreatorDTO | null> {
+      public async findById(id: string): Promise<CreatorDTO | null> {
             const doc = await Creator.findById(id).exec();
             if(!doc) {
                   return null;
