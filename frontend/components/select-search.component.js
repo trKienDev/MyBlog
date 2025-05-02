@@ -1,7 +1,7 @@
 import fetch_api from "../api/fetch.api.js";
 import { showToast } from "../utils/toast-notification.js";
 
-export async function initSelectSearch(elment_id, endpoint, value) {
+async function initSelectSearch(elment_id, endpoint, value) {
       const list = await getSelectList(endpoint);
       createSelectSearchElement(elment_id, list, value);
 }
@@ -104,9 +104,15 @@ export function resetSelectSearch(configs) {
       
 }
 
-export async function loadInfoSelectSearch(film, element_id, field_id, getFunc) {
-      const el = document.getElementById(element_id);
-      const span = el.querySelector('span');
+async function loadInfoSelectSearch(film, element_id, field_id, getFunc) {
+      const element = document.getElementById(element_id);
+      const span = element.querySelector('span');
       span.setAttribute('item-id', film[field_id]);
       span.innerText = await getFunc(film[field_id]);
 }
+
+const selectSearch_component = {
+      initSelectSearch,
+      loadInfoSelectSearch,
+};
+export default selectSearch_component;

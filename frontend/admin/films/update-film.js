@@ -1,20 +1,18 @@
 import api_configs from "../../api/api.config.js";
-import { GetCollectionName_byId } from "../../api/collection.api.js";
 import { clone_resetForm } from "../../components/form.component.js";
 import modal_component from "../../components/modal.component.js";
-import { initSelectSearch, loadInfoSelectSearch } from "../../components/select-search.component.js";
+import selectSearch_component from "../../components/select-search.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import { buildFilmForm, getCodeByStudio, renderFilms, uploadThumbnail } from "./films.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import css_selectors from "../../selectors/css.selectors.js";
-import { selectCodeByStudio } from "../../components/select.component.js";
 import fetch_api from "../../api/fetch.api.js";
 import { studio_api } from "../../api/studio.api.js";
 import tags_utils from "../../utils/tags.utils.js";
 import div_component from "../../components/div.component.js";
 import tag_api from "../../api/tag.api.js";
-
-const { openModal, closeModal} = modal_component;
+import collection_api from "../../api/collection.api.js";
+import select_component from "../../components/select.component.js";
 
 export async function updateFilm(film) {
       try {                 
@@ -35,7 +33,7 @@ export async function updateFilm(film) {
                         }
                         
                         success_sweetAlert('film updated');
-                        closeModal(id_selectors.modal.create_film);
+                        modal_component.closeModal(id_selectors.modal.create_film);
                         renderFilms(id_selectors.table.film_tbody);
                   } catch(error) {
                         console.error('Error of update_film in server: ', error);
@@ -65,22 +63,22 @@ function collectUpdateForm() {
 }
 
 function initModalUI(film) {
-      initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
-      initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
-      initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
-      openModal(id_selectors.modal.create_film);     
+      selectSearch_component.initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
+      modal_component.openModal(id_selectors.modal.create_film);     
       modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', 'btn-primary', 'btn-update', `Update ${film.name}`);
       uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       getCodeByStudio(id_selectors.films.film_studio);
 }
 
 async function populateFilmForm(film) {
-      await loadInfoSelectSearch(film, id_selectors.films.film_studio, 'studio_id', studio_api.getStudioNameById);
-      await selectCodeByStudio(id_selectors.films.film_code, film.studio_id);
-      await loadInfoSelectSearch(film, id_selectors.films.film_collection, 'collection_id', GetCollectionName_byId);
-
-      const filmCode_selEl = document.getElementById(id_selectors.films.film_code);
-      filmCode_selEl.value = film.code_id;
+      console.log('film: ', film);
+      await selectSearch_component.loadInfoSelectSearch(film, id_selectors.films.film_studio, id_selectors.studio.studio_id, studio_api.getStudioNameById);
+      await select_component.selectCodeByStudio(id_selectors.films.film_code, film.studio_id);
+      await selectSearch_component.loadInfoSelectSearch(film, id_selectors.films.film_collection, id_selectors.collection.collection_id, collection_api.getCollectionName);
+      
+      select_component.getCodeOptionByStudoId(id_selectors.films.film_code, film.code_id);
       const film_name = film.name;
       const film_numb = film_name.split('-')[1]; 
       const filmNumb_input = document.getElementById('code-number');

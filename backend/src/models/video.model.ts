@@ -6,6 +6,7 @@ const VideoSchema: Schema = new Schema({
       action_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Tag' },
       creator_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Creator', require: false },
       film_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Film' },
+      code_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Code' },
       studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio', require: false },
       playlist_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Playlist', require: false },
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],

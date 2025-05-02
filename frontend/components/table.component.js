@@ -10,14 +10,14 @@ function createTrWithId(id) {
 
 // Edit Cell
 async function createEditBtn(editContainerClass, item, handleEditCallback) {
-      const editCell = document.createElement('td');
+      const edit_td = document.createElement('td');
 
-      const editContainer = document.createElement('div');
-      editContainer.classList.add(editContainerClass);
+      const edit_container = document.createElement('div');
+      edit_container.classList.add(editContainerClass);
 
       const edit_button = document.createElement('button');
       edit_button.classList.add('btn');
-      edit_button.classList.add('btn-edit');
+      edit_button.classList.add(css_selectors.button.light_btn);
       edit_button.setAttribute('type', 'button');
       edit_button.setAttribute('aria-label', `update ${item.name || item._id}`);
       edit_button.setAttribute('title', 'update');
@@ -28,11 +28,11 @@ async function createEditBtn(editContainerClass, item, handleEditCallback) {
             edit_button.onclick = () => handleEditCallback(item);
       }
 
-      editCell.appendChild(edit_button);
-      editContainer.appendChild(edit_button);
-      editCell.appendChild(editContainer);
+      edit_td.appendChild(edit_button);
+      edit_container.appendChild(edit_button);
+      edit_td.appendChild(edit_container);
 
-      return editCell;
+      return edit_td;
 }
 
 // Delete cell
@@ -133,45 +133,6 @@ async function createVideoTdFromApi({ ifile_path, iupload_path, icss }) {
       return createVideoTd(video_url, icss);
 }
 
-// Helper function
-function clickToDisplayLargeImg(image, imgClass, imgWidth, imgHeight) {
-      image.addEventListener('click', (e) => {
-            e.stopPropagation();
-
-            const existedImg = '.' + imgClass;
-            // Kiểm tra xem largeImage đã tồn tại chưa
-            if(document.querySelector(existedImg)) {
-                  return;
-            }
-
-            const largeImage = document.createElement('img');
-            largeImage.src = image.src;
-            largeImage.classList.add(imgClass);
-            largeImage.style.position = 'absolute';
-            largeImage.style.top = `${e.clientY}px`;
-            largeImage.style.left = `${e.clientX}px`;
-            largeImage.style.width = imgWidth;
-            largeImage.style.height = imgHeight;
-            largeImage.style.zIndex = '1000';
-            largeImage.style.border = 'none';
-
-            document.body.appendChild(largeImage);
-
-            // Add event listener to document for closing the enlarged image
-            const closeLargeImage = () => {
-                  if(document.body.contains(largeImage)) {
-                        document.body.removeChild(largeImage);
-                  }
-                  document.removeEventListener('click', closeLargeImage);
-            };
-
-            // Delay adding the event listener to avoid immediate execution from the current click
-            setTimeout(() => {
-                  document.addEventListener('click', closeLargeImage);
-            }, 0);
-      });
-}
-
 const table_component = {
       createTrWithId,
       createEditBtn,
@@ -181,7 +142,8 @@ const table_component = {
       createImgTdFromApi,
       createVideoTd,
       createVideoTdFromApi,
-      clickToDisplayLargeImg,
 };
 export default table_component;
+
+
 

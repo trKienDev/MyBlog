@@ -6,6 +6,7 @@ export interface CreateVideoDTO {
       action_id: string;
       creator_id?: string;
       film_id: string;
+      code_id: string;
       studio_id: string;
       playlist_id?: string;
       tag_ids: string[];
@@ -18,6 +19,7 @@ export interface VideoDTO {
       action_id: string;
       creator_id: string;
       film_id: string;
+      code_id: string;
       studio_id: string;
       playlist_id?: string;
       tag_ids: string[];

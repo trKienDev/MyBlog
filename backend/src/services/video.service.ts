@@ -24,6 +24,7 @@ export class VideoService {
             const creator_id = request_utils.extractParamFromRequest(req, "creator_id");
             const tagId_array = request_utils.extractParamFromRequest(req, "tag_ids");
             const film_id = request_utils.extractParamFromRequest(req, "film_id");
+            const code_id = request_utils.extractParamFromRequest(req, "code_id");
             const studio_id = request_utils.extractParamFromRequest(req, "studio_id");
             const tag_ids: string[] = tagId_array.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
             
@@ -32,6 +33,7 @@ export class VideoService {
                   action_id: action_id,
                   creator_id: creator_id,
                   film_id: film_id,
+                  code_id: code_id,
                   studio_id: studio_id,
                   playlist_id: playlist_id,
                   tag_ids: tag_ids,

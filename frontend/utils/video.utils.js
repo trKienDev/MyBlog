@@ -1,5 +1,5 @@
 function hoverMouseToPlayVideo(video) {
-      video.addEventListener('mouseenter', () => { video.play(); });
+      video.addEventListener('click', () => { video.play(); });
       video.addEventListener('mouseleave', () => { video.pause(); });
       return video
 }

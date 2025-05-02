@@ -56,6 +56,10 @@
 }
 #videos-table .video-tags {
       margin-top: 10px;
+      margin-bottom: 10px;
+}
+#videos-table .selected-tag {
+      margin: 10px 2px;
 }
 #videos-table .selected-tag:hover {
       cursor: unset;
@@ -74,4 +78,3 @@
       border-radius: 5px;
       user-select: none;
 }
-

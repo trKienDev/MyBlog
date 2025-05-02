@@ -1,5 +1,5 @@
 import modal_component from "../../components/modal.component.js";
-import { getSelectedOptionValue, initSelectSearch, resetSelectSearch } from "../../components/select-search.component.js";
+import selectSearch_component, { getSelectedOptionValue, resetSelectSearch } from "../../components/select-search.component.js";
 import api_configs from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
@@ -8,20 +8,21 @@ import id_selectors from "../../selectors/element-id.selector.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import { createFilm } from "./create-film.js";
 import { updateFilm } from "./update-film.js";
-import { selectCodeByStudio } from "../../components/select.component.js";
-import { getDateFromStr } from "../../utils/date.js";
 import fetch_api from "../../api/fetch.api.js";
 import { studio_api } from "../../api/studio.api.js";
 import tags_utils from "../../utils/tags.utils.js";
+import select_component from "../../components/select.component.js";
+import film_helper from "./film.helper.js";
+import date_utils from "../../utils/date.js";
 
 let default_thumbnail = '/admin/static/images/film/thumbnail-upload_default.png';
 
 export async function initFilmAdmin() {
       modal_component.initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.create_film, resetFilmModal);
       renderFilms(id_selectors.table.film_tbody);
-      initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
-      initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
-      initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
       uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       getCodeByStudio(id_selectors.films.film_studio);
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.films.film_tag);
@@ -54,7 +55,7 @@ export async function renderFilms(element) {
                   tr.appendChild(studio);
 
                   const film_date = new Date(film.date);
-                  const formatted_date = getDateFromStr(film_date);
+                  const formatted_date = date_utils.getDateFromStr(film_date);
                   const date = table_component.createTextTd({ i_text: formatted_date });
                   tr.appendChild(date);
 
@@ -76,7 +77,7 @@ export function getCodeByStudio(studioEl_id){
             const li = event.target.closest("li");
             if(li && options_container.contains(li)) {
                   const studio_id = li.getAttribute("value");
-                  selectCodeByStudio(id_selectors.films.film_code, studio_id);
+                  select_component.selectCodeByStudio(id_selectors.films.film_code, studio_id);
             }
       });
 }
@@ -92,16 +93,9 @@ export async function uploadThumbnail(thumbnailImg_id, thumbnailUpload_id, submi
       }
 }
 
-export function getSelectedCodeOption(filmCode_id) {
-      let codeSelection_element = document.getElementById(filmCode_id);
-      const selectedCode_index = codeSelection_element.selectedIndex;
-      const selectedCode_option = codeSelection_element.options[selectedCode_index];
-      return selectedCode_option;
-}
-
 export function getFilmName(filmCode_id, codeNumbebId) {
       const code_number = document.getElementById(codeNumbebId).value;  
-      const selectedCode_option = getSelectedCodeOption(filmCode_id);
+      const selectedCode_option = film_helper.getSelectedCodeOption(filmCode_id);
       const selectedCode_text = selectedCode_option.innerText;
       const film_name = selectedCode_text + "-" + code_number;
       return film_name;
@@ -141,7 +135,7 @@ export function buildFilmForm(include_file, thumbnail_file) {
       const form = new FormData();
 
       const studio_id = getSelectedOptionValue(id_selectors.films.film_studio, 'id');
-      const code_id = getSelectedCodeOption(id_selectors.films.film_code).value;
+      const code_id = film_helper.getSelectedCodeOption(id_selectors.films.film_code).value;
       const name = getFilmName(id_selectors.films.film_code, id_selectors.films.code_number);
       const collection_id = getSelectedOptionValue(id_selectors.films.film_collection, 'id');
       const date = document.getElementById(id_selectors.date.release_date).value;

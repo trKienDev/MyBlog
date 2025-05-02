@@ -37,11 +37,13 @@ body {
       --primary-border: #007bff;
       --secondary-border: #d1d9e0;
       --violent-border: #7F00FF;
-
+      --neon-orange-border: #FF5F1F;
       /* color */
       --primary-color: #007bff;
       --secondary-color: #f6f8fa;
       --secondary-color_hover: #eff2f5;
+      --neon-orange: #FF5F1F;
+      --neon-orange_hover: #c73b03;
       --blue-color: #1F51FF;
       --brigh-blue: #1586d7;
       --red-color: #ff3131;
@@ -50,8 +52,6 @@ body {
       --smoke-color: #848884;
       --limeGreen-color:  #32CD32;
       --platinum: #E5E4E2;
-
-      
 }
 
 #sidebar h1, p {

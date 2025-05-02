@@ -1,15 +1,15 @@
-import { SelectStudios } from "../../components/select.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import api_configs from "../../api/api.config.js";
 import fetch_api from "../../api/fetch.api.js";
 import table_component from "../../components/table.component.js";
+import select_component from "../../components/select.component.js";
 
 let formStudio = "form-studio";
 let studioSelection = "studio-selection";
 
 export function initCodeAdmin() {
-      SelectStudios(studioSelection);
-      SelectStudios(formStudio);
+      select_component.selectStudios(studioSelection);
+      select_component.selectStudios(formStudio);
       CreateNewCode();
       RenderCodeBySelectedStudio();
 }

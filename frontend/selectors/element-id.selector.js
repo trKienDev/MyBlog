@@ -7,6 +7,7 @@ const films = {
       film_rating: 'film-rating',
       code_number: 'code-number',
       search_film: 'search-film',
+      film_id: 'film-id',
 }
 const videos = {
       video_action: 'video-action',
@@ -17,12 +18,19 @@ const videos = {
       submit_video_btn: 'submit-video_btn',
       thumbnail_video: 'thumbnail-video',
       upload_video: 'upload-video',
-      
+}
+const studio = {
+      studio_id: 'studio_id',
+}
+const code = {
+      code_id: 'code-id',
+}
+const collection = {
+      collection_id: 'collection_id',
 }
 const buttons = {
       submit_btn: 'submit-btn',
       create_video_btn: 'create-video_btn',
-      
 }
 const date = {
       release_date: 'release-date',
@@ -47,7 +55,10 @@ const table = {
 
 const id_selectors = {
       films,
+      studio,
       videos,
+      code,
+      collection,
       buttons,
       date,
       thumbnail,

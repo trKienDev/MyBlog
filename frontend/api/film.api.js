@@ -24,6 +24,7 @@ async function getFilmsByStudioCode(studio_id, code_id) {
 
 
 export const film_api = {
+      findFilmById,
       getFilmsByStudioCode,
       getFilmThumbnail,
 }

@@ -1,150 +1,150 @@
-<section id="edit-video">
-      <div class="container">
-            <h1 class="heading-title">Edit video</h1>
-            <div id="search-films_section">
-                  <div id="search-form" class="primary-form">
-                        <div class="form-container">
-                              <div class="title">
-                                    <span>Search film</span>
-                              </div>
-                              <div class="form-body">
-                                    <div id="film-studio">
-                                          <div class="select-search_component">
-                                                <div class="wrapper">
-                                                      <div class="select-btn">
-                                                            <span>Select studio</span>
-                                                            <i class="caret-down fa-solid fa-caret-down"></i>
-                                                      </div>
-                                                      <div class="content">
-                                                            <div class="search row ">
-                                                                  <input type="text" placeholder="search studio ... ">
+      <section id="edit-video">
+            <div class="container">
+                  <h1 class="heading-title">Edit video</h1>
+                  <div id="search-films_section">
+                        <div id="search-form" class="primary-form">
+                              <div class="form-container">
+                                    <div class="title">
+                                          <span>Search film</span>
+                                    </div>
+                                    <div class="form-body">
+                                          <div id="film-studio">
+                                                <div class="select-search_component">
+                                                      <div class="wrapper">
+                                                            <div class="select-btn">
+                                                                  <span>Select studio</span>
+                                                                  <i class="caret-down fa-solid fa-caret-down"></i>
                                                             </div>
-                                                            <ul class="options"></ul>
+                                                            <div class="content">
+                                                                  <div class="search row ">
+                                                                        <input type="text" placeholder="search studio ... ">
+                                                                  </div>
+                                                                  <ul class="options"></ul>
+                                                            </div>
                                                       </div>
                                                 </div>
                                           </div>
-                                    </div>
-                                    <select id="film-code">
-                                          <option value="" disabled selected>Select code</option>
-                                    </select>
-                                    <div class="button">
-                                          <button id="search-film" class="btn btn-primary" type="submit">Search</button>
+                                          <select id="film-code">
+                                                <option value="" disabled selected>Select code</option>
+                                          </select>
+                                          <div class="button">
+                                                <button id="search-film" class="btn btn-primary" type="submit">Search</button>
+                                          </div>
                                     </div>
                               </div>
                         </div>
+                        <div id="searched-films" class="">
+                              <div id="searched-films_table">
+                                    <table cellpadding="0" cellspacing="0">
+                                          <thead>
+                                                <tr>
+                                                      <th class="film-name">Name</th>
+                                                      <th class="film-studio">Studio</th>
+                                                      <th class="film-date">Date</th>
+                                                      <th class="film-rating">Rating</th>
+                                                      <th class="film-select">Select</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody></tbody>
+                                    </table>
+                              </div>
+                        </div>
                   </div>
-                  <div id="searched-films" class="">
-                        <div id="searched-films_table">
-                              <table cellpadding="0" cellspacing="0">
-                                    <thead>
-                                          <tr>
-                                                <th class="film-name">Name</th>
-                                                <th class="film-studio">Studio</th>
-                                                <th class="film-date">Date</th>
-                                                <th class="film-rating">Rating</th>
-                                                <th class="film-select">Select</th>
-                                          </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                              </table>
+                  <div id="edit-video_section">
+                        <div class="wrapper">
+                              <div class="row">
+                                    <div class="col-film">
+                                          <div class="film-thumbnail">
+                                                <img id="thumbnail-image" src="/admin/static/images/film/thumbnail-upload_default.png" alt="film-thumbnail">
+                                          </div>
+                                    </div>
+                                    <div class="col-video">
+                                          <div class="row">
+                                                <div class="col-video_info">
+                                                      <div class="submit-video_container secondary-form">
+                                                            <div id="video-action">
+                                                                  <div class="select-search_component">
+                                                                        <div class="wrapper">
+                                                                              <div class="select-btn">
+                                                                                    <span>Select Action</span>
+                                                                                    <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                              </div>
+                                                                              <div class="content">
+                                                                                    <div class="search row ">
+                                                                                          <input type="text" placeholder="search action ... ">
+                                                                                    </div>
+                                                                                    <ul class="options"></ul>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div id="video-playlist">
+                                                                  <div class="select-search_component">
+                                                                        <div class="wrapper">
+                                                                              <div class="select-btn">
+                                                                                    <span>Select playlist</span>
+                                                                                    <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                              </div>
+                                                                              <div class="content">
+                                                                                    <div class="search row ">
+                                                                                          <input type="text" placeholder="search playlist ... ">
+                                                                                    </div>
+                                                                                    <ul class="options"></ul>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div id="video-creator">
+                                                                  <div class="select-search_component">
+                                                                        <div class="wrapper">
+                                                                              <div class="select-btn">
+                                                                                    <span>Select creator</span>
+                                                                                    <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                              </div>
+                                                                              <div class="content">
+                                                                                    <div class="search row ">
+                                                                                          <input type="text" placeholder="search creator ... ">
+                                                                                    </div>
+                                                                                    <ul class="options"></ul>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div id="video-tag">
+                                                                  <div class="select-search_component">
+                                                                        <div class="wrapper">
+                                                                              <div class="select-btn">
+                                                                                    <span>Select tag</span>
+                                                                                    <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                              </div>
+                                                                              <div class="content">
+                                                                                    <div class="search row ">
+                                                                                          <input type="text" placeholder="search tag ... ">
+                                                                                    </div>
+                                                                                    <ul class="options"></ul>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                                  <div id="selected-tag_container" class="selected-tag_container"></div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="button">
+                                                            <button id="submit-video_btn" class="btn edit-btn" type="submit">Edit</button>
+                                                      </div>
+                                                </div>
+                                                <div class="col-video_upload">
+                                                      <div class="thumbnail-video">
+                                                            <img id="thumbnail-video" src="/admin/static/images/video/video-upload.png" alt="film-thumbnail" style="height: 400px; width: 711px;">
+                                                            <input type="file" id="upload-video" accept="video/mp4" style="display: none;">
+                                                      </div>
+                                                      <video class="video-frame d-none" width="711" height="400" controls >
+                                                            <source src="" type="video/mp4">
+                                                      </video>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
                         </div>
                   </div>
             </div>
-            <div id="edit-video_section">
-                  <div class="wrapper">
-                        <div class="row">
-                              <div class="col-film">
-                                    <div class="film-thumbnail">
-                                          <img id="thumbnail-image" src="/admin/static/images/film/thumbnail-upload_default.png" alt="film-thumbnail">
-                                    </div>
-                              </div>
-                              <div class="col-video">
-                                    <div class="row">
-                                          <div class="col-video_info">
-                                                <div class="submit-video_container primary-form">
-                                                      <div id="video-action">
-                                                            <div class="select-search_component">
-                                                                  <div class="wrapper">
-                                                                        <div class="select-btn">
-                                                                              <span>Select Action</span>
-                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
-                                                                        </div>
-                                                                        <div class="content">
-                                                                              <div class="search row ">
-                                                                                    <input type="text" placeholder="search action ... ">
-                                                                              </div>
-                                                                              <ul class="options"></ul>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                      <div id="video-playlist">
-                                                            <div class="select-search_component">
-                                                                  <div class="wrapper">
-                                                                        <div class="select-btn">
-                                                                              <span>Select playlist</span>
-                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
-                                                                        </div>
-                                                                        <div class="content">
-                                                                              <div class="search row ">
-                                                                                    <input type="text" placeholder="search playlist ... ">
-                                                                              </div>
-                                                                              <ul class="options"></ul>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                      <div id="video-creator">
-                                                            <div class="select-search_component">
-                                                                  <div class="wrapper">
-                                                                        <div class="select-btn">
-                                                                              <span>Select creator</span>
-                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
-                                                                        </div>
-                                                                        <div class="content">
-                                                                              <div class="search row ">
-                                                                                    <input type="text" placeholder="search creator ... ">
-                                                                              </div>
-                                                                              <ul class="options"></ul>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                      <div id="video-tag">
-                                                            <div class="select-search_component">
-                                                                  <div class="wrapper">
-                                                                        <div class="select-btn">
-                                                                              <span>Select tag</span>
-                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
-                                                                        </div>
-                                                                        <div class="content">
-                                                                              <div class="search row ">
-                                                                                    <input type="text" placeholder="search tag ... ">
-                                                                              </div>
-                                                                              <ul class="options"></ul>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div id="selected-tag_container" class="selected-tag_container"></div>
-                                                      </div>
-                                                </div>
-                                                <div class="button">
-                                                      <button id="submit-video_btn" class="btn btn-primary" type="submit">Edit</button>
-                                                </div>
-                                          </div>
-                                          <div class="col-video_upload">
-                                                <div class="thumbnail-video">
-                                                      <img id="thumbnail-video" src="/admin/static/images/video/video-upload.png" alt="film-thumbnail" style="height: 400px; width: 711px;">
-                                                      <input type="file" id="upload-video" accept="video/mp4" style="display: none;">
-                                                </div>
-                                                <video class="video-frame d-none" width="711" height="400" controls >
-                                                      <source src="" type="video/mp4">
-                                                </video>
-                                          </div>
-                                    </div>
-                              </div>
-                        </div>
-                  </div>
-            </div>
-      </div>
-</section>
+      </section>

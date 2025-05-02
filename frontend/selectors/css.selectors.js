@@ -1,3 +1,6 @@
+const button = {
+      light_btn: 'light-btn',
+}
 const tags = {
       selected_tag: 'selected-tag',
 }
@@ -21,6 +24,7 @@ const container = {
 }
 
 const css_selectors = {
+      button,
       tags,
       films,
       creators,
