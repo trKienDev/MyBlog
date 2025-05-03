@@ -1,8 +1,6 @@
 import api_configs from "../../api/api.config.js";
 import creator_api from "../../api/creator.api.js";
 import { film_api } from "../../api/film.api.js";
-import { studio_api } from "../../api/studio.api.js";
-import tag_api from "../../api/tag.api.js";
 import { video_api } from "../../api/video.api.js";
 import div_component from "../../components/div.component.js";
 import span_component from "../../components/span.component.js";
@@ -11,6 +9,7 @@ import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import { spaNavigateLink } from "../../services/loadElement/load-dynamic-section.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
+import tag_helper from "../tags/tag.helper.js";
 import { initCreateVideo } from "./create-video.js";
 import { redirectToEditVideoPage } from "./edit-video.js";
 
@@ -39,17 +38,13 @@ async function renderListVideo() {
 
                   const video_name = span_component.createSpanText(video.name, css_selectors.videos.video_name);
 
-                  const videoTags_div = div_component.createDiv({ icss_class: css_selectors.videos.video_tags, idiv_id: id_selectors.videos.video_tags});
-                  video.tag_ids.forEach(async (tag_id) => {
-                        const tag_name = await tag_api.getTagNameById(tag_id);
-                        const tag_div = div_component.createDiv({ icss_class: css_selectors.tags.selected_tag, idiv_name: tag_name});
-                        videoTags_div.appendChild(tag_div);
-                  });
+                  const videoTags_container = div_component.createDiv({ icss_class: css_selectors.videos.video_tags, idiv_id: id_selectors.videos.video_tags});
+                  await tag_helper.renderSelectedTags(video.tag_ids, videoTags_container);
                   
                   const video_info = document.createElement('div');
                   video_info.classList.add('video-info');
                   video_info.appendChild(video_name);
-                  video_info.appendChild(videoTags_div);
+                  video_info.appendChild(videoTags_container);
 
                   video_td.appendChild(video_info);
                   tr.appendChild(video_td);

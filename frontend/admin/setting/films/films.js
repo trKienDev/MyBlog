@@ -139,7 +139,7 @@ export function loadFilm() {
       } catch (error) {
             console.error(error.message);
       }
-      createFilm(".btn-primary");
+      createFilm(".primary-btn");
       searchFilmByCode('search-input');
 }
 

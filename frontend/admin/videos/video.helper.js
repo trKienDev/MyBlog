@@ -105,25 +105,25 @@ function waitForUploadVideo(thumbnail_video, upload_video) {
             upload_input.click();
       });
 
-      upload_input.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file && file.type === 'video/mp4') {
-                  const video_element = document.querySelector('video');
-                  const source_element = video_element.querySelector('source');
-                  const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
+      upload_input.addEventListener('change', handleVideoUpload);
+}
 
-                  const video_url = URL.createObjectURL(file);
+function handleVideoUpload(event) {
+      const file = event.target.files[0];
+      if (file && file.type === 'video/mp4') {
+            const video_element  = document.querySelector('video');
+            const source_element = video_element.querySelector('source');
 
-                  source_element.src = video_url;
+            const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
 
-                  video_element.load();
-
-                  video_element.classList.remove('d-none');
-                  thumbnail_image.style.display = 'none';
-            } else {
-                  showToast('Please upload a valid mp4 video', 'error');
-            }
-      });
+            const video_url = URL.createObjectURL(file);
+            source_element.src = video_url;
+            video_element.load();
+            video_element.classList.remove('d-none');
+            thumbnail_image.style.display = 'none';
+      } else {
+            showToast('Please upload a valid mp4 video', 'error');
+      }
 }
 
 const video_helpers = {
@@ -132,5 +132,6 @@ const video_helpers = {
       createSearchFilmBtn,
       loadThumbnailOfSelectedFIlm,
       waitForUploadVideo,
+      handleVideoUpload,
 }
 export default video_helpers;

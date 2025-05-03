@@ -1,5 +1,6 @@
 const button = {
       light_btn: 'light-btn',
+      primary_btn: 'primary-btn',
 }
 const tags = {
       selected_tag: 'selected-tag',

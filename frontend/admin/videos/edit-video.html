@@ -27,9 +27,6 @@
                                           <select id="film-code">
                                                 <option value="" disabled selected>Select code</option>
                                           </select>
-                                          <div class="button">
-                                                <button id="search-film" class="btn btn-primary" type="submit">Search</button>
-                                          </div>
                                     </div>
                               </div>
                         </div>
@@ -129,10 +126,16 @@
                                                             </div>
                                                       </div>
                                                       <div class="button">
-                                                            <button id="submit-video_btn" class="btn edit-btn" type="submit">Edit</button>
+                                                            <button id="submit-video_btn" class="btn edit-btn" type="submit">Save</button>
                                                       </div>
                                                 </div>
                                                 <div class="col-video_upload">
+                                                      <div class="button">
+                                                            <button id="upload-new_video" class="btn primary-btn" type="button">
+                                                                  <i class="fa-solid fa-upload"></i>
+                                                                  <span style="padding-left: 10px;">Upload new video</span>
+                                                            </button>
+                                                      </div>
                                                       <div class="thumbnail-video">
                                                             <img id="thumbnail-video" src="/admin/static/images/video/video-upload.png" alt="film-thumbnail" style="height: 400px; width: 711px;">
                                                             <input type="file" id="upload-video" accept="video/mp4" style="display: none;">

@@ -25,6 +25,9 @@ const studio = {
 const code = {
       code_id: 'code-id',
 }
+const action = {
+      action_id: 'action_id',
+}
 const collection = {
       collection_id: 'collection_id',
 }
@@ -57,6 +60,7 @@ const id_selectors = {
       films,
       studio,
       videos,
+      action,
       code,
       collection,
       buttons,

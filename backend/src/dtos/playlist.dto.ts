@@ -1,4 +1,4 @@
-export interface playlist_dto {
+export interface PlaylistDTO {
       _id?: string;
       name: string;
       videos?: string[];

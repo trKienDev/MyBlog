@@ -1,9 +1,9 @@
 import api_configs from "../../api/api.config.js";
-import selectSearch_component, { getSelectedOptionValue, resetSelectSearch } from "../../components/select-search.component.js";
+import selectSearch_component, { resetSelectSearch } from "../../components/select-search.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import { showToast } from "../../utils/toast-notification.js";
-import { getCodeByStudio, getSelectedTags, resetTagSelection } from "../films/films.js";
+import { getCodeByStudio, resetTagSelection } from "../films/films.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import fetch_api from "../../api/fetch.api.js";
 import tags_utils from "../../utils/tags.utils.js";
@@ -61,7 +61,7 @@ async function initSearchFilm() {
 
 // create video
 function collectVideoInfo() {
-      const tag_ids = getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
+      const tag_ids = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
       if(tag_ids.length === 0) {
             showToast('Please select at least a tag', 'warning');
             return;
@@ -74,8 +74,8 @@ function collectVideoInfo() {
             return;
       }
       
-      const action_id = getSelectedOptionValue(id_selectors.videos.video_action, 'id');
-      const action_text = getSelectedOptionValue(id_selectors.videos.video_action, 'text');
+      const action_id = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_action, 'id');
+      const action_text = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_action, 'text');
 
       const film_table = document.getElementById(id_selectors.table.search_film),
       selected_film = film_table.querySelector('tr.selected');
@@ -89,11 +89,12 @@ function collectVideoInfo() {
 
       const video_name = film_name + '_' + action_text;
 
-      const playlist_id = getSelectedOptionValue(id_selectors.videos.video_playlist, 'id');
-      const creator_id = getSelectedOptionValue(id_selectors.videos.video_creator, 'id');
+      const playlist_id = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_playlist, 'id');
+      const creator_id = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_creator, 'id');
 
       return { video_name, film_id, code_id, studio_id, action_id, playlist_id, creator_id, tag_ids, file };
 }
+
 function buildVideoForm(video_info) {
       const video_form = new FormData();
       video_form.append("name", video_info.video_name);

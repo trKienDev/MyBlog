@@ -31,7 +31,7 @@ const api_configs = {
             deleteStudio: '/admin/studio', // DELETE
             // tag
             getTags: '/admin/tags', // GET
-            getTag_byId: '/admin/tag', // GET
+            getTagById: '/admin/tag', // GET
             getFilmTags: '/admin/tags/film', // GET
             getTagsByAction: '/admin/tags/action', // GET
             getTagsByVideo: '/admin/tags/video', // GET
@@ -54,8 +54,10 @@ const api_configs = {
             // video
             getVideos: '/admin/videos', // GET
             createVideo: '/admin/video', // POST
+            updateVideo: '/admin/video', // PUT
             // playlist
             getPlaylists: '/admin/playlists', // GET
+            getPlaylistById: '/admin/playlist', // GET
             createPlaylist: '/admin/playlist', // POST
 
 

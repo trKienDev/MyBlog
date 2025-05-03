@@ -79,7 +79,7 @@ function handleSelectionOption(list, value, options, button, wrapper) {
  * @param {'id'|'text'} option - 'id' để lấy item-id, 'text' để lấy innerText
  * @returns {string|null} Giá trị tương ứng hoặc null nếu không tìm thấy
  */
-export function getSelectedOptionValue(select_id, option) {
+function getSelectedOptionValue(select_id, option) {
       const span = document.querySelector(`#${select_id} .select-btn span`);
       if(!span) return null;
 
@@ -104,15 +104,16 @@ export function resetSelectSearch(configs) {
       
 }
 
-async function loadInfoSelectSearch(film, element_id, field_id, getFunc) {
+async function loadInfoSelectSearch(item, element_id, field_id, getFunc) {
       const element = document.getElementById(element_id);
       const span = element.querySelector('span');
-      span.setAttribute('item-id', film[field_id]);
-      span.innerText = await getFunc(film[field_id]);
+      span.setAttribute('item-id', item[field_id]);
+      span.innerText = await getFunc(item[field_id]);
 }
 
 const selectSearch_component = {
       initSelectSearch,
       loadInfoSelectSearch,
+      getSelectedOptionValue,
 };
 export default selectSearch_component;

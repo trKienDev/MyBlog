@@ -2,16 +2,24 @@ import mongoose from "mongoose";
 import Video from "../models/video.model.js";
 import { iVIdeoRepository } from "./interfaces/ivideo.repository.js";
 import { iVideo } from "../models/interface/ivideo.model.js";
-import { CreateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
+import { CreateVideoDTO, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
+import Film from "../models/film.model.js";
 
 export class VideoRepository implements iVIdeoRepository {
       public async getVIdeos(): Promise<VideoDTO[]> {
             const videos = await Video.find();
             return videos.map(doc => mappingDocToDTO(doc));
       }
-      public async getVideoByName(name: string): Promise<VideoDTO | null> {
+
+      async findById(id: string): Promise<VideoDTO | null> {
+            const video = await Video.findById(id);
+            return video ? mappingDocToDTO(video) : null;
+      }
+
+      public async findByName(name: string): Promise<VideoDTO | null> {
             return await Video.findOne({ name });      
       }
+
       public async createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO> {
             const new_video = new Video({
                   name: data.name,
@@ -24,9 +32,35 @@ export class VideoRepository implements iVIdeoRepository {
                   file_path: data.file_path,
                   tag_ids: data.tag_ids.map(id => new mongoose.Types.ObjectId(id)), 
             });
-
             const created_video = await new_video.save();
-            return mappingDocToCreateDTO(created_video);
+
+            await Film.findByIdAndUpdate(
+                  data.film_id,
+                  { $push: { video_ids: created_video._id }}
+            );
+
+            return mappingDocToCreateDTO(created_video);            
+      }
+
+      async updateVideo(id: string, data: Partial<UpdateVideoDTO>): Promise<UpdateVideoDTO | null> {
+            const update_fields: Record<string, any> = {};
+            if (data.name) update_fields.name = data.name;
+            if (data.action_id) update_fields.action_id = new mongoose.Types.ObjectId(data.action_id);
+            if (data.creator_id) update_fields.creator_id = new mongoose.Types.ObjectId(data.creator_id);
+            if (data.studio_id) update_fields.studio_id = new mongoose.Types.ObjectId(data.studio_id);
+            if (data.film_id) update_fields.film_id = new mongoose.Types.ObjectId(data.film_id);
+            if (data.code_id) update_fields.code_id = new mongoose.Types.ObjectId(data.code_id);
+            if (data.playlist_id) update_fields.playlist_id = new mongoose.Types.ObjectId(data.playlist_id);
+            if (data.tag_ids) update_fields.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
+            if (data.file_path)   update_fields.file_path   = data.file_path;
+
+            const updated_doc = await Video.findByIdAndUpdate(
+                  id,
+                  { $set: update_fields },
+                  { new: true }         
+            );
+
+            return updated_doc ? mappingDocToDTO(updated_doc) : null;
       }
 }
 

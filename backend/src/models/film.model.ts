@@ -8,7 +8,7 @@ const FilmSchema: Schema  = new Schema({
       creator_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Creator'},
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
       collection_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Collection'},
-      video_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Video'},
+      video_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video', require: false }],
       thumbnail: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
       date: { 
             type: Date, 

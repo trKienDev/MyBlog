@@ -3,10 +3,10 @@ import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../control
 import { createCollection, GetCollection_byId, GetCollections } from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
-import { playlist_controller } from "../controllers/playlist.controller.js";
+import playlist_controller from "../controllers/playlist.controller.js";
 import { CreateStudio, DeleteStudio, GetStudioById, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
 import { getTags, createTag, GetFilmTags, GetTag_byId, tag_controller } from "../controllers/tag.controller.js";
-import { video_controller } from "../controllers/video.controller.js";
+import video_controller from "../controllers/video.controller.js";
 import { Route } from "../interfaces/Route.js";
 import { validated_id } from "../middlewares/validate-id.js";
 import { createRouter } from "./routes.js";
@@ -41,9 +41,6 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/collections', handler: GetCollections },
       { method: 'GET', path: '/admin/collection/:id', handler: validated_id.validateId(GetCollection_byId) },
       { method: 'POST', path: '/admin/collection', handler: createCollection },
-      // playlist
-      { method: 'GET', path: '/admin/playlists', handler: playlist_controller.getPlaylists },
-      { method: 'POST', path: '/admin/playlist', handler: playlist_controller.createPlaylist },
       // film
       { method: 'GET', path: '/admin/films', handler: filmController.getFilms },
       { method: 'GET', path: '/admin/film/:id', handler: validated_id.validateId(filmController.findFilmById) },
@@ -53,6 +50,11 @@ const adminRoutes: Route[] = [
       // video
       { method: 'GET', path: '/admin/videos', handler: video_controller.getVideos },
       { method: 'POST', path: '/admin/video', handler: video_controller.createVideo },
+      { method: 'PUT', path: '/admin/video/:id', handler: validated_id.validateId(video_controller.updatedVIdeo ) },
+      // playlist
+      { method: 'GET', path: '/admin/playlists', handler: playlist_controller.getPlaylists },
+      { method: 'GET', path: '/admin/playlist/:id', handler: validated_id.validateId(playlist_controller.findTagById )},
+      { method: 'POST', path: '/admin/playlist', handler: playlist_controller.createPlaylist },
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);

@@ -10,10 +10,10 @@
       font-weight: bold;
       border: none;
 }
-.btn-primary {
+.primary-btn {
       background-color: var(--primary-btn); 
 }
-.btn-primary:hover {
+.primary-btn:hover {
       background-color: var(--primary-btn_hover);
 }
 .light-btn {

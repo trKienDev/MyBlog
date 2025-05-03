@@ -19,7 +19,7 @@ export const getTags = async(req: IncomingMessage, res: ServerResponse) => {
 export const GetTag_byId = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
-            const tag = await repository.GetTag_byId(id);
+            const tag = await repository.findById(id);
             if(tag == null) {
                   return sendError(res, 404, 'tag not found');
             }

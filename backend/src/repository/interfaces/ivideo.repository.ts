@@ -1,7 +1,9 @@
-import { CreateVideoDTO, VideoDTO } from "../../dtos/video.dto.js";
+import { CreateVideoDTO, UpdateVideoDTO, VideoDTO } from "../../dtos/video.dto.js";
 
 export interface iVIdeoRepository {
       getVIdeos(): Promise<VideoDTO[]>;
-      getVideoByName(name: string): Promise<VideoDTO | null>;
+      findById(id: string): Promise<VideoDTO | null>;
+      findByName(name: string): Promise<VideoDTO | null>;
       createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO>;
+      updateVideo(id: string, data: Partial<UpdateVideoDTO>): Promise<UpdateVideoDTO | null>;
 }

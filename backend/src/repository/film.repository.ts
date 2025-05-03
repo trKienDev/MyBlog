@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { CreateFilmDTO, FilmDTO, updateFilm_dto } from "../dtos/film.dto.js";
+import { CreateFilmDTO, FilmDTO, UpdateFilmDTO } from "../dtos/film.dto.js";
 import { iFilmRepository } from "./interfaces/ifilm.repository.js";
 import Film from "../models/film.model.js";
 import { iFilm } from "../models/interface/ifilm.model.js";
@@ -72,14 +72,14 @@ export class FilmRepository implements iFilmRepository {
             return createdFilm;
       }
 
-      public async update_film(id: string, data: Partial<updateFilm_dto>): Promise<updateFilm_dto> {
+      public async update_film(id: string, data: Partial<UpdateFilmDTO>): Promise<UpdateFilmDTO> {
             const updated_film = await Film.findByIdAndUpdate(id, data, { new: true, runValidators: true }).exec();
 
             if(!updated_film) {
                   throw new Error('Error updating film');
             }
 
-            const result: updateFilm_dto = {
+            const result: UpdateFilmDTO = {
                   _id: updated_film._id.toString(),
                   name: updated_film.name,
                   code_id: updated_film.code_id.toString(),
@@ -104,6 +104,7 @@ function MappingDocToDTO(doc: iFilm): FilmDTO {
             date: doc.date,
             thumbnail: doc.thumbnail,
             rating: doc.rating,
+            ...(doc.video_ids?.length && { video_ids: doc.video_ids }),
             collection_id: doc.collection_id,
             code_id: doc.code_id,
             tag_ids: doc.tag_ids,

@@ -42,10 +42,13 @@
       height: 400px;
       width: 267px;
 }
-#create-videoo_section .thumbnail-image {
+#create-video_section .thumbnail-image {
       width: 100%;
       height: 100%;
       object-fit: fill;
+      border-radius: 5px;
+}
+#create-video_section .video-frame {
       border-radius: 5px;
 }
 th.fiilm-select, td.film-select {

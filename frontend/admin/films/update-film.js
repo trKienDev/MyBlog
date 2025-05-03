@@ -13,6 +13,7 @@ import div_component from "../../components/div.component.js";
 import tag_api from "../../api/tag.api.js";
 import collection_api from "../../api/collection.api.js";
 import select_component from "../../components/select.component.js";
+import tag_helper from "../tags/tag.helper.js";
 
 export async function updateFilm(film) {
       try {                 
@@ -39,7 +40,7 @@ export async function updateFilm(film) {
                         console.error('Error of update_film in server: ', error);
                         error_sweetAlert(error);
                   } finally {
-                        modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', 'btn-update', 'btn-primary', 'Create film');
+                        modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', 'btn-update', css_selectors.button.primary_btn, 'Create film');
                   }
             });
       } catch(error) {
@@ -53,7 +54,7 @@ function closeUpdateModal(modal_id) {
       btn_close = modal_el.querySelector('.btn-close');
       
       btn_close.addEventListener('click', () => {
-            modal_component.changeTitle(modal_id, '#submit-btn', 'btn-update', 'btn-primary', 'Create film');
+            modal_component.changeTitle(modal_id, '#submit-btn', 'btn-update', css_selectors.button.primary_btn, 'Create film');
       });
 }
 
@@ -67,13 +68,12 @@ function initModalUI(film) {
       selectSearch_component.initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
       selectSearch_component.initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
       modal_component.openModal(id_selectors.modal.create_film);     
-      modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', 'btn-primary', 'btn-update', `Update ${film.name}`);
+      modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', css_selectors.button.primary_btn, 'btn-update', `Update ${film.name}`);
       uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       getCodeByStudio(id_selectors.films.film_studio);
 }
 
 async function populateFilmForm(film) {
-      console.log('film: ', film);
       await selectSearch_component.loadInfoSelectSearch(film, id_selectors.films.film_studio, id_selectors.studio.studio_id, studio_api.getStudioNameById);
       await select_component.selectCodeByStudio(id_selectors.films.film_code, film.studio_id);
       await selectSearch_component.loadInfoSelectSearch(film, id_selectors.films.film_collection, id_selectors.collection.collection_id, collection_api.getCollectionName);
@@ -94,13 +94,7 @@ async function populateFilmForm(film) {
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);
 
-      film.tag_ids.forEach(async(tag_el) => {
-            const tag = await tag_api.getTagById(tag_el);
-            const tag_div = div_component.createDiv({ icss_class: css_selectors.tags.selected_tag,
-                                                                                    idiv_id: tag._id, 
-                                                                                    idiv_name: tag.name })
-            selectTag_container.appendChild(tag_div);
-      });
+      await tag_helper.renderSelectedTags(film.tag_ids, selectTag_container);
       
       const film_thumbnail = document.getElementById(id_selectors.thumbnail.thumbnail_image);
       film_thumbnail.src = `${api_configs.server}/uploads/film/${film.thumbnail}`;

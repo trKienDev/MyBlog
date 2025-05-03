@@ -9,7 +9,7 @@ export class TagRepostory implements ITagRepository{
             return tags.map(tag => MappingDocToDTO(tag));
       }
 
-      public async GetTag_byId(id: string): Promise<TagDTO | null> {
+      public async findById(id: string): Promise<TagDTO | null> {
             const tag = await Tag.findById(id);
             return tag ? MappingDocToDTO(tag) : null;
       }

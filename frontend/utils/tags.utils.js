@@ -62,7 +62,16 @@ function observeSelectChange(select_id, callback) {
       return observer;
 }
 
+function getSelectedTags(container_id, css_class) {
+      const tag_container = document.getElementById(container_id);
+      const tag_nodes = tag_container.querySelectorAll(`.${css_class}`);
+      return Array.from(tag_nodes).map(tag => tag.getAttribute('id'));
+}
+
+
+
 const tags_utils = {
       displaySelectedTag,
+      getSelectedTags,
 }
 export default tags_utils;

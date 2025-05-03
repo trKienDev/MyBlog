@@ -1,10 +1,9 @@
 #edit-video .body {
       justify-content: unset;
 }
-#search-films_section .primary-form {
+#edit-video #search-films_section .primary-form {
       width: 160px;
-      height: 200px;
-      overflow-y: auto;
+      height: unset;
 }
 #edit-video .primary-form .title {
       margin-bottom: 10px;
@@ -35,17 +34,24 @@
       overflow-y: auto;
       min-height: 359px;
 }
-#edit-video_section .button {
+#edit-video_section #submit-video_btn {
       margin-top: 20px;
+}
+#edit-video_section #upload-new_video {
+      margin-bottom: 20px;
+      padding: 12px 0px;
 }
 #edit-video_section .film-thumbnail {
       height: 400px;
       width: 267px;
 }
-#edit-videoo_section .thumbnail-image {
+#edit-video_section .thumbnail-image {
       width: 100%;
       height: 100%;
       object-fit: fill;
+      border-radius: 5px;
+}
+#edit-video_section .video-frame {
       border-radius: 5px;
 }
 th.fiilm-select, td.film-select {
