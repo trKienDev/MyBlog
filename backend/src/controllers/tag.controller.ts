@@ -9,14 +9,14 @@ const service = new TagService(repository);
 
 export const getTags = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const tags = await repository.GetTags();
+            const tags = await repository.getTags();
             return sendResponse(res, 200, tags);
       } catch(error) {
             return sendError(res, 500, error);
       }
 }
 
-export const GetTag_byId = async(req: ValidateIdRequest, res: ServerResponse) => {
+const getTagById = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
             const tag = await repository.findById(id);
@@ -31,7 +31,7 @@ export const GetTag_byId = async(req: ValidateIdRequest, res: ServerResponse) =>
 
 export const GetFilmTags = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const filmTags = await repository.GetFilmTags();
+            const filmTags = await repository.getFilmTags();
             return sendResponse(res, 200, filmTags);
       } catch(error) {
             return sendError(res, 500, error);
@@ -66,6 +66,7 @@ const getTagsByAction = async(req: IncomingMessage, res: ServerResponse) => {
 }
 
 export const tag_controller = {
+      getTagById,
       getTagsByVideo,
       getTagsByAction,
 }

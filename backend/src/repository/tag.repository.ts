@@ -4,39 +4,39 @@ import Tag from "../models/tag.model.js";
 import { ITagRepository } from "./interfaces/itag.repository.js";
 
 export class TagRepostory implements ITagRepository{
-      public async GetTags(): Promise<TagDTO[]> {
+      async getTags(): Promise<TagDTO[]> {
             const tags = await Tag.find();
-            return tags.map(tag => MappingDocToDTO(tag));
+            return tags.map(tag => mappingDocToDTO(tag));
       }
 
-      public async findById(id: string): Promise<TagDTO | null> {
+      async findById(id: string): Promise<TagDTO | null> {
             const tag = await Tag.findById(id);
-            return tag ? MappingDocToDTO(tag) : null;
+            return tag ? mappingDocToDTO(tag) : null;
       }
       
-      public async GetFilmTags(): Promise<TagDTO[]> {
+      async getFilmTags(): Promise<TagDTO[]> {
             const tags = await Tag.find({ kind: 'film' });
-            return tags.map(tag => MappingDocToDTO(tag));
+            return tags.map(tag => mappingDocToDTO(tag));
       }
 
-      public async getTagsByVideo(): Promise<TagDTO[]> {
+      async getTagsByVideo(): Promise<TagDTO[]> {
             const tags = await Tag.find({ kind: 'video' });
-            return tags.map(tag => MappingDocToDTO(tag));
+            return tags.map(tag => mappingDocToDTO(tag));
       }
 
-      public async getTagsByAction(): Promise<TagDTO[]> {
+      async getTagsByAction(): Promise<TagDTO[]> {
             const tags = await Tag.find({ kind: 'action' });
-            return tags.map(tag => MappingDocToDTO(tag));
+            return tags.map(tag => mappingDocToDTO(tag));
       }
       
-      public async Create(data: TagDTO): Promise<TagDTO> {
+      async Create(data: TagDTO): Promise<TagDTO> {
             const tag = new Tag(data);
             const savedTag = await tag.save();
-            return MappingDocToDTO(savedTag);
+            return mappingDocToDTO(savedTag);
       }
 }
 
-function MappingDocToDTO(doc: ITag): TagDTO {
+function mappingDocToDTO(doc: ITag): TagDTO {
       return {
             _id: doc._id.toString(),
             name: doc.name,

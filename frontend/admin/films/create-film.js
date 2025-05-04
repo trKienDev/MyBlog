@@ -2,7 +2,7 @@ import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import modal_component from "../../components/modal.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import { buildFilmForm, resetFilmModal } from './films.js';
+import { buildFilmForm, renderFilms, resetFilmModal } from './films.js';
 import fetch_api from "../../api/fetch.api.js";
 
 const { closeModal } = modal_component;
@@ -35,7 +35,7 @@ export async function createFilm() {
                   } finally {
                         submit_btn.disabled = false;
                         closeModal(id_selectors.modal.create_film);
-                        renderFilms(film_tableBody);
+                        renderFilms(id_selectors.table.film_tbody);
                   }
             });
       } catch(error) {

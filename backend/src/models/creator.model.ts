@@ -20,6 +20,16 @@ const CreatorSchema: Schema = new Schema({
       timestamp: true 
 });
 
+CreatorSchema.virtual('video_ids', {
+      ref: 'Video',
+      localField: '_id',
+      foreignField: 'creator_id',
+      justOne: false
+});
+
+CreatorSchema.set('toObject', { virtuals: true });
+CreatorSchema.set('toJSON', { virtuals: true });
+
 const Creator = mongoose.model<ICreator>('Creator', CreatorSchema);
 export default Creator;
 

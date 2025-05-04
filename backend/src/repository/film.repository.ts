@@ -5,28 +5,31 @@ import Film from "../models/film.model.js";
 import { iFilm } from "../models/interface/ifilm.model.js";
 
 export class FilmRepository implements iFilmRepository {
-      public async GetFilms(): Promise<FilmDTO[] | null> {
+      async GetFilms(): Promise<FilmDTO[] | null> {
             try {
                   const films = await Film.find();
-                  return films.map(doc => MappingDocToDTO(doc));
+                  return films.map(doc => mappingDocToDTO(doc));
             } catch(error) {
                   console.error('Error in GetFilms: ', error);
                   return null;
             }
       }
-      public async findById(id: string): Promise<FilmDTO | null> {
+      
+      async findById(id: string): Promise<FilmDTO | null> {
             try {
                   const film = await Film.findById(id);
-                  return film ? MappingDocToDTO(film) : null;
+                  return film ? mappingDocToDTO(film) : null;
             } catch(error: unknown) {
                   console.error("Repository error:", error);
                   throw error instanceof Error ? error : new Error(String(error));
             }
       }
-      public async FindFilmByName(name: string): Promise<FilmDTO | null> {
+      
+      async findByName(name: string): Promise<FilmDTO | null> {
             return await Film.findOne({ name });
       }
-      public async findFilmsByStudioAndCode(studio_id: string, code_id: string): Promise<FilmDTO[] | null> {
+      
+      async findFilmsByStudioAndCode(studio_id: string, code_id: string): Promise<FilmDTO[] | null> {
             try {
                   const films = await Film.find({
                         studio_id: new mongoose.Types.ObjectId(studio_id),
@@ -37,14 +40,14 @@ export class FilmRepository implements iFilmRepository {
                         return null;
                   }
                   
-                  return films.map(doc => MappingDocToDTO(doc));
+                  return films.map(doc => mappingDocToDTO(doc));
             } catch(error: unknown) {
                   console.error("Repository error:", error);
                   throw error instanceof Error ? error : new Error(String(error));
             }
       }
 
-      public async CreateFilm(data: CreateFilmDTO): Promise<CreateFilmDTO> {
+      async createFilm(data: CreateFilmDTO): Promise<CreateFilmDTO> {
             const newFilm = new Film({
                   name: data.name,
                   code_id: new mongoose.Types.ObjectId(data.code_id),
@@ -68,34 +71,48 @@ export class FilmRepository implements iFilmRepository {
                   rating: savedFilm.rating,
                   thumbnail: savedFilm.thumbnail,
             };
-
             return createdFilm;
       }
 
-      public async update_film(id: string, data: Partial<UpdateFilmDTO>): Promise<UpdateFilmDTO> {
-            const updated_film = await Film.findByIdAndUpdate(id, data, { new: true, runValidators: true }).exec();
+      async updateFilm(id: string, data: Partial<UpdateFilmDTO>): Promise<UpdateFilmDTO | null> {
+            const update_fields: Record<string, any> = {};
+            if(data.name) update_fields.name = data.name;
+            if(data.studio_id) update_fields.studio_id = new mongoose.Types.ObjectId(data.studio_id);
+            if(data.code_id) update_fields.code_id = new mongoose.Types.ObjectId(data.code_id);
+            if(data.collection_id) update_fields.collection_id = new mongoose.Types.ObjectId(data.collection_id);
+            if(data.date) update_fields.date = data.date;
+            if(data.rating) update_fields.rating = data.rating;
+            if(data.tag_ids) update_fields.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
+            if(data.thumbnail) update_fields.thumbnail = data.thumbnail;
 
-            if(!updated_film) {
-                  throw new Error('Error updating film');
-            }
+            console.log('tag_ids: ', data.tag_ids);
 
-            const result: UpdateFilmDTO = {
-                  _id: updated_film._id.toString(),
-                  name: updated_film.name,
-                  code_id: updated_film.code_id.toString(),
-                  studio_id: updated_film.studio_id.toString(),
-                  collection_id: updated_film.collection_id.toString(),
-                  date: updated_film.date,
-                  thumbnail: updated_film.thumbnail,
-                  rating: updated_film.rating,
-                  tag_ids: updated_film.tag_ids.map(item => item.toString()),
-            }
+            const updated_doc = await Film.findByIdAndUpdate(
+                  id, 
+                  { $set: update_fields },
+                  { new: true }
+            )
 
-            return result;
+            if(updated_doc) {
+                  const updated_film: UpdateFilmDTO = {
+                        _id: updated_doc._id.toString(),
+                        name: updated_doc.name,
+                        code_id: updated_doc.code_id.toString(),
+                        studio_id: updated_doc.studio_id.toString(),
+                        collection_id: updated_doc.collection_id.toString(),
+                        date: updated_doc.date,
+                        thumbnail: updated_doc.thumbnail,
+                        rating: updated_doc.rating,
+                        tag_ids: updated_doc.tag_ids.map(item => item.toString()),
+                  }
+                  return updated_film;
+            } else {
+                  return null;
+            }            
       }
 }
 
-function MappingDocToDTO(doc: iFilm): FilmDTO {
+function mappingDocToDTO(doc: iFilm): FilmDTO {
       return {
             _id: doc._id,
             name: doc.name,

@@ -13,9 +13,9 @@ export class FilmService {
             this.film_repository = filmRepository;
       }
       
-      public async CreateFilm(req: CustomRequest): Promise<CreateFilmDTO> {
+      public async createFilm(req: CustomRequest): Promise<CreateFilmDTO> {
             const { name, file_name } = await uploadFile(req, "film");
-            const existing_film = await this.film_repository.FindFilmByName(name);
+            const existing_film = await this.film_repository.findByName(name);
             if (existing_film) {
                   throw new Error('Film with this name has already existed.');
             }
@@ -23,28 +23,28 @@ export class FilmService {
             const thumbnail = file_name;
             const studio = request_utils.extractParamFromRequest(req, "studio_id");
             const code = request_utils.extractParamFromRequest(req, "code_id");
-            const tagsParam = request_utils.extractParamFromRequest(req, "tag_ids");
+            const tag_params = request_utils.extractParamFromRequest(req, "tag_ids");
             const collection = request_utils.extractParamFromRequest(req, "collection_id");
-            const dateStr = request_utils.extractParamFromRequest(req, "date");
-            const date: Date = new Date(dateStr);
+            const date_str = request_utils.extractParamFromRequest(req, "date");
+            const date: Date = new Date(date_str);
             const rating = request_utils.extractParamFromRequest(req, "rating");
-            const tagIds: string[] = tagsParam.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+            const tag_ids: string[] = tag_params.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
             
-            const newFilm: CreateFilmDTO = {
+            const new_film: CreateFilmDTO = {
                   name: name,
                   code_id: code,
                   studio_id: studio,
-                  tag_ids: tagIds,
+                  tag_ids: tag_ids,
                   collection_id: collection,
                   date: date,
                   rating: rating? Number(rating): 0,
                   thumbnail: thumbnail,
             };
 
-            return await this.film_repository.CreateFilm(newFilm);
+            return await this.film_repository.createFilm(new_film);
       }      
 
-      public async update_film(req: ValidateIdRequest): Promise<UpdateFilmDTO | null> {
+      async updateFilm(req: ValidateIdRequest): Promise<UpdateFilmDTO | null> {
             const id = req.params?.id;
             const existing_film = await this.film_repository.findById(id);
             
@@ -58,18 +58,23 @@ export class FilmService {
             const tags_param = request_utils.extractParamFromRequest(req, "tag_ids");
             const collection_id = request_utils.extractParamFromRequest(req, "collection_id");
             const date_str = request_utils.extractParamFromRequest(req, "date");
-            const date: Date = new Date(date_str);
             const rating = request_utils.extractParamFromRequest(req, "rating");
             const tag_ids: string[] = tags_param.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
             
-            const updateFilm_data: Record<string, any> = { name, studio_id, code_id, collection_id, date, rating, tag_ids };
+            const updateFilm_data: Record<string, any> = { name, studio_id, code_id, collection_id, rating, tag_ids };
+
+            if (date_str != null && date_str !== "") {
+                  updateFilm_data.date = new Date(date_str);
+            } else {
+                  updateFilm_data.date = "";
+            }
 
             if(file_name) {
                   FileService.deleteFile("film", existing_film.thumbnail);
                   updateFilm_data.thumbnail = file_name;
             }
 
-            const updated_film = await this.film_repository.update_film(id, updateFilm_data);
+            const updated_film = await this.film_repository.updateFilm(id, updateFilm_data);
             if(!updated_film) {
                   throw new Error("Error updating film");
             }

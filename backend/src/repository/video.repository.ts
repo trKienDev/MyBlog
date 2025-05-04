@@ -52,7 +52,7 @@ export class VideoRepository implements iVIdeoRepository {
             if (data.code_id) update_fields.code_id = new mongoose.Types.ObjectId(data.code_id);
             if (data.playlist_id) update_fields.playlist_id = new mongoose.Types.ObjectId(data.playlist_id);
             if (data.tag_ids) update_fields.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
-            if (data.file_path)   update_fields.file_path   = data.file_path;
+            if (data.file_path) update_fields.file_path   = data.file_path;
 
             const updated_doc = await Video.findByIdAndUpdate(
                   id,

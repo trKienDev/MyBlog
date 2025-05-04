@@ -24,7 +24,6 @@ export function redirectToEditVideoPage(ivideo) {
 }
 
 async function initEditVideoAdmin(ivideo) {
-      const search_btn = video_helpers.createSearchFilmBtn(id_selectors.films.search_film);
       selectSearch_component.initSelectSearch(id_selectors.videos.video_action, api_configs.endpoints.getTagsByAction, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_creator, api_configs.endpoints.getCreators, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_tag, api_configs.endpoints.getTagsByVideo, 'name');
@@ -89,10 +88,11 @@ function updateVideo(ivideo) {
       const submitVideo_btn = document.getElementById(id_selectors.videos.submit_video_btn);
       submitVideo_btn.addEventListener('click', async() => {
             const video_info = collectVideoInfo();
-            const video_form = buildVideoForm(video_info);
-
+            const updated_fields = getUpdatedVideoFields(ivideo, video_info);
+            const updatedVideo_form = buildVideoForm(updated_fields);
+            console.log('updated video form: ', updatedVideo_form);
             try {
-                  const result = await video_api.updateVideo(ivideo._id, video_form);
+                  await video_api.updateVideo(ivideo._id, updatedVideo_form);
                   success_sweetAlert('video updated');
             } catch(error) {
                   console.error('Error updating video: ', error);
@@ -142,19 +142,83 @@ function collectVideoInfo() {
       return { video_name, film_id, code_id, studio_id, action_id, playlist_id, creator_id, tag_ids, file };
 }
 
-function buildVideoForm(video_info) {     
-      const video_form = new FormData();
-      video_form.append("name", video_info.video_name);
-      video_form.append("film_id", video_info.film_id);
-      video_form.append("code_id", video_info.code_id);
-      video_form.append("studio_id", video_info.studio_id);
-      video_form.append("action_id", video_info.action_id);
-      video_form.append("playlist_id", video_info.playlist_id);
-      video_form.append("creator_id", video_info.creator_id);
-      video_form.append("tag_ids", video_info.tag_ids);
+/**
+ * So sánh ivideo (dữ liệu gốc) và videoInfo (dữ liệu người dùng cập nhật),
+ * trả về object chỉ chứa những trường đã thay đổi.
+ * @param {Object} ivideo     - Dữ liệu video gốc
+ * @param {Object} videoInfo  - Dữ liệu video sau khi người dùng edit
+ * @returns {Object}          - Object gồm các trường cần gửi lên server
+ */
+function getUpdatedVideoFields(ivideo, video_info) {
+      const changes = {};
+      
+      if(video_info.video_name != null && video_info.video_name !== ivideo.video_name) {
+            changes.video_name = video_info.video_name;
+      }
 
-      if(video_info.file) {
-            video_form.append("file", video_info.file);
+      const id_fields = ['action_id', 'creator_id', 'film_id', 'code_id', 'studio_id', 'playlist_id'];
+      id_fields.forEach(function(field) {
+            if(video_info[field] != null && video_info[field] !== ivideo[field]) {
+                  changes[field] = video_info[field];
+            }
+      });
+
+      if(Array.isArray(video_info.tag_ids)) {
+            const new_tags = video_info.tag_ids;
+            const old_tags = Array.isArray(ivideo.tag_ids) ? ivideo.tag_ids : [];
+            let is_different = false;
+
+            if(new_tags.length !== old_tags.length) {
+                  is_different = true; 
+            } else {
+                  for(let i = 0; i < new_tags.length; i++) {
+                        if(new_tags[i] !== old_tags[i]) {
+                              is_different = true;
+                              break;
+                        }
+                  }
+            }
+
+            if(is_different) {
+                  changes.tag_ids = new_tags;
+            }
+      }
+
+      if(video_info.file instanceof File) {
+            changes.file = video_info.file;
+      }
+
+      return changes;
+}
+
+function buildVideoForm(updated_fields) {     
+      const video_form = new FormData();
+      if(updated_fields.video_name) {
+            video_form.append("name", updated_fields.video_name);
+      }
+      if(updated_fields.film_id) {
+            video_form.append("film_id", updated_fields.film_id);
+      }
+      if(updated_fields.code_id) {
+            video_form.append("code_id", updated_fields.code_id);
+      }
+      if(updated_fields.studio_id) {
+            video_form.append("studio_id", updated_fields.studio_id);
+      }
+      if(updated_fields.action_id) {
+            video_form.append("action_id", updated_fields.action_id);
+      }
+      if(updated_fields.playlist_id) {
+            video_form.append("playlist_id", updated_fields.playlist_id);
+      }
+      if(updated_fields.creator_id) {
+            video_form.append("creator_id", updated_fields.creator_id);
+      }
+      if(updated_fields.tag_ids) {
+            video_form.append("tag_ids", updated_fields.tag_ids);
+      }
+      if(updated_fields.file) {
+            video_form.append("file", updated_fields.file);
       }
       return video_form;
 }

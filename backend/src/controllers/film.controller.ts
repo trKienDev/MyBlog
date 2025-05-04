@@ -45,7 +45,7 @@ const findFilmsByStudioAndCode = async(req: CustomRequest, res: ServerResponse) 
 
 const createFilm = async(req: CustomRequest, res: ServerResponse) => {
       try {
-            const newFilm = await service.CreateFilm(req);
+            const newFilm = await service.createFilm(req);
             sendResponse(res, 201, newFilm);
       } catch(error) {
             console.error("Error creating film: ", error);
@@ -55,10 +55,10 @@ const createFilm = async(req: CustomRequest, res: ServerResponse) => {
 
 const updateFilm = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
-            const updated_film = await service.update_film(req);
+            const updated_film = await service.updateFilm(req);
             return sendResponse(res, 200, updated_film);
       } catch(error) {
-            console.error("Error in update_film - film.controller: ", error);
+            console.error("Error in updateFilm - film.controller: ", error);
             return sendError(res, 500, error);
       }
 }

@@ -3,15 +3,25 @@ import { IStudio } from "./interface/istudio.model.js";
 
 // Define schema for Studio
 const StudioSchema: Schema = new Schema ({
-        name: { type: String, required: true },
-        image: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
-        code: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Code' }], 
-        creator: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Creator' }] 
+      name: { type: String, required: true },
+      image: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
+      code: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Code' }], 
+      creator: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Creator' }] 
 },
 {
-        collection: 'Studios', 
-        timestamps: true
+      collection: 'Studios', 
+      timestamps: true
 });
+
+StudioSchema.virtual('video_ids', {
+      ref: 'Video',
+      localField: '_id',
+      foreignField: 'studio_id',
+      justOne: false
+});
+
+StudioSchema.set('toObject', { virtuals: true });
+StudioSchema.set('toJSON', { virtuals: true });
 
 const Studio = mongoose.model<IStudio>('Studio', StudioSchema);
 export default Studio;

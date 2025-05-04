@@ -9,5 +9,15 @@ const PlaylistSchema: Schema = new Schema({
       timestamps: true
 });
 
+PlaylistSchema.virtual('video_ids', {
+      ref: 'Video',
+      localField: '_id',
+      foreignField: 'playlist_id',
+      justOne: false,
+});
+
+PlaylistSchema.set('toObject', { virtuals: true });
+PlaylistSchema.set('toJSON', { virtuals: true });
+
 const Playlist = mongoose.model<iPlaylist>('Playlist', PlaylistSchema);
 export default Playlist;

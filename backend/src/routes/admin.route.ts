@@ -5,7 +5,7 @@ import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCr
 import { filmController } from "../controllers/film.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
 import { CreateStudio, DeleteStudio, GetStudioById, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
-import { getTags, createTag, GetFilmTags, GetTag_byId, tag_controller } from "../controllers/tag.controller.js";
+import { getTags, createTag, GetFilmTags, tag_controller } from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
 import { Route } from "../interfaces/Route.js";
 import { validated_id } from "../middlewares/validate-id.js";
@@ -27,7 +27,7 @@ const adminRoutes: Route[] = [
       { method: 'DELETE', path: '/admin/creator/:id', handler: validated_id.validateId(DeleteCreator) },
       // tag
       { method: 'GET', path: '/admin/tags', handler: getTags },
-      { method: 'GET', path: '/admin/tag/:id', handler: validated_id.validateId(GetTag_byId) },
+      { method: 'GET', path: '/admin/tag/:id', handler: validated_id.validateId(tag_controller.getTagById) },
       { method: 'GET', path: '/admin/tags/film', handler: GetFilmTags },
       { method: 'GET', path: '/admin/tags/video', handler: tag_controller.getTagsByVideo },
       { method: 'GET', path: '/admin/tags/action', handler: tag_controller.getTagsByAction },
