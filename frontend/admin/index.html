@@ -29,67 +29,67 @@
       <div id="root">
             <div id="container">
                   <nav id="sidebar">
-                              <div class="sidebar-container">
-                                    <a id="creator-link" href="/admin/creators" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-user"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Creator</span>
-                                    </a>
-                                    <a id="studio-link" href="/admin/studios" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-video"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Studio</span>
-                                    </a>
-                                    <a id="film-link" href="/admin/films" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-clapperboard"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Film</span>
-                                    </a>
-                                    <a id="collection-link" href="/admin/collections" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-folder"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Collection</span>
-                                    </a>
-                                    <a id="video-link" href="/admin/videos" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-circle-play"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Video</span>
-                                    </a>
-                                    <a id="playlist-link" href="/admin/playlists" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-floppy-disk"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Playlist</span>
-                                    </a>
-                                    <a id="code-link" href="/admin/codes" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-audio-description"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Code</span>
-                                    </a>
-                                    <a id="tag-link" href="/admin/tags" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-tag"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Tag</span>
-                                    </a>
+                        <div class="sidebar-container">
+                              <a id="creator-link" href="/admin/creators" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Creator</span>
+                              </a>
+                              <a id="studio-link" href="/admin/studios" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-video"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Studio</span>
+                              </a>
+                              <a id="film-link" href="/admin/films" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-clapperboard"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Film</span>
+                              </a>
+                              <a id="collection-link" href="/admin/collections" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-folder"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Collection</span>
+                              </a>
+                              <a id="video-link" href="/admin/videos" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-circle-play"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Video</span>
+                              </a>
+                              <a id="playlist-link" href="/admin/playlists" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-floppy-disk"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Playlist</span>
+                              </a>
+                              <a id="code-link" href="/admin/codes" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-audio-description"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Code</span>
+                              </a>
+                              <a id="tag-link" href="/admin/tags" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-tag"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Tag</span>
+                              </a>
 
-                                    <hr class="sidebar-separator">
-                                    <a href="/admin/pages/setting" class="sidebar-item">
-                                          <div class="sidebar-item-icon">
-                                                <i class="fa-solid fa-gear"></i>
-                                          </div>
-                                          <span class="sidebar-item-name">Settings</span>
-                                    </a>
-                              </div>
+                              <hr class="sidebar-separator">
+                              <a href="/admin/pages/setting" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-gear"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Settings</span>
+                              </a>
+                        </div>
                   </nav>
                   <main id="dynamic-section">
-                              <!-- Nội dung sẽ được tải động vào đây -->
+                        <!-- Nội dung sẽ được tải động vào đây -->
                   </main>
             </div>
             <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
@@ -99,9 +99,9 @@
             console.log("Version 1.0.9");
       </script>   
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-      <script type="module" src="/static/js/loadTitle.js"></script>
+      <script type="module" src="/static/js/load-title.js"></script>
       <script type="module" src="./initAdmin.js"></script>
-      <script type="module" src="../services//loadElement/load-dynamic-section.js"></script>
+      <script type="module" src="../services//load-section/load-dynamic-section.js"></script>
       <script src="https://unpkg.com/pica/dist/pica.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>

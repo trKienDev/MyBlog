@@ -7,14 +7,14 @@ import span_component from "../../components/span.component.js";
 import table_component from "../../components/table.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import { spaNavigateLink } from "../../services/loadElement/load-dynamic-section.js";
+// import { spaNavigateLink } from "../../services/load-section/load-dynamic-section.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
 import tag_helper from "../tags/tag.helper.js";
 import { initCreateVideo } from "./create-video.js";
 import { redirectToEditVideoPage } from "./edit-video.js";
 
 export async function initVideoAdmin() {
-      spaNavigateLink(id_selectors.buttons.create_video_btn, api_configs.endpoints.adminCreateVideoPage, initCreateVideo);
+      // spaNavigateLink(id_selectors.buttons.create_video_btn, api_configs.endpoints.adminCreateVideoPage, initCreateVideo);
       renderListVideo();
 }     
 

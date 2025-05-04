@@ -9,7 +9,7 @@ import selectSearch_component from "../../components/select-search.component.js"
 import select_component from "../../components/select.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import { loadContentFromUrl } from "../../services/loadElement/load-dynamic-section.js";
+import loadDynamicSection_service from "../../services/load-section/load-dynamic-section.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import tags_utils from "../../utils/tags.utils.js";
 import { showToast } from "../../utils/toast-notification.js";
@@ -20,7 +20,7 @@ import video_helpers from "./video.helper.js";
 const endpoint = api_configs.endpoints.adminEditVideoPage;
 
 export function redirectToEditVideoPage(ivideo) {
-      loadContentFromUrl(endpoint, () => initEditVideoAdmin(ivideo)); // truyền initEditVideoAdmin như là 1 hàm callback trong loadContentFromUrl 
+      loadDynamicSection_service.loadContentFromUrl(endpoint, () => initEditVideoAdmin(ivideo)); // truyền initEditVideoAdmin như là 1 hàm callback trong loadContentFromUrl 
 }
 
 async function initEditVideoAdmin(ivideo) {

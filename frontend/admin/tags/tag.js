@@ -2,23 +2,19 @@ import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import fetch_api from "../../api/fetch.api.js";
 import table_component from "../../components/table.component.js";
+import tag_api from "../../api/tag.api.js";
 
 export function initTagAdmin() {
-      render_tags();
-      create_newTag();
+      renderTags();
+      createNewTag();
 }
 
-async function render_tags() {
+async function renderTags() {
       try {
             const tbody = document.querySelector("#tag-table tbody");
             tbody.innerHTML = '';
 
-            const result = await fetch_api.apiGet(api_configs.endpoints.getTags);
-            if(result.success === false) {
-                  throw new Error(result.error);
-            }
-
-            const tags = result.data;
+            const tags = await tag_api.getTags();
             tags.forEach(tag => {  
                   const row = table_component.createTrWithId(tag._id);
 
@@ -36,7 +32,7 @@ async function render_tags() {
       }
 }
 
-async function create_newTag() {
+async function createNewTag() {
       document.getElementById('form').addEventListener('submit', async(event) => {
             event.preventDefault();
             const name = document.getElementById('name');

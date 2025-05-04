@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-      fetch("../layout/header.html")
+      fetch("../layouts/header.html")
       .then(response => response.text())
       .then(data => {
             document.getElementById("header").innerHTML = data;
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Load phần footer từ file footer.html
 document.addEventListener("DOMContentLoaded", function() {
-      fetch("../layout/footer.html")
+      fetch("../layouts/footer.html")
       .then(response => response.text())
       .then(data => {
             document.getElementById("footer").innerHTML = data;

@@ -2,16 +2,76 @@
 <html lang="en">
 <div id="header"></div>
 <body>
-        <div class="container">
-                <section id="sidebar"></section>
-                <section id="videos-tag"></section>
-        </div>
+      <header class="top-bar">
+            <!-- search -->
+            <form class="search-form" role="search" action="/search" method="GET">
+                  <div class="search-group">
+                        <input type="search" name="q" class="search-input" placeholder="Search" aria-label="Tìm kiếm" required/>
+                        <button type="submit" class="btn-advanced-search" aria-label="Search">
+                              <i class="fa-solid fa-magnifying-glass"></i>
+                              <span class="search-tooltip">advance search</span>
+                        </button>
+                  </div>
+            </form>
+      </header>
 
-        <div id="footer"></div>
-                
-        <script src="static/js/layout.js"></script>
-        <script type="text/javascript" src="../static/js/loadTitle.js"></script>
+      <div class="d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                  <nav>
+                        <ul>
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-house"></i> Home</a>
+                              </li>
+                              <hr class="sidebar-separator">
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-clapperboard"></i> Films</a>
+                              </li>
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-masks-theater"></i> Animes</a>
+                              </li>
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-images"></i> Mangas</a>
+                              </li>
+                              <hr class="sidebar-separator">
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-video"></i> Studios</a>
+                              </li>
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-user"></i> Creator</a>
+                              </li>
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-folder"></i> Collections</a>
+                              </li>
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-floppy-disk"></i> Playlists</a>
+                              </li>
+                              <hr class="sidebar-separator">
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                              </li>
+                              <li class="sidebar-item">
+                                    <a href="#"><i class="fa-solid fa-thumbs-up"></i> Liked</a>
+                              </li>
+                        </ul>
+                  </nav>
+            </aside>
+            
+            <!-- Main -->
+            <main id="main-content">
+                  <div class="wrapper">
+                        <section id="tags-section"></section>
+                  </div>
+            </main>
+      </div>
+
+
+      <div id="footer"></div>
+            
+      <script src="static/js/layout.js"></script>
+      <script type="text/javascript" src="../static/js/load-title.js"></script>
+      <script type="module" src="static/js/init-homepage.js"></script>
 </body>
 </html>
 
-<script type="module" src="./services/loadElement/loadHomeSection.js"></script>
+<!-- <script type="module" src="./services/loadElement/loadHomeSection.js"></script> -->

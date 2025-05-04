@@ -1,4 +1,3 @@
-import { getAdminPage } from "../Admin/Controllers/admin.controller.js";
 import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
 import { createCollection, GetCollection_byId, GetCollections } from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
@@ -12,7 +11,6 @@ import { validated_id } from "../middlewares/validate-id.js";
 import { createRouter } from "./routes.js";
 
 const adminRoutes: Route[] = [
-      { method: 'GET', path: '/admin', handler: getAdminPage },
       // studio 
       { method: 'GET', path: '/admin/studios', handler: GetStudios },
       { method: 'GET', path: '/admin/studio/:id', handler: validated_id.validateId(GetStudioById) },
