@@ -20,6 +20,7 @@
             <link rel="stylesheet" href="./collections/collection.css">
             <link rel="stylesheet" href="./videos/video.css">
             <link rel="stylesheet" href="./playlists/playlist.css">
+            <link rel="stylesheet" href="./animes//anime.css">
             <link rel="stylesheet" href="../static/css/toast-notification.css">
 
       <!-- CDN -->
@@ -80,11 +81,18 @@
                               </a>
 
                               <hr class="sidebar-separator">
-                              <a href="/admin/pages/setting" class="sidebar-item">
+
+                              <a id="admin-anime" href="/admin/animes" class="sidebar-item">
                                     <div class="sidebar-item-icon">
-                                          <i class="fa-solid fa-gear"></i>
+                                          <i class="fa-solid fa-masks-theater"></i>
                                     </div>
-                                    <span class="sidebar-item-name">Settings</span>
+                                    <span class="sidebar-item-name">Animes</span>
+                              </a>
+                              <a id="manga-link" href="/admin/mangas" class="sidebar-item">
+                                    <div class="sidebar-item-icon">
+                                          <i class="fa-solid fa-images"></i>
+                                    </div>
+                                    <span class="sidebar-item-name">Mangas</span>
                               </a>
                         </div>
                   </nav>
@@ -101,7 +109,7 @@
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
       <script type="module" src="/static/js/load-title.js"></script>
       <script type="module" src="./initAdmin.js"></script>
-      <script type="module" src="../services//load-section/load-dynamic-section.js"></script>
+      <script type="module" src="../services/spa/load-dynamic-section.spa.js"></script>
       <script src="https://unpkg.com/pica/dist/pica.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>

@@ -1,8 +1,14 @@
 import api_configs from '../../../api/api.config.js';
+import { showToast } from '../../../utils/toast-notification.js';
 
 function loadContentFromUrl(endpoint, section_element, callback = () => {}) {
-      const url = `${api_configs.client}${endpoint}`;
-      loadContent(url, section_element, callback);
+      try {
+            const url = `${api_configs.client}${endpoint}`;
+            loadContent(url, section_element, callback);
+      } catch(error) {
+            console.error('Error load dynamic section: ', error);
+            showToast(error, 'error');
+      }
 }
 
 async function loadContent(url, dynamicData_id = 'dynamic-section', callback) {
@@ -33,7 +39,8 @@ async function loadContent(url, dynamicData_id = 'dynamic-section', callback) {
                   console.error(`Element with ID ${dynamicData_id} does not exist`);
             }
       } catch(error) {
-            console.error('Error loading content: ', error);
+            showToast(error, 'error');
+            throw new Error(error);
       }
 }
 

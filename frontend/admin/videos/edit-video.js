@@ -9,7 +9,7 @@ import selectSearch_component from "../../components/select-search.component.js"
 import select_component from "../../components/select.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import loadDynamicSection_service from "../../services/load-section/load-dynamic-section.js";
+import loadDynamicSection_service from "../../services/spa/load-dynamic-section.spa.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import tags_utils from "../../utils/tags.utils.js";
 import { showToast } from "../../utils/toast-notification.js";

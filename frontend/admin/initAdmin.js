@@ -1,6 +1,7 @@
 import api_configs from "../api/api.config.js";
-import loadDynamicSection_service from "../services/load-section/load-dynamic-section.js";
+import spa_navigation from "../services/spa/navigate-link.spa.js";
 import { handleElementActiveState } from "../utils/active-state.js";
+import { initAdminAnime } from "./animes/anime.js";
 import { initCodeAdmin } from "./codes/code.js";
 import { InitCollectionAdmin } from "./collections/collection.js";
 import { initCreatorAdmin } from "./creators/creator.js";
@@ -10,7 +11,7 @@ import { initStudioAdmin } from "./studios/studio.js";
 import { initTagAdmin } from "./tags/tag.js";
 import { initVideoAdmin } from "./videos/video.js";
 
-let dynamicLoadingElement = 'dynamic-section';
+let dynamic_section = 'dynamic-section';
 
 function initAdmin() {
       handleElementActiveState(".sidebar-item");
@@ -20,27 +21,15 @@ function initAdmin() {
 document.addEventListener('DOMContentLoaded', initAdmin);
 
 function navigateSidebar() {
-      spaNavigateLink('creator-link', api_configs.endpoints.adminCreatorPage, initCreatorAdmin );
-      spaNavigateLink('studio-link', api_configs.endpoints.adminStudioPage, initStudioAdmin );
-      spaNavigateLink('film-link', api_configs.endpoints.adminFilmPage, initFilmAdmin );
-      spaNavigateLink('code-link', api_configs.endpoints.adminCodePage, initCodeAdmin );
-      spaNavigateLink('tag-link', api_configs.endpoints.adminTagPage, initTagAdmin );
-      spaNavigateLink('collection-link', api_configs.endpoints.adminCollectionPage, InitCollectionAdmin );
-      spaNavigateLink('video-link', api_configs.endpoints.adminVideoPage, initVideoAdmin );
-      spaNavigateLink('playlist-link', api_configs.endpoints.adminPlaylistPage, initPlaylistAdmin );
+      spa_navigation.spaNavigateLink('creator-link', dynamic_section, api_configs.endpoints.adminCreatorPage, initCreatorAdmin );
+      spa_navigation.spaNavigateLink('studio-link', dynamic_section, api_configs.endpoints.adminStudioPage, initStudioAdmin );
+      spa_navigation.spaNavigateLink('film-link', dynamic_section, api_configs.endpoints.adminFilmPage, initFilmAdmin );
+      spa_navigation.spaNavigateLink('code-link', dynamic_section, api_configs.endpoints.adminCodePage, initCodeAdmin );
+      spa_navigation.spaNavigateLink('tag-link', dynamic_section, api_configs.endpoints.adminTagPage, initTagAdmin );
+      spa_navigation.spaNavigateLink('collection-link', dynamic_section, api_configs.endpoints.adminCollectionPage, InitCollectionAdmin );
+      spa_navigation.spaNavigateLink('video-link', dynamic_section, api_configs.endpoints.adminVideoPage, initVideoAdmin );
+      spa_navigation.spaNavigateLink('playlist-link', dynamic_section, api_configs.endpoints.adminPlaylistPage, initPlaylistAdmin );
+      spa_navigation.spaNavigateLink('admin-anime', dynamic_section, api_configs.endpoints.adminAnimePage, initAdminAnime );
 }
 
-function spaNavigateLink(link_id, endpoint, callback = () => {}) {
-      const link_element = document.getElementById(link_id);
-      if (link_element) {
-                  if (!link_element.hasAttribute('data-navigate-initialized')) {
-                  link_element.addEventListener('click', event => {
-                        event.preventDefault();
-                        loadDynamicSection_service.loadContentFromUrl(endpoint, dynamicLoadingElement, callback);
-                  });
-                  link_element.setAttribute('data-navigate-initialized', 'true'); // Đánh dấu đã gán
-            }
-      } else {
-            console.error(`Element with id: "${link_id}" not found`);
-      }
-}
+

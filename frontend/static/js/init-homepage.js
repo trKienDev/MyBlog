@@ -1,6 +1,6 @@
 import api_configs from "../../api/api.config.js";
 import { initTagSection } from "../../sections/tags/tags.section.js";
-import loadDynamicSection_service from "../../services/load-section/load-dynamic-section.js";
+import loadDynamicSection_service from "../../services/spa/load-dynamic-section.spa.js";
 import { handleElementActiveState } from "../../utils/active-state.js";
 
 const tag_section = 'tags-section';
