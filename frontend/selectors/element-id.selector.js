@@ -21,6 +21,8 @@ const videos = {
 }
 const studio = {
       studio_id: 'studio_id',
+      studio_form: 'studio-form',
+      studio_modal: 'studio-modal',
 }
 const code = {
       code_id: 'code-id',
@@ -49,11 +51,13 @@ const modal = {
       create_film: 'create-film_modal',
       open_button: 'open-modal_btn',
       close_button: 'close-modal_button',
+      admin_studio_modal: 'admin-studio_modal',
 }
 const table = {
       film_tbody: '#film-table tbody',
       video_tbody: 'videos-table tbody',
       search_film: 'searched-films_table',
+      studio_tbody: '#studio-table tbody',
 }
 
 const id_selectors = {

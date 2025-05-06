@@ -1,0 +1,15 @@
+#admin-anime_studio {
+      padding-top: 20px;
+}
+#admin-anime_studio .content {
+      border: 1px solid var(--secondary-border);
+      border-radius: 5px;
+      padding: 20px;
+}
+#open-modal_btn {
+      width: fit-content;
+}
+#open-modal_btn i {
+      display: flex;
+      align-items: center;
+}

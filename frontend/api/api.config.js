@@ -17,6 +17,7 @@ const api_configs = {
             adminEditVideoPage: '/admin/videos/edit-video.html',
             adminPlaylistPage: '/admin/playlists/playlist.html',
             adminAnimePage: '/admin/animes/anime.html',
+            adminAnimeStudiosPage: '/admin/animes/anime-studios/anime-studio.html',
             tagsSection: '/sections/tags/tags.section.html',
             // creator
             getCreators: '/admin/creators', // GET

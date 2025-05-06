@@ -44,7 +44,7 @@ async function loadContent(url, dynamicData_id = 'dynamic-section', callback) {
       }
 }
 
-const loadDynamicSection_service = {
+const spa_renderHTML = {
       loadContentFromUrl,
 }
-export default loadDynamicSection_service;
+export default spa_renderHTML;

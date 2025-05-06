@@ -16,8 +16,7 @@ import { redirectToEditVideoPage } from "./edit-video.js";
 let dynamic_section = 'dynamic-section';
 
 export async function initVideoAdmin() {
-      // spa_navigation.spaNavigateLink(id_selectors.buttons.create_video_btn, api_configs.endpoints.adminCreateVideoPage, initCreateVideo);
-      spa_navigation.spaNavigateLink(id_selectors.buttons.create_video_btn, dynamic_section, api_configs.endpoints.adminCreateVideoPage, initCreateVideo);
+      spa_navigation.navigateLink(id_selectors.buttons.create_video_btn, dynamic_section, api_configs.endpoints.adminCreateVideoPage, initCreateVideo);
       renderListVideo();
 }     
 

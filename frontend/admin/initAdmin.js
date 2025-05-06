@@ -21,15 +21,15 @@ function initAdmin() {
 document.addEventListener('DOMContentLoaded', initAdmin);
 
 function navigateSidebar() {
-      spa_navigation.spaNavigateLink('creator-link', dynamic_section, api_configs.endpoints.adminCreatorPage, initCreatorAdmin );
-      spa_navigation.spaNavigateLink('studio-link', dynamic_section, api_configs.endpoints.adminStudioPage, initStudioAdmin );
-      spa_navigation.spaNavigateLink('film-link', dynamic_section, api_configs.endpoints.adminFilmPage, initFilmAdmin );
-      spa_navigation.spaNavigateLink('code-link', dynamic_section, api_configs.endpoints.adminCodePage, initCodeAdmin );
-      spa_navigation.spaNavigateLink('tag-link', dynamic_section, api_configs.endpoints.adminTagPage, initTagAdmin );
-      spa_navigation.spaNavigateLink('collection-link', dynamic_section, api_configs.endpoints.adminCollectionPage, InitCollectionAdmin );
-      spa_navigation.spaNavigateLink('video-link', dynamic_section, api_configs.endpoints.adminVideoPage, initVideoAdmin );
-      spa_navigation.spaNavigateLink('playlist-link', dynamic_section, api_configs.endpoints.adminPlaylistPage, initPlaylistAdmin );
-      spa_navigation.spaNavigateLink('admin-anime', dynamic_section, api_configs.endpoints.adminAnimePage, initAdminAnime );
+      spa_navigation.navigateLink('creator-link', dynamic_section, api_configs.endpoints.adminCreatorPage, initCreatorAdmin );
+      spa_navigation.navigateLink('studio-link', dynamic_section, api_configs.endpoints.adminStudioPage, initStudioAdmin );
+      spa_navigation.navigateLink('film-link', dynamic_section, api_configs.endpoints.adminFilmPage, initFilmAdmin );
+      spa_navigation.navigateLink('code-link', dynamic_section, api_configs.endpoints.adminCodePage, initCodeAdmin );
+      spa_navigation.navigateLink('tag-link', dynamic_section, api_configs.endpoints.adminTagPage, initTagAdmin );
+      spa_navigation.navigateLink('collection-link', dynamic_section, api_configs.endpoints.adminCollectionPage, InitCollectionAdmin );
+      spa_navigation.navigateLink('video-link', dynamic_section, api_configs.endpoints.adminVideoPage, initVideoAdmin );
+      spa_navigation.navigateLink('playlist-link', dynamic_section, api_configs.endpoints.adminPlaylistPage, initPlaylistAdmin );
+      spa_navigation.navigateLink('admin-anime', dynamic_section, api_configs.endpoints.adminAnimePage, initAdminAnime );
 }
 
 
