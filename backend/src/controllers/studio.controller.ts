@@ -8,10 +8,10 @@ import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 const repository = new StudioRepository();
 const service = new StudioService(repository);
 
-export const GetStudioById = async(req: ValidateIdRequest, res: ServerResponse) => {
+export const getStudioById = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
-            const studio = await repository.FindStudioById(id);
+            const studio = await repository.findStudioById(id);
             return sendResponse(res, 200, studio);
       } catch(error) {
             console.error("Error retrieving studio by id: ", error);
@@ -21,7 +21,7 @@ export const GetStudioById = async(req: ValidateIdRequest, res: ServerResponse) 
 
 export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
       try {
-            const studios = await repository.FindStudios();
+            const studios = await repository.findStudios();
             return  sendResponse(res, 200, studios);
       } catch(error) {
             console.error("Error retrieving studios: ", error);
@@ -31,7 +31,7 @@ export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
 
 export const CreateStudio = async (req: CustomRequest, res: ServerResponse) => {
       try {
-            const createdStudio = await service.CreateStudio(req);
+            const createdStudio = await service.createStudio(req);
 
             return sendResponse(res, 201, createdStudio);
       } catch(error) {
@@ -44,7 +44,7 @@ export const UpdateStudio = async (req: ValidateIdRequest, res: ServerResponse) 
       try { 
             const id = req.params?.id;
             
-            const updateStudio = await service.UpdateStudio(req, id);
+            const updateStudio = await service.updateStudio(req, id);
             return sendResponse(res, 200, updateStudio);
       } catch(error) {
             console.error('Error updating studio:', error);
@@ -63,3 +63,8 @@ export const DeleteStudio = async(req: ValidateIdRequest, res: ServerResponse) =
             return sendError(res, 500, new Error('Error deleting studio.'));
       }
 }
+
+const studio_controller = {
+      getStudioById,
+}
+export default studio_controller;

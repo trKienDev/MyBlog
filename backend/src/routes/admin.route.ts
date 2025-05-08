@@ -1,9 +1,10 @@
+import animeStudio_controller from "../controllers/animes/anime-studio.controller.js";
 import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
 import { createCollection, GetCollection_byId, GetCollections } from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
-import { CreateStudio, DeleteStudio, GetStudioById, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
+import studio_controller, { CreateStudio, DeleteStudio, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
 import { getTags, createTag, GetFilmTags, tag_controller } from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
 import { Route } from "../interfaces/Route.js";
@@ -13,7 +14,7 @@ import { createRouter } from "./routes.js";
 const adminRoutes: Route[] = [
       // studio 
       { method: 'GET', path: '/admin/studios', handler: GetStudios },
-      { method: 'GET', path: '/admin/studio/:id', handler: validated_id.validateId(GetStudioById) },
+      { method: 'GET', path: '/admin/studio/:id', handler: validated_id.validateId(studio_controller.getStudioById) },
       { method: 'POST', path: '/admin/studio', handler: CreateStudio },
       { method: 'PUT', path: '/admin/studio/:id', handler: validated_id.validateId(UpdateStudio) },
       { method: 'DELETE', path: '/admin/studio/:id', handler: validated_id.validateId(DeleteStudio) },
@@ -53,6 +54,9 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/playlists', handler: playlist_controller.getPlaylists },
       { method: 'GET', path: '/admin/playlist/:id', handler: validated_id.validateId(playlist_controller.findTagById )},
       { method: 'POST', path: '/admin/playlist', handler: playlist_controller.createPlaylist },
+
+      // anime
+      { method: 'POST', path: '/admin/anime-studio', handler: animeStudio_controller.createAnimeStudio },
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);

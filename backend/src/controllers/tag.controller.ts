@@ -40,7 +40,7 @@ export const GetFilmTags = async(req: IncomingMessage, res: ServerResponse) => {
 
 export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const createdTag = await service.CreateTag(req);
+            const createdTag = await service.createTag(req);
             sendResponse(res, 200, createdTag);
       } catch(error) {
             return sendError(res, 500, error);

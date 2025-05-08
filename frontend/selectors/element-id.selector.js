@@ -23,6 +23,8 @@ const studio = {
       studio_id: 'studio_id',
       studio_form: 'studio-form',
       studio_modal: 'studio-modal',
+      anime_studio_modal: 'anime-studio_modal',
+      anime_studio_form: 'anime-studio_form',
 }
 const code = {
       code_id: 'code-id',

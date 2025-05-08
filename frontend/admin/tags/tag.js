@@ -46,7 +46,7 @@ async function createNewTag() {
                   }
       
                   success_sweetAlert("tag created");
-                  render_tags();
+                  renderTags();
             } catch(error) {
                   console.error('Error creating tag: ', error.message);
                   error_sweetAlert(error);

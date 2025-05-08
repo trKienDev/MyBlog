@@ -7,8 +7,7 @@ const StudioSchema: Schema = new Schema ({
       image: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
       code: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Code' }], 
       creator: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Creator' }] 
-},
-{
+}, {
       collection: 'Studios', 
       timestamps: true
 });

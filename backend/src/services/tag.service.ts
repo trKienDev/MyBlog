@@ -9,7 +9,7 @@ export class TagService {
             this.tagRepo = tagRepository;
       }
 
-      public async CreateTag(req: IncomingMessage) {
+      public async createTag(req: IncomingMessage) {
             const requiredFields = ['name', 'kind'];
             const body = await parseJSON(req, requiredFields);
             const { name, kind } = body; 
@@ -19,7 +19,7 @@ export class TagService {
 
             const data: TagDTO = { name, kind };
             
-            const newTag = await this.tagRepo.Create(data);
+            const newTag = await this.tagRepo.createTag(data);
             return newTag;
       }
 }

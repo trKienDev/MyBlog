@@ -6,5 +6,5 @@ export interface ITagRepository {
       getTagsByVideo(): Promise<TagDTO[]>
       getTagsByAction(): Promise<TagDTO[]>
       getFilmTags(): Promise <TagDTO[]>;
-      Create(data: TagDTO): Promise<TagDTO>;
+      createTag(data: TagDTO): Promise<TagDTO>;
 }

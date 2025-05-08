@@ -29,7 +29,7 @@ export class TagRepostory implements ITagRepository{
             return tags.map(tag => mappingDocToDTO(tag));
       }
       
-      async Create(data: TagDTO): Promise<TagDTO> {
+      async createTag(data: TagDTO): Promise<TagDTO> {
             const tag = new Tag(data);
             const savedTag = await tag.save();
             return mappingDocToDTO(savedTag);

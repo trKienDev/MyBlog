@@ -61,10 +61,9 @@ const api_configs = {
             getPlaylists: '/admin/playlists', // GET
             getPlaylistById: '/admin/playlist', // GET
             createPlaylist: '/admin/playlist', // POST
-
-
-
-
+            // anime
+            createAnimeStudio: '/admin/anime-studio', // POST
+            
       }
 }
 

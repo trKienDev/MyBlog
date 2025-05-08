@@ -10,27 +10,27 @@ export class StudioService {
             this.studioRepo = studioRepository;
       }
 
-      public async FindStudioById(id: string): Promise<StudioDTO> {
-            const studio = await this.studioRepo.FindStudioById(id);
+      public async findStudioById(id: string): Promise<StudioDTO> {
+            const studio = await this.studioRepo.findStudioById(id);
             if(!studio) {
                   throw new Error("Studio not found.");
             } 
             return studio;
       }
       
-      public async CreateStudio(req: CustomRequest): Promise<StudioDTO> {
+      public async createStudio(req: CustomRequest): Promise<StudioDTO> {
             const { name, file_name } = await uploadFile(req, "studio");
-            const existingStudio = await this.studioRepo.FindStudioByName(name);
+            const existingStudio = await this.studioRepo.findStudioByName(name);
             if(existingStudio) {
                   throw new Error('Studio with this name has already existed.');
             }
       
-            const newStudio = await this.studioRepo.CreateStudio(name, file_name);
+            const newStudio = await this.studioRepo.createStudio(name, file_name);
             return newStudio;
       }
 
-      public async UpdateStudio(req: CustomRequest, id: string): Promise<StudioDTO> {
-            const currentStudio = await this.FindStudioById(id);
+      public async updateStudio(req: CustomRequest, id: string): Promise<StudioDTO> {
+            const currentStudio = await this.findStudioById(id);
             if(!currentStudio) {
                   throw new Error("Studio not found");
             }
@@ -43,7 +43,7 @@ export class StudioService {
                   updateData.image = file_name
             }
 
-            const updatedStudio = await this.studioRepo.UpdateStudio(id, updateData);
+            const updatedStudio = await this.studioRepo.updateStudio(id, updateData);
             if(!updatedStudio) {
                   throw new Error("Studio updated failed.");
             }
@@ -52,11 +52,11 @@ export class StudioService {
       }
 
       public async DeleteStudio(id: string): Promise<void> {
-            const studio = await this.FindStudioById(id);
+            const studio = await this.findStudioById(id);
             if(studio.image) {
                   await FileService.deleteFile("studio", studio.image);
             }
 
-            await this.studioRepo.DeleteStudioById(id);
+            await this.studioRepo.deleteStudioById(id);
       }
 }

@@ -1,10 +1,10 @@
 import { StudioDTO } from "../../dtos/studio.dto";
 
 export interface IStudioRepository {
-      FindStudioById(id: string): Promise<StudioDTO | null>;
-      FindStudios(): Promise<StudioDTO[]>;
-      FindStudioByName(name: string): Promise<StudioDTO | null>;
-      CreateStudio(name: string, imageName: string): Promise<StudioDTO>;
-      UpdateStudio(id: string, updateData: Partial<StudioDTO>): Promise<StudioDTO>;
-      DeleteStudioById(id: string): Promise<void>;
+      findStudioById(id: string): Promise<StudioDTO | null>;
+      findStudios(): Promise<StudioDTO[]>;
+      findStudioByName(name: string): Promise<StudioDTO | null>;
+      createStudio(name: string, imageName: string): Promise<StudioDTO>;
+      updateStudio(id: string, updateData: Partial<StudioDTO>): Promise<StudioDTO>;
+      deleteStudioById(id: string): Promise<void>;
 }
