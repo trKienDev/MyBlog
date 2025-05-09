@@ -1,4 +1,6 @@
 @import url('./anime-studios/anime-studio.css');
+@import url('./anime-series/anime-series.css');
+@import url('./anime-tags/anime-tag.css');
 
 #admin-anime .navigation-item {
       background-color: var(--light-btn);

@@ -6,6 +6,15 @@ import { sendError, sendResponse } from "../../middlewares/response.js";
 const animeStudio_repository = new AnimeStudioRepository;
 const animeStudio_service = new AnimeStudioService(animeStudio_repository);
 
+const getAnimeStudios = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const anime_studios = await animeStudio_repository.getAnimeStudios();
+            return sendResponse(res, 200, anime_studios);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
 const createAnimeStudio = async(req: IncomingMessage, res: ServerResponse) => {
       try {
             const created_animeStudio = await animeStudio_service.createAnimeStudio(req);
@@ -17,6 +26,7 @@ const createAnimeStudio = async(req: IncomingMessage, res: ServerResponse) => {
 }
 
 const animeStudio_controller = {
+      getAnimeStudios,
       createAnimeStudio,
 }
 export default animeStudio_controller;

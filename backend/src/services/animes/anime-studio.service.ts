@@ -11,9 +11,7 @@ export class AnimeStudioService {
       async createAnimeStudio(req: IncomingMessage) {
             const required_params = ['name'];
             const body = await parseJSON(req, required_params);
-            console.log('body: ', body);
             const { name } = body;
-            console.log('name: ', name);
             if(!name) {
                   throw new Error('param name in createAnimeStudio not found');
             }

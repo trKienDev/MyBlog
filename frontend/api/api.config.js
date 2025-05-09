@@ -18,6 +18,8 @@ const api_configs = {
             adminPlaylistPage: '/admin/playlists/playlist.html',
             adminAnimePage: '/admin/animes/anime.html',
             adminAnimeStudiosPage: '/admin/animes/anime-studios/anime-studio.html',
+            adminAnimeSeriesPage: '/admin/animes/anime-series/anime-series.html',
+            adminAnimeTagsPage: '/admin/animes/anime-tags/anime-tag.html',
             tagsSection: '/sections/tags/tags.section.html',
             // creator
             getCreators: '/admin/creators', // GET
@@ -61,9 +63,14 @@ const api_configs = {
             getPlaylists: '/admin/playlists', // GET
             getPlaylistById: '/admin/playlist', // GET
             createPlaylist: '/admin/playlist', // POST
-            // anime
+            // anime-studio
+            getAnimeStudios: '/admin/anime-studios', // GET
             createAnimeStudio: '/admin/anime-studio', // POST
-            
+            // anime-series
+            getAnimeSeries: '/admin/anime-series', // GET
+            createAnimeSeries: '/admin/anime-series', // POST
+            // anime-tags
+            createAnimeTag: '/admin/anime-tag', // POST
       }
 }
 

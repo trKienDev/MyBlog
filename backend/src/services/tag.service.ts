@@ -10,8 +10,8 @@ export class TagService {
       }
 
       public async createTag(req: IncomingMessage) {
-            const requiredFields = ['name', 'kind'];
-            const body = await parseJSON(req, requiredFields);
+            const required_fields = ['name', 'kind'];
+            const body = await parseJSON(req, required_fields);
             const { name, kind } = body; 
             if (!name || !kind ) {
                   throw new Error('Missing required information');

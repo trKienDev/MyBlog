@@ -1,4 +1,6 @@
+import animeSeries_controller from "../controllers/animes/anime-series.controller.js";
 import animeStudio_controller from "../controllers/animes/anime-studio.controller.js";
+import animeTag_controller from "../controllers/animes/anime-tag.controller.js";
 import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
 import { createCollection, GetCollection_byId, GetCollections } from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
@@ -55,8 +57,14 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/playlist/:id', handler: validated_id.validateId(playlist_controller.findTagById )},
       { method: 'POST', path: '/admin/playlist', handler: playlist_controller.createPlaylist },
 
-      // anime
+      // anime-studio
+      { method: 'GET', path: '/admin/anime-studios', handler: animeStudio_controller.getAnimeStudios },
       { method: 'POST', path: '/admin/anime-studio', handler: animeStudio_controller.createAnimeStudio },
+      // anime-series
+      { method: 'GET', path: '/admin/anime-series', handler: animeSeries_controller.getAnimeSeries },
+      { method: 'POST', path: '/admin/anime-series', handler: animeSeries_controller.createAnimeSeries },
+      // anime-tags
+      { method: 'POST', path: '/admin/anime-tag', handler: animeTag_controller.createAnimeTag },
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);
