@@ -39,7 +39,7 @@ export async function createFilm() {
                   }
             });
       } catch(error) {
-            console.error('Error initializing create_film function: ', error);
+            console.error('Error initializing createFilm function: ', error);
             error_sweetAlert(error);
       }
 }

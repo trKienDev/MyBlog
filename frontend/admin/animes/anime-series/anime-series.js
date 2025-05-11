@@ -41,6 +41,7 @@ async function createAnimeSeries() {
                   }
 
                   success_sweetAlert('anime series created');
+                  getAnimeSeries();
             } catch(error) {
                   console.error('Error creating anime series: ', error.message);
             }

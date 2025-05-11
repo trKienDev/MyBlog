@@ -1,3 +1,4 @@
+import animeFilm_controller from "../controllers/animes/anime-film.controller.js";
 import animeSeries_controller from "../controllers/animes/anime-series.controller.js";
 import animeStudio_controller from "../controllers/animes/anime-studio.controller.js";
 import animeTag_controller from "../controllers/animes/anime-tag.controller.js";
@@ -64,7 +65,12 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/anime-series', handler: animeSeries_controller.getAnimeSeries },
       { method: 'POST', path: '/admin/anime-series', handler: animeSeries_controller.createAnimeSeries },
       // anime-tags
+      { method: 'GET', path: '/admin/anime-tags', handler: animeTag_controller.getAnimeTags },
       { method: 'POST', path: '/admin/anime-tag', handler: animeTag_controller.createAnimeTag },
+      // anime-films
+      { method: 'GET', path: '/admin/anime-films', handler: animeFilm_controller.getAnimeFilms },
+      { method: 'POST', path: '/admin/anime-film', handler: animeFilm_controller.createAnimeFilm },
+      
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);

@@ -1,6 +1,7 @@
 @import url('./anime-studios/anime-studio.css');
 @import url('./anime-series/anime-series.css');
 @import url('./anime-tags/anime-tag.css');
+@import url('./anime-films/anime-film.css');
 
 #admin-anime .navigation-item {
       background-color: var(--light-btn);
@@ -22,4 +23,10 @@
       border: 1px solid var(--secondary-border);
       border-radius: 5px;
       padding: 20px;
+}
+.anime-wrapper {
+      border: 1px solid var(--secondary-border);
+      border-radius: 5px;
+      padding: 20px;
+      display: flex;
 }

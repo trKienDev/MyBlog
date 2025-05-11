@@ -15,5 +15,5 @@ const AnimeSeriesSchema: Schema = new Schema({
 AnimeSeriesSchema.set('toObject', { virtuals: true });
 AnimeSeriesSchema.set('toJSON', { virtuals: true });
 
-const AnimeSeries = mongoose.model<IAnimeSeries>('Anime-Seriess', AnimeSeriesSchema);
+const AnimeSeries = mongoose.model<IAnimeSeries>('Anime-Series', AnimeSeriesSchema);
 export default AnimeSeries;

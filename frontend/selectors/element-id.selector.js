@@ -49,8 +49,18 @@ const thumbnail = {
 const container = {
       selected_tag: 'selected-tag_container',
 }
+const anime = {
+      film_studio: 'anime-film_studio',
+      film_series: 'anime-film_series',
+      film_tag: 'anime-film_tag',
+      film_form: 'anime-film_form',
+      film_name: 'anime-film_name',
+      film_year: 'anime-film_year',
+      film_rating: 'anime-film_rating',
+}
 const modal = {
       create_film: 'create-film_modal',
+      create_anime_film: 'create-anime-film_modal',
       open_button: 'open-modal_btn',
       close_button: 'close-modal_button',
       admin_studio_modal: 'admin-studio_modal',
@@ -75,6 +85,7 @@ const id_selectors = {
       container,
       modal,
       table,
+      anime,
 }
 
 export default id_selectors;

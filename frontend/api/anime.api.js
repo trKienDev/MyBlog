@@ -17,8 +17,26 @@ async function getAnimeSeries() {
       return result.data;
 }
 
+async function getAnimeTags() {
+      const result = await fetch_api.apiGet(api_configs.endpoints.getAnimeTags);
+      if(result.success === false)
+            throw new Error(result.error);
+
+      return result.data;
+}
+
+async function getAnimeFilms() {
+      const result = await fetch_api.apiGet(api_configs.endpoints.get);
+      if(result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
+
+
 const animes_api = {
       getAnimeStudios,
       getAnimeSeries,
+      getAnimeTags,
+      getAnimeFilms,
 }
 export default animes_api;

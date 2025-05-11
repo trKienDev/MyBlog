@@ -5,6 +5,15 @@ import { sendError, sendResponse } from "../../middlewares/response.js";
 
 const repository = new AnimeTagRepository();
 const service = new AnimeTagService(repository);
+  
+const getAnimeTags = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const anime_tags = await repository.getAnimeTags();
+            return sendResponse(res, 200, anime_tags);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
 
 const createAnimeTag = async(req: IncomingMessage, res: ServerResponse) => {
       try {
@@ -16,6 +25,7 @@ const createAnimeTag = async(req: IncomingMessage, res: ServerResponse) => {
 }
 
 const animeTag_controller = {
+      getAnimeTags,
       createAnimeTag,
 }
 export default animeTag_controller;

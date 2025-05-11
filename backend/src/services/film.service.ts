@@ -13,7 +13,7 @@ export class FilmService {
             this.film_repository = filmRepository;
       }
       
-      public async createFilm(req: CustomRequest): Promise<CreateFilmDTO> {
+      async createFilm(req: CustomRequest): Promise<CreateFilmDTO> {
             const { name, file_name } = await uploadFile(req, "film");
             const existing_film = await this.film_repository.findByName(name);
             if (existing_film) {

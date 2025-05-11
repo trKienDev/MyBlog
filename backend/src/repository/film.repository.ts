@@ -5,7 +5,7 @@ import Film from "../models/film.model.js";
 import { iFilm } from "../models/interface/ifilm.model.js";
 
 export class FilmRepository implements iFilmRepository {
-      async GetFilms(): Promise<FilmDTO[] | null> {
+      async getFilms(): Promise<FilmDTO[] | null> {
             try {
                   const films = await Film.find();
                   return films.map(doc => mappingDocToDTO(doc));

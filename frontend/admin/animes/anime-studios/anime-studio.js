@@ -42,6 +42,7 @@ async function createAnimeStudio() {
                   }
 
                   success_sweetAlert('anime studio created');
+                  getAnimeStudios();
             } catch(error) {
                   console.error('Error creating anime studio: ', error.message);
             }

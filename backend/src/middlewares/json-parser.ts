@@ -27,7 +27,6 @@ export const parseJSON = (req: IncomingMessage, required_fields?: string[]): Pro
                               
                               if(required_fields && required_fields.length > 0) {
                                     for(const field of required_fields) {
-                                          console.log('field: ', field);
                                           if(!parsed.hasOwnProperty(field)) {
                                                 return reject(new Error(`Missing required field: ${field}`));
                                           }

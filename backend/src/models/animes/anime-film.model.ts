@@ -1,13 +1,30 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-export interface IAnimeFilm extends Document {
+export interface iAnimeFilm extends Document {
       _id: mongoose.Types.ObjectId;
       name: string;
       studio_id: mongoose.Types.ObjectId;
       series_id: mongoose.Types.ObjectId;
-      tag_ids: mongoose.Types.ObjectId;
+      tag_ids: mongoose.Types.ObjectId[];
       video_ids?: mongoose.Types.ObjectId[];
       year: number;
       thumbnail: string;
       rating: number;
 }
+
+const AnimeFilmSchema: Schema = new Schema({
+      name: { type: String },
+      studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Studio' },
+      series_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Series' },
+      tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Tag' }],
+      video_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Video'},
+      year: { type: Number },
+      thumbnail: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
+      rating: { type: Number },
+}, {
+      collection: 'Anime-Films',
+      timestamps: true
+});
+
+const AnimeFilm = mongoose.model<iAnimeFilm>('Anime-Film', AnimeFilmSchema);
+export default AnimeFilm;

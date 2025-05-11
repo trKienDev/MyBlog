@@ -20,6 +20,7 @@ const api_configs = {
             adminAnimeStudiosPage: '/admin/animes/anime-studios/anime-studio.html',
             adminAnimeSeriesPage: '/admin/animes/anime-series/anime-series.html',
             adminAnimeTagsPage: '/admin/animes/anime-tags/anime-tag.html',
+            adminAnimeFilmsPage: '/admin/animes/anime-films/anime-film.html',
             tagsSection: '/sections/tags/tags.section.html',
             // creator
             getCreators: '/admin/creators', // GET
@@ -70,7 +71,11 @@ const api_configs = {
             getAnimeSeries: '/admin/anime-series', // GET
             createAnimeSeries: '/admin/anime-series', // POST
             // anime-tags
+            getAnimeTags: '/admin/anime-tags', // GET
             createAnimeTag: '/admin/anime-tag', // POST
+            // anime-films
+            getAnimeFIlms: '/admin/anime-films', // GET
+            createAnimeFilm: '/admin/anime-film', // POST
       }
 }
 

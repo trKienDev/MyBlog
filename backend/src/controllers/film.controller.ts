@@ -10,7 +10,7 @@ const service = new FilmService(repository);
 
 const getFilms = async(req: CustomRequest, res: ServerResponse) => {
       try {
-            const films = await repository.GetFilms();
+            const films = await repository.getFilms();
             if(films == null) {
                   return sendError(res, 500, 'Failed to get films');
             }
