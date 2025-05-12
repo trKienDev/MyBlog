@@ -85,8 +85,6 @@ export class FilmRepository implements iFilmRepository {
             if(data.tag_ids) update_fields.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
             if(data.thumbnail) update_fields.thumbnail = data.thumbnail;
 
-            console.log('tag_ids: ', data.tag_ids);
-
             const updated_doc = await Film.findByIdAndUpdate(
                   id, 
                   { $set: update_fields },

@@ -1,5 +1,5 @@
 import api_configs from "../../api/api.config.js";
-import { clone_resetForm } from "../../components/form.component.js";
+import { cloneResetForm } from "../../components/form.component.js";
 import modal_component from "../../components/modal.component.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
@@ -16,7 +16,7 @@ import film_helper from "./film.helper.js";
 
 export async function updateFilm(film) {
       try {                 
-            const cloned_form = clone_resetForm(id_selectors.films.film_form);
+            const cloned_form = cloneResetForm(id_selectors.films.film_form);
             await populateFilmForm(film);
             initModalUI(film);
 

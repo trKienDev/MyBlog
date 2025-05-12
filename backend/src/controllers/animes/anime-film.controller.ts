@@ -3,6 +3,7 @@ import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { AnimeFilmRepository } from "../../repository/animes/anime-film.repository.js";
 import { AnimeFilmService } from "../../services/animes/anime-film.service.js";
 import { sendError, sendResponse } from "../../middlewares/response.js";
+import { ValidateIdRequest } from "../../interfaces/validated-id-request.js";
 
 const repository = new AnimeFilmRepository();
 const service = new AnimeFilmService(repository);
@@ -30,8 +31,19 @@ const createAnimeFilm = async(req: CustomRequest, res: ServerResponse) => {
       }
 }
 
+const updateAnimeFilm = async(req: ValidateIdRequest, res: ServerResponse) => {
+      try {
+            const updated_animeFilm = await service.updateFilm(req);
+            return sendResponse(res, 200, updated_animeFilm);
+      } catch(error) {
+            console.error('Error updating anime film: ', error);
+            return sendError(res, 500, error);
+      }
+}
+
 const animeFilm_controller = {
       getAnimeFilms,
       createAnimeFilm,
+      updateAnimeFilm,
 }
 export default animeFilm_controller;

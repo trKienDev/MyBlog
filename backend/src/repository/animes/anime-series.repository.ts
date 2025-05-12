@@ -3,6 +3,11 @@ import AnimeSeries, { IAnimeSeries } from "../../models/animes/anime-series.mode
 import { IAnimeSeriesRepository } from "./interfaces/ianime-series.repository.js";
 
 export class AnimeSeriesRepository implements IAnimeSeriesRepository {
+      async getAnimeSeriesById(id: string): Promise<AnimeSeriesDTO | null> {
+            const series = await AnimeSeries.findById(id);
+            return series ? mappingDocToDTO(series) : null;
+      }
+
       async getAnimeSeries(): Promise<AnimeSeriesDTO[]> {
             const anime_series = await AnimeSeries.find();
             return anime_series.map(anime_series => mappingDocToDTO(anime_series));

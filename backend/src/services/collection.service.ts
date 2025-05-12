@@ -17,7 +17,7 @@ export class CollectionService {
                   console.error('Error parsing json in createCollection in collection.service');
             }
 
-            const newCollection = await this.collectionRepo.CreateCollection(name);
+            const newCollection = await this.collectionRepo.createCollection(name);
             return newCollection;
       }
 }

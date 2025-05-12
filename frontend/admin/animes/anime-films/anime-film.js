@@ -1,6 +1,7 @@
 import animes_api from "../../../api/anime.api.js";
 import api_configs from "../../../api/api.config.js";
 import fetch_api from "../../../api/fetch.api.js";
+import { clone_resetForm, cloneResetForm } from "../../../components/form.component.js";
 import modal_component from "../../../components/modal.component.js";
 import selectSearch_component from "../../../components/select-search.component.js";
 import table_component from "../../../components/table.component.js";
@@ -18,21 +19,42 @@ export async function initAnimeFilm() {
       selectSearch_component.initSelectSearch(id_selectors.anime.film_tag, api_configs.endpoints.getAnimeTags, 'name');
       uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, 'anime-film_tag');
+      renderAnimeFilms();
       createAnimeFilm();
+
 }     
 
 async function renderAnimeFilms() {
-      const anime_films = animes_api.getAnimeFilms();
+      const anime_films = await animes_api.getAnimeFilms();
+
+      console.log('anime films: ', anime_films);
       const tbody = document.querySelector('#anime-films_table tbody');
       tbody.innerHTML = '';
 
       anime_films.forEach(async (film) => {
             const tr = table_component.createTrWithId(film._id);
 
+            const edit_btn = await table_component.createEditBtn(css_selectors.container.edit_container, film);
+            tr.appendChild(edit_btn);
+
             const name = table_component.createTextTd({ i_text: film.name });
             tr.appendChild(name);
 
-            const studio = await 
+            const anime_studio = await animes_api.getAnimeStudioById(film.studio_id);
+            const studio = table_component.createTextTd({ i_text: anime_studio.name });
+            tr.appendChild(studio);
+
+            const anime_series = await animes_api.getAnimeSeriesById(film.series_id);
+            const series = table_component.createTextTd({ i_text: anime_series.name });
+            tr.appendChild(series);
+
+            const year = table_component.createTextTd({ i_text: film.year });
+            tr.appendChild(year);
+
+            const rating = table_component.createTextTd({ i_text: film.rating });
+            tr.appendChild(rating);
+
+            tbody.appendChild(tr);
       });
 }
 
@@ -99,5 +121,19 @@ function collectFormData() {
       form.append('file', thumbnail);
 
       return form;
+}
+
+async function updateAnimeFilm(film) {
+      try {
+            const cloned_form = cloneResetForm(id_selectors.anime.film_form);
+
+      } catch(error) {
+            console.error('Error update anime film: ', error);
+            showToast(error, 'error');
+      }
+}
+
+async function populateAnimeFilmForm(film) {
+      
 }
 

@@ -3,7 +3,7 @@ import animeSeries_controller from "../controllers/animes/anime-series.controlle
 import animeStudio_controller from "../controllers/animes/anime-studio.controller.js";
 import animeTag_controller from "../controllers/animes/anime-tag.controller.js";
 import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
-import { createCollection, GetCollection_byId, GetCollections } from "../controllers/collection.controller.js";
+import collection_controller from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
@@ -40,9 +40,9 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/codes/studio/:id', handler: validated_id.validateId(getCodesByStudio) },
       { method: 'POST', path: '/admin/code', handler: createCode },
       // collection
-      { method: 'GET', path: '/admin/collections', handler: GetCollections },
-      { method: 'GET', path: '/admin/collection/:id', handler: validated_id.validateId(GetCollection_byId) },
-      { method: 'POST', path: '/admin/collection', handler: createCollection },
+      { method: 'GET', path: '/admin/collections', handler: collection_controller.getCollections },
+      { method: 'GET', path: '/admin/collection/:id', handler: validated_id.validateId(collection_controller.getCollectionById) },
+      { method: 'POST', path: '/admin/collection', handler: collection_controller.createCollection },
       // film
       { method: 'GET', path: '/admin/films', handler: filmController.getFilms },
       { method: 'GET', path: '/admin/film/:id', handler: validated_id.validateId(filmController.findFilmById) },
@@ -59,9 +59,11 @@ const adminRoutes: Route[] = [
       { method: 'POST', path: '/admin/playlist', handler: playlist_controller.createPlaylist },
 
       // anime-studio
+      { method: 'GET', path: '/admin/anime-studio/:id', handler: validated_id.validateId(animeStudio_controller.getAnimeStudioById)},
       { method: 'GET', path: '/admin/anime-studios', handler: animeStudio_controller.getAnimeStudios },
       { method: 'POST', path: '/admin/anime-studio', handler: animeStudio_controller.createAnimeStudio },
       // anime-series
+      { method: 'GET', path: '/admin/anime-series/:id', handler: validated_id.validateId(animeSeries_controller.getAnimeSeriesById )},
       { method: 'GET', path: '/admin/anime-series', handler: animeSeries_controller.getAnimeSeries },
       { method: 'POST', path: '/admin/anime-series', handler: animeSeries_controller.createAnimeSeries },
       // anime-tags
@@ -70,6 +72,7 @@ const adminRoutes: Route[] = [
       // anime-films
       { method: 'GET', path: '/admin/anime-films', handler: animeFilm_controller.getAnimeFilms },
       { method: 'POST', path: '/admin/anime-film', handler: animeFilm_controller.createAnimeFilm },
+      { method: 'PUT', path: '/admin/anime-film/:id', handler: validated_id.validateId(animeFilm_controller.updateAnimeFilm) },
       
 ]
 

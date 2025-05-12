@@ -8,6 +8,13 @@ export class AnimeStudioRepository implements IAnimeStudioRepository {
             return anime_studios.map(anime_studio => mappingDocToDTO(anime_studio));
       }
       
+      async findById(id: string): Promise<AnimeStudioDTO | null> {
+            const studio = await AnimeStudio.findById(id).exec();
+            
+            if(!studio) return null;
+            return mappingDocToDTO(studio);
+      }
+
       async createAnimeStudio(data: string): Promise<AnimeStudioDTO> {
             const anime_studio = new AnimeStudio({ name: data });
             const created_animeStudio = await anime_studio.save();

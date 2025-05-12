@@ -8,6 +8,12 @@ async function getAnimeStudios() {
 
       return result.data;
 }
+async function getAnimeStudioById(id) {
+      const result = await fetch_api.apiGet(`${api_configs.endpoints.getAnimeStudioById}/${id}`);
+      if(result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
 
 async function getAnimeSeries() {
       const result = await fetch_api.apiGet(api_configs.endpoints.getAnimeSeries);
@@ -16,6 +22,13 @@ async function getAnimeSeries() {
 
       return result.data;
 }
+async function getAnimeSeriesById(id) {
+      const result = await fetch_api.apiGet(`${api_configs.endpoints.getAnimeSeriesById}/${id}`);
+      if(result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
+
 
 async function getAnimeTags() {
       const result = await fetch_api.apiGet(api_configs.endpoints.getAnimeTags);
@@ -26,16 +39,17 @@ async function getAnimeTags() {
 }
 
 async function getAnimeFilms() {
-      const result = await fetch_api.apiGet(api_configs.endpoints.get);
+      const result = await fetch_api.apiGet(api_configs.endpoints.getAnimeFilms);
       if(result.success === false) throw new Error(result.error);
 
       return result.data;
 }
 
-
 const animes_api = {
+      getAnimeStudioById,
       getAnimeStudios,
       getAnimeSeries,
+      getAnimeSeriesById,
       getAnimeTags,
       getAnimeFilms,
 }

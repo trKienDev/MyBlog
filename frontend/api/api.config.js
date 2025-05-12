@@ -43,7 +43,7 @@ const api_configs = {
             createTag: '/admin/tag', // POST
             //code
             getCodes: '/admin/codes', // GET
-            getCode_byId: '/admin/code', // GET
+            getCodeById: '/admin/code', // GET
             getCodesByStudio: '/admin/codes/studio', // GET
             createCode: '/admin/code', // POST
             // collection
@@ -65,16 +65,18 @@ const api_configs = {
             getPlaylistById: '/admin/playlist', // GET
             createPlaylist: '/admin/playlist', // POST
             // anime-studio
+            getAnimeStudioById: '/admin/anime-studio', // GET
             getAnimeStudios: '/admin/anime-studios', // GET
             createAnimeStudio: '/admin/anime-studio', // POST
             // anime-series
+            getAnimeSeriesById: '/admin/anime-series', // GET
             getAnimeSeries: '/admin/anime-series', // GET
             createAnimeSeries: '/admin/anime-series', // POST
             // anime-tags
             getAnimeTags: '/admin/anime-tags', // GET
             createAnimeTag: '/admin/anime-tag', // POST
             // anime-films
-            getAnimeFIlms: '/admin/anime-films', // GET
+            getAnimeFilms: '/admin/anime-films', // GET
             createAnimeFilm: '/admin/anime-film', // POST
       }
 }

@@ -7,19 +7,19 @@ import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 const repository = new CollectionRepository();
 const service = new CollectionService(repository);
 
-export const GetCollections = async(req: IncomingMessage, res: ServerResponse) => {
+export const getCollections = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const collections = await repository.GetCollections();
+            const collections = await repository.getCollections();
             return sendResponse(res, 200, collections);
       } catch(error) {  
             return sendError(res, 500, error);
       }
 }
 
-export const GetCollection_byId = async(req: ValidateIdRequest, res: ServerResponse) => {
+const getCollectionById = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
-            const collection = await repository.GetCollection_byId(id);
+            const collection = await repository.getCollectionById(id);
             if(collection == null) {
                   return sendError(res, 404, 'collection not found');
             }
@@ -38,3 +38,10 @@ export const createCollection = async(req: IncomingMessage, res: ServerResponse)
             return sendError(res, 500, error);
       }
 }
+
+const collection_controller = {
+      getCollections,
+      getCollectionById,
+      createCollection,
+}
+export default collection_controller;
