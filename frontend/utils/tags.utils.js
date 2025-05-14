@@ -68,10 +68,14 @@ function getSelectedTags(container_id, css_class) {
       return Array.from(tag_nodes).map(tag => tag.getAttribute('id'));
 }
 
-
+function resetTagSelection(id) {
+      const tag_container = document.getElementById(id);
+      tag_container.innerHTML = '';
+}
 
 const tags_utils = {
       displaySelectedTag,
       getSelectedTags,
+      resetTagSelection,
 }
 export default tags_utils;

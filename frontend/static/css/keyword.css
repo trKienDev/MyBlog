@@ -1,5 +1,7 @@
 /* width */
 .w-100pct { width: 100%; }
+.w-30pct { width: 30%; }
+.w-65pct { width: 65%;}
 
 /* height */
 .max-hei_200px { max-height: 200px; }
@@ -11,7 +13,22 @@
 .d-flex { display: flex; }
 .d-none { display: none; }
 
-border-radius
+/* justify content */
+.justify-content-space_between {
+      justify-content: space-between;
+} 
+
+/* align-content */
+.align-content_center {
+      align-content: center;
+}
+
+/* border-radius */
 .bo-ra_5px {
       border-radius: 5px;
+}
+
+/* font-weight  */
+.fontw_bold {
+      font-weight: bold;
 }

@@ -93,7 +93,7 @@ function getSelectedOptionValue(select_id, option) {
       }
 }
 
-export function resetSelectSearch(configs) {
+function resetSelectSearch(configs) {
       configs.forEach(({ id, placeholder }) => {
             const studioSelect_element = document.getElementById(id),
             select_btn = studioSelect_element.querySelector(".select-btn"),
@@ -115,5 +115,6 @@ const selectSearch_component = {
       initSelectSearch,
       loadInfoSelectSearch,
       getSelectedOptionValue,
+      resetSelectSearch,
 };
 export default selectSearch_component;

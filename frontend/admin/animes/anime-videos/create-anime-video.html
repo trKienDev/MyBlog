@@ -1,18 +1,84 @@
 <section id="anime-videos">
       <div class="anime-wrapper">
             <div class="search-anime-film_form">
-                  <div id="search-anime">
-                        <div class="select-search_component">
-                              <div class="wrapper">
-                                    <div class="select-btn">
-                                          <span>Select anime</span>
-                                          <i class="caret-down fa-solid fa-caret-down"></i>
-                                    </div>
-                                    <div class="content">
-                                          <div class="search row ">
-                                                <input type="text" placeholder="search anime ... ">
+                  <div class="d-flex justify-content-space_between">
+                        <span class="align-content_center fontw_bold">Search film</span>
+                        <div id="search-anime">
+                              <div class="select-search_component">
+                                    <div class="wrapper">
+                                          <div class="select-btn">
+                                                <span>Select anime</span>
+                                                <i class="caret-down fa-solid fa-caret-down"></i>
                                           </div>
-                                          <ul class="options"></ul>
+                                          <div class="content">
+                                                <div class="search row ">
+                                                      <input type="text" placeholder="search anime ... ">
+                                                </div>
+                                                <ul class="options"></ul>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+            <div id="create-anime-video">
+                  <div class="create-anime-video_container">
+                        <div class="d-flex">
+                              <div class="col_film-thumbnail">
+                                    <div class="film-thumbnail">
+                                           <img id="thumbnail-image" src="/admin/static/images/film/thumbnail-upload_default.png" alt="film-thumbnail">
+                                    </div>
+                              </div>
+                              <div class="col-video">
+                                    <div class="d-flex justify-content-space_between">
+                                          <div class="col_create-video w-30pct">
+                                                <div class="create-video_container primary-form">
+                                                      <div id="video-film">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select film</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search film ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                      <div id="video-tags">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select tags</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search tag ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="button">
+                                                            <button id="submit-video_btn" class="btn primary-btn" type="submit">Create</button>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div class="col_video-frame w-65pct">
+                                                <div class="thumbnail-video">
+                                                      <img id="thumbnail-video" src="/admin/static/images/video/video-upload.png" alt="film-thumbnail" style="height: 400px; width: 711px;">
+                                                      <input type="file" id="upload-video" accept="video/mp4" style="display: none;">
+                                                </div>
+                                                <video class="video-frame d-none" width="711" height="400" controls >
+                                                      <source src="" type="video/mp4">
+                                                </video>
+                                          </div>
                                     </div>
                               </div>
                         </div>

@@ -7,3 +7,14 @@
 #anime-videos #create-video_btn {
       margin-top: 0px;
 }
+#create-anime-video {
+      padding-top: 20px;
+}
+#anime-videos .film-thumbnail {
+      width: 240px;
+      height: 340px;
+}
+#anime-videos .col-video {
+      margin-left: 50px;
+      width: 100%;
+}

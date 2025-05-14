@@ -1,9 +1,9 @@
 import api_configs from "../../api/api.config.js";
-import selectSearch_component, { resetSelectSearch } from "../../components/select-search.component.js";
+import selectSearch_component from "../../components/select-search.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import { showToast } from "../../utils/toast-notification.js";
-import { getCodeByStudio, resetTagSelection } from "../films/films.js";
+import { getCodeByStudio } from "../films/films.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import fetch_api from "../../api/fetch.api.js";
 import tags_utils from "../../utils/tags.utils.js";
@@ -36,8 +36,8 @@ function createVideo() {
 
                   success_sweetAlert("Video created successfully");
                   resetVideoPreview();
-                  resetTagSelection();
-                  resetSelectSearch([
+                  tags_utils.resetTagSelection(id_selectors.container.selected_tag);
+                  selectSearch_component.resetSelectSearch([
                         { id: id_selectors.videos.video_action, placeholder: "Select Action" },
                         { id: id_selectors.videos.video_playlist, placeholder: "Select Playlist" },
                   ]);

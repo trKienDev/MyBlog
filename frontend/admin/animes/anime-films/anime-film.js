@@ -14,6 +14,8 @@ import { showToast } from "../../../utils/toast-notification.js";
 import { uploadThumbnail } from "../../films/films.js";
 import tag_helper from "../../tags/tag.helper.js";
 
+let default_thumbnail = "/admin/static/images/film/thumbnail-upload_default.png";
+
 export async function initAnimeFilm() {
       modal_component.initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.create_anime_film);
       selectSearch_component.initSelectSearch(id_selectors.anime.film_studio, api_configs.endpoints.getAnimeStudios, 'name');
@@ -88,10 +90,8 @@ async function createAnimeFilm() {
                   } finally {
                         submit_btn.disabled = false;
                         modal_component.closeModal(id_selectors.modal.create_anime_film);
+                        resetAnimeModal();
                   }
-
-
-
             });
       } catch(error) {
             console.error('Error initializing createAnimeFilm function: ', error);
@@ -127,6 +127,7 @@ async function updateAnimeFilm(anime) {
                         error_sweetAlert(error);
                   } finally {
                         modal_component.changeTitle(id_selectors.modal.create_anime_film, '#submit-btn', 'btn-update', css_selectors.button.primary_btn, "Create anime film");
+                        resetAnimeModal();
                   }
             });
       } catch(error) {
@@ -262,4 +263,14 @@ function buildUpdateAnimeForm(updated_fields) {
       if(updated_fields.thumbnail) form.append("file", updated_fields.thumbnail);
 
       return form;
+}
+
+function resetAnimeModal() {
+      selectSearch_component.resetSelectSearch([
+            { id: id_selectors.anime.film_studio, placeholder: "Select studio"},
+            { id: id_selectors.anime.film_series, placeholder: "Select series" },
+            { id: id_selectors.anime.film_tag, placeholder: "Select tag" },
+      ]);
+      modal_component.resetModal(id_selectors.anime.film_form, id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, default_thumbnail);
+      tags_utils.resetTagSelection(id_selectors.container.selected_tag);
 }

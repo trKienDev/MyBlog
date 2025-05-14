@@ -3,7 +3,7 @@ import { cloneResetForm } from "../../components/form.component.js";
 import modal_component from "../../components/modal.component.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
-import { buildFilmForm, getCodeByStudio, getFilmName, renderFilms, uploadThumbnail } from "./films.js";
+import { buildFilmForm, getCodeByStudio, getFilmName, renderFilms, resetFilmModal, uploadThumbnail } from "./films.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import fetch_api from "../../api/fetch.api.js";
@@ -38,12 +38,13 @@ export async function updateFilm(film) {
                         }
                         
                         success_sweetAlert('film updated');
-                        modal_component.closeModal(id_selectors.modal.create_film);
+                        resetFilmModal();
                         renderFilms(id_selectors.table.film_tbody);
                   } catch(error) {
                         console.error('Error of updateFilm in server: ', error);
                         error_sweetAlert(error);
                   } finally {
+                        modal_component.closeModal(id_selectors.modal.create_film);
                         modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', 'btn-update', css_selectors.button.primary_btn, 'Create film');
                   }
             });
@@ -178,3 +179,4 @@ async function populateFilmForm(film) {
       const film_thumbnail = document.getElementById(id_selectors.thumbnail.thumbnail_image);
       film_thumbnail.src = `${api_configs.server}/uploads/film/${film.thumbnail}`;
 } 
+

@@ -1,5 +1,5 @@
 import modal_component from "../../components/modal.component.js";
-import selectSearch_component, { resetSelectSearch } from "../../components/select-search.component.js";
+import selectSearch_component from "../../components/select-search.component.js";
 import api_configs from "../../api/api.config.js";
 import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
@@ -102,14 +102,14 @@ export function getFilmName(filmCode_id, codeNumbebId) {
 }
 
 export function resetFilmModal() {
-      resetSelectSearch([
+      selectSearch_component.resetSelectSearch([
             { id: "film-studio", placeholder: "Select studio" },
             { id: "film-collection", placeholder: "Select collection" },
             { id: "film-tag", placeholder: "Select tag" }
       ]);
       modal_component.resetModal(id_selectors.films.film_form, id_selectors.thumbnail.thumbnail_image,id_selectors.thumbnail.thumbnail_upload, default_thumbnail);
       resetCodeSelection(id_selectors.container.selected_tag);
-      resetTagSelection();
+      tags_utils.resetTagSelection(id_selectors.container.selected_tag);
 }
 
 function resetCodeSelection(filmCode_id) {
@@ -118,11 +118,6 @@ function resetCodeSelection(filmCode_id) {
       const option = document.createElement("option");
       option.innerText = 'Select code';
       codeSelect_el.appendChild(option);
-}
-
-export function resetTagSelection() {
-      const tag_container = document.getElementById(id_selectors.container.selected_tag);
-      tag_container.innerHTML = '';
 }
 
 export function buildFilmForm(include_file, thumbnail_file) {
