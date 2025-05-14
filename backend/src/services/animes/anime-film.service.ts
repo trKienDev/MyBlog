@@ -27,7 +27,6 @@ export class AnimeFilmService {
             const tag_ids: string[] = tag_params.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
             const year = request_utils.extractParamFromRequest(req, "year");
             const rating = request_utils.extractParamFromRequest(req, "rating");
-
             const new_animeFilm: CreateAnimeFilmDTO = {
                   name: name,
                   studio_id: studio_id,
@@ -47,21 +46,20 @@ export class AnimeFilmService {
             if(!existing_film) throw new Error('Anime film not found');
 
             const { name, file_name } = await uploadFile(req, "anime/films");
-            
             const studio_id = request_utils.extractParamFromRequest(req, "studio_id");
             const series_id = request_utils.extractParamFromRequest(req, "series_id");
             const tag_params = request_utils.extractParamFromRequest(req, "tag_ids");
             const tag_ids: string[] = tag_params.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
             const year = request_utils.extractParamFromRequest(req, "year");
             const rating = request_utils.extractParamFromRequest(req, "rating");
-
+            
             const updateAnimeFilm_data: Record<string, any> = { name, studio_id, series_id, tag_ids, year, rating };
             if(file_name) {
                   FileService.deleteFile("anime/films", existing_film.thumbnail);
                   updateAnimeFilm_data.thumbnail = file_name;
             }
 
-            const updated_animeFilm = await this.animeFilm_repository.updateFilm(id, updateAnimeFilm_data);
+            const updated_animeFilm = await this.animeFilm_repository.updateAnimeFilm(id, updateAnimeFilm_data);
             if(!updated_animeFilm) throw new Error('Error updating anime film');
 
             return updated_animeFilm;

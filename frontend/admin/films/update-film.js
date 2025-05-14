@@ -13,6 +13,7 @@ import collection_api from "../../api/collection.api.js";
 import select_component from "../../components/select.component.js";
 import tag_helper from "../tags/tag.helper.js";
 import film_helper from "./film.helper.js";
+import tag_api from "../../api/tag.api.js";
 
 export async function updateFilm(film) {
       try {                 
@@ -26,12 +27,12 @@ export async function updateFilm(film) {
             cloned_form.addEventListener('submit', async function(event) {
                   event.preventDefault();
                   const changes  = collectUpdateForm();
-
                   const updated_fields = getUpdatedFilmFields(film, changes);
                   const updateFilm_form = buildUpdateFilmForm(updated_fields);
 
                   try {
-                        const result = await fetch_api.updateForm(`${api_configs.endpoints.update_film}/${film._id}`, updateFilm_form);
+                        console.log('update film: ', updateFilm_form);
+                        const result = await fetch_api.updateForm(`${api_configs.endpoints.updateFilm}/${film._id}`, updateFilm_form);
                         if(result.success === false) {
                               throw new Error(result.error);
                         }
@@ -40,14 +41,14 @@ export async function updateFilm(film) {
                         modal_component.closeModal(id_selectors.modal.create_film);
                         renderFilms(id_selectors.table.film_tbody);
                   } catch(error) {
-                        console.error('Error of update_film in server: ', error);
+                        console.error('Error of updateFilm in server: ', error);
                         error_sweetAlert(error);
                   } finally {
                         modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', 'btn-update', css_selectors.button.primary_btn, 'Create film');
                   }
             });
       } catch(error) {
-            console.error('Error in update_film: ', error);
+            console.error('Error in updateFilm: ', error);
             error_sweetAlert(error);
       }
 }
@@ -82,9 +83,7 @@ function collectUpdateForm() {
  */
 function getUpdatedFilmFields(film, updated_fields) {
       const changes = {};
-
-      if ( updated_fields.name != null && updated_fields.name !== film.name ) 
-            changes.name = updated_fields.name;
+      changes.name = updated_fields.name;
 
       ['studio_id', 'code_id', 'collection_id'].forEach(field => {
             if (updated_fields[field] != null && updated_fields[field] !== film[field] ) 
@@ -131,7 +130,7 @@ function getUpdatedFilmFields(film, updated_fields) {
 }
 function buildUpdateFilmForm(updated_fields) {
       const form = new FormData();
-      if(updated_fields.name) form.append("name", updated_fields.name);
+      form.append("name", updated_fields.name);
       if(updated_fields.studio_id) form.append("studio_id", updated_fields.studio_id);
       if(updated_fields.code_id) form.append("code_id", updated_fields.code_id);
       if(updated_fields.collection_id) form.append("collection_id", updated_fields.collection_id);
@@ -143,14 +142,12 @@ function buildUpdateFilmForm(updated_fields) {
       return form
 }
 
-
-    
 function initModalUI(film) {
+      modal_component.openModal(id_selectors.modal.create_film);     
+      modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', css_selectors.button.primary_btn, 'btn-update', `Update ${film.name}`);
       selectSearch_component.initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
       selectSearch_component.initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
       selectSearch_component.initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
-      modal_component.openModal(id_selectors.modal.create_film);     
-      modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', css_selectors.button.primary_btn, 'btn-update', `Update ${film.name}`);
       uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       getCodeByStudio(id_selectors.films.film_studio);
 }
@@ -176,7 +173,7 @@ async function populateFilmForm(film) {
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);
       selectTag_container.innerHTML = '';
-      await tag_helper.renderSelectedTags(film.tag_ids, selectTag_container);
+      await tag_helper.renderSelectedTags(film.tag_ids, selectTag_container, tag_api.getTagById);
       
       const film_thumbnail = document.getElementById(id_selectors.thumbnail.thumbnail_image);
       film_thumbnail.src = `${api_configs.server}/uploads/film/${film.thumbnail}`;

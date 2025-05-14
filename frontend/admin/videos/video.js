@@ -1,6 +1,7 @@
 import api_configs from "../../api/api.config.js";
 import creator_api from "../../api/creator.api.js";
 import { film_api } from "../../api/film.api.js";
+import tag_api from "../../api/tag.api.js";
 import { video_api } from "../../api/video.api.js";
 import div_component from "../../components/div.component.js";
 import span_component from "../../components/span.component.js";
@@ -41,7 +42,7 @@ async function renderListVideo() {
                   const video_name = span_component.createSpanText(video.name, css_selectors.videos.video_name);
 
                   const videoTags_container = div_component.createDiv({ icss_class: css_selectors.videos.video_tags, idiv_id: id_selectors.videos.video_tags});
-                  await tag_helper.renderSelectedTags(video.tag_ids, videoTags_container);
+                  await tag_helper.renderSelectedTags(video.tag_ids, videoTags_container, tag_api.getTagById);
                   
                   const video_info = document.createElement('div');
                   video_info.classList.add('video-info');

@@ -8,10 +8,9 @@ import css_selectors from "../../selectors/css.selectors.js";
  * @param {string[]} tagIds  Mảng các _id của tag
  * @param {HTMLElement} container  Phần tử DOM chứa các tag
  */
-async function renderSelectedTags(tag_ids, container) {
+async function renderSelectedTags(tag_ids, container, getTagByIdFunc) {
       for (const tag_id of tag_ids) {
-            const tag = await tag_api.getTagById(tag_id);
-
+            const tag = await getTagByIdFunc(tag_id);
             const tag_div = div_component.createDiv({
                   icss_class: css_selectors.tags.selected_tag,
                   idiv_id:    tag._id,

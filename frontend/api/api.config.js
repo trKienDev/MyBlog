@@ -21,6 +21,8 @@ const api_configs = {
             adminAnimeSeriesPage: '/admin/animes/anime-series/anime-series.html',
             adminAnimeTagsPage: '/admin/animes/anime-tags/anime-tag.html',
             adminAnimeFilmsPage: '/admin/animes/anime-films/anime-film.html',
+            adminAnimeVideosPage: '/admin/animes/anime-videos/anime-video.html',
+            adminAnimeCreateVideosPage: '/admin/animes/anime-videos/create-anime-video.html',
             tagsSection: '/sections/tags/tags.section.html',
             // creator
             getCreators: '/admin/creators', // GET
@@ -55,7 +57,7 @@ const api_configs = {
             findFilmById: '/admin/film', // GET
             findFilmsByStudioCode: '/admin/films/studio-code', // GET
             createFilm: '/admin/film', // POST
-            update_film: '/admin/film', // PUT
+            updateFilm: '/admin/film', // PUT
             // video
             getVideos: '/admin/videos', // GET
             createVideo: '/admin/video', // POST
@@ -74,10 +76,12 @@ const api_configs = {
             createAnimeSeries: '/admin/anime-series', // POST
             // anime-tags
             getAnimeTags: '/admin/anime-tags', // GET
+            getAnimeTagById: '/admin/anime-tag', // GET
             createAnimeTag: '/admin/anime-tag', // POST
             // anime-films
             getAnimeFilms: '/admin/anime-films', // GET
             createAnimeFilm: '/admin/anime-film', // POST
+            updateAnimeFilm: '/admin/anime-film', // PUT
       }
 }
 

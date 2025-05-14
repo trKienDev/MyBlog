@@ -68,6 +68,7 @@ const adminRoutes: Route[] = [
       { method: 'POST', path: '/admin/anime-series', handler: animeSeries_controller.createAnimeSeries },
       // anime-tags
       { method: 'GET', path: '/admin/anime-tags', handler: animeTag_controller.getAnimeTags },
+      { method: 'GET', path: '/admin/anime-tag/:id', handler: validated_id.validateId(animeTag_controller.getAnimeTagById) },
       { method: 'POST', path: '/admin/anime-tag', handler: animeTag_controller.createAnimeTag },
       // anime-films
       { method: 'GET', path: '/admin/anime-films', handler: animeFilm_controller.getAnimeFilms },

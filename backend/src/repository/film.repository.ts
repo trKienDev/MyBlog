@@ -76,7 +76,7 @@ export class FilmRepository implements iFilmRepository {
 
       async updateFilm(id: string, data: Partial<UpdateFilmDTO>): Promise<UpdateFilmDTO | null> {
             const update_fields: Record<string, any> = {};
-            if(data.name) update_fields.name = data.name;
+            update_fields.name = data.name;
             if(data.studio_id) update_fields.studio_id = new mongoose.Types.ObjectId(data.studio_id);
             if(data.code_id) update_fields.code_id = new mongoose.Types.ObjectId(data.code_id);
             if(data.collection_id) update_fields.collection_id = new mongoose.Types.ObjectId(data.collection_id);

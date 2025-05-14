@@ -1,0 +1,9 @@
+#anime-videos {
+      padding-top: 20px;
+}
+#anime-videos .anime-wrapper {
+      display: block;
+}
+#anime-videos #create-video_btn {
+      margin-top: 0px;
+}

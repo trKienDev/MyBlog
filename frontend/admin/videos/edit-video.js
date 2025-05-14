@@ -57,7 +57,7 @@ async function populateVideoInfo(ivideo) {
       await selectSearch_component.loadInfoSelectSearch(ivideo, id_selectors.videos.video_creator, 'creator_id', creator_api.getCreatorName);
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);    
-      await tag_helper.renderSelectedTags(ivideo.tag_ids, selectTag_container);
+      await tag_helper.renderSelectedTags(ivideo.tag_ids, selectTag_container, tag_api.getTagById);
 
       const video_url = `${api_configs.server}/uploads/videos/${ivideo.file_path}`;
       const video_element = document.querySelector('video');

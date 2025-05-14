@@ -37,15 +37,15 @@ export class AnimeFilmRepository implements iAnimeFilmRepository {
             return mappingDocToCreateDTO(saved_animeFilm);
       }
 
-      async updateFilm(id: string, data: Partial<UpdateAnimeFilmDTO>): Promise<UpdateAnimeFilmDTO | null> {
+      async updateAnimeFilm(id: string, data: Partial<UpdateAnimeFilmDTO>): Promise<UpdateAnimeFilmDTO | null> {
             const update_fields: Record<string, any> = {};
-            if(data.name) update_fields.name = data.name;
+            update_fields.name = data.name;
             if(data.studio_id) update_fields.studio_id = new mongoose.Types.ObjectId(data.studio_id);
             if(data.series_id) update_fields.series_id = new mongoose.Types.ObjectId(data.series_id);
             if(data.tag_ids) update_fields.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
             if(data.year) update_fields.year = data.year;
-            if(data.thumbnail) update_fields.thumbnail;
-            if(data.rating) update_fields.rating;
+            if(data.thumbnail) update_fields.thumbnail = data.thumbnail;
+            if(data.rating) update_fields.rating = data.rating;
 
             const updated_doc = await AnimeFilm.findByIdAndUpdate(
                   id, 

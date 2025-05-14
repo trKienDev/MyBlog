@@ -5,5 +5,5 @@ export interface iAnimeFilmRepository {
       findById(id: string): Promise<AnimeFilmDTO | null>;
       findByName(name: string): Promise<AnimeFilmDTO | null>;
       createAnimeFilm(data: CreateAnimeFilmDTO): Promise<CreateAnimeFilmDTO>;
-      updateFilm(id: string, data: Partial<UpdateAnimeFilmDTO>): Promise<UpdateAnimeFilmDTO | null>;
+      updateAnimeFilm(id: string, data: Partial<UpdateAnimeFilmDTO>): Promise<UpdateAnimeFilmDTO | null>;
 }
