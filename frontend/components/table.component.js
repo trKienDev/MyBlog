@@ -81,6 +81,7 @@ function createImageTd(imgSrc, imgClass) {
 
       return imageCell;
 }
+
 /**
  * Create <td> of image, call API to get name of file.
  *
@@ -120,6 +121,7 @@ function createVideoTd(video_url, css_class) {
       video_cell.appendChild(video_container);
       return video_cell;
 }
+
 /**
  * Create <td> of text.
  *
@@ -133,6 +135,70 @@ async function createVideoTdFromApi({ ifile_path, iupload_path, icss }) {
       return createVideoTd(video_url, icss);
 }
 
+/**
+ * Creates a table cell (td) containing a checkbox.
+ * This function encapsulates the creation of the selection part of a table row.
+ * @returns {{td: HTMLTableCellElement, checkbox: HTMLInputElement}} An object containing the created td and checkbox.
+ */
+function createSelectCheckboxTd(css_class) {
+    const select_td = document.createElement('td');
+    select_td.classList.add(css_class);
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    select_td.appendChild(checkbox);
+
+    return { td: select_td, checkbox };
+}
+
+
+/**
+ * Binds click event listeners to a film table row for selection.
+ * It handles the selection logic (checking/unchecking, adding/removing 'selected' class).
+ * A callback function is executed after a row is successfully selected.
+ * @param {HTMLTableRowElement} tr - The table row element.
+ * @param {HTMLInputElement} checkbox - The checkbox element within the row.
+ * @param {object} film - The film object associated with the row.
+ * @param {function} onRowSelectedCallback - Callback function to execute after a row is selected. It receives the film object.
+ * @returns {HTMLTableRowElement} The table row with event listeners bound.
+ */
+function handleTrSelection(table, tr, checkbox, film, onRowSelectedCallback) {
+      tr.addEventListener('click', () => {
+            const is_selected = tr.classList.contains('selected');
+
+            document.querySelectorAll(`#${table} tbody input[type="checkbox"]`)
+                  .forEach(cb => cb.checked = false);
+
+            document.querySelectorAll(`#${table} tbody tr`)
+                  .forEach(r => r.classList.remove('selected'));
+
+            if (!is_selected) {
+                  checkbox.checked = true;
+                  tr.classList.add('selected');
+
+                  if (typeof onRowSelectedCallback === 'function') {
+                        onRowSelectedCallback(film);
+                  }
+            } else {
+                  // If the row was already selected and is clicked again,
+                  // it means it was deselected by the general deselect-all logic above.
+                  // To re-select it, we explicitly set it here.
+                  // However, if the intention is to toggle off selection on a second click
+                  // on an already selected row, this part needs adjustment.
+                  // For now, it re-selects. If a toggle-off is desired,
+                  // the callback should perhaps only be called if !is_selected.
+                  // Based on the original logic, clicking an already selected row would re-select it
+                  // and re-trigger the thumbnail load.
+                  checkbox.checked = true; // Ensure checkbox is checked
+                  tr.classList.add('selected'); // Ensure 'selected' class is present
+                        if (typeof onRowSelectedCallback === 'function') {
+                        onRowSelectedCallback(film); // Call callback again if re-selected
+                  }
+            }
+      });
+
+      return tr;
+}
+
 const table_component = {
       createTrWithId,
       createEditBtn,
@@ -142,6 +208,8 @@ const table_component = {
       createImgTdFromApi,
       createVideoTd,
       createVideoTdFromApi,
+      createSelectCheckboxTd,
+      handleTrSelection,
 };
 export default table_component;
 

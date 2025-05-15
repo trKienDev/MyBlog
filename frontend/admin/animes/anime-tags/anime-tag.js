@@ -21,6 +21,9 @@ async function getAnimeTags() {
                   const name = table_component.createTextTd({ i_text: anime_tag.name });
                   row.appendChild(name);
 
+                  const kind = table_component.createTextTd({ i_text: anime_tag.kind });
+                  row.appendChild(kind);
+
                   tbody.appendChild(row);
             });
       } catch(error) {

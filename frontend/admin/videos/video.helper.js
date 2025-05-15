@@ -12,7 +12,7 @@ async function renderFilmsTable(films, tbody) {
 
       for (const film of films) {
             let { tr, checkbox } = await createFilmTr(film);
-            tr = bindFilmRowEvents(tr, checkbox, film);
+            tr = table_component.handleTrSelection(id_selectors.table.search_film, tr, checkbox, film, loadThumbnailOfSelectedFIlm);
             tbody.appendChild(tr);
       }
 
@@ -34,36 +34,12 @@ async function createFilmTr(film) {
 
       tr.appendChild(table_component.createTextTd({ i_text: film.rating }));
 
-      const select_td = document.createElement('td');
-      select_td.classList.add(css_selectors.films.film_select);
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      select_td.appendChild(checkbox);
-      tr.appendChild(select_td);
+      const { td: selectTd_element, checkbox: filmCheckbox_element } = table_component.createSelectCheckboxTd(css_selectors.films.film_select);
+      tr.appendChild(selectTd_element);
 
-      return { tr, checkbox };
+      return { tr, checkbox: filmCheckbox_element };
 }
 
-function bindFilmRowEvents(tr, checkbox, film) {
-      tr.addEventListener('click', () => {
-            const is_selected = tr.classList.contains('selected');
-    
-            document.querySelectorAll(`#${id_selectors.table.search_film} tbody input[type="checkbox"]`)
-                              .forEach(cb => cb.checked = false);
-    
-            document.querySelectorAll(`#${id_selectors.table.search_film} tbody tr`)
-                              .forEach(r => r.classList.remove('selected'));
-    
-            if (!is_selected) {
-                  checkbox.checked = true;
-                  tr.classList.add('selected');
-            }
-    
-            loadThumbnailOfSelectedFIlm(film);
-      });
-
-      return tr;
-}
 function loadThumbnailOfSelectedFIlm(ifilm) {
       const thumbnail_element = document.getElementById(id_selectors.thumbnail.thumbnail_image);
       thumbnail_element.src = `${api_configs.server}/uploads/film/${ifilm.thumbnail}`;

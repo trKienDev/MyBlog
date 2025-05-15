@@ -7,10 +7,17 @@ export class AnimeTagRepository implements iAnimeTagRepository {
             const anime_tags = await AnimeTag.find();
             return anime_tags.map(tag => mappingDocToDTO(tag));
       }
+
       async getAnimeTagById(id: string): Promise<AnimeTagDTO | null> {
             const anime_tag = await AnimeTag.findById(id);
             return anime_tag ? mappingDocToDTO(anime_tag) : null;
       }
+
+      async getAnimeTagsByFilm(): Promise<AnimeTagDTO[]> {
+            const animeFilm_tag = await AnimeTag.find({ kind: 'film'});
+            return animeFilm_tag.map(tag => mappingDocToDTO(tag));
+      }
+      
       async createAnimeTag(data: AnimeTagDTO): Promise<AnimeTagDTO> {
             const anime_tag = new AnimeTag(data);
             const saved_animeTag = await anime_tag.save();

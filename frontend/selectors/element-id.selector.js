@@ -70,6 +70,7 @@ const table = {
       video_tbody: 'videos-table tbody',
       search_film: 'searched-films_table',
       studio_tbody: '#studio-table tbody',
+      anime_table: 'anime-films_table',
 }
 
 const id_selectors = {

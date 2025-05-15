@@ -77,6 +77,7 @@ const api_configs = {
             // anime-tags
             getAnimeTags: '/admin/anime-tags', // GET
             getAnimeTagById: '/admin/anime-tag', // GET
+            getAnimeTagsByFilm: '/admin/anime-tags/film', // GET
             createAnimeTag: '/admin/anime-tag', // POST
             // anime-films
             getAnimeFilms: '/admin/anime-films', // GET
