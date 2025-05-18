@@ -2,6 +2,7 @@
 @import url('./anime-series/anime-series.css');
 @import url('./anime-tags/anime-tag.css');
 @import url('./anime-films/anime-film.css');
+@import url('./anime-playlists/anime-playlist.css');
 @import url('./anime-videos/anime-video.css');
 
 #admin-anime .navigation-item {

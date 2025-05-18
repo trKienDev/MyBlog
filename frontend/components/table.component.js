@@ -57,6 +57,10 @@ function createDeleteButtonCell(itemId, deleteClass, handleDeleteCallback) {
  * @returns {Promise<HTMLTableCellElement>}
  */
 function createTextTd({ i_text, i_id, i_css }) {
+      const text_container = document.createElement('div');
+      text_container.classList.add('text-container');
+      text_container.style.display = 'flex';
+      text_container.style.justifyContent = 'center';
       const span = document.createElement('span');
       span.textContent = i_text;
       if(i_id) {
@@ -65,9 +69,10 @@ function createTextTd({ i_text, i_id, i_css }) {
       if(i_css) {
             span.classList.add(i_css);
       }
+      text_container.appendChild(span);
 
       const td = document.createElement('td');
-      td.appendChild(span);
+      td.appendChild(text_container);
       return td;
 }
 
@@ -190,7 +195,8 @@ function handleTrSelection(table, tr, checkbox, film, onRowSelectedCallback) {
                   // and re-trigger the thumbnail load.
                   checkbox.checked = true; // Ensure checkbox is checked
                   tr.classList.add('selected'); // Ensure 'selected' class is present
-                        if (typeof onRowSelectedCallback === 'function') {
+                  if (typeof onRowSelectedCallback === 'function') {
+                        console.log('run');
                         onRowSelectedCallback(film); // Call callback again if re-selected
                   }
             }

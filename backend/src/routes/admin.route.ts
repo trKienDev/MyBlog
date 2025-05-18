@@ -1,7 +1,9 @@
 import animeFilm_controller from "../controllers/animes/anime-film.controller.js";
+import animePlaylist_controller from "../controllers/animes/anime-playlist.controller.js";
 import animeSeries_controller from "../controllers/animes/anime-series.controller.js";
 import animeStudio_controller from "../controllers/animes/anime-studio.controller.js";
 import animeTag_controller from "../controllers/animes/anime-tag.controller.js";
+import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
 import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
@@ -70,12 +72,22 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/anime-tags', handler: animeTag_controller.getAnimeTags },
       { method: 'GET', path: '/admin/anime-tag/:id', handler: validated_id.validateId(animeTag_controller.getAnimeTagById) },
       { method: 'GET', path: '/admin/anime-tags/film', handler: animeTag_controller.getAnimeTagsByFilm },
+      { method: 'GET', path: '/admin/anime-tags/action', handler: animeTag_controller.getAnimeTagByAction },
+      { method: 'GET', path: '/admin/anime-tags/video', handler: animeTag_controller.getAnimeVideoTags },
       { method: 'POST', path: '/admin/anime-tag', handler: animeTag_controller.createAnimeTag },
       // anime-films
       { method: 'GET', path: '/admin/anime-films', handler: animeFilm_controller.getAnimeFilms },
+      { method: 'GET', path: '/admin/anime-film/:id', handler: validated_id.validateId(animeFilm_controller.findAnimeById) },
       { method: 'POST', path: '/admin/anime-film', handler: animeFilm_controller.createAnimeFilm },
       { method: 'PUT', path: '/admin/anime-film/:id', handler: validated_id.validateId(animeFilm_controller.updateAnimeFilm) },
-      
+      // anime-playlist
+      { method: 'GET', path: '/admin/anime-playlists', handler: animePlaylist_controller.getAnimePlaylists },
+      { method: 'GET', path: '/admin/anime-playlist/:id', handler: validated_id.validateId(animePlaylist_controller.getAnimePlaylistById ) },
+      { method: 'POST', path: '/admin/anime-playlist', handler: animePlaylist_controller.createAnimePlaylist },
+      // anime-video
+      { method: 'GET', path: '/admin/anime-videos', handler: animeVideo_controller.getAnimeVideos },
+      { method: 'POST', path: '/admin/anime-video', handler: animeVideo_controller.createAnimeVideo },
+      { method: 'PUT', path: '/admin/anime-video/:id', handler: validated_id.validateId( animeVideo_controller.updateAnimeVideo )},
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);

@@ -37,6 +37,7 @@ async function loadContent(url, dynamicData_id = 'dynamic-section', callback) {
                   }
             } else {
                   console.error(`Element with ID ${dynamicData_id} does not exist`);
+                  showToast(`Element with ID ${dynamicData_id} does not exist`, 'error');
             }
       } catch(error) {
             showToast(error, 'error');

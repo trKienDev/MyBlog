@@ -4,7 +4,6 @@ import fetch_api from "../../../api/fetch.api.js";
 import { cloneResetForm } from "../../../components/form.component.js";
 import modal_component from "../../../components/modal.component.js";
 import selectSearch_component from "../../../components/select-search.component.js";
-import select_component from "../../../components/select.component.js";
 import table_component from "../../../components/table.component.js";
 import css_selectors from "../../../selectors/css.selectors.js";
 import id_selectors from "../../../selectors/element-id.selector.js";
@@ -12,12 +11,11 @@ import { error_sweetAlert, success_sweetAlert } from "../../../utils/sweet-alert
 import tags_utils from "../../../utils/tags.utils.js";
 import { showToast } from "../../../utils/toast-notification.js";
 import { uploadThumbnail } from "../../films/films.js";
-import tag_helper from "../../tags/tag.helper.js";
 
 let default_thumbnail = "/admin/static/images/film/thumbnail-upload_default.png";
 
 export async function initAnimeFilm() {
-      modal_component.initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.create_anime_film);
+      modal_component.initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.create_anime_film, resetAnimeModal);
       selectSearch_component.initSelectSearch(id_selectors.anime.film_studio, api_configs.endpoints.getAnimeStudios, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.film_series, api_configs.endpoints.getAnimeSeries, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.film_tag, api_configs.endpoints.getAnimeTagsByFilm, 'name');
@@ -31,7 +29,7 @@ export async function initAnimeFilm() {
 async function renderAnimeFilms() {
       const anime_films = await animes_api.getAnimeFilms();
 
-      const tbody = document.querySelector(`#${id_selectors.table.anime_table} tbody`);
+      const tbody = document.querySelector(`#${id_selectors.table.anime_films} tbody`);
       tbody.innerHTML = '';
 
       anime_films.forEach(async (film) => {
@@ -113,7 +111,6 @@ async function updateAnimeFilm(anime) {
                   const updatedAnime_form = buildUpdateAnimeForm(updated_fields);
 
                   try {
-                        console.log('update anime: ', updatedAnime_form);
                         const result = await fetch_api.updateForm(`${api_configs.endpoints.updateAnimeFilm}/${anime._id}`, updatedAnime_form);
                         if(result.success === false) throw new Error(result.error);
 
@@ -185,7 +182,7 @@ async function populateAnimeFilmForm(anime) {
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);
       selectTag_container.innerHTML = '';
-      await tag_helper.renderSelectedTags(anime.tag_ids, selectTag_container, animes_api.getAnimeTagById);
+      await tags_utils.renderSelectedTags(anime.tag_ids, selectTag_container, animes_api.getAnimeTagById);
 
       const anime_thumbnail = document.getElementById(id_selectors.thumbnail.thumbnail_image);
       anime_thumbnail.src = `${api_configs.server}/uploads/anime/films/${anime.thumbnail}`;

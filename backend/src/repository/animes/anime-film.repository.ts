@@ -68,7 +68,9 @@ function mappingDocToDTO(doc: iAnimeFilm): AnimeFilmDTO {
             studio_id: doc.studio_id.toString(),
             series_id: doc.series_id.toString(),
             tag_ids: doc.tag_ids.map(id => id.toString()),
-            video_ids: doc.video_ids?.map(id => id.toString()),
+            ...(doc.video_ids?.length && { 
+                  video_ids: doc.video_ids.map(id => id.toString())
+            }),
             year: doc.year,
             thumbnail: doc.thumbnail,
             rating: doc.rating,

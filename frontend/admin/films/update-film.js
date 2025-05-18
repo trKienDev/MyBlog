@@ -11,7 +11,6 @@ import { studio_api } from "../../api/studio.api.js";
 import tags_utils from "../../utils/tags.utils.js";
 import collection_api from "../../api/collection.api.js";
 import select_component from "../../components/select.component.js";
-import tag_helper from "../tags/tag.helper.js";
 import film_helper from "./film.helper.js";
 import tag_api from "../../api/tag.api.js";
 
@@ -174,7 +173,7 @@ async function populateFilmForm(film) {
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);
       selectTag_container.innerHTML = '';
-      await tag_helper.renderSelectedTags(film.tag_ids, selectTag_container, tag_api.getTagById);
+      await tags_utils.renderSelectedTags(film.tag_ids, selectTag_container, tag_api.getTagById);
       
       const film_thumbnail = document.getElementById(id_selectors.thumbnail.thumbnail_image);
       film_thumbnail.src = `${api_configs.server}/uploads/film/${film.thumbnail}`;

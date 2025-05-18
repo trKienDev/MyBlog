@@ -1,3 +1,4 @@
+import { showToast } from "../utils/toast-notification.js";
 import api_configs from "./api.config.js";
 
 async function apiGet(endpoint) {
@@ -5,7 +6,8 @@ async function apiGet(endpoint) {
             const response = await fetch(`${api_configs.server}${endpoint}`);
             if(!response.ok) {
                   const error = await response.json();
-                  return { success: false, error: error.message };
+                  showToast(error.error, 'error');
+                  return { success: false, error: error.error };
             }
             const result = await response.json();
             return { success: true, data: result };
@@ -22,7 +24,8 @@ async function createForm(endpoint, form) {
             });
             if(!response.ok) {
                   const error = await response.json();
-                  return { success: false, error: error.message };
+                  showToast(error.error, 'error');
+                  return { success: false, error: error.error };
             }
 
             const result = await response.json();
@@ -44,7 +47,8 @@ async function createJson(endpoint, data) {
 
             if(!response.ok) {
                   const error = await response.json();
-                  return { success: false, error: error.message };
+                  showToast(error.error, 'error');
+                  return { success: false, error: error.error };
             }
 
             const result = await response.json();
@@ -63,7 +67,8 @@ async function updateForm(endpoint, form) {
       
             if(!response.ok) {
                   const error = await response.json();
-                  return { success: false, error: error.message };
+                  showToast(error.error, 'error');
+                  return { success: false, error: error.error };
             }
       
             const result = await response.json();
@@ -81,7 +86,8 @@ async function apiDelete(endpoint) {
       
             if(!response.ok) {
                   const error = await response.json();
-                  return { success: false, error: error.message };
+                  showToast(error.error, 'error');
+                  return { success: false, error: error.error };
             }
             
             const result = await response.json();

@@ -9,18 +9,20 @@ import selectSearch_component from "../../components/select-search.component.js"
 import select_component from "../../components/select.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
+import spa_navigation from "../../services/spa/navigate-link.spa.js";
 import spa_renderHTML from "../../services/spa/render-html.js";
+import image_utils from "../../utils/image.utils.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import tags_utils from "../../utils/tags.utils.js";
 import { showToast } from "../../utils/toast-notification.js";
+import video_utils from "../../utils/video.utils.js";
 import { getCodeByStudio } from "../films/films.js";
-import tag_helper from "../tags/tag.helper.js";
 import video_helpers from "./video.helper.js";
 
 const endpoint = api_configs.endpoints.adminEditVideoPage;
 
 export function redirectToEditVideoPage(ivideo) {
-      spa_renderHTML.loadContentFromUrl(endpoint, () => initEditVideoAdmin(ivideo)); // truyền initEditVideoAdmin như là 1 hàm callback trong loadContentFromUrl 
+      spa_renderHTML.loadContentFromUrl(endpoint, id_selectors.section.dynamic_section, () => initEditVideoAdmin(ivideo)); 
 }
 
 async function initEditVideoAdmin(ivideo) {
@@ -29,12 +31,10 @@ async function initEditVideoAdmin(ivideo) {
       selectSearch_component.initSelectSearch(id_selectors.videos.video_tag, api_configs.endpoints.getTagsByVideo, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_playlist, api_configs.endpoints.getPlaylists, 'name');
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.videos.video_tag);
-      waitForUploadNewVideo();
-
+      video_utils.waitForUploadNewVideo();
       populateFilmInfo(ivideo);
       populateVideoInfo(ivideo);
       updateVideo(ivideo);
-
 }
 
 async function populateFilmInfo(ivideo) {
@@ -57,18 +57,9 @@ async function populateVideoInfo(ivideo) {
       await selectSearch_component.loadInfoSelectSearch(ivideo, id_selectors.videos.video_creator, 'creator_id', creator_api.getCreatorName);
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);    
-      await tag_helper.renderSelectedTags(ivideo.tag_ids, selectTag_container, tag_api.getTagById);
+      await tags_utils.renderSelectedTags(ivideo.tag_ids, selectTag_container, tag_api.getTagById);
 
-      const video_url = `${api_configs.server}/uploads/videos/${ivideo.file_path}`;
-      const video_element = document.querySelector('video');
-      const source_element = video_element.querySelector('source');
-      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
-      source_element.src = video_url;
-
-      video_element.load();
-
-      video_element.classList.remove('d-none');
-      thumbnail_image.style.display = 'none';
+      video_utils.populateVideo(ivideo, 'uploads/videos');
 }
 
 async function renderFilmOfUpdatedVideo(ifilm) {
@@ -79,7 +70,7 @@ async function renderFilmOfUpdatedVideo(ifilm) {
       checkbox.checked = true;
       tr.classList.add('selected');
 
-      video_helpers.loadThumbnailOfSelectedFIlm(ifilm);
+      image_utils.loadThumbnailOfSelectedFilm(ifilm, 'uploads/film');
 
       tbody.appendChild(tr);
 }
@@ -99,16 +90,6 @@ function updateVideo(ivideo) {
                   error_sweetAlert(error);
             }
       });
-}
-
-function waitForUploadNewVideo() {
-      const upload_btn = document.getElementById('upload-new_video');
-      const upload_input = document.getElementById(id_selectors.videos.upload_video);
-      upload_btn.addEventListener('click', () => {
-            upload_input.click();
-      });
-
-      upload_input.addEventListener('change', video_helpers.handleVideoUpload);
 }
 
 function collectVideoInfo() {
@@ -152,10 +133,8 @@ function collectVideoInfo() {
 function getUpdatedVideoFields(ivideo, video_info) {
       const changes = {};
       
-      if(video_info.video_name != null && video_info.video_name !== ivideo.video_name) {
-            changes.video_name = video_info.video_name;
-      }
-
+      changes.video_name = video_info.video_name;
+      
       const id_fields = ['action_id', 'creator_id', 'film_id', 'code_id', 'studio_id', 'playlist_id'];
       id_fields.forEach(function(field) {
             if(video_info[field] != null && video_info[field] !== ivideo[field]) {
@@ -193,12 +172,7 @@ function getUpdatedVideoFields(ivideo, video_info) {
 
 function buildVideoForm(updated_fields) {     
       const video_form = new FormData();
-      if(updated_fields.video_name) {
-            video_form.append("name", updated_fields.video_name);
-      }
-      if(updated_fields.film_id) {
-            video_form.append("film_id", updated_fields.film_id);
-      }
+      video_form.append("film_id", updated_fields.film_id);
       if(updated_fields.code_id) {
             video_form.append("code_id", updated_fields.code_id);
       }

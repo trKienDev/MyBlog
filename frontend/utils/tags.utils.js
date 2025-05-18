@@ -73,9 +73,28 @@ function resetTagSelection(id) {
       tag_container.innerHTML = '';
 }
 
+/**
+ * Lấy thông tin tag rồi tạo div và append vào container
+ * @param {string[]} tagIds  Mảng các _id của tag
+ * @param {HTMLElement} container  Phần tử DOM chứa các tag
+ */
+async function renderSelectedTags(tag_ids, container, getTagByIdFunc) {
+      for (const tag_id of tag_ids) {
+            const tag = await getTagByIdFunc(tag_id);
+            const tag_div = div_component.createDiv({
+                  icss_class: css_selectors.tags.selected_tag,
+                  idiv_id:    tag._id,
+                  idiv_name:  tag.name
+            });
+            // 3. Gắn vào container
+            container.appendChild(tag_div);
+      }
+}
+
 const tags_utils = {
       displaySelectedTag,
       getSelectedTags,
       resetTagSelection,
+      renderSelectedTags,
 }
 export default tags_utils;

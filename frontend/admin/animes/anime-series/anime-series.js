@@ -44,6 +44,7 @@ async function createAnimeSeries() {
                   getAnimeSeries();
             } catch(error) {
                   console.error('Error creating anime series: ', error.message);
+                  error_sweetAlert(error);
             }
       });
 }

@@ -15,6 +15,7 @@ const videos = {
       video_name: 'video-name',
       video_tags: 'video-tags',
       video_views: 'video-views',
+      video_info: 'video-info',
 }
 const creators = {
       creator_image: 'creator-image',

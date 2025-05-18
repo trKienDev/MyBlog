@@ -14,8 +14,18 @@ const getAnimeFilms = async(req: IncomingMessage, res: ServerResponse) => {
             if(anime_films == null) {
                   return sendError(res, 500, 'Failed to get anime films');
             }
-            
+
             return sendResponse(res, 200, anime_films);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
+const findAnimeById = async(req: ValidateIdRequest, res: ServerResponse) => {
+      try {
+            const id = req.params?.id;
+            const anime = await repository.findById(id);
+            return sendResponse(res, 200, anime);
       } catch(error) {
             return sendError(res, 500, error);
       }
@@ -43,6 +53,7 @@ const updateAnimeFilm = async(req: ValidateIdRequest, res: ServerResponse) => {
 
 const animeFilm_controller = {
       getAnimeFilms,
+      findAnimeById,
       createAnimeFilm,
       updateAnimeFilm,
 }

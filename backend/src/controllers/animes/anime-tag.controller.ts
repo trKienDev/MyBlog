@@ -38,6 +38,24 @@ const getAnimeTagsByFilm = async(req: IncomingMessage, res: ServerResponse) => {
       }
 }
 
+const getAnimeTagByAction = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const tags_action = await repository.getAnimeTagByAction();
+            return sendResponse(res, 200, tags_action);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
+const getAnimeVideoTags = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const tags = await repository.getAnimeVideoTags();
+            return sendResponse(res, 200, tags);
+      } catch(error) {
+            return sendError(res, 500, error);
+      }
+}
+
 const createAnimeTag = async(req: IncomingMessage, res: ServerResponse) => {
       try {
             const created_animeTag = await service.createAnimeTag(req);
@@ -50,7 +68,9 @@ const createAnimeTag = async(req: IncomingMessage, res: ServerResponse) => {
 const animeTag_controller = {
       getAnimeTags,
       getAnimeTagById,
+      getAnimeTagByAction,
       getAnimeTagsByFilm,
+      getAnimeVideoTags,
       createAnimeTag,
 }
 export default animeTag_controller;

@@ -1,36 +1,90 @@
 import animes_api from "../../../api/anime.api.js";
 import api_configs from "../../../api/api.config.js";
+import fetch_api from "../../../api/fetch.api.js";
 import selectSearch_component from "../../../components/select-search.component.js";
-import table_component from "../../../components/table.component.js";
+import css_selectors from "../../../selectors/css.selectors.js";
 import id_selectors from "../../../selectors/element-id.selector.js";
-import { error_sweetAlert } from "../../../utils/sweet-alert.js";
+import image_utils from "../../../utils/image.utils.js";
+import { error_sweetAlert, success_sweetAlert } from "../../../utils/sweet-alert.js";
+import tags_utils from "../../../utils/tags.utils.js";
+import video_utils from "../../../utils/video.utils.js";
 
-export function initCreateAnimeVideo() {
-      // initSearchAnimeFilm();
+export async function initCreateAnimeVideo() {
+      selectSearch_component.initSelectSearch(id_selectors.anime.anime_film, api_configs.endpoints.getAnimeFilms, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.anime.anime_action, api_configs.endpoints.getAnimeTagsByAction, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.anime.anime_tag, api_configs.endpoints.getAnimeVideoTags, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.anime.anime_playlist, api_configs.endpoints.getAnimePlaylists, 'name');
+      tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.anime.anime_tag);
+      video_utils.waitForUploadVideo(id_selectors.videos.thumbnail_video, id_selectors.videos.upload_video);
+      image_utils.displayThumbnailOfSelectedSearchFilm(id_selectors.anime.anime_film, 'uploads/anime/films', animes_api.getAnimeFilmById);
+      createAnimeVideo();
 }
 
-async function initSearchAnimeFilm() {
-      try {
-            selectSearch_component.initSelectSearch('search-anime_film', api_configs.endpoints.getAnimeFilms, 'name');
-      } catch(error) {
-            console.error('Error init search anime film');
-            error_sweetAlert(error);
-      }
-}
+function createAnimeVideo() {
+      const submitVideo_btn = document.getElementById(id_selectors.videos.submit_video_btn);
+      submitVideo_btn.addEventListener('click', async() => {
+            const video_info = collectAnimeVideoInfo();
+            const video_form = buildVideoForm(video_info);
+            console.log('video form: ', video_form);
+            try {
+                  const result = await fetch_api.createForm(api_configs.endpoints.createAnimeVideo, video_form);
+                  if(result.success === false) {
+                        throw new Error(result.error);
+                  }
 
-async function renderAnimeFIlm() {
-      const anime_films = await animes_api.getAnimeFilms();
-
-      const tbody = document.querySelector(`#${id_selectors.table.anime_table} tbody`);
-      tbody.innerHTML = '';
-
-      anime_films.forEach(async(anime) => {
-            const tr = table_component.createTrWithId(anime._id);
-
-            const name = table_component.createTextTd({ i_text: anime.name });
-            tr.appendChild(name);
-
-            
+                  success_sweetAlert("Video created successfully");
+                  resetCreateAnimeVideoForm();
+            } catch(error) {
+                  console.error('Error creating anime video: ', error);
+                  error_sweetAlert(error);
+            }
       });
+}
 
+function collectAnimeVideoInfo() {
+      const film_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_film, 'id');
+      const film_name = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_film, 'text');
+
+      const action_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_action, 'id');
+      const action_text = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_action, 'text');
+
+      const video_name = film_name + '_' + action_text;
+
+      const playlist_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_playlist, 'id');
+      const tag_ids = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
+
+      if(tag_ids.length === 0) {
+            showToast('Please select at least a tag', 'warning');
+            return;
+      }
+
+      const upload_input = document.getElementById(id_selectors.videos.upload_video);
+      const file = upload_input.files[0];
+      if(!file) {
+            showToast('Please upload your video', 'warning');
+            return;
+      }
+
+      return { video_name, film_id, action_id, playlist_id, tag_ids, file};
+}
+
+function buildVideoForm(video_info) {
+      const video_form = new FormData();
+      video_form.append("name", video_info.video_name);
+      video_form.append("action_id", video_info.action_id);
+      video_form.append("film_id", video_info.film_id);
+      video_form.append("playlist_id", video_info.playlist_id);
+      video_form.append("tag_ids", video_info.tag_ids);
+      video_form.append("file", video_info.file);
+
+      return video_form;
+}
+
+function resetCreateAnimeVideoForm() {
+      video_utils.resetVideoPreview();
+      tags_utils.resetTagSelection(id_selectors.container.selected_tag);
+      selectSearch_component.resetSelectSearch([
+            { id: id_selectors.anime.anime_action, placeholder: "Select Action" },
+            { id: id_selectors.anime.anime_playlist, placeholder: "Select Playlist" },
+      ]);
 }

@@ -8,6 +8,7 @@ import css_selectors from "../../selectors/css.selectors.js";
 import fetch_api from "../../api/fetch.api.js";
 import tags_utils from "../../utils/tags.utils.js";
 import video_helpers from "./video.helper.js";
+import video_utils from "../../utils/video.utils.js";
 
 export function initCreateVideo() {
       initSearchFilm();
@@ -17,7 +18,7 @@ export function initCreateVideo() {
       selectSearch_component.initSelectSearch(id_selectors.videos.video_tag, api_configs.endpoints.getTagsByVideo, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_playlist, api_configs.endpoints.getPlaylists, 'name');
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.videos.video_tag);
-      video_helpers.waitForUploadVideo(id_selectors.videos.thumbnail_video, id_selectors.videos.upload_video);
+      video_utils.waitForUploadVideo(id_selectors.videos.thumbnail_video, id_selectors.videos.upload_video);
       createVideo();
 }
 
@@ -35,12 +36,7 @@ function createVideo() {
                   }
 
                   success_sweetAlert("Video created successfully");
-                  resetVideoPreview();
-                  tags_utils.resetTagSelection(id_selectors.container.selected_tag);
-                  selectSearch_component.resetSelectSearch([
-                        { id: id_selectors.videos.video_action, placeholder: "Select Action" },
-                        { id: id_selectors.videos.video_playlist, placeholder: "Select Playlist" },
-                  ]);
+                  resetCreateVideoForm();
             } catch(error) {
                   console.error('Error creating video: ', error.message);
                   error_sweetAlert(error);
@@ -110,18 +106,11 @@ function buildVideoForm(video_info) {
       return video_form;
 }
 
-// reset form
-function resetVideoPreview() {
-      const video_element = document.querySelector('video');
-      const source_element = video_element.querySelector('source');
-      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
-      const upload_input = document.getElementById(id_selectors.videos.upload_video);
-
-      source_element.src = "";
-      video_element.load();
-
-      video_element.classList.add('d-none');
-      thumbnail_image.style.display = "";
-      upload_input.value = "";
+function resetCreateVideoForm() {
+      video_utils.resetVideoPreview();
+      tags_utils.resetTagSelection(id_selectors.container.selected_tag);
+      selectSearch_component.resetSelectSearch([
+            { id: id_selectors.videos.video_action, placeholder: "Select Action" },
+            { id: id_selectors.videos.video_playlist, placeholder: "Select Playlist" },
+      ]);
 }
-

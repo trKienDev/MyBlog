@@ -5,6 +5,7 @@ import table_component from "../../components/table.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import date_utils from "../../utils/date.js";
+import image_utils from "../../utils/image.utils.js";
 import film_helper from "../films/film.helper.js";
 
 async function renderFilmsTable(films, tbody) {
@@ -12,7 +13,18 @@ async function renderFilmsTable(films, tbody) {
 
       for (const film of films) {
             let { tr, checkbox } = await createFilmTr(film);
-            tr = table_component.handleTrSelection(id_selectors.table.search_film, tr, checkbox, film, loadThumbnailOfSelectedFIlm);
+
+            const onTrSelectedHandler = (selected_film) => {
+                  image_utils.loadThumbnailOfSelectedFilm(selected_film, 'uploads/film');
+            }
+
+            tr = table_component.handleTrSelection(
+                  id_selectors.table.search_film, 
+                  tr, 
+                  checkbox, 
+                  film,
+                  onTrSelectedHandler,
+            );
             tbody.appendChild(tr);
       }
 
@@ -40,18 +52,11 @@ async function createFilmTr(film) {
       return { tr, checkbox: filmCheckbox_element };
 }
 
-function loadThumbnailOfSelectedFIlm(ifilm) {
-      const thumbnail_element = document.getElementById(id_selectors.thumbnail.thumbnail_image);
-      thumbnail_element.src = `${api_configs.server}/uploads/film/${ifilm.thumbnail}`;
-      thumbnail_element.alt = `${ifilm.name} thumbnail`;
-
-      return thumbnail_element;
-}
-
 async function createSearchFilmBtn(button_id) {
       let search_btn = document.getElementById(button_id);
       return handleSearchFilmBtn(search_btn);
 }
+
 async function handleSearchFilmBtn(search_btn) {
       search_btn.addEventListener('click', async () => {
             const studio = document.getElementById(id_selectors.films.film_studio),
@@ -73,16 +78,6 @@ async function handleSearchFilmBtn(search_btn) {
       return search_btn;
 }
 
-function waitForUploadVideo(thumbnail_video, upload_video) {
-      const thumbnail = document.getElementById(thumbnail_video);
-      const upload_input = document.getElementById(upload_video);
-
-      thumbnail.addEventListener('click', () => {
-            upload_input.click();
-      });
-
-      upload_input.addEventListener('change', handleVideoUpload);
-}
 
 function handleVideoUpload(event) {
       const file = event.target.files[0];
@@ -106,8 +101,6 @@ const video_helpers = {
       renderFilmsTable,
       createFilmTr,
       createSearchFilmBtn,
-      loadThumbnailOfSelectedFIlm,
-      waitForUploadVideo,
       handleVideoUpload,
 }
 export default video_helpers;

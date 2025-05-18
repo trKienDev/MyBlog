@@ -6,7 +6,6 @@
 }
 #create-video_btn {
       margin-top: 20px;
-      width: fit-content;
 }
 #list-video_section {
       margin-top: 50px;
@@ -20,7 +19,7 @@
 }
 /* video table */
 #videos-table table {
-      width: 70%;
+      width: 80%;
 }
 #videos-table .video-td {
       display: flex;

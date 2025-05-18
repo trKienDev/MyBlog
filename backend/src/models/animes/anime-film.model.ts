@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
 export interface iAnimeFilm extends Document {
       _id: mongoose.Types.ObjectId;
@@ -17,7 +17,7 @@ const AnimeFilmSchema: Schema = new Schema({
       studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Studio' },
       series_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Series' },
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Tag' }],
-      video_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Video'},
+      video_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Anime-Video', require: false }],
       year: { type: Number },
       thumbnail: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
       rating: { type: Number },

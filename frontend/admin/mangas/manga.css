@@ -1,0 +1,35 @@
+#admin-mangas .body {
+      display: block;
+}
+#create-manga_btn {
+      margin-top: 20px;
+}
+#create-manga_btn #open-modal_btn {
+      width: fit-content;
+}
+#create-manga_btn #open-modal_btn i {
+      display: flex;
+      align-items: center;
+}
+#list-manga_section {
+      margin-top: 50px;
+}
+
+
+/* create manga */
+#create-manga_form {
+      width: 40%;
+}
+#create-manga #form {
+      width: 100%;
+}
+#upload-images_btn {
+      margin-left: 50px;
+}
+#upload-images_btn .primary-btn {
+      width: fit-content;
+}
+#upload-images_btn i {
+      display: flex;
+      align-items: center;
+}

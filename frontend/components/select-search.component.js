@@ -93,10 +93,29 @@ function getSelectedOptionValue(select_id, option) {
       }
 }
 
+function getClickedOptionValue(select_id, callback) {
+      const wrapper = document.getElementById(select_id);
+      const options = wrapper.querySelector(".options");
+
+      if (options) {
+            const event_handler = (e) => {
+                  if(e.target && e.target.nodeName === "LI") {
+                        const id = e.target.getAttribute('value');
+                        if(typeof callback === 'function') {
+                              callback(id);
+                        }
+
+                  }
+            };
+
+            options.addEventListener('click', event_handler);
+      }
+}
+
 function resetSelectSearch(configs) {
       configs.forEach(({ id, placeholder }) => {
-            const studioSelect_element = document.getElementById(id),
-            select_btn = studioSelect_element.querySelector(".select-btn"),
+            const select_element = document.getElementById(id),
+            select_btn = select_element.querySelector(".select-btn"),
             span = select_btn.querySelector("span");
             span.removeAttribute("item-id");
             span.innerText = placeholder;
@@ -115,6 +134,7 @@ const selectSearch_component = {
       initSelectSearch,
       loadInfoSelectSearch,
       getSelectedOptionValue,
+      getClickedOptionValue,
       resetSelectSearch,
 };
 export default selectSearch_component;

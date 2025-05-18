@@ -23,6 +23,10 @@ const api_configs = {
             adminAnimeFilmsPage: '/admin/animes/anime-films/anime-film.html',
             adminAnimeVideosPage: '/admin/animes/anime-videos/anime-video.html',
             adminAnimeCreateVideosPage: '/admin/animes/anime-videos/create-anime-video.html',
+            adminAnimeEditVIdeoPage: '/admin/animes/anime-videos/edit-anime-video.html',
+            adminAnimePlaylistPage: '/admin/animes/anime-playlists/anime-playlist.html',
+            adminMangaPage: '/admin/mangas/manga.html',
+            adminCreateMangaPage: '/admin/mangas/create-manga.html',
             tagsSection: '/sections/tags/tags.section.html',
             // creator
             getCreators: '/admin/creators', // GET
@@ -77,12 +81,23 @@ const api_configs = {
             // anime-tags
             getAnimeTags: '/admin/anime-tags', // GET
             getAnimeTagById: '/admin/anime-tag', // GET
-            getAnimeTagsByFilm: '/admin/anime-tags/film', // GET
+            getAnimeTagsByFilm: '/admin/anime-tags/film', // GET'
+            getAnimeTagsByAction: '/admin/anime-tags/action', // GET
+            getAnimeVideoTags: '/admin/anime-tags/video', // GET
             createAnimeTag: '/admin/anime-tag', // POST
             // anime-films
             getAnimeFilms: '/admin/anime-films', // GET
+            getAnimeFilmById: '/admin/anime-film', // GET
             createAnimeFilm: '/admin/anime-film', // POST
             updateAnimeFilm: '/admin/anime-film', // PUT
+            // anime-playlist
+            getAnimePlaylists: '/admin/anime-playlists', // GET
+            getAnimePlaylistById: '/admin/anime-playlist', // GET
+            createAnimePlaylist: '/admin/anime-playlist', // POST 
+            // anime-video
+            getAnimeVideos: '/admin/anime-videos', // GET
+            createAnimeVideo: '/admin/anime-video', // POST
+            updateAnimeVideo: '/admin/anime-video', // PUT
       }
 }
 

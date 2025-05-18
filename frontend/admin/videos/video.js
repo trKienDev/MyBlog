@@ -10,14 +10,12 @@ import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import spa_navigation from "../../services/spa/navigate-link.spa.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
-import tag_helper from "../tags/tag.helper.js";
+import tags_utils from "../../utils/tags.utils.js";
 import { initCreateVideo } from "./create-video.js";
 import { redirectToEditVideoPage } from "./edit-video.js";
 
-let dynamic_section = 'dynamic-section';
-
 export async function initVideoAdmin() {
-      spa_navigation.navigateLink(id_selectors.buttons.create_video_btn, dynamic_section, api_configs.endpoints.adminCreateVideoPage, initCreateVideo);
+      spa_navigation.navigateLink(id_selectors.buttons.create_video_btn, id_selectors.section.dynamic_section, api_configs.endpoints.adminCreateVideoPage, initCreateVideo);
       renderListVideo();
 }     
 
@@ -27,6 +25,7 @@ async function renderListVideo() {
             tbody.innerHTML = '';
             
             const videos = await video_api.getVideos();
+            console.log('videos: ', videos);
             videos.forEach(async (video) => {
                   const tr = table_component.createTrWithId(video._id);
                   
@@ -38,17 +37,10 @@ async function renderListVideo() {
                   const video_td = await table_component.createVideoTdFromApi({ ifile_path: video.file_path, 
                                                                                                                               iupload_path: 'videos',
                                                                                                                               icss: css_selectors.videos.video_td });
-
                   const video_name = span_component.createSpanText(video.name, css_selectors.videos.video_name);
-
                   const videoTags_container = div_component.createDiv({ icss_class: css_selectors.videos.video_tags, idiv_id: id_selectors.videos.video_tags});
-                  await tag_helper.renderSelectedTags(video.tag_ids, videoTags_container, tag_api.getTagById);
-                  
-                  const video_info = document.createElement('div');
-                  video_info.classList.add('video-info');
-                  video_info.appendChild(video_name);
-                  video_info.appendChild(videoTags_container);
-
+                  await tags_utils.renderSelectedTags(video.tag_ids, videoTags_container, tag_api.getTagById);
+                  const video_info = div_component.createVideoInfoDiv(video_name, css_selectors.videos.video_info, videoTags_container);
                   video_td.appendChild(video_info);
                   tr.appendChild(video_td);
 
