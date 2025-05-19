@@ -8,7 +8,7 @@ export class MangaService {
             this.repository = MangaRepository;
       }
 
-      async createManga(req: CustomRequest): Promise<MangaDTO> {
-            const 
-      }
+      // async createManga(req: CustomRequest): Promise<MangaDTO> {
+      //       const 
+      // }
 }

@@ -16,13 +16,13 @@ let defaultImg = "/admin/static/images/face/upload-profile.jpg";
 const { initModal, resetModal } = modal_component;
 
 export function initCreatorAdmin() {
-      RenderCreators(tableBody);
-      CreateNewCreator();
+      renderCreators(tableBody);
+      createNewCreator();
       initModal("open-modal_button", "close-modal_button", modalId, () => resetModal(formId, imgId, imgInputId, defaultImg ));
       HandleImageUpload("img", "image-upload");
 }
 
-async function RenderCreators(element) {
+async function renderCreators(element) {
       try {
             const result = await fetch_api.apiGet(api_configs.endpoints.getCreators);
             if(result.success === false) {
@@ -38,7 +38,7 @@ async function RenderCreators(element) {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', creator._id);
 
-                  const editBtn = table_component.createEditBtn(css_selectors.container.edit_container, creator, UpdateCreator);
+                  const editBtn = table_component.createEditBtn(css_selectors.container.edit_container, creator, updateCreator);
                   tr.appendChild(editBtn);
 
                   const name = table_component.createTextTd({ i_text: creator.name });
@@ -65,7 +65,7 @@ async function RenderCreators(element) {
       }
 }
 
-async function CreateNewCreator() {
+async function createNewCreator() {
       const { form, modal, imgInput, image } = getELement();
       const resetOptions = { form, image, imgInput, modal, defaultImg };
 
@@ -92,7 +92,7 @@ async function CreateNewCreator() {
       }
 }
 
-async function UpdateCreator(creator) {
+async function updateCreator(creator) {
       const { form, modal, imgInput, image } = getELement();
       
       const resetOptionss = { form, image, imgInput, modal, defaultImg};

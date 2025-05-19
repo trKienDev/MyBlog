@@ -17,6 +17,10 @@
 
 
 /* create manga */
+.create-manga_section {
+      display: flex;
+      margin-top: 30px;
+}
 #create-manga_form {
       width: 40%;
 }
@@ -32,4 +36,27 @@
 #upload-images_btn i {
       display: flex;
       align-items: center;
+}
+
+/* preview manga images */
+.preview-manga_section {
+      margin-top: 50px;
+}
+.upload-images_list {
+      display: flex;
+      flex-wrap: wrap; 
+      gap: 10px; 
+      justify-content: flex-start; 
+      align-items: flex-start;
+      margin: 0 -5px;
+}
+.image-frame {
+      width: 200px; 
+      flex-basis: 200px; 
+      margin: 5px; 
+}
+.manga-image {
+      max-width: 100%; 
+      height: auto; 
+      display: block; 
 }
