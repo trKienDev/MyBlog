@@ -4,6 +4,13 @@ export function initCreateMangaAdmin() {
       uploadMangaImages();
 }
 
+function createManga() {
+      const createManga_btn = document.getElementById('create-manga_btn');
+      createManga_btn.addEventListener('click', async() => {
+            
+      });
+}
+
 function uploadMangaImages() {
       const createManga_section = document.getElementById('create-manga');
       const updloadImage_list = createManga_section.querySelector('.upload-images_list');
