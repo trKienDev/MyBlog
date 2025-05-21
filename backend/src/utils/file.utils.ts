@@ -47,6 +47,17 @@ const handleMulterUpload = (req: CustomRequest, upload: Multer): Promise<void> =
             });
       });
 };
+const handleMulterUploadArray = (req: CustomRequest, upload: Multer, fieldName: string, maxCount?: number): Promise<void> => {
+      return new Promise((resolve, reject) => {
+            const uploader = maxCount ? upload.array(fieldName, maxCount) : upload.array(fieldName);
+            uploader(req as any, {} as any, (err: any) => { 
+                  if (err) {
+                        return reject(err);
+                  }
+                  resolve();
+            });
+      });
+};
 
 // Hàm đổi tên file
 const renameUploadedFile = (uploadPath: string, originalFileName: string, name: string): Promise<string> => {
@@ -78,16 +89,13 @@ export const uploadFile = async (req: CustomRequest, folder: string): Promise<{ 
                   fileFilter: FileFilter 
             });
             
-            // Xử lý upload file
             await handleMulterUpload(req, upload);
 
-            // Lấy thông tin từ req.body
             const id = ExtractIdFromRequest(req);
             const name = ExtractNameFromRequest(req);
             
             let file_name = "";
             if ((req as any).file) {
-                  // Nếu có file, đổi tên file
                   const file = (req as any).file as { filename: string };
                   file_name = await renameUploadedFile(uploadPath, file.filename, name);
             }
@@ -98,3 +106,45 @@ export const uploadFile = async (req: CustomRequest, folder: string): Promise<{ 
             throw error;
       }
 };
+
+/**
+ * Hàm UploadFiles xử lý việc nhận nhiều file upload từ một trường, đổi tên các file và trả về thông tin.
+ * Mặc định trường file là "file".
+ */
+const uploadFiles = async ( 
+      req: CustomRequest, 
+      folder: string, 
+      fieldName: string = "file", 
+      maxCount?: number): Promise<{ name: string, file_names: string[] }> => {
+      try {
+            const uploadPath = getUploadPath(folder);
+            ensureUploadPathExists(uploadPath);
+
+            const storage = createMulterStorage(uploadPath);
+            const upload = multer({ storage, fileFilter: FileFilter });
+
+            await handleMulterUploadArray(req, upload, fieldName, maxCount);
+
+            const id = ExtractIdFromRequest(req);
+            const nameFromRequest = ExtractNameFromRequest(req);
+
+            const uploadedFileNames: string[] = [];
+            if ((req as any).files && Array.isArray((req as any).files)) {
+                  const files = (req as any).files as Express.Multer.File[];
+                  for (const file of files) {
+                        const new_file_name = await renameUploadedFile(uploadPath, file.filename, nameFromRequest);
+                        uploadedFileNames.push(new_file_name);
+                  }
+            }
+
+            return { name: nameFromRequest, file_names: uploadedFileNames };
+      } catch (error) {
+            console.error(`Error in uploadFiles (folder: ${folder}, fieldName: ${fieldName}) - file.utils.ts: `, error);
+            throw error;
+      }
+};
+
+const file_utils = {
+      uploadFiles,
+}
+export default file_utils;

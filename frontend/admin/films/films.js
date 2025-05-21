@@ -41,8 +41,7 @@ export async function renderFilms(element) {
             tbody.innerHTML = '';
 
             films.forEach(async (film) => {
-                  const tr = document.createElement('tr');
-                  tr.setAttribute('data-id', film._id);
+                  const tr = table_component.createTrWithId(film._id);
 
                   const edit_btn = await table_component.createEditBtn(css_selectors.container.edit_container, film, updateFilm);
                   tr.appendChild(edit_btn);

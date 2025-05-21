@@ -1,21 +1,30 @@
 #admin-mangas .body {
       display: block;
 }
-#create-manga_btn {
-      margin-top: 20px;
-}
-#create-manga_btn #open-modal_btn {
+#admin-mangas .btn {
       width: fit-content;
 }
-#create-manga_btn #open-modal_btn i {
-      display: flex;
-      align-items: center;
+#create-manga_btn, #create-manga-tag_btn {
+      margin-top: 20px;
+}
+#create-manga-tag_btn {
+      margin-left: 20px;
 }
 #list-manga_section {
       margin-top: 50px;
 }
+#mangas-table {
+      width: 50%;
+}
 
-
+/* manga-tag modal */
+#manga-tag_modal .modal-content {
+      width: 15%;
+}
+#manga-tag_modal .save-button {
+      display: flex;
+      justify-content: center;
+}
 /* create manga */
 .create-manga_section {
       display: flex;
@@ -26,6 +35,12 @@
 }
 #create-manga #form {
       width: 100%;
+}
+#create-manga #form .col-left, #create-manga #form .col-right {
+      width: 48%;
+} 
+#create-manga #form .col-right textarea {
+      height: calc(100% - 10px);
 }
 #upload-images_btn {
       margin-left: 50px;

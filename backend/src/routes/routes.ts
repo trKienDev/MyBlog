@@ -24,28 +24,16 @@ export function handleRoutes(req: CustomRequest, res: ServerResponse) {
 export function createRouter(routes: Route[]) {
       return function(req: CustomRequest, res: ServerResponse) {
             const { url, method } = req;
-            // Tách query string (nếu có) khỏi url
             const [pathname] = url ? url.split('?') : [''];
-
-            // console.log("pathname: ", pathname);
-            // Duyệt qua danh sách routes để tìm route phù hợp
             const matchedRoute = routes.find(route => {
-                  // Tách route.path và pathname thành các segment
                   const routeSegments = route.path.split('/');
                   const pathSegments = pathname.split('/');
 
-                  // so sánh method
                   if(route.method !== method)  return false;
-
-                  // so sánh độ dài segment
                   if(routeSegments.length !== pathSegments.length) return false;
 
-                  // so khớp từng segment
                   for(let i = 0; i < routeSegments.length; i++) {
-                        // nếu segment dạng :id thì bỏ qua, coi như match
                         if(routeSegments[i].startsWith(':')) continue;
-                        
-                        // nếu segment thường thì phải khớp chính xác
                         if(routeSegments[i] !== pathSegments[i]) return false;
                   }
 
@@ -53,8 +41,6 @@ export function createRouter(routes: Route[]) {
             });
 
             if(matchedRoute) {
-                  // Nếu có tham số, ví dụ /admin/studio/:id
-                  // thì tách ra để truyền vào req (nếu cần)
                   const routeSegments = matchedRoute.path.split('/');
                   const pathSegments = pathname.split('/');
                   const params: any = {};

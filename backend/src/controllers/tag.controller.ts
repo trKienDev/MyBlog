@@ -12,6 +12,7 @@ export const getTags = async(req: IncomingMessage, res: ServerResponse) => {
             const tags = await repository.getTags();
             return sendResponse(res, 200, tags);
       } catch(error) {
+            console.error('Error getting tags: ', error);
             return sendError(res, 500, error);
       }
 }
@@ -25,6 +26,7 @@ const getTagById = async(req: ValidateIdRequest, res: ServerResponse) => {
             }
             return sendResponse(res, 200, tag);
       } catch(error) {
+            console.error('Error creating tags: ', error);
             return sendError(res, 500, error);
       }
 }
@@ -34,17 +36,9 @@ export const GetFilmTags = async(req: IncomingMessage, res: ServerResponse) => {
             const filmTags = await repository.getFilmTags();
             return sendResponse(res, 200, filmTags);
       } catch(error) {
+            console.error('Error getting tag by film: ', error);
             return sendError(res, 500, error);
       }     
-}
-
-export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
-      try {
-            const createdTag = await service.createTag(req);
-            sendResponse(res, 200, createdTag);
-      } catch(error) {
-            return sendError(res, 500, error);
-      }
 }
 
 const getTagsByVideo = async(req: IncomingMessage, res: ServerResponse) => {
@@ -52,6 +46,7 @@ const getTagsByVideo = async(req: IncomingMessage, res: ServerResponse) => {
             const tags_video = await repository.getTagsByVideo();
             return sendResponse(res, 200, tags_video);
       } catch(error) {  
+            console.error('Error getting tag by video: ', error);
             return sendError(res, 500, error);
       }
 }
@@ -61,6 +56,17 @@ const getTagsByAction = async(req: IncomingMessage, res: ServerResponse) => {
             const tags_action = await repository.getTagsByAction();
             return sendResponse(res, 200, tags_action);
       } catch(error) {
+            console.error('Error getting tag by video: ', error);
+            return sendError(res, 500, error);
+      }
+}
+
+export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const createdTag = await service.createTag(req);
+            sendResponse(res, 200, createdTag);
+      } catch(error) {
+             console.error('Error creating tag by film: ', error);
             return sendError(res, 500, error);
       }
 }

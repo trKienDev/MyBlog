@@ -8,58 +8,58 @@ import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 const repository = new FilmRepository();
 const service = new FilmService(repository);
 
-const getFilms = async(req: CustomRequest, res: ServerResponse) => {
+const getFilms = async(request: CustomRequest, response: ServerResponse) => {
       try {
             const films = await repository.getFilms();
-            if(films == null) {
-                  return sendError(res, 500, 'Failed to get films');
-            }
-            return sendResponse(res, 200, films);
+            return sendResponse(response, 200, films);
       } catch(error) {
-            return sendError(res, 500, error);
+            console.error('Error getting films: ', error);
+            return sendError(response, 500, error);
       }
 }
 
-const findFilmById = async(req: ValidateIdRequest, res: ServerResponse) => {
+const findFilmById = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const id = req.params?.id;
+            const id = request.params?.id;
             const film = await repository.findById(id);
             if(film == null) {
-                  return sendError(res, 404, 'film not found');
+                  return sendError(response, 404, 'film not found');
             }
-            return sendResponse(res, 200, film);
+            return sendResponse(response, 200, film);
       } catch(error) {
-            return sendError(res, 500, error);
+            console.error('Error getting film by id: ', error);
+            return sendError(response, 500, error);
       }
 }
 
-const findFilmsByStudioAndCode = async(req: CustomRequest, res: ServerResponse) => {
+const findFilmsByStudioAndCode = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const { studio_id, code_id } = req.params as { studio_id: string; code_id: string };
+            const { studio_id, code_id } = request.params as { studio_id: string; code_id: string };
             const films = await repository.findFilmsByStudioAndCode(studio_id, code_id);
-            return sendResponse(res, 200, films);
+            return sendResponse(response, 200, films);
       } catch(error) {
-            return sendError(res, 500, error);
+            console.error('Error finding film by studio and code: ', error);
+            return sendError(response, 500, error);
       }
 }
 
-const createFilm = async(req: CustomRequest, res: ServerResponse) => {
+const createFilm = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const newFilm = await service.createFilm(req);
-            sendResponse(res, 201, newFilm);
+            const newFilm = await service.createFilm(request);
+            sendResponse(response, 201, newFilm);
       } catch(error) {
             console.error("Error creating film: ", error);
-            return sendError(res, 500, error);
+            return sendError(response, 500, error);
       }
 }
 
-const updateFilm = async(req: ValidateIdRequest, res: ServerResponse) => {
+const updateFilm = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const updated_film = await service.updateFilm(req);
-            return sendResponse(res, 200, updated_film);
+            const updated_film = await service.updateFilm(request);
+            return sendResponse(response, 200, updated_film);
       } catch(error) {
             console.error("Error in updateFilm - film.controller: ", error);
-            return sendError(res, 500, error);
+            return sendError(response, 500, error);
       }
 }
 

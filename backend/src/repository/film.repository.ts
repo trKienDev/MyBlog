@@ -6,13 +6,8 @@ import { iFilm } from "../models/interface/ifilm.model.js";
 
 export class FilmRepository implements iFilmRepository {
       async getFilms(): Promise<FilmDTO[] | null> {
-            try {
-                  const films = await Film.find();
-                  return films.map(doc => mappingDocToDTO(doc));
-            } catch(error) {
-                  console.error('Error in GetFilms: ', error);
-                  return null;
-            }
+            const films = await Film.find();
+            return films.map(film => mappingDocToDTO(film));
       }
       
       async findById(id: string): Promise<FilmDTO | null> {

@@ -2,13 +2,19 @@
       <div class="container">
             <h1 class="heading-title">Manga Management</h1>
             <div class="body">
-                  <div id='create-manga_btn' class="create-video">
-                        <a href="create-manga.html">
-                              <div class="btn primary-btn d-flex" id="open-modal_btn">
-                                    <i class="fa-solid fa-square-plus"></i>
-                                    <span style="padding-left: 10px;">create new series</span>
+                  <div class="d-flex">
+                        <div id='create-manga_btn'>
+                              <a href="create-manga.html">
+                                    <div class="btn primary-btn d-flex">
+                                          <span>new manga</span>
+                                    </div>
+                              </a>
+                        </div>
+                        <div id='create-manga-tag_btn'>
+                              <div class="btn primary-btn" id="open-modal_btn">
+                                    <span>new tag</span>
                               </div>
-                        </a>
+                        </div>
                   </div>
                   <div id="list-manga_section">
                         <h3 class="heading-title">List mangas</h3>
@@ -17,7 +23,8 @@
                                     <thead>
                                           <tr>
                                                 <th style="width: 5%;"></th>
-                                                <th class="video">Series</th>
+                                                <th class="video">Manga</th>
+                                                <th class="video">Tags</th>
                                                 <th class="video-view" style="width: 5%;">views</th>
                                           </tr>
                                     </thead>
@@ -25,6 +32,23 @@
                               </table>
                         </div>
                   </div>
+            </div>
+      </div>
+
+      <div id="manga-tag_modal" class="modal">
+            <div class="modal-content">
+                  <div id="close-modal_button">
+                        <div class="btn-close">
+                              <i class="fa-solid fa-xmark"></i>
+                        </div>
+                  </div>
+                  <h2 style="text-align: center;">Create manga tag</h2>
+                  <form class="manga-tag_form" id="manga-tag_form">
+                        <input type="text" class="form-input" name="tag" id="tag" placeholder="tag" required>
+                        <div class="save-button">
+                              <button id="submit-btn" class="btn primary-btn" type="submit">Add</button>
+                        </div>
+                  </form>
             </div>
       </div>
 </section>

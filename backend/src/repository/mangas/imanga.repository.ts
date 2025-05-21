@@ -1,5 +1,7 @@
-import { MangaDTO } from "../../dtos/mangas/manga.dto";
+import { CreateMangaDTO, MangaDTO } from "../../dtos/mangas/manga.dto";
 
 export interface iMangaRepository {
-      createManga(data: MangaDTO): Promise<MangaDTO>;
+      getMangas(): Promise<MangaDTO[]>;
+      findMangaByName(name: string): Promise<MangaDTO | null>;
+      createManga(data: CreateMangaDTO): Promise<CreateMangaDTO>;
 }

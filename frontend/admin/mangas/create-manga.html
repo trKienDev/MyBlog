@@ -5,11 +5,38 @@
                   <div id="create-manga_form" class="primary-form">
                         <div class="form-container">
                               <div class="title">
-                                    <span>Add new series</span>
+                                    <span>Add new manga</span>
                               </div>
                               <div class="body">
                                     <form id="form" action="" method="POST">
-                                          <input type="text" class="form-input" name="name" id="name" placeholder="series name" required>
+                                          <div class="d-flex jt-space_between">
+                                                <div class="col-left">
+                                                      <input type="text" class="form-input" name="name" id="name" placeholder="manga" required>
+                                                      <div id="manga-tag">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select tag</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search tag ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div id="selected-tag_container" class="selected-tag_container">
+                                                                  
+                                                            </div>
+                                                            
+                                                      </div>
+                                                </div>
+                                                <div class="col-right">
+                                                      <textarea name="manga-description" id="manga-description" placeholder="description"></textarea>
+                                                </div>
+                                          </div>
                                           <div class="button">
                                                 <button id="create-manga_btn" class="btn primary-btn"  type="submit">Add</button>
                                           </div>

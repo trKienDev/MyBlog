@@ -216,6 +216,7 @@ const table_component = {
       createVideoTdFromApi,
       createSelectCheckboxTd,
       handleTrSelection,
+
 };
 export default table_component;
 

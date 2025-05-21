@@ -8,6 +8,8 @@ import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../control
 import collection_controller from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
+import mangaTag_controller from "../controllers/mangas/manga-tag.controller.js";
+import { manga_controller } from "../controllers/mangas/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
 import studio_controller, { CreateStudio, DeleteStudio, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
 import { getTags, createTag, GetFilmTags, tag_controller } from "../controllers/tag.controller.js";
@@ -88,6 +90,15 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/anime-videos', handler: animeVideo_controller.getAnimeVideos },
       { method: 'POST', path: '/admin/anime-video', handler: animeVideo_controller.createAnimeVideo },
       { method: 'PUT', path: '/admin/anime-video/:id', handler: validated_id.validateId( animeVideo_controller.updateAnimeVideo )},
+
+      // manga
+      { method: 'GET', path: '/admin/mangas', handler: manga_controller.getMangas },
+      { method: 'POST', path: '/admin/manga', handler: manga_controller.createManga },
+      // manga-tag
+      { method: 'GET', path: '/admin/manga-tags', handler: mangaTag_controller.getMangaTags },
+      { method: 'POST', path: '/admin/manga-tag', handler: mangaTag_controller.createMangaTag },
+      
+
 ]
 
 export const handleAdminRoutes = createRouter(adminRoutes);

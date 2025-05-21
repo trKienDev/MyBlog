@@ -17,7 +17,8 @@ const anime = {
 const buttons = {
       submit_btn: 'submit-btn',
       create_video_btn: 'create-video_btn',
-      create_manga_btn: 'create-manga_btn',
+      create_manga: 'create-manga_btn',
+      create_manga_tag: 'create-manga-tag_btn',
 }
 const code = {
       code_id: 'code-id',
@@ -42,12 +43,19 @@ const films = {
       search_film: 'search-film',
       film_id: 'film-id',
 }
+const form = {
+      manga_tag: 'manga-tag_form',
+}
+const manga = {
+      manga_tag: 'manga-tag',
+}
 const modal = {
       create_film: 'create-film_modal',
       create_anime_film: 'create-anime-film_modal',
       open_button: 'open-modal_btn',
       close_button: 'close-modal_button',
       admin_studio_modal: 'admin-studio_modal',
+      manga_tag: 'manga-tag_modal',
 }
 const studio = {
       studio_id: 'studio_id',
@@ -73,6 +81,7 @@ const table = {
       search_anime: 'search-anime_table',
       anime_playlist: 'anime-playlists_table',
       anime_videos: 'anime-videos_table',
+      mangas_table: 'mangas-table',
 }
 const videos = {
       video_action: 'video-action',
@@ -95,6 +104,8 @@ const id_selectors = {
       container,
       date,
       films,
+      form,
+      manga,
       modal,
       thumbnail,
       table,

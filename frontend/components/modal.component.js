@@ -33,7 +33,7 @@ function resetModal(formId, imgId, imgInputId, defaultImg) {
       const form = document.getElementById(formId);
       const image = document.getElementById(imgId);
       const imgInput = document.getElementById(imgInputId);
-
+      
       if(form) form.reset();
       if(image) image.src = defaultImg || "/admin/static/images/studio/studio-upload.png";
       if(imgInput) imgInput.value = "";
