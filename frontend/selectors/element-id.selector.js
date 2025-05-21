@@ -67,6 +67,8 @@ const studio = {
 const section = {
       anime_section: 'anime-section',
       dynamic_section: 'dynamic-section',
+      tag_section: 'tags-section',
+      new_video: 'new-videos-section',
 }
 const thumbnail = {
       thumbnail_image: 'thumbnail-image',

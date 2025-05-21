@@ -28,7 +28,11 @@ const api_configs = {
             adminMangaPage: '/admin/mangas/manga.html',
             adminCreateMangaPage: '/admin/mangas/create-manga.html',
             adminCreateMangaTagPage: '/admin/mangas/create-manga-tags.html',
+
+            // section
             tagsSection: '/sections/tags/tags.section.html',
+            newVideosSection: '/sections/new-videos/new-video.section.html',
+
             // creator
             getCreators: '/admin/creators', // GET
             getCreatorById: '/admin/creator', // GET
