@@ -5,12 +5,12 @@ import { cloneResetForm } from "../../../components/form.component.js";
 import modal_component from "../../../components/modal.component.js";
 import selectSearch_component from "../../../components/select-search.component.js";
 import table_component from "../../../components/table.component.js";
+import thumbnail_component from "../../../components/thumbnail.component.js";
 import css_selectors from "../../../selectors/css.selectors.js";
 import id_selectors from "../../../selectors/element-id.selector.js";
 import { error_sweetAlert, success_sweetAlert } from "../../../utils/sweet-alert.js";
 import tags_utils from "../../../utils/tags.utils.js";
 import { showToast } from "../../../utils/toast-notification.js";
-import { uploadThumbnail } from "../../films/films.js";
 
 let default_thumbnail = "/admin/static/images/film/thumbnail-upload_default.png";
 
@@ -19,7 +19,7 @@ export async function initAnimeFilm() {
       selectSearch_component.initSelectSearch(id_selectors.anime.film_studio, api_configs.endpoints.getAnimeStudios, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.film_series, api_configs.endpoints.getAnimeSeries, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.film_tag, api_configs.endpoints.getAnimeTagsByFilm, 'name');
-      uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
+      thumbnail_component.uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, 'anime-film_tag');
       renderAnimeFilms();
       createAnimeFilm();
@@ -164,7 +164,7 @@ function initModalUI(anime) {
       selectSearch_component.initSelectSearch(id_selectors.anime.film_studio, api_configs.endpoints.getAnimeStudios, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.film_series, api_configs.endpoints.getAnimeSeries, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.film_tag, api_configs.endpoints.getAnimeTagsByFilm, 'name');
-      uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
+      thumbnail_component.uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
 }
 
 // Update

@@ -4,7 +4,7 @@ import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../../interfaces/validated-id-request.js";
 import { iAnimeVideoRepository } from "../../repository/animes/interfaces/ianime-video.repository.js";
 import { FileService } from "../../utils/file.service.js";
-import { uploadFile } from "../../utils/file.utils.js";
+import file_utils from "../../utils/file.utils.js";
 import { request_utils } from "../../utils/request.utils.js";
 
 export class AnimeVideoService {
@@ -14,7 +14,7 @@ export class AnimeVideoService {
       }
 
       async createAnimeVideo(req: CustomRequest): Promise<CreateAnimeVideoDTO | null> {
-            const { file_name } = await uploadFile(req, "anime/videos");
+            const { file_name } = await file_utils.uploadFile(req, "anime/videos");
 
             let video_name = request_utils.extractParamFromRequest(req, "name");
             
@@ -48,7 +48,7 @@ export class AnimeVideoService {
                   throw new Error('Video not found!');
             }
 
-            const { file_name } = await uploadFile(req, "anime/videos");
+            const { file_name } = await file_utils.uploadFile(req, "anime/videos");
             const video_name = request_utils.extractParamFromRequest(req, "name");
             const action_id = request_utils.extractParamFromRequest(req, "action_id");
             const playlist_id = request_utils.extractParamFromRequest(req, "playlist_id");

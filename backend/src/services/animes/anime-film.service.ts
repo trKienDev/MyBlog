@@ -3,9 +3,9 @@ import { CreateAnimeFilmDTO, UpdateAnimeFilmDTO } from "../../dtos/animes/anime-
 import { CustomRequest } from "../../interfaces/CustomRequest.js"
 import { ValidateIdRequest } from "../../interfaces/validated-id-request.js";
 import { iAnimeFilmRepository } from "../../repository/animes/interfaces/ianime-film.repository.js";
-import { uploadFile } from "../../utils/file.utils.js";
 import { request_utils } from "../../utils/request.utils.js";
 import { FileService } from "../../utils/file.service.js";
+import file_utils from "../../utils/file.utils.js";
 
 export class AnimeFilmService {
       private animeFilm_repository: iAnimeFilmRepository;
@@ -14,7 +14,7 @@ export class AnimeFilmService {
       }
 
       async createAnimeFilm(req: CustomRequest): Promise<CreateAnimeFilmDTO> {
-            const { name, file_name } = await uploadFile(req, "anime/films");
+            const { name, file_name } = await file_utils.uploadFile(req, "anime/films");
             const existing_film = await this.animeFilm_repository.findByName(name);
             if(existing_film) {
                   throw new Error('Anime film with this name has already existed');
@@ -45,7 +45,7 @@ export class AnimeFilmService {
             const existing_film = await this.animeFilm_repository.findById(id);
             if(!existing_film) throw new Error('Anime film not found');
 
-            const { name, file_name } = await uploadFile(req, "anime/films");
+            const { name, file_name } = await file_utils.uploadFile(req, "anime/films");
             const studio_id = request_utils.extractParamFromRequest(req, "studio_id");
             const series_id = request_utils.extractParamFromRequest(req, "series_id");
             const tag_params = request_utils.extractParamFromRequest(req, "tag_ids");

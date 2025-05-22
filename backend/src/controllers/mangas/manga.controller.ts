@@ -17,17 +17,28 @@ const getMangas = async(request: IncomingMessage, response: ServerResponse) => {
       }
 }
 
-const createManga = async(request: CustomRequest, response: ServerResponse) => {
+const initialManga = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const created_manga = await service.createManga(request);
-            return sendResponse(response, 201, created_manga);
+            const initialized_manga = await service.initialManga(request);
+            return sendResponse(response, 201, initialized_manga);
       } catch(error) {
             console.error('Error creating manga: ', error);
             sendError(response, 500, error);
       }
 }
 
+const AddImagesToInitializedManga = async(request: CustomRequest, response: ServerResponse) => {
+      try {
+            const created_manga = await ser
+      } catch(error) {
+            console.error('Error adding images to initialized manga: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
+
+
 export const manga_controller = {
       getMangas,
-      createManga,
+      initialManga,
 }

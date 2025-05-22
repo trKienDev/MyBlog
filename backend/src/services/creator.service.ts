@@ -2,8 +2,7 @@ import { CreatorDTO } from "../dtos/creator.dto.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ICreatorRepository } from "../repository/interfaces/icreator.repository.js";
 import { FileService } from "../utils/file.service.js";
-import { uploadFile } from "../utils/file.utils.js";
-
+import file_utils from "../utils/file.utils.js";
 
 export class CreatorService {
       private creatorRepo: ICreatorRepository;
@@ -21,7 +20,7 @@ export class CreatorService {
       }
 
       async CreateCreator(req: CustomRequest) {
-            const { file_name } = await uploadFile(req, "creator/avatar");
+            const { file_name } = await file_utils.uploadFile(req, "creator/avatar");
             const { name, birth, skin, body, breast } = req.body;
             const existingCreator = await this.creatorRepo.FindByNameAndBirth(name, birth);
             if(existingCreator) {
@@ -47,7 +46,7 @@ export class CreatorService {
                   throw new Error("Creator not found!");
             }
 
-            const { file_name } = await uploadFile(req, "creator/avatar");
+            const { file_name } = await file_utils.uploadFile(req, "creator/avatar");
             const { name, birth, skin, studio, breast, body } = req.body;
             const updateData: Record<string, any> = { name, birth, skin, body, breast };
 

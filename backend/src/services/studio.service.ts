@@ -2,7 +2,7 @@ import { StudioDTO } from "../dtos/studio.dto.js";
 import { IStudioRepository } from "../repository/interfaces/istudio.repository.js";
 import { FileService } from "../utils/file.service.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { uploadFile } from "../utils/file.utils.js";
+import file_utils from "../utils/file.utils.js";
 
 export class StudioService {
       private studioRepo: IStudioRepository;
@@ -19,7 +19,7 @@ export class StudioService {
       }
       
       public async createStudio(req: CustomRequest): Promise<StudioDTO> {
-            const { name, file_name } = await uploadFile(req, "studio");
+            const { name, file_name } = await file_utils.uploadFile(req, "studio");
             const existingStudio = await this.studioRepo.findStudioByName(name);
             if(existingStudio) {
                   throw new Error('Studio with this name has already existed.');
@@ -35,7 +35,7 @@ export class StudioService {
                   throw new Error("Studio not found");
             }
 
-            const { name, file_name } = await uploadFile(req, "studio");
+            const { name, file_name } = await file_utils.uploadFile(req, "studio");
             const updateData: Record<string, any> = { name };
             
             if(file_name) {

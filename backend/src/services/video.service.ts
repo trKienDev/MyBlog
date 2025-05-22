@@ -3,7 +3,7 @@ import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { iVIdeoRepository } from "../repository/interfaces/ivideo.repository.js";
 import { FileService } from "../utils/file.service.js";
-import { uploadFile } from "../utils/file.utils.js";
+import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 
 export class VideoService {
@@ -13,7 +13,7 @@ export class VideoService {
       }
 
       async createVideo(req: CustomRequest): Promise<CreateVideoDTO | unknown> {
-            const { file_name } = await uploadFile(req, "videos");
+            const { file_name } = await file_utils.uploadFile(req, "videos");
             let video_name = request_utils.extractParamFromRequest(req, "name");
 
             const existing_video = await this.video_repository.findByName(video_name);
@@ -50,7 +50,7 @@ export class VideoService {
             const existing_video = await this.video_repository.findById(id);
             if(!existing_video) throw new Error('Video not found!');
 
-            const { file_name } = await uploadFile(req, "videos");
+            const { file_name } = await file_utils.uploadFile(req, "videos");
             const video_name = request_utils.extractParamFromRequest(req, "name");
             const action_id = request_utils.extractParamFromRequest(req, "action_id");
             const playlist_id = request_utils.extractParamFromRequest(req, "playlist_id");

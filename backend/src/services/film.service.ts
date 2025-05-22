@@ -3,7 +3,7 @@ import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { iFilmRepository } from "../repository/interfaces/ifilm.repository.js";
 import { FileService } from "../utils/file.service.js";
-import { uploadFile } from "../utils/file.utils.js";
+import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 
 export class FilmService {
@@ -14,7 +14,7 @@ export class FilmService {
       }
       
       async createFilm(req: CustomRequest): Promise<CreateFilmDTO> {
-            const { name, file_name } = await uploadFile(req, "film");
+            const { name, file_name } = await file_utils.uploadFile(req, "film");
             const existing_film = await this.film_repository.findByName(name);
             if (existing_film) {
                   throw new Error('Film with this name has already existed.');
@@ -44,22 +44,22 @@ export class FilmService {
             return await this.film_repository.createFilm(new_film);
       }      
 
-      async updateFilm(req: ValidateIdRequest): Promise<UpdateFilmDTO | null> {
-            const id = req.params?.id;
+      async updateFilm(request: ValidateIdRequest): Promise<UpdateFilmDTO | null> {
+            const id = request.params?.id;
             const existing_film = await this.film_repository.findById(id);
             
             if(!existing_film) {
                   throw new Error('Film not found');
             }
 
-            const { name, file_name } = await uploadFile(req, "film");
-            const studio_id = request_utils.extractParamFromRequest(req, "studio_id");
-            const code_id = request_utils.extractParamFromRequest(req, "code_id");
-            const tags_param = request_utils.extractParamFromRequest(req, "tag_ids");
-            const collection_id = request_utils.extractParamFromRequest(req, "collection_id");
-            const date_str = request_utils.extractParamFromRequest(req, "date");
-            const rating = request_utils.extractParamFromRequest(req, "rating");
-            const tag_ids: string[] = tags_param.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+            const { name, file_name } = await file_utils.uploadFile(request, "film");
+            const studio_id = request_utils.extractParamFromRequest(request, "studio_id");
+            const code_id = request_utils.extractParamFromRequest(request, "code_id");
+            const tags_param = request_utils.extractParamFromRequest(request, "tag_ids");
+            const collection_id = request_utils.extractParamFromRequest(request, "collection_id");
+            const date_str = request_utils.extractParamFromRequest(request, "date");
+            const rating = request_utils.extractParamFromRequest(request, "rating");
+            const tag_ids: string[] = tags_param.split(',').map((string) => string.trim()).filter((string) => string.length > 0);
             
             const updateFilm_data: Record<string, any> = { name, studio_id, code_id, collection_id, rating, tag_ids };
 

@@ -60,14 +60,14 @@
 .modal-info .save-button button:hover {
       background-color: var(--primary-btn_hover);
 }
-.modal-thumbnail {
+.thumbnail-wrapper {
       height: 100%;
       transition: all 0.5s ease;
       border-radius: 5px;
 }
-.modal-thumbnail:hover {
+.thumbnail-wrapper:hover {
       filter: brightness(0.9);
 }
-.modal-thumbnail input {
+.thumbnail-wrapper input {
       display: none;
 }

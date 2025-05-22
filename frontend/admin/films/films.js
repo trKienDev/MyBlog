@@ -1,7 +1,7 @@
 import modal_component from "../../components/modal.component.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import api_configs from "../../api/api.config.js";
-import { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
+import thumbnail_component, { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
 import table_component from "../../components/table.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";
@@ -23,7 +23,7 @@ export async function initFilmAdmin() {
       selectSearch_component.initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
       selectSearch_component.initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
       selectSearch_component.initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
-      uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
+      thumbnail_component.uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       getCodeByStudio(id_selectors.films.film_studio);
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.films.film_tag);
       createFilm();
@@ -79,17 +79,6 @@ export function getCodeByStudio(studioEl_id){
                   select_component.selectCodeByStudio(id_selectors.films.film_code, studio_id);
             }
       });
-}
-
-export async function uploadThumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id) {
-      while(true) {
-            const result = await waitForUploadOrSubmit(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
-            if(result.type === 'upload') {
-                  document.getElementById('thumbnail-image').src = URL.createObjectURL(result.file);
-            } else if(result.type === 'submit') {
-                  break;
-            }
-      }
 }
 
 export function getFilmName(filmCode_id, codeNumbebId) {

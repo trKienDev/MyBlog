@@ -4,17 +4,17 @@ export interface iManga extends Document {
       _id: mongoose.Types.ObjectId;
       name: string;
       description: string;
-      image_path: string[];
+      thumbnail: string;
+      image_list: string[];
       tag_ids: mongoose.Types.ObjectId[];
-      rating: Number;
 }
 
 const MangaSchema: Schema = new Schema({
       name: { type: String, required: true, unique: true },
       description: { type: String, default: null },
-      image_path: [{ type: String, require: true }],
+      thumbnail: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
+      image_list: [{ type: String, required: true, default: [] }],
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Manga-Tag'}],
-      rating: { type: Number, min: 1, max: 5 },
 }, { 
       collection: 'Mangas',
       timestamps: true,

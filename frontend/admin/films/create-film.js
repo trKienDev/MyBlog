@@ -47,7 +47,7 @@ export async function createFilm() {
 function collectFilmFormData(thumbnailUpload_id) {
       const thumbnail = document.getElementById(thumbnailUpload_id).files[0];
       if(!thumbnail) {
-            alert('Please upload a thumbnail before submitting');
+            error_sweetAlert('Please upload a thumbnail before submitting');
             return null;
       } 
       return buildFilmForm(true, thumbnail);

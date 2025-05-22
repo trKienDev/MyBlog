@@ -35,7 +35,7 @@
 .primary-btn {
       border: none;
 }
-#films .modal-thumbnail {
+#films .thumbnail-wrapper {
       height: 400px;
       width: 267px;
 }

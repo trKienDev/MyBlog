@@ -1,4 +1,4 @@
-import { CreateMangaDTO, MangaDTO } from "../../dtos/mangas/manga.dto.js";
+import { InitialMangaDTO, ListImagesMangaDTO, MangaDTO } from "../../dtos/mangas/manga.dto.js";
 import Manga, { iManga } from "../../models/mangas/manga.model.js";
 import { iMangaRepository } from "./imanga.repository.js";
 
@@ -16,19 +16,29 @@ export class MangaRepository implements iMangaRepository {
 
             return mappingDocToDTO(manga);
       }
+      async initialManga(data: InitialMangaDTO): Promise<InitialMangaDTO> {
+            const new_manga = new Manga(data);
+            const initialized_manga = await new_manga.save();
+            return mappingDocToInitialDTO(initialized_manga);
+      }
+      async updateImageListToManga(data: ListImagesMangaDTO): Promise<MangaDTO> {
+            const manga = await Manga.findById(data._id);
+            if(!manga) {
+                  throw new Error(`Manga with ID ${data._id} not found for updating image_path.`);
+            }
 
-      async createManga(data: CreateMangaDTO): Promise<CreateMangaDTO> {
-            const manga = new Manga(data);
-            const created_manga = await manga.save();
-            return mappingDocToCreateDTO(created_manga);
+            data.image_list.forEach(image => manga.image_list.push(image));
+            const updatedManga = await manga.save();
+            return mappingDocToDTO(updatedManga);
       }
 }
 
-function mappingDocToCreateDTO(doc: iManga): CreateMangaDTO {
+function mappingDocToInitialDTO(doc: iManga): InitialMangaDTO {
       return {
+            _id: doc._id.toString(),
             name: doc.name,
             description: doc.description,
-            image_path: doc.image_path.map(img => img.toString()),
+            thumbnail: doc.thumbnail,
             tag_ids: doc.tag_ids.map(tag => tag.toString()),
       }
 }
@@ -38,9 +48,9 @@ function mappingDocToDTO(doc: iManga): MangaDTO {
             _id: doc._id.toString(),
             name: doc.name,
             description: doc.description,
-            image_path: doc.image_path.map(img => img.toString()),
+            thumbnail: doc.thumbnail,
+            image_list: doc.image_list.map(img => img.toString()),
             tag_ids: doc.tag_ids.map(tag => tag.toString()),
-            rating: doc.rating,
       }
 }
 

@@ -1,6 +1,7 @@
 import api_configs from "../../api/api.config.js";
 import fetch_api from "../../api/fetch.api.js";
 import selectSearch_component from "../../components/select-search.component.js";
+import thumbnail_component from "../../components/thumbnail.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import sort_utils from "../../utils/sort.utils.js";
@@ -12,6 +13,7 @@ let uploadedImageFiles = [];
 export function initCreateMangaAdmin() {
       selectSearch_component.initSelectSearch(id_selectors.manga.manga_tag, api_configs.endpoints.getMangaTags, 'tag');
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.manga.manga_tag);
+      thumbnail_component.uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.create_manga);
       uploadMangaImages();
       createManga();
 }
@@ -24,12 +26,14 @@ function createManga() {
             
             const manga_info = collectMangaInfo(mangaNameInput);
             const manga_form = buildMangaForm(manga_info);
+            console.log('manga form: ', manga_form);
 
             try {
-                  const result = await fetch_api.createForm(api_configs.endpoints.createManga, manga_form);
+                  const result = await fetch_api.createForm(api_configs.endpoints.initializeManga, manga_form);
                   if(result.success == false) {
                         throw new Error(result.error);
                   }
+                  console.log(result.data._id);
 
                   success_sweetAlert('manga created');
                   resetMangaForm();
@@ -85,11 +89,17 @@ function createImageFrame(file) {
 function collectMangaInfo(mangaNameInput) {
       const name = mangaNameInput.value.trim();
       if (!name) {
-            error_sweetAlert('Vui lòng nhập tên series manga!'); 
+            error_sweetAlert('Please name this manga!'); 
             return; 
       }
 
-      const description = document.getElementById('manga-description').value;
+      const thumbnail = document.getElementById(id_selectors.thumbnail.thumbnail_upload).files[0];
+      if(!thumbnail) {
+            error_sweetAlert('Please upload a thumbnail before submitting');
+            return null;
+      }
+      
+      const description = document.getElementById('manga-description').value; 
       const tags = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
       
       if(uploadedImageFiles.length == 0) {
@@ -97,18 +107,18 @@ function collectMangaInfo(mangaNameInput) {
             return;
       }
 
-      return { name, description, tags, uploadedImageFiles };
+      return { name, description, thumbnail, tags, uploadedImageFiles };
 }
 
 function buildMangaForm(manga_info) {
       const form_data = new FormData();
       form_data.append('name', manga_info.name);
-      form_data.append('description', manga_info.description)
+      form_data.append('description', manga_info.description);
+      form_data.append('file', manga_info.thumbnail);
       form_data.append('tag_ids', manga_info.tags);
-
-      manga_info.uploadedImageFiles.forEach(file => {
-            form_data.append('file', file);
-      });
+      // manga_info.uploadedImageFiles.forEach(file => {
+      //       form_data.append('file', file);
+      // });
       
       return form_data;
 }

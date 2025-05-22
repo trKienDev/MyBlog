@@ -107,7 +107,7 @@ const api_configs = {
 
             // manga
             getMangas: '/admin/mangas', // GET
-            createManga: '/admin/manga', // POST
+            initializeManga: '/admin/manga', // POST
             // manga-tag
             getMangaTags: '/admin/manga-tags', // GET
             createMangaTag: '/admin/manga-tag', // POST

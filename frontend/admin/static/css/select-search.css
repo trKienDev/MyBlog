@@ -21,6 +21,9 @@
 }
 .select-search_component .wrapper.active .content {
       display: block;
+      position: absolute;
+      width: 100%;
+      z-index: 10;
 }
 .select-search_component {
       position: relative;
@@ -54,6 +57,9 @@
 }
 .select-search_component .select-btn i {
       transition: transform 0.3s linear;
+}
+.select-search_component .wrapper .active {
+      position: relative;
 }
 .select-search_component .wrapper.active .select-btn i {
       transform:  rotate(-180deg);

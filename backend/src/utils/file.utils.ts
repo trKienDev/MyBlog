@@ -78,7 +78,7 @@ const renameUploadedFile = (uploadPath: string, originalFileName: string, name: 
 /**
  * Hàm UploadFile xử lý việc nhận file upload, đổi tên file và trả về thông tin.
  */
-export const uploadFile = async (req: CustomRequest, folder: string): Promise<{ id: string, name: string, file_name: string }> => {
+const uploadFile = async (req: CustomRequest, folder: string): Promise<{ id: string, name: string, file_name: string }> => {
       try {
             const uploadPath = getUploadPath(folder);
             ensureUploadPathExists(uploadPath);
@@ -111,11 +111,7 @@ export const uploadFile = async (req: CustomRequest, folder: string): Promise<{ 
  * Hàm UploadFiles xử lý việc nhận nhiều file upload từ một trường, đổi tên các file và trả về thông tin.
  * Mặc định trường file là "file".
  */
-const uploadFiles = async ( 
-      req: CustomRequest, 
-      folder: string, 
-      fieldName: string = "file", 
-      maxCount?: number): Promise<{ name: string, file_names: string[] }> => {
+const uploadFiles = async ( req: CustomRequest, folder: string, fieldName: string = "file", maxCount?: number): Promise<{ file_names: string[] }> => {
       try {
             const uploadPath = getUploadPath(folder);
             ensureUploadPathExists(uploadPath);
@@ -125,7 +121,6 @@ const uploadFiles = async (
 
             await handleMulterUploadArray(req, upload, fieldName, maxCount);
 
-            const id = ExtractIdFromRequest(req);
             const nameFromRequest = ExtractNameFromRequest(req);
 
             const uploadedFileNames: string[] = [];
@@ -137,7 +132,7 @@ const uploadFiles = async (
                   }
             }
 
-            return { name: nameFromRequest, file_names: uploadedFileNames };
+            return { file_names: uploadedFileNames };
       } catch (error) {
             console.error(`Error in uploadFiles (folder: ${folder}, fieldName: ${fieldName}) - file.utils.ts: `, error);
             throw error;
@@ -145,6 +140,7 @@ const uploadFiles = async (
 };
 
 const file_utils = {
+      uploadFile,
       uploadFiles,
 }
 export default file_utils;

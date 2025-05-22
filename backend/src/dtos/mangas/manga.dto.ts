@@ -2,14 +2,23 @@ export interface MangaDTO {
       _id: string;
       name: string;
       description: string;
-      image_path: string[];
+      thumbnail: string;
+      image_list: string[];
       tag_ids: string[];
-      rating: Number;
 }
 
-export interface CreateMangaDTO {
+export interface InitialMangaDTO {
+      _id?: string;
       name: string;
       description: string;
-      image_path: string[];
+      thumbnail: string;
       tag_ids: string[];
 }
+
+export interface ListImagesMangaDTO {
+      _id: string,
+      image_list: string[], 
+}
+
+
+

@@ -24,7 +24,6 @@ function displayThumbnailOfSelectedSearchFilm(element_id, upload_path, apiFn) {
       });
 }
 
-
 const image_utils = {
       loadThumbnailOfSelectedFilm,
       displayThumbnailOfSelectedSearchFilm,

@@ -30,3 +30,19 @@ export function waitForUploadOrSubmit(thumbnailImg_id, thumbnailUpload_id, submi
             submit_button.addEventListener('click', onSubmit);
       });
 }
+
+async function uploadThumbnail(thumbnailImg_id, thumbnailUpload_id, submitBtn_id) {
+      while(true) {
+            const result = await waitForUploadOrSubmit(thumbnailImg_id, thumbnailUpload_id, submitBtn_id);
+            if(result.type === 'upload') {
+                  document.getElementById('thumbnail-image').src = URL.createObjectURL(result.file);
+            } else if(result.type === 'submit') {
+                  break;
+            }
+      }
+}
+
+const thumbnail_component = {
+      uploadThumbnail,
+}
+export default thumbnail_component;

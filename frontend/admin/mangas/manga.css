@@ -31,19 +31,29 @@
       margin-top: 30px;
 }
 #create-manga_form {
-      width: 40%;
+      width: 50%;
 }
 #create-manga #form {
       width: 100%;
 }
-#create-manga #form .col-left, #create-manga #form .col-right {
-      width: 48%;
-} 
-#create-manga #form .col-right textarea {
+#create-manga #form .col-info, #create-manga #form .col-description {
+      width: 37%;
+}
+#create-manga #form .col-description textarea {
       height: calc(100% - 10px);
+      resize: none;
+} 
+#create-manga .thumbnail-wrapper {
+      padding-top: 10px;
+      height: 222px;
+      width: 174px;
+}
+#create-manga .thumbnail-wrapper input {
+      display: none;
 }
 #upload-images_btn {
       margin-left: 50px;
+      height: fit-content;
 }
 #upload-images_btn .primary-btn {
       width: fit-content;
