@@ -108,6 +108,7 @@ const api_configs = {
             // manga
             getMangas: '/admin/mangas', // GET
             initializeManga: '/admin/manga', // POST
+            addImgsToInitializedManga: '/admin/manga/images', // PUT
             // manga-tag
             getMangaTags: '/admin/manga-tags', // GET
             createMangaTag: '/admin/manga-tag', // POST

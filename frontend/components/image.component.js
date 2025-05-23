@@ -17,3 +17,4 @@ export function HandleImageUpload(imageElementId, fileInputElementId) {
             }
       });
 }
+

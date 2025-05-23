@@ -3,6 +3,7 @@ import { IStudioRepository } from "../repository/interfaces/istudio.repository.j
 import { FileService } from "../utils/file.service.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import file_utils from "../utils/file.utils.js";
+import { request_utils } from "../utils/request.utils.js";
 
 export class StudioService {
       private studioRepo: IStudioRepository;
@@ -18,8 +19,9 @@ export class StudioService {
             return studio;
       }
       
-      public async createStudio(req: CustomRequest): Promise<StudioDTO> {
-            const { name, file_name } = await file_utils.uploadFile(req, "studio");
+      public async createStudio(request: CustomRequest): Promise<StudioDTO> {
+            const { file_name } = await file_utils.uploadFile(request, "studio");
+            const name = request_utils.extractParamFromRequest(request, "name");
             const existingStudio = await this.studioRepo.findStudioByName(name);
             if(existingStudio) {
                   throw new Error('Studio with this name has already existed.');
@@ -29,13 +31,14 @@ export class StudioService {
             return newStudio;
       }
 
-      public async updateStudio(req: CustomRequest, id: string): Promise<StudioDTO> {
+      public async updateStudio(request: CustomRequest, id: string): Promise<StudioDTO> {
             const currentStudio = await this.findStudioById(id);
             if(!currentStudio) {
                   throw new Error("Studio not found");
             }
 
-            const { name, file_name } = await file_utils.uploadFile(req, "studio");
+            const { file_name } = await file_utils.uploadFile(request, "studio");
+            const name = request_utils.extractParamFromRequest(request, "name");
             const updateData: Record<string, any> = { name };
             
             if(file_name) {

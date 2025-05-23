@@ -2,7 +2,8 @@ import { InitialMangaDTO, ListImagesMangaDTO, MangaDTO } from "../../dtos/mangas
 
 export interface iMangaRepository {
       getMangas(): Promise<MangaDTO[]>;
+      findMangaById(id: string): Promise<MangaDTO | null>;
       findMangaByName(name: string): Promise<MangaDTO | null>;
       initialManga(data: InitialMangaDTO): Promise<InitialMangaDTO>;
-      updateImageListToManga(data: ListImagesMangaDTO): Promise<MangaDTO>;
+      updateImageListToManga(id: string, data: ListImagesMangaDTO): Promise<MangaDTO>;
 }

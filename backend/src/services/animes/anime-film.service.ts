@@ -13,20 +13,22 @@ export class AnimeFilmService {
             this.animeFilm_repository = animeFilmRepository;
       }
 
-      async createAnimeFilm(req: CustomRequest): Promise<CreateAnimeFilmDTO> {
-            const { name, file_name } = await file_utils.uploadFile(req, "anime/films");
+      async createAnimeFilm(request: CustomRequest): Promise<CreateAnimeFilmDTO> {
+            const { file_name } = await file_utils.uploadFile(request, "anime/films");
+            const name = request_utils.extractParamFromRequest(request, "name");
+
             const existing_film = await this.animeFilm_repository.findByName(name);
             if(existing_film) {
                   throw new Error('Anime film with this name has already existed');
             }
-
+            
             const thumbnail = file_name;
-            const studio_id = request_utils.extractParamFromRequest(req, "studio_id");
-            const series_id = request_utils.extractParamFromRequest(req, "series_id");
-            const tag_params = request_utils.extractParamFromRequest(req, "tag_ids");
-            const tag_ids: string[] = tag_params.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
-            const year = request_utils.extractParamFromRequest(req, "year");
-            const rating = request_utils.extractParamFromRequest(req, "rating");
+            const studio_id = request_utils.extractParamFromRequest(request, "studio_id");
+            const series_id = request_utils.extractParamFromRequest(request, "series_id");
+            const tag_params = request_utils.extractParamFromRequest(request, "tag_ids");
+            const tag_ids: string[] = tag_params.split(',').map((string) => string.trim()).filter((string) => string.length > 0);
+            const year = request_utils.extractParamFromRequest(request, "year");
+            const rating = request_utils.extractParamFromRequest(request, "rating");
             const new_animeFilm: CreateAnimeFilmDTO = {
                   name: name,
                   studio_id: studio_id,
@@ -40,18 +42,19 @@ export class AnimeFilmService {
             return await this.animeFilm_repository.createAnimeFilm(new_animeFilm);
       }
 
-      async updateFilm(req: ValidateIdRequest): Promise<UpdateAnimeFilmDTO | null> {
-            const id = req.params?.id;
+      async updateFilm(request: ValidateIdRequest): Promise<UpdateAnimeFilmDTO | null> {
+            const id = request.params?.id;
             const existing_film = await this.animeFilm_repository.findById(id);
             if(!existing_film) throw new Error('Anime film not found');
 
-            const { name, file_name } = await file_utils.uploadFile(req, "anime/films");
-            const studio_id = request_utils.extractParamFromRequest(req, "studio_id");
-            const series_id = request_utils.extractParamFromRequest(req, "series_id");
-            const tag_params = request_utils.extractParamFromRequest(req, "tag_ids");
-            const tag_ids: string[] = tag_params.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
-            const year = request_utils.extractParamFromRequest(req, "year");
-            const rating = request_utils.extractParamFromRequest(req, "rating");
+            const { file_name } = await file_utils.uploadFile(request, "anime/films");
+            const name = await request_utils.extractParamFromRequest(request, "name");
+            const studio_id = request_utils.extractParamFromRequest(request, "studio_id");
+            const series_id = request_utils.extractParamFromRequest(request, "series_id");
+            const tag_params = request_utils.extractParamFromRequest(request, "tag_ids");
+            const tag_ids: string[] = tag_params.split(',').map((string) => string.trim()).filter((string) => string.length > 0);
+            const year = request_utils.extractParamFromRequest(request, "year");
+            const rating = request_utils.extractParamFromRequest(request, "rating");
             
             const updateAnimeFilm_data: Record<string, any> = { name, studio_id, series_id, tag_ids, year, rating };
             if(file_name) {

@@ -7,7 +7,13 @@ export class MangaRepository implements iMangaRepository {
             const mangas = await Manga.find();
             return mangas.map(manga => mappingDocToDTO(manga));
       }
-
+      async findMangaById(id: string): Promise<MangaDTO | null> {
+            const manga = await Manga.findById(id);
+            if(!manga) {
+                  return null;
+            }
+            return mappingDocToDTO(manga);
+      }
       async findMangaByName(name: string): Promise<MangaDTO | null> {
             const manga = await Manga.findOne({name});
             if(!manga) {
@@ -21,12 +27,12 @@ export class MangaRepository implements iMangaRepository {
             const initialized_manga = await new_manga.save();
             return mappingDocToInitialDTO(initialized_manga);
       }
-      async updateImageListToManga(data: ListImagesMangaDTO): Promise<MangaDTO> {
-            const manga = await Manga.findById(data._id);
+      async updateImageListToManga(id: string, data: ListImagesMangaDTO): Promise<MangaDTO> {
+            const manga = await Manga.findById(id);
             if(!manga) {
-                  throw new Error(`Manga with ID ${data._id} not found for updating image_path.`);
+                  throw new Error(`Manga with ID ${id} not found for updating image_path.`);
             }
-
+            manga.manga_folder = data.manga_folder;
             data.image_list.forEach(image => manga.image_list.push(image));
             const updatedManga = await manga.save();
             return mappingDocToDTO(updatedManga);
@@ -51,6 +57,7 @@ function mappingDocToDTO(doc: iManga): MangaDTO {
             thumbnail: doc.thumbnail,
             image_list: doc.image_list.map(img => img.toString()),
             tag_ids: doc.tag_ids.map(tag => tag.toString()),
+            manga_folder: doc.manga_folder,
       }
 }
 

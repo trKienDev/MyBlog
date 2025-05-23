@@ -1,3 +1,5 @@
+import image_utils from "../utils/image.utils.js";
+
 function initModal(openButtonId, closeButtonId, modalId, callback) {
       const openButton = document.getElementById(openButtonId);
       const closeButton = document.getElementById(closeButtonId);
@@ -29,14 +31,11 @@ function closeModal(modal_id) {
       modal.style.display = 'none';
 }
 
-function resetModal(formId, imgId, imgInputId, defaultImg) {
-      const form = document.getElementById(formId);
-      const image = document.getElementById(imgId);
-      const imgInput = document.getElementById(imgInputId);
-      
+function resetModal(id_form, id_img, id_imgInput, default_img) {
+      const form = document.getElementById(id_form);
       if(form) form.reset();
-      if(image) image.src = defaultImg || "/admin/static/images/studio/studio-upload.png";
-      if(imgInput) imgInput.value = "";
+
+      image_utils.resetImageElementValue(id_img, id_imgInput, default_img);
 }
 
 function changeTitle(modal_id, submitBtn_selector, remove_class, add_class, title) {

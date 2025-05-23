@@ -3,8 +3,9 @@ export interface MangaDTO {
       name: string;
       description: string;
       thumbnail: string;
-      image_list: string[];
+      image_list?: string[];
       tag_ids: string[];
+      manga_folder: string;
 }
 
 export interface InitialMangaDTO {
@@ -16,8 +17,8 @@ export interface InitialMangaDTO {
 }
 
 export interface ListImagesMangaDTO {
-      _id: string,
       image_list: string[], 
+      manga_folder: string;
 }
 
 

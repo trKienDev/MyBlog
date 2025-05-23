@@ -3,6 +3,7 @@ import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { MangaRepository } from "../../repository/mangas/manga.repository.js";
 import { MangaService } from "../../services/mangas/manga.service.js";
 import { sendError, sendResponse } from "../../middlewares/response.js";
+import { ValidateIdRequest } from "../../interfaces/validated-id-request.js";
 
 const repository = new MangaRepository();
 const service = new MangaService(repository);
@@ -27,18 +28,18 @@ const initialManga = async(request: CustomRequest, response: ServerResponse) => 
       }
 }
 
-const AddImagesToInitializedManga = async(request: CustomRequest, response: ServerResponse) => {
+const addImagesToInitializedManga = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const created_manga = await ser
+            const updated_manga = await service.addImagesToInitializedManga(request);
+            return sendResponse(response, 201, updated_manga);
       } catch(error) {
             console.error('Error adding images to initialized manga: ', error);
             return sendError(response, 500, error);
       }
 }
 
-
-
 export const manga_controller = {
       getMangas,
       initialManga,
+      addImagesToInitializedManga,
 }

@@ -1,11 +1,18 @@
 .tags-list {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
       gap: 10px; 
       list-style-type: none; 
+      scrollbar-width: none;
       padding: 0;
+
 }
+
 .tag-item {
+      flex-shrink: 0;
       background-color: var(--golden-yellow);
       padding: 4px 10px; 
       border-radius: 5px; 

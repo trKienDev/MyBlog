@@ -112,7 +112,9 @@ async function updateAnimeFilm(anime) {
 
                   try {
                         const result = await fetch_api.updateForm(`${api_configs.endpoints.updateAnimeFilm}/${anime._id}`, updatedAnime_form);
-                        if(result.success === false) throw new Error(result.error);
+                        if(result.success === false) {
+                              throw new Error(result.error);
+                        }
 
                         success_sweetAlert('anime film updated');
                         modal_component.closeModal(id_selectors.modal.create_anime_film);

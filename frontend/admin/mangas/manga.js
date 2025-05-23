@@ -5,6 +5,7 @@ import selectSearch_component from "../../components/select-search.component.js"
 import table_component from "../../components/table.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
+import FolderUploads from "../../selectors/upload-folder-name.js";
 import spa_navigation from "../../services/spa/navigate-link.spa.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import table_utils from "../../utils/table.utils.js";
@@ -32,14 +33,14 @@ async function renderMangaList() {
             mangas.forEach(async(manga) => {
                   const tr = table_component.createTrWithId(manga._id);
 
-                  const edit_btn = await table_component.createEditBtn(css_selectors.container.edit_container, manga);
-                  tr.appendChild(edit_btn);
+                  const td_name = table_component.createTextTd({ i_text: manga.name});
+                  tr.appendChild(td_name);
 
-                  const name = table_component.createTextTd({ i_text: manga.name});
-                  tr.appendChild(name);
+                  const manga_thumbnail = `${api_configs.server}/${FolderUploads.MANGAS}/${manga.thumbnail}`;
+                  const td_thumbnail = table_component.createImageTd(manga_thumbnail, 'manga-thumbnail'); 
+                  tr.appendChild(td_thumbnail);
 
-                  
-
+                  tbody.appendChild(tr);
             });
       } catch(error) {
             console.error('Error rendering mangas');

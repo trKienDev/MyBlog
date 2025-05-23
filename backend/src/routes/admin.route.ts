@@ -94,11 +94,11 @@ const adminRoutes: Route[] = [
       // manga
       { method: 'GET', path: '/admin/mangas', handler: manga_controller.getMangas },
       { method: 'POST', path: '/admin/manga', handler: manga_controller.initialManga },
+      { method: 'PUT', path: '/admin/manga/images/:id', handler: validated_id.validateId(manga_controller.addImagesToInitializedManga)},
       // manga-tag
       { method: 'GET', path: '/admin/manga-tags', handler: mangaTag_controller.getMangaTags },
       { method: 'POST', path: '/admin/manga-tag', handler: mangaTag_controller.createMangaTag },
-      
-
 ]
+
 
 export const handleAdminRoutes = createRouter(adminRoutes);

@@ -24,9 +24,18 @@ function displayThumbnailOfSelectedSearchFilm(element_id, upload_path, apiFn) {
       });
 }
 
+function resetImageElementValue(id_img, id_imgInput, default_img) {
+      const image = document.getElementById(id_img);
+      const img_input = document.getElementById(id_imgInput);
+
+      if(image) image.src = default_img || "/admin/static/images/studio/studio-upload.png";
+      if(img_input) img_input.value = "";
+}
+
 const image_utils = {
       loadThumbnailOfSelectedFilm,
       displayThumbnailOfSelectedSearchFilm,
       getImgSourceFromApi,
+      resetImageElementValue,
 };
 export default image_utils;

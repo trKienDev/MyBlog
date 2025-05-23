@@ -13,22 +13,23 @@ export class FilmService {
             this.film_repository = filmRepository;
       }
       
-      async createFilm(req: CustomRequest): Promise<CreateFilmDTO> {
-            const { name, file_name } = await file_utils.uploadFile(req, "film");
+      async createFilm(request: CustomRequest): Promise<CreateFilmDTO> {
+            const { file_name } = await file_utils.uploadFile(request, "film");
+            const name = request_utils.extractParamFromRequest(request, "name");
             const existing_film = await this.film_repository.findByName(name);
             if (existing_film) {
                   throw new Error('Film with this name has already existed.');
             }
 
             const thumbnail = file_name;
-            const studio = request_utils.extractParamFromRequest(req, "studio_id");
-            const code = request_utils.extractParamFromRequest(req, "code_id");
-            const tag_params = request_utils.extractParamFromRequest(req, "tag_ids");
-            const collection = request_utils.extractParamFromRequest(req, "collection_id");
-            const date_str = request_utils.extractParamFromRequest(req, "date");
+            const studio = request_utils.extractParamFromRequest(request, "studio_id");
+            const code = request_utils.extractParamFromRequest(request, "code_id");
+            const tag_params = request_utils.extractParamFromRequest(request, "tag_ids");
+            const collection = request_utils.extractParamFromRequest(request, "collection_id");
+            const date_str = request_utils.extractParamFromRequest(request, "date");
             const date: Date = new Date(date_str);
-            const rating = request_utils.extractParamFromRequest(req, "rating");
-            const tag_ids: string[] = tag_params.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+            const rating = request_utils.extractParamFromRequest(request, "rating");
+            const tag_ids: string[] = tag_params.split(',').map((string) => string.trim()).filter((string) => string.length > 0);
             
             const new_film: CreateFilmDTO = {
                   name: name,
@@ -52,7 +53,8 @@ export class FilmService {
                   throw new Error('Film not found');
             }
 
-            const { name, file_name } = await file_utils.uploadFile(request, "film");
+            const { file_name } = await file_utils.uploadFile(request, "film");
+            const name = request_utils.extractParamFromRequest(request, "name");
             const studio_id = request_utils.extractParamFromRequest(request, "studio_id");
             const code_id = request_utils.extractParamFromRequest(request, "code_id");
             const tags_param = request_utils.extractParamFromRequest(request, "tag_ids");

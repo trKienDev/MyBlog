@@ -13,8 +13,14 @@
 #list-manga_section {
       margin-top: 50px;
 }
+
+/* manga table */
 #mangas-table {
       width: 50%;
+}
+#mangas-table .manga-thumbnail {
+      height: 145px;
+      border-radius: 5%;
 }
 
 /* manga-tag modal */
