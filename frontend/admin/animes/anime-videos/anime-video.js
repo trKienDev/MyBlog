@@ -48,7 +48,7 @@ async function renderAnimeVideos() {
                   const filmThumbnail_td = await table_component.createImgTdFromApi({
                         apiFn: animes_api.getAnimeFilmThumbnailById,
                         id: video.film_id,
-                        upload_path: 'anime/films',
+                        upload_path: 'uploads/anime/films',
                         css_class: css_selectors.films.film_thumbnail
                   });
                   tr.appendChild(filmThumbnail_td);

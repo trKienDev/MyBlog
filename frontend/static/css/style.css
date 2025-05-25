@@ -1,10 +1,15 @@
 @import url('../../sections//tags/tags.section.css');
 @import url('../../sections/new-videos/new-video.section.css');
+@import url('./video.css');
 
 body {
       font-family: 'Lexend', sans-serif;
-      background-color: #081028;
+      background-color: rgb(21, 20, 26);
       color: white;
+}
+a {
+      text-decoration: none;
+      color: #fff;
 }
 
 :root {
@@ -115,6 +120,16 @@ body {
       z-index: 10;
       opacity: 0;
       transition: opacity 0.3s;
+}
+.container-hover-zoom-img {
+      overflow: hidden;
+}
+.hover-to-zoom-img {
+      transition: all .3s ease-in-out;
+}
+.hover-to-zoom-img:hover {
+      transform: scale(1.2);
+      transition: all .3s ease-in-out;
 }
 /* ================================================================ */
 

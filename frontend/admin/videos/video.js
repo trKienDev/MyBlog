@@ -46,13 +46,13 @@ async function renderListVideo() {
 
                   const filmThumbnail_td = await table_component.createImgTdFromApi({ apiFn: film_api.getFilmThumbnail,
                                                                                                                                           id: video.film_id,
-                                                                                                                                          upload_path: 'film',
+                                                                                                                                          upload_path: 'uploads/film',
                                                                                                                                           css_class: css_selectors.films.film_thumbnail});
                   tr.appendChild(filmThumbnail_td);
 
                   const creatorAvatar_td = await table_component.createImgTdFromApi({ apiFn: creator_api.getCreatorImg,
                                                                                                                                           id: video.creator_id,
-                                                                                                                                          upload_path: 'creator/avatar',
+                                                                                                                                          upload_path: 'uploads/creator/avatar',
                                                                                                                                           css_class: css_selectors.creators.creator_image });
                   tr.appendChild(creatorAvatar_td);
 

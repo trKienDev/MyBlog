@@ -1,0 +1,8 @@
+.video-frame {
+      aspect-ratio: 16/9;
+      width: auto;
+      border-radius: 5px;
+}
+.video-frame:hover {
+      cursor: pointer;
+}

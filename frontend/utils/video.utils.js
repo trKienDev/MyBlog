@@ -2,12 +2,19 @@ import video_helpers from "../admin/videos/video.helper.js";
 import api_configs from "../api/api.config.js";
 import id_selectors from "../selectors/element-id.selector.js";
 
-function hoverMouseToPlayVideo(video) {
+function clickMouseToPlayVideo(video) {
       video.addEventListener('click', () => { video.play(); });
-      video.addEventListener('mouseleave', () => { video.pause(); });
+      leaveMouseToStopVideo(video);
       return video
 }
-
+function hoverMouseToPlayVideo(video) {
+      video.addEventListener('mouseenter', () => { video.play(); });
+      leaveMouseToStopVideo(video);
+      return video
+}
+function leaveMouseToStopVideo(video) {
+      video.addEventListener('mouseleave', () => { video.pause(); });
+}
 function waitForUploadVideo(thumbnail_video, upload_video) {
       const thumbnail = document.getElementById(thumbnail_video);
       const upload_input = document.getElementById(upload_video);
@@ -56,6 +63,7 @@ function waitForUploadNewVideo() {
 
 const video_utils = {
       hoverMouseToPlayVideo,
+      clickMouseToPlayVideo,
       waitForUploadVideo,
       waitForUploadNewVideo,
       resetVideoPreview,

@@ -2,10 +2,10 @@ import api_configs from "../api/api.config.js";
 import selectSearch_component from "../components/select-search.component.js";
 import id_selectors from "../selectors/element-id.selector.js";
 
-async function getImgSourceFromApi(apiFn, id, upload_path, file_name) {
-      const image = await apiFn(id);
-      const img_src = `${api_configs.server}/uploads/${upload_path}/${file_name}`;
-      return img_src;
+async function getImageSourceFromApi(apiFn, id, upload_path) {
+      const image_file = await apiFn(id);
+      const img_source = `${api_configs.server}/${upload_path}/${image_file}`;
+      return img_source;
 }
 
 function loadThumbnailOfSelectedFilm(ifilm, file_path) {
@@ -32,10 +32,16 @@ function resetImageElementValue(id_img, id_imgInput, default_img) {
       if(img_input) img_input.value = "";
 }
 
+function addHoverToZoomImage(img_container) {
+      img_element.classList.add('hover-to-zoom-img');
+      return img_container
+}
+
 const image_utils = {
       loadThumbnailOfSelectedFilm,
       displayThumbnailOfSelectedSearchFilm,
-      getImgSourceFromApi,
+      getImageSourceFromApi,
       resetImageElementValue,
+      addHoverToZoomImage,
 };
 export default image_utils;

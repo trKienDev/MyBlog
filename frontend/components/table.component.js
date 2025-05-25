@@ -1,6 +1,9 @@
 import api_configs from "../api/api.config.js";
 import css_selectors from "../selectors/css.selectors.js";
+import image_utils from "../utils/image.utils.js";
 import video_utils from "../utils/video.utils.js";
+import images_component from "./image.component.js";
+import videos_component from "./videos.component.js";
 
 function createTrWithId(id) {
       const tr = document.createElement('tr');
@@ -77,11 +80,9 @@ function createTextTd({ i_text, i_id, i_css }) {
 }
 
 // Image
-function createImageTd(imgSrc, imgClass) {
+function createImageTd(img_source, css_class) {
       const imageCell = document.createElement('td');
-      const image = document.createElement('img');
-      image.src = imgSrc;
-      image.classList.add(imgClass);
+      const image = images_component.createImg(img_source, css_class);
       imageCell.appendChild(image);
 
       return imageCell;
@@ -97,9 +98,8 @@ function createImageTd(imgSrc, imgClass) {
  * @returns {Promise<HTMLTableCellElement>}
  */
 async function createImgTdFromApi({ apiFn, id, upload_path, css_class}) {
-      const file_name = await apiFn(id);
-      const src = `${api_configs.server}/uploads/${upload_path}/${file_name}`;
-      return createImageTd(src, css_class);
+      const image_source = await image_utils.getImageSourceFromApi(apiFn, id, upload_path);
+      return createImageTd(image_source, css_class);
 }
 
 // Video
@@ -110,20 +110,15 @@ function createVideoTd(video_url, css_class) {
       const video_container = document.createElement('div');
       video_container.classList.add(css_selectors.container.video_container);
 
-      const video_src = document.createElement('source');
-      video_src.src = video_url;
-      video_src.type = 'video/mp4';
+      let video_frame = videos_component.createVideo(css_selectors.videos.video_frame);
+      video_frame = video_utils.clickMouseToPlayVideo(video_frame);
 
-      let video_frame = document.createElement('video');
-      video_frame.classList.add(css_selectors.videos.video_frame);
-      video_frame.controls = false;
-      video_frame.muted = true;
-      video_frame = video_utils.hoverMouseToPlayVideo(video_frame);
+      const video_src = videos_component.createVideoSource(video_url);
 
       video_frame.appendChild(video_src);
-
       video_container.appendChild(video_frame);
       video_cell.appendChild(video_container);
+
       return video_cell;
 }
 
@@ -146,13 +141,13 @@ async function createVideoTdFromApi({ ifile_path, iupload_path, icss }) {
  * @returns {{td: HTMLTableCellElement, checkbox: HTMLInputElement}} An object containing the created td and checkbox.
  */
 function createSelectCheckboxTd(css_class) {
-    const select_td = document.createElement('td');
-    select_td.classList.add(css_class);
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    select_td.appendChild(checkbox);
+      const select_td = document.createElement('td');
+      select_td.classList.add(css_class);
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      select_td.appendChild(checkbox);
 
-    return { td: select_td, checkbox };
+      return { td: select_td, checkbox };
 }
 
 

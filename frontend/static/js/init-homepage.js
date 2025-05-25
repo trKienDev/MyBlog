@@ -1,5 +1,5 @@
 import api_configs from "../../api/api.config.js";
-import { initNewVideos } from "../../sections/new-videos/new-video.section.js";
+import { newVideoSection } from "../../sections/new-videos/new-video.section.js";
 import { initTagSection } from "../../sections/tags/tags.section.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
@@ -15,6 +15,6 @@ function initHomepage() {
 
 function loadHomePageSection() {
       spa_renderHTML.loadContentFromUrl(api_configs.endpoints.tagsSection, id_selectors.section.tag_section, initTagSection);
-      spa_renderHTML.loadContentFromUrl(api_configs.endpoints.newVideosSection, id_selectors.section.new_video, initNewVideos);
+      spa_renderHTML.loadContentFromUrl(api_configs.endpoints.newVideosSection, id_selectors.section.new_video, newVideoSection);
 }
 
