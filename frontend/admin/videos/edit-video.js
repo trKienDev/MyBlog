@@ -11,6 +11,7 @@ import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import spa_navigation from "../../services/spa/navigate-link.spa.js";
 import spa_renderHTML from "../../services/spa/render-html.js";
+import file_utils from "../../utils/file.utils.js";
 import image_utils from "../../utils/image.utils.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import tags_utils from "../../utils/tags.utils.js";
@@ -79,6 +80,7 @@ function updateVideo(ivideo) {
       const submitVideo_btn = document.getElementById(id_selectors.videos.submit_video_btn);
       submitVideo_btn.addEventListener('click', async() => {
             const video_info = collectVideoInfo();
+            console.log('video info: ', video_info);
             const updated_fields = getUpdatedVideoFields(ivideo, video_info);
             const updatedVideo_form = buildVideoForm(updated_fields);
             console.log('updated video form: ', updatedVideo_form);
@@ -100,8 +102,7 @@ function collectVideoInfo() {
       }
 
       const upload_input = document.getElementById(id_selectors.videos.upload_video);
-      const file = upload_input.files[0];
-      
+      const video = upload_input.files[0];
       const action_id = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_action, 'id');
       const action_text = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_action, 'text');
 
@@ -116,11 +117,15 @@ function collectVideoInfo() {
       const code_id = selected_film.getAttribute('code-id');
 
       const video_name = film_name + '_' + action_text;
-
+      
+      let renamed_video;
+      if(video) {
+            renamed_video = file_utils.renameUploadedFile(video, video_name);
+      }
       const playlist_id = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_playlist, 'id');
       const creator_id = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_creator, 'id');
 
-      return { video_name, film_id, code_id, studio_id, action_id, playlist_id, creator_id, tag_ids, file };
+      return { video_name, film_id, code_id, studio_id, action_id, playlist_id, creator_id, tag_ids, file: renamed_video };
 }
 
 /**
@@ -133,7 +138,9 @@ function collectVideoInfo() {
 function getUpdatedVideoFields(ivideo, video_info) {
       const changes = {};
       
-      changes.video_name = video_info.video_name;
+      if(video_info.video_name != null && video_info.video_name !== ivideo.video_name) {
+            changes.video_name = video_info.video_name;
+      }
       
       const id_fields = ['action_id', 'creator_id', 'film_id', 'code_id', 'studio_id', 'playlist_id'];
       id_fields.forEach(function(field) {
@@ -172,7 +179,9 @@ function getUpdatedVideoFields(ivideo, video_info) {
 
 function buildVideoForm(updated_fields) {     
       const video_form = new FormData();
-      video_form.append("film_id", updated_fields.film_id);
+      if(updated_fields.film_id) {
+            video_form.append("film_id", updated_fields.film_id);
+      }
       if(updated_fields.code_id) {
             video_form.append("code_id", updated_fields.code_id);
       }

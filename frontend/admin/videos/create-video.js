@@ -9,6 +9,7 @@ import fetch_api from "../../api/fetch.api.js";
 import tags_utils from "../../utils/tags.utils.js";
 import video_helpers from "./video.helper.js";
 import video_utils from "../../utils/video.utils.js";
+import file_utils from "../../utils/file.utils.js";
 
 export function initCreateVideo() {
       initSearchFilm();
@@ -64,8 +65,8 @@ function collectVideoInfo() {
       }
 
       const upload_input = document.getElementById(id_selectors.videos.upload_video);
-      const file = upload_input.files[0];
-      if(!file) {
+      const video = upload_input.files[0];
+      if(!video) {
             showToast('Please upload your video', 'warning');
             return;
       }
@@ -84,11 +85,11 @@ function collectVideoInfo() {
       const code_id = selected_film.getAttribute('code-id');
 
       const video_name = film_name + '_' + action_text;
-
+      const renamed_video = file_utils.renameUploadedFile(video, video_name);
       const playlist_id = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_playlist, 'id');
       const creator_id = selectSearch_component.getSelectedOptionValue(id_selectors.videos.video_creator, 'id');
 
-      return { video_name, film_id, code_id, studio_id, action_id, playlist_id, creator_id, tag_ids, file };
+      return { video_name, film_id, code_id, studio_id, action_id, playlist_id, creator_id, tag_ids, file: renamed_video };
 }
 
 function buildVideoForm(video_info) {

@@ -2,7 +2,6 @@ import multer, { Multer } from "multer";
 import { CustomRequest } from "../interfaces/CustomRequest";
 import path from "path";
 import fs from "fs";
-import { ExtractIdFromRequest, ExtractNameFromRequest } from "./request.utils.js";
 
 const allowedFileTypes: string[] = [".jpg", ".jpeg", ".png", ".gif", ".mp4"];
 
@@ -22,7 +21,7 @@ const createMulterStorage = (uploadPath: string) => {
                   cb(null, uploadPath);
             },
             filename: (req, file, cb) => {
-                  cb(null, file.originalname);
+                  cb(null, `${Date.now()}-${file.originalname}`);
             },
       });
 };
@@ -62,7 +61,6 @@ const handleMulterUploadArray = (req: CustomRequest, upload: Multer, fieldName: 
  */
 const uploadFile = async (req: CustomRequest, folder: string): Promise<{ file_name: string }> => {
       try {
-            console.log('run uploadFile');
             const upload_path = getUploadPath(folder);
             ensureUploadPathExists(upload_path);
 
@@ -77,7 +75,6 @@ const uploadFile = async (req: CustomRequest, folder: string): Promise<{ file_na
             let file_name = "";
             if ((req as any).file) {
                   const file = (req as any).file as { filename: string };
-                  console.log('file: ', file);
                   file_name = file.filename;
             }
             
