@@ -25,7 +25,6 @@ function waitForUploadVideo(thumbnail_video, upload_video) {
 
       upload_input.addEventListener('change', video_helpers.handleVideoUpload);
 }
-
 function resetVideoPreview() {
       const video_element = document.querySelector('video');
       const source_element = video_element.querySelector('source');
@@ -39,7 +38,6 @@ function resetVideoPreview() {
       thumbnail_image.style.display = "";
       upload_input.value = "";
 }
-
 function populateVideo(ivideo, upload_path) {
       const video_url = `${api_configs.server}/${upload_path}/${ivideo.file_path}`;
       const video_element = document.querySelector('video');

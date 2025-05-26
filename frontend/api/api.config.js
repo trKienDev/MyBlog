@@ -33,6 +33,9 @@ const api_configs = {
             tagsSection: '/sections/tags/tags.section.html',
             newVideosSection: '/sections/new-videos/new-video.section.html',
 
+            // pages
+            playVideoPage: '/pages/play_video/play-video.page.html',
+
             // creator
             getCreators: '/admin/creators', // GET
             getCreatorById: '/admin/creator', // GET

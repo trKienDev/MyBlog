@@ -8,37 +8,56 @@ import videos_component from "../../components/videos.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import FolderUploads from "../../selectors/upload-folder-name.js";
-import image_utils from "../../utils/image.utils.js";
-import video_utils from "../../utils/video.utils.js";
+import spa_navigation from "../../services/spa/navigate-link.spa.js";
 
 const newVideo_section = document.getElementById(id_selectors.section.new_video);
 
 export async function newVideoSection() {
       const videos = await video_api.getVideos();
-      console.log('videos: ', videos);
       const newVideos_div = newVideo_section.querySelector('.new-videos');
       newVideos_div.innerHTML = '';
 
-      videos.forEach(async (video) => {
+      const video_promises = videos.map(async (video) => {
             const video_article = await createVideoArticle(video);
             newVideos_div.appendChild(video_article);
       });
 
+      await Promise.all(video_promises);
+
+      const video_links = newVideos_div.querySelectorAll('a[href^="video/"]');
+      video_links.forEach(link => {
+            if (link) {
+                  link.addEventListener('click', spa_navigation.navigateMediaLink);
+            }
+      });
+      window.addEventListener('popstate', (event) => {
+            console.log("Popstate event:", event.state);
+            // Dựa vào event.state để tải lại nội dung tương ứng
+            if (event.state && event.state.page === 'watch') {
+                  // Tải lại trang video với event.state.videoId
+                  // Cần một hàm riêng để xử lý việc này
+            } else {
+                  // Tải lại trang trước đó hoặc trang chủ
+            }
+    });
 }
 
 async function createVideoArticle(video) {
       let video_article = doms_component.createArticle('video-article');
       const videoArticle_container = doms_component.createDiv('video-article-container');
+      
+      const videoArticle_ahref = doms_component.createAhref({ href: `video/#id=${video._id}`, css_class: 'video-article-link'});
+      videoArticle_container.appendChild(videoArticle_ahref);
 
       const video_container = createVideo(video);
-      videoArticle_container.appendChild(video_container);
+      videoArticle_ahref.appendChild(video_container);
 
       const videoInfo_div = await createVideoInfo(video);
-      videoArticle_container.appendChild(videoInfo_div);
+      videoArticle_ahref.appendChild(videoInfo_div);
 
       video_article.appendChild(videoArticle_container);
-      videoArticle_container.addEventListener('mouseenter', () => {
-            const video_frame = videoArticle_container.querySelector('video'); 
+      videoArticle_ahref.addEventListener('mouseenter', () => {
+            const video_frame = videoArticle_ahref.querySelector('video'); 
             if (video_frame) {
             video_frame.play().catch(error => {
                   console.warn("Video play failed:", error);
@@ -46,8 +65,8 @@ async function createVideoArticle(video) {
             }
       });
 
-      videoArticle_container.addEventListener('mouseleave', () => {
-            const video_frame = videoArticle_container.querySelector('video');
+      videoArticle_ahref.addEventListener('mouseleave', () => {
+            const video_frame = videoArticle_ahref.querySelector('video');
             if (video_frame) {
                   video_frame.pause();
             }
@@ -135,4 +154,3 @@ async function createInfor({ ihref, itext, icss_class, icontainer_css}) {
       
       return info_container;
 }
-
