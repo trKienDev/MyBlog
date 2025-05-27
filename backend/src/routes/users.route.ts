@@ -1,19 +1,13 @@
-import { IncomingMessage, ServerResponse } from 'http';
-import { getHomePage } from '../controllers/home.controller.js';
-import { CustomRequest } from '../interfaces/CustomRequest.js';
+import video_controller from "../controllers/video.controller.js";
+import { Route } from "../interfaces/Route.js";
+import { validated_id } from "../middlewares/validate-id.js";
+import { createRouter } from "./routes.js";
 
-// APIs
-export const userRoutes = (req: IncomingMessage, res: ServerResponse) => {
-      const { url, method } = req;
-      if (req.url === '/' && req.method === 'GET') {
-            getHomePage(req, res);
-      } 
+const user_routes: Route[] = [
+      // video
+      { method: 'GET', path: '/video/:id', handler: validated_id.validateId(video_controller.findVideoById ) },
 
-      else {
-            res.statusCode = 404;
-            res.setHeader('Content-Type', 'text/plain');
-            res.end('User Route Not Found');
-      }
-}
+]
 
-export default userRoutes;
+
+export const handleUserRoutes = createRouter(user_routes);

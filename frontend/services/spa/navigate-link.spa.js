@@ -48,7 +48,7 @@ function navigateMediaLink(event) {
             const media_id = id_part.substring(4); 
             
             if (!media_id) {
-                  console.error("Could not extract video ID:", a_href);
+                  console.error("Could not extract media id:", a_href);
                   showToast('Error', 'error');
                   return;
             }

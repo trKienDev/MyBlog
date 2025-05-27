@@ -68,7 +68,7 @@ function createVideo(video) {
       const videoSrc_ahref = doms_component.createAhref({ css_class: 'video-link'});
       videoSrc_ahref.setAttribute('arial-label', `Watch video: ${video.name}`);
 
-      let video_frame = videos_component.createVideo(css_selectors.videos.video_frame);
+      let video_frame = videos_component.createVideoPreview(css_selectors.videos.video_frame);
 
       const video_src = videos_component.createVideoSource(`${api_configs.server}/${FolderUploads.VIDEOS}/${video.file_path}`);
       

@@ -110,7 +110,7 @@ function createVideoTd(video_url, css_class) {
       const video_container = document.createElement('div');
       video_container.classList.add(css_selectors.container.video_container);
 
-      let video_frame = videos_component.createVideo(css_selectors.videos.video_frame);
+      let video_frame = videos_component.createVideoPreview(css_selectors.videos.video_frame);
       video_frame = video_utils.clickMouseToPlayVideo(video_frame);
 
       const video_src = videos_component.createVideoSource(video_url);

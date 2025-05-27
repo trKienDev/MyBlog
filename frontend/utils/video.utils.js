@@ -38,16 +38,6 @@ function resetVideoPreview() {
       thumbnail_image.style.display = "";
       upload_input.value = "";
 }
-function populateVideo(ivideo, upload_path) {
-      const video_url = `${api_configs.server}/${upload_path}/${ivideo.file_path}`;
-      const video_element = document.querySelector('video');
-      const source_element = video_element.querySelector('source');
-      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
-      source_element.src = video_url;
-      video_element.load();
-      video_element.classList.remove('d-none');
-      thumbnail_image.style.display = 'none';
-}
 
 function waitForUploadNewVideo() {
       const upload_btn = document.getElementById(id_selectors.videos.upload_new_video);
@@ -65,6 +55,5 @@ const video_utils = {
       waitForUploadVideo,
       waitForUploadNewVideo,
       resetVideoPreview,
-      populateVideo,
 };
 export default video_utils;

@@ -14,13 +14,13 @@ function loadMediaPages(prefix, media_id, shouldPushState = true) {
 
       if (mediaRouter_config) {
             const config = mediaRouter_config(media_id);
-            const pushState_options = shouldPushState ? { url: config.url, state: config.state, title: config.title } : null; // <-- Quan trọng: truyền null nếu không muốn push
+            const pushState_options = shouldPushState ? { url: config.url, state: config.state, title: config.title } : null; 
 
             loadContentFromMediaUrl(
                   config.endpoint,
                   ElementsId.PAGECONTENT,
                   pushState_options,
-                  () => { console.log(`Loaded ${prefix} with id: ${media_id}`); }
+                  () => { config.callback(config.media_id) }
             );
       } else {
             console.warn("Unhandled prefix:", prefix);

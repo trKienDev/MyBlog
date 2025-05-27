@@ -7,6 +7,7 @@ import tag_api from "../../api/tag.api.js";
 import { video_api } from "../../api/video.api.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import select_component from "../../components/select.component.js";
+import videos_component from "../../components/videos.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import spa_navigation from "../../services/spa/navigate-link.spa.js";
@@ -60,7 +61,7 @@ async function populateVideoInfo(ivideo) {
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);    
       await tags_utils.renderSelectedTags(ivideo.tag_ids, selectTag_container, tag_api.getTagById);
 
-      video_utils.populateVideo(ivideo, 'uploads/videos');
+      videos_component.populateVideo(ivideo, 'uploads/videos');
 }
 
 async function renderFilmOfUpdatedVideo(ifilm) {

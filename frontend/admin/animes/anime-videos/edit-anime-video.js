@@ -3,6 +3,7 @@ import api_configs from "../../../api/api.config.js";
 import fetch_api from "../../../api/fetch.api.js";
 import tag_api from "../../../api/tag.api.js";
 import selectSearch_component from "../../../components/select-search.component.js";
+import videos_component from "../../../components/videos.component.js";
 import css_selectors from "../../../selectors/css.selectors.js";
 import id_selectors from "../../../selectors/element-id.selector.js";
 import spa_renderHTML from "../../../services/spa/render-html.js";
@@ -41,7 +42,7 @@ async function populateAnimeVideoInfo(ivideo) {
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);
       await tags_utils.renderSelectedTags(ivideo.tag_ids, selectTag_container, animes_api.getAnimeTagById);
 
-      video_utils.populateVideo(ivideo, 'uploads/anime/videos');
+      videos_component.populateVideo(ivideo, 'uploads/anime/videos');
 }
 
 function updateAnimeVideo(ivideo) {

@@ -1,11 +1,13 @@
 @import url('../../sections//tags/tags.section.css');
 @import url('../../sections/new-videos/new-video.section.css');
 @import url('./video.css');
+@import url('./keyword.css');
 
 body {
       font-family: 'Lexend', sans-serif;
-      background-color: rgb(21, 20, 26);
+      background-color: #24262b;
       color: white;
+      margin: 0px;
 }
 a {
       text-decoration: none;
@@ -31,7 +33,10 @@ a {
       margin: 0 auto;
       display: flex;
 }
-
+.page-container {
+      width: 90%;
+      margin: 0 auto;
+}
 .row {
       display: flex;
       justify-content: space-between;
@@ -56,6 +61,7 @@ a {
       align-items: center;
       padding: 0 16px;
       height: 56px;
+      background: #1e2024;
 }
     
 .search-form {
@@ -152,11 +158,12 @@ a {
       align-items: center;
       padding: 15px 20px;
 } 
+.sidebar ul li a:hover {
+      background: linear-gradient(270deg,rgba(250, 94, 255, 0),rgba(255, 62, 189, 0.11) 66.15%,rgba(255, 4, 216, 0.3));
+      color: #FF9CCE;
+}
 .sidebar ul li a i {
       margin-right: 20px; 
-}
-.sidebar ul li:hover {
-      background-color: #202a46;
 }
 .sidebar .active {
       font-weight: bold;
@@ -175,4 +182,5 @@ a {
 #main-content .wrapper {
       padding: 0px 30px;
 }
+
 /* ================================================================ */

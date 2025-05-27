@@ -1,5 +1,14 @@
 import api_configs from "./api.config.js";
+import { api_user } from "./api.endpoints.js";
 import fetch_api from "./fetch.api.js";
+
+async function getVideoById(id) {
+      const result = await fetch_api.apiGet(`${api_user.getVideoById}/${id}`);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+      return result.data;
+}
 
 async function getVideos() {
       const result = await fetch_api.apiGet(api_configs.endpoints.getVideos);
@@ -17,5 +26,6 @@ async function updateVideo(video_id, form_data) {
 
 export const video_api = {
       getVideos,
+      getVideoById,
       updateVideo,
 }

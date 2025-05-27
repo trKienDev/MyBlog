@@ -1,4 +1,7 @@
-function createVideo(css_class) {
+import api_configs from "../api/api.config.js";
+import id_selectors from "../selectors/element-id.selector.js";
+
+function createVideoPreview(css_class) {
       const video = document.createElement('video');
       video.classList.add(css_class);
       video.controls = false;
@@ -14,9 +17,35 @@ function createVideoSource(file_path) {
       return source;
 }
 
+function populateVideo(ivideo, upload_path) {
+      const video_url = `${api_configs.server}/${upload_path}/${ivideo.file_path}`;
+      const video_element = document.querySelector('video');
+      const source_element = video_element.querySelector('source');
+      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
+      source_element.src = video_url;
+      video_element.load();
+      video_element.classList.remove('d-none');
+      thumbnail_image.style.display = 'none';
+}
+
+function populateVideoById({element_id, ivideo, upload_path}) {
+      const video_url = `${api_configs.server}/${upload_path}/${ivideo.file_path}`;
+      const video_element = document.getElementById(element_id);
+      const source_element = video_element.querySelector('source');
+      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
+
+      source_element.src = video_url;
+      video_element.load();
+      video_element.classList.remove('d-none');
+      thumbnail_image.style.display = 'none';
+
+      return video_element;
+}
 
 const videos_component = {
-      createVideo,
+      createVideoPreview,
       createVideoSource,
+      populateVideo,
+      populateVideoById,
 }
 export default videos_component;

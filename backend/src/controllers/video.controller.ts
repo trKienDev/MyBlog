@@ -5,22 +5,37 @@ import { VideoService } from "../services/video.service.js";
 import { VideoRepository } from "../repository/video.repository.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 
-const video_repository = new VideoRepository();
-const video_service = new VideoService(video_repository);
+const repository = new VideoRepository();
+const service = new VideoService(repository);
 
-const getVideos = async(req: CustomRequest, res: ServerResponse) => {
+const getVideos = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const videos = await video_repository.getVIdeos();
-            return sendResponse(res, 200, videos);
+            const videos = await repository.getVIdeos();
+            return sendResponse(response, 200, videos);
       } catch(error) {
             console.error('Error get all videos: ', error);
-            return sendError(res, 500, error);
+            return sendError(response, 500, error);
+      }
+}
+
+const findVideoById = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const id = request.params?.id;
+            const video = await repository.findById(id);
+            if(video == null) {
+                  return sendError(response, 404, 'video not found');
+            } 
+            
+            return sendResponse(response, 200, video);
+      } catch(error) {
+            console.error('Error find video by id: ', error);
+            return sendError(response, 500, error);
       }
 }
 
 const createVideo = async(req: CustomRequest, res: ServerResponse) => {
       try {
-            const saved_video = await video_service.createVideo(req);
+            const saved_video = await service.createVideo(req);
             sendResponse(res, 201, saved_video);
       } catch(error) {
             console.error('Error creating video: ', error);
@@ -30,7 +45,7 @@ const createVideo = async(req: CustomRequest, res: ServerResponse) => {
 
 const updatedVIdeo = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
-            const updated_video = await video_service.updateVideo(req);
+            const updated_video = await service.updateVideo(req);
             return sendResponse(res, 200, updated_video);
       } catch(error) {
             console.error('Error updating video: ', error);
@@ -40,6 +55,7 @@ const updatedVIdeo = async(req: ValidateIdRequest, res: ServerResponse) => {
 
 const video_controller = {
       getVideos,
+      findVideoById,
       createVideo,
       updatedVIdeo,
 }

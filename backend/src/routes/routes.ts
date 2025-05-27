@@ -1,8 +1,8 @@
 import { ServerResponse } from "http";
 import { handleAdminRoutes } from "./admin.route.js";
-import userRoutes from "./users.route.js";
 import { Route } from "../interfaces/Route.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
+import { handleUserRoutes } from "./users.route.js";
 
 export function handleRoutes(req: CustomRequest, res: ServerResponse) {
       // admin
@@ -13,7 +13,7 @@ export function handleRoutes(req: CustomRequest, res: ServerResponse) {
 
       // users
       if(req.url?.startsWith('/')) {
-            userRoutes(req, res);
+            handleUserRoutes(req, res);
             return;
       }
       console.error("Error handleRoutes in route.ts");

@@ -22,8 +22,12 @@
       height: 50px;
 }
 .new-videos .video-article-container {
-      background-color: rgb(35, 34, 43);
+      background-color: #2e3138;
       border-radius: 5px;
+}
+.new-videos .video-article-container:hover {
+      background-color: #3a3d44;
+      transition: .3s;
 }
 .new-videos .video-info-container {
       padding: 5px 5px;

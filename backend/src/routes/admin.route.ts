@@ -55,6 +55,7 @@ const adminRoutes: Route[] = [
       { method: 'PUT', path: '/admin/film/:id', handler: validated_id.validateId(filmController.updateFilm) },
       // video
       { method: 'GET', path: '/admin/videos', handler: video_controller.getVideos },
+      { method: 'GET', path: '/admin/video/:id', handler: validated_id.validateId(video_controller.findVideoById ) },
       { method: 'POST', path: '/admin/video', handler: video_controller.createVideo },
       { method: 'PUT', path: '/admin/video/:id', handler: validated_id.validateId(video_controller.updatedVIdeo ) },
       // playlist
