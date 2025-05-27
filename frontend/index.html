@@ -15,56 +15,7 @@
             </form>
       </header>
 
-      <div id='dynamic-pages' class="d-flex">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                  <nav>
-                        <ul>
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-house"></i> Home</a>
-                              </li>
-                              <hr class="sidebar-separator">
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-clapperboard"></i> Films</a>
-                              </li>
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-masks-theater"></i> Animes</a>
-                              </li>
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-images"></i> Mangas</a>
-                              </li>
-                              <hr class="sidebar-separator">
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-video"></i> Studios</a>
-                              </li>
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-user"></i> Creator</a>
-                              </li>
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-folder"></i> Collections</a>
-                              </li>
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-floppy-disk"></i> Playlists</a>
-                              </li>
-                              <hr class="sidebar-separator">
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
-                              </li>
-                              <li class="sidebar-item">
-                                    <a href="#"><i class="fa-solid fa-thumbs-up"></i> Liked</a>
-                              </li>
-                        </ul>
-                  </nav>
-            </aside>
-            
-            <!-- Main -->
-            <main id="main-content">
-                  <div class="wrapper">
-                        <section id="tags-section" aria-labelledby="tags-section-title"></section>
-                        <section id="new-videos-section" aria-labelledby="video-sections-title"></section>
-                  </div>
-            </main>
-      </div>
+      <div id='page-content' class="d-flex"></div>
 
       <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
       <div id="footer"></div>
@@ -72,6 +23,7 @@
       <script src="static/js/layout.js"></script>
       <script type="text/javascript" src="../static/js/load-title.js"></script>
       <script type="module" src="static/js/init-homepage.js"></script>
+      <script type="module" src="services/spa/router.spa.js"></script>
 </body>
 </html>
 

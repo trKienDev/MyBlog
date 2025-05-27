@@ -6,15 +6,12 @@ import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
 import videos_component from "../../components/videos.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
-import id_selectors from "../../selectors/element-id.selector.js";
 import FolderUploads from "../../selectors/upload-folder-name.js";
 import spa_navigation from "../../services/spa/navigate-link.spa.js";
 
-const newVideo_section = document.getElementById(id_selectors.section.new_video);
-
-export async function newVideoSection() {
+export async function NewVideosSectionController() {
       const videos = await video_api.getVideos();
-      const newVideos_div = newVideo_section.querySelector('.new-videos');
+      const newVideos_div = document.querySelector('.new-videos');
       newVideos_div.innerHTML = '';
 
       const video_promises = videos.map(async (video) => {
@@ -30,16 +27,6 @@ export async function newVideoSection() {
                   link.addEventListener('click', spa_navigation.navigateMediaLink);
             }
       });
-      window.addEventListener('popstate', (event) => {
-            console.log("Popstate event:", event.state);
-            // Dựa vào event.state để tải lại nội dung tương ứng
-            if (event.state && event.state.page === 'watch') {
-                  // Tải lại trang video với event.state.videoId
-                  // Cần một hàm riêng để xử lý việc này
-            } else {
-                  // Tải lại trang trước đó hoặc trang chủ
-            }
-    });
 }
 
 async function createVideoArticle(video) {
