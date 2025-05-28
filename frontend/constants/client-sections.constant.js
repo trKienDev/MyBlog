@@ -1,4 +1,4 @@
-import ClientFolders from "./client-folders.constant.js";
+import { ClientFolders } from "./folders.constant.js";
 
 const ClientSections = {
       TAGS: `/${ClientFolders.SECTIONS}/tags/tags.section.html`,

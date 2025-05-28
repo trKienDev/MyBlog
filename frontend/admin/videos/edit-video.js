@@ -8,9 +8,11 @@ import { video_api } from "../../api/video.api.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import select_component from "../../components/select.component.js";
 import videos_component from "../../components/videos.component.js";
+import css_class from "../../constants/css.constant.js";
+import dom_id from "../../constants/doms.constant.js";
+import { ServerFolders } from "../../constants/folders.constant.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import spa_navigation from "../../services/spa/navigate-link.spa.js";
 import spa_renderHTML from "../../services/spa/render-html.js";
 import file_utils from "../../utils/file.utils.js";
 import image_utils from "../../utils/image.utils.js";
@@ -28,11 +30,11 @@ export function redirectToEditVideoPage(ivideo) {
 }
 
 async function initEditVideoAdmin(ivideo) {
-      selectSearch_component.initSelectSearch(id_selectors.videos.video_action, api_configs.endpoints.getTagsByAction, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.videos.video_creator, api_configs.endpoints.getCreators, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.videos.video_tag, api_configs.endpoints.getTagsByVideo, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.videos.video_playlist, api_configs.endpoints.getPlaylists, 'name');
-      tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.videos.video_tag);
+      selectSearch_component.initSelectSearch(dom_id.VIDEO_ACTION, api_configs.endpoints.getTagsByAction, 'name');
+      selectSearch_component.initSelectSearch(dom_id.VIDEO_CREATOR, api_configs.endpoints.getCreators, 'name');
+      selectSearch_component.initSelectSearch(dom_id.VIDEO_TAG, api_configs.endpoints.getTagsByVideo, 'name');
+      selectSearch_component.initSelectSearch(dom_id.VIDEO_PLAYLIST, api_configs.endpoints.getPlaylists, 'name');
+      tags_utils.displaySelectedTag(dom_id.SELECTED_TAG_CONTAINER, css_class.SELECTED_TAG, dom_id.VIDEO_TAG);
       video_utils.waitForUploadNewVideo();
       populateFilmInfo(ivideo);
       populateVideoInfo(ivideo);
@@ -54,9 +56,9 @@ async function populateFilmInfo(ivideo) {
 }
 
 async function populateVideoInfo(ivideo) {
-      await selectSearch_component.loadInfoSelectSearch(ivideo, id_selectors.videos.video_action, 'action_id', tag_api.getTagName);
-      await selectSearch_component.loadInfoSelectSearch(ivideo, id_selectors.videos.video_playlist, 'playlist_id', playlist_api.getPlaylistName);
-      await selectSearch_component.loadInfoSelectSearch(ivideo, id_selectors.videos.video_creator, 'creator_id', creator_api.getCreatorName);
+      await selectSearch_component.loadInfoSelectSearch(ivideo, dom_id.VIDEO_ACTION, 'action_id', tag_api.getTagName);
+      await selectSearch_component.loadInfoSelectSearch(ivideo, dom_id.VIDEO_PLAYLIST, 'playlist_id', playlist_api.getPlaylistName);
+      await selectSearch_component.loadInfoSelectSearch(ivideo, dom_id.VIDEO_CREATOR, 'creator_id', creator_api.getCreatorName);
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);    
       await tags_utils.renderSelectedTags(ivideo.tag_ids, selectTag_container, tag_api.getTagById);
@@ -65,14 +67,14 @@ async function populateVideoInfo(ivideo) {
 }
 
 async function renderFilmOfUpdatedVideo(ifilm) {
-      const tbody = document.querySelector(`#${id_selectors.table.search_film} tbody`);
+      const tbody = document.querySelector(`#${dom_id.SEARCH_FILM_TABLE} tbody`);
       tbody.innerHTML = '';
 
       const { tr, checkbox } = await video_helpers.createFilmTr(ifilm);
       checkbox.checked = true;
       tr.classList.add('selected');
 
-      image_utils.loadThumbnailOfSelectedFilm(ifilm, 'uploads/film');
+      image_utils.loadThumbnailOfSelectedFilm(ifilm, ServerFolders.FILMS);
 
       tbody.appendChild(tr);
 }

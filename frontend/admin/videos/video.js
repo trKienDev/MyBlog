@@ -6,6 +6,7 @@ import { video_api } from "../../api/video.api.js";
 import div_component from "../../components/div.component.js";
 import span_component from "../../components/span.component.js";
 import table_component from "../../components/table.component.js";
+import { ServerFolders } from "../../constants/folders.constant.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import spa_navigation from "../../services/spa/navigate-link.spa.js";
@@ -46,7 +47,7 @@ async function renderListVideo() {
 
                   const filmThumbnail_td = await table_component.createImgTdFromApi({ apiFn: film_api.getFilmThumbnail,
                                                                                                                                           id: video.film_id,
-                                                                                                                                          upload_path: 'uploads/film',
+                                                                                                                                          upload_path: ServerFolders.FILMS,
                                                                                                                                           css_class: css_selectors.films.film_thumbnail});
                   tr.appendChild(filmThumbnail_td);
 

@@ -1,4 +1,4 @@
-import ClientFolders from "./client-folders.constant.js";
+import { ClientFolders } from "./folders.constant.js";
 
 const ClientPages = {
       HOMEPAGE: `/${ClientFolders.PAGES}/homepage/homepage.page.html`,

@@ -1,4 +1,5 @@
 import { CreateVideoDTO, UpdateVideoDTO } from "../dtos/video.dto.js";
+import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { iVIdeoRepository } from "../repository/interfaces/ivideo.repository.js";
@@ -13,7 +14,7 @@ export class VideoService {
       }
 
       async createVideo(req: CustomRequest): Promise<CreateVideoDTO | unknown> {
-            const { file_name } = await file_utils.uploadFile(req, "videos");
+            const { file_name } = await file_utils.uploadFile(req, UploadFiles.VIDEOS);
             let video_name = request_utils.extractParamFromRequest(req, "name");
 
             const existing_video = await this.video_repository.findByName(video_name);
@@ -50,7 +51,7 @@ export class VideoService {
             const existing_video = await this.video_repository.findById(id);
             if(!existing_video) throw new Error('Video not found!');
 
-            const { file_name } = await file_utils.uploadFile(req, "videos");
+            const { file_name } = await file_utils.uploadFile(req, UploadFiles.VIDEOS);
             const video_name = request_utils.extractParamFromRequest(req, "name");
             const action_id = request_utils.extractParamFromRequest(req, "action_id");
             const playlist_id = request_utils.extractParamFromRequest(req, "playlist_id");
@@ -64,7 +65,7 @@ export class VideoService {
             const updatedVideo_data: Record<string, any> = { video_name, action_id, playlist_id, creator_id, film_id, code_id, studio_id, tag_ids};
             
             if(file_name) { 
-                  FileService.deleteFile("videos", existing_video.file_path);
+                  FileService.deleteFile(UploadFiles.VIDEOS, existing_video.file_path);
                   updatedVideo_data.file_path = file_name;
             }
 

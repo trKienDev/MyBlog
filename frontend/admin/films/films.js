@@ -1,7 +1,7 @@
 import modal_component from "../../components/modal.component.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import api_configs from "../../api/api.config.js";
-import thumbnail_component, { waitForUploadOrSubmit } from "../../components/thumbnail.component.js";
+import thumbnail_component from "../../components/thumbnail.component.js";
 import { error_sweetAlert } from "../../utils/sweet-alert.js";
 import table_component from "../../components/table.component.js";
 import id_selectors from "../../selectors/element-id.selector.js";

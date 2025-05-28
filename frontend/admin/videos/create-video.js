@@ -10,11 +10,12 @@ import tags_utils from "../../utils/tags.utils.js";
 import video_helpers from "./video.helper.js";
 import video_utils from "../../utils/video.utils.js";
 import file_utils from "../../utils/file.utils.js";
+import dom_id from "../../constants/doms.constant.js";
 
 export function initCreateVideo() {
       initSearchFilm();
       const search_btn = video_helpers.createSearchFilmBtn(id_selectors.films.search_film);
-      selectSearch_component.initSelectSearch(id_selectors.videos.video_action, api_configs.endpoints.getTagsByAction, 'name');
+      selectSearch_component.initSelectSearch(dom_id.VIDEO_ACTION, api_configs.endpoints.getTagsByAction, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_creator, api_configs.endpoints.getCreators, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_tag, api_configs.endpoints.getTagsByVideo, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_playlist, api_configs.endpoints.getPlaylists, 'name');

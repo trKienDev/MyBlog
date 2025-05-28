@@ -1,9 +1,9 @@
 import api_configs from "./api.config.js";
-import { api_user } from "./api.endpoints.js";
+import { api_endpoint } from "./endpoint.api.js";
 import fetch_api from "./fetch.api.js";
 
 async function getVideoById(id) {
-      const result = await fetch_api.apiGet(`${api_user.getVideoById}/${id}`);
+      const result = await fetch_api.apiGet(`${api_endpoint.getVideoById}/${id}`);
       if(result.success === false) {
             throw new Error(result.error);
       }

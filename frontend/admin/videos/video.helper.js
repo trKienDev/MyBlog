@@ -2,6 +2,7 @@ import api_configs from "../../api/api.config.js";
 import { film_api } from "../../api/film.api.js";
 import { studio_api } from "../../api/studio.api.js";
 import table_component from "../../components/table.component.js";
+import { ServerFolders } from "../../constants/folders.constant.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import date_utils from "../../utils/date.js";
@@ -15,7 +16,7 @@ async function renderFilmsTable(films, tbody) {
             let { tr, checkbox } = await createFilmTr(film);
 
             const onTrSelectedHandler = (selected_film) => {
-                  image_utils.loadThumbnailOfSelectedFilm(selected_film, 'uploads/film');
+                  image_utils.loadThumbnailOfSelectedFilm(selected_film, ServerFolders.FILMS);
             }
 
             tr = table_component.handleTrSelection(

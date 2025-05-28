@@ -12,8 +12,6 @@ function loadThumbnailOfSelectedFilm(ifilm, file_path) {
       const thumbnail_element = document.getElementById(id_selectors.thumbnail.thumbnail_image);
       thumbnail_element.src = `${api_configs.server}/${file_path}/${ifilm.thumbnail}`;
       thumbnail_element.alt = `${ifilm.name} thumbnail`;
-
-      return thumbnail_element;
 }
 
 function displayThumbnailOfSelectedSearchFilm(element_id, upload_path, apiFn) {

@@ -13,6 +13,11 @@ import collection_api from "../../api/collection.api.js";
 import select_component from "../../components/select.component.js";
 import film_helper from "./film.helper.js";
 import tag_api from "../../api/tag.api.js";
+import { ServerFolders } from "../../constants/folders.constant.js";
+import thumbnail_component from "../../components/thumbnail.component.js";
+import dom_id from "../../constants/doms.constant.js";
+import css_class from "../../constants/css.constant.js";
+import { api_admin } from "../../api/endpoint.api.js";
 
 export async function updateFilm(film) {
       try {                 
@@ -63,14 +68,14 @@ function closeUpdateModal(modal_id) {
 }
 
 function collectUpdateForm() {
-      const studio_id = selectSearch_component.getSelectedOptionValue(id_selectors.films.film_studio, 'id');
-      const code_id = film_helper.getSelectedCodeOption(id_selectors.films.film_code).value;
-      const name = getFilmName(id_selectors.films.film_code, id_selectors.films.code_number);
-      const collection_id = selectSearch_component.getSelectedOptionValue(id_selectors.films.film_collection, 'id');
-      const date = document.getElementById(id_selectors.date.release_date).value;
-      const rating = document.getElementById(id_selectors.films.film_rating).value;
-      const tags = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
-      const thumbnail = document.getElementById(id_selectors.thumbnail.thumbnail_upload).files[0];
+      const studio_id = selectSearch_component.getSelectedOptionValue(dom_id.FILM_STUDIO, 'id');
+      const code_id = film_helper.getSelectedCodeOption(dom_id.FILM_CODE).value;
+      const name = getFilmName(dom_id.FILM_CODE, dom_id.CODE_NUMBER);
+      const collection_id = selectSearch_component.getSelectedOptionValue(dom_id.FILM_COLLECTION, 'id');
+      const date = document.getElementById(dom_id.RELEASE_DATE).value;
+      const rating = document.getElementById(dom_id.FILM_RATING).value;
+      const tags = tags_utils.getSelectedTags(dom_id.SELECTED_TAG_CONTAINER, css_class.SELECTED_TAG);
+      const thumbnail = document.getElementById(dom_id.THUMBNAIL_UPLOAD).files[0];
       
       return { name, studio_id, code_id, collection_id, date, rating, tags, thumbnail };
 }
@@ -143,39 +148,39 @@ function buildUpdateFilmForm(updated_fields) {
 }
 
 function initModalUI(film) {
-      modal_component.openModal(id_selectors.modal.create_film);     
-      modal_component.changeTitle(id_selectors.modal.create_film, '#submit-btn', css_selectors.button.primary_btn, 'btn-update', `Update ${film.name}`);
-      selectSearch_component.initSelectSearch(id_selectors.films.film_studio, api_configs.endpoints.getStudios, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.films.film_collection, api_configs.endpoints.getCollections, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.films.film_tag, api_configs.endpoints.getFilmTags, 'name');
-      uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
-      getCodeByStudio(id_selectors.films.film_studio);
+      modal_component.openModal(dom_id.CREATE_FILM_MODAL);     
+      modal_component.changeTitle(dom_id.CREATE_FILM_MODAL, `#${css_class.SUBMIT_BTN}`, css_class.LIGHT_BTN, css_class.BTN_UPDATE, `Update ${film.name}`);
+      selectSearch_component.initSelectSearch(dom_id.FILM_STUDIO, api_admin.getStudios, 'name');
+      selectSearch_component.initSelectSearch(dom_id.FILM_COLLECTION, api_admin.getCollections, 'name');
+      selectSearch_component.initSelectSearch(dom_id.FILM_TAG, api_admin.getTagsByFilm, 'name');
+      thumbnail_component.uploadThumbnail(dom_id.THUMBNAIL_IMAGE, dom_id.THUMBNAIL_UPLOAD, dom_id.SUBMIT_BTN);
+      getCodeByStudio(dom_id.FILM_STUDIO);
 }
 
 async function populateFilmForm(film) {
-      await selectSearch_component.loadInfoSelectSearch(film, id_selectors.films.film_studio, id_selectors.studio.studio_id, studio_api.getStudioNameById);
-      await select_component.selectCodeByStudio(id_selectors.films.film_code, film.studio_id);
-      await selectSearch_component.loadInfoSelectSearch(film, id_selectors.films.film_collection, id_selectors.collection.collection_id, collection_api.getCollectionName);
+      await selectSearch_component.loadInfoSelectSearch(film, dom_id.FILM_STUDIO, 'studio_id', studio_api.getStudioNameById);
+      await select_component.selectCodeByStudio(dom_id.FILM_CODE, film.studio_id);
+      await selectSearch_component.loadInfoSelectSearch(film, dom_id.FILM_COLLECTION, id_selectors.collection.collection_id, collection_api.getCollectionName);
       
-      select_component.getCodeOptionByStudoId(id_selectors.films.film_code, film.code_id);
+      select_component.getCodeOptionByStudoId(dom_id.FILM_CODE, film.code_id);
       const film_name = film.name;
       const film_numb = film_name.split('-')[1]; 
       const filmNumb_input = document.getElementById('code-number');
       filmNumb_input.value = film_numb;
 
-      const date_input = document.getElementById(id_selectors.date.release_date);
+      const date_input = document.getElementById(dom_id.RELEASE_DATE);
       const film_date = new Date(film.date);
       const formatted_date = film_date.toISOString().split('T')[0];
       date_input.value = formatted_date;
 
-      const film_rating = document.getElementById(id_selectors.films.film_rating);
+      const film_rating = document.getElementById(dom_id.FILM_RATING);
       film_rating.value = film.rating;
 
-      const selectTag_container = document.getElementById(id_selectors.container.selected_tag);
+      const selectTag_container = document.getElementById(dom_id.SELECTED_TAG_CONTAINER);
       selectTag_container.innerHTML = '';
       await tags_utils.renderSelectedTags(film.tag_ids, selectTag_container, tag_api.getTagById);
       
-      const film_thumbnail = document.getElementById(id_selectors.thumbnail.thumbnail_image);
-      film_thumbnail.src = `${api_configs.server}/uploads/film/${film.thumbnail}`;
+      const film_thumbnail = document.getElementById(dom_id.THUMBNAIL_IMAGE);
+      film_thumbnail.src = `${api_configs.server}/${ServerFolders.FILMS}/${film.thumbnail}`;
 } 
 

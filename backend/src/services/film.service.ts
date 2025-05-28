@@ -1,4 +1,5 @@
 import { CreateFilmDTO, FilmDTO, UpdateFilmDTO } from "../dtos/film.dto.js";
+import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { iFilmRepository } from "../repository/interfaces/ifilm.repository.js";
@@ -14,7 +15,7 @@ export class FilmService {
       }
       
       async createFilm(request: CustomRequest): Promise<CreateFilmDTO> {
-            const { file_name } = await file_utils.uploadFile(request, "film");
+            const { file_name } = await file_utils.uploadFile(request, UploadFiles.FILMS);
             const name = request_utils.extractParamFromRequest(request, "name");
             const existing_film = await this.film_repository.findByName(name);
             if (existing_film) {
@@ -53,7 +54,7 @@ export class FilmService {
                   throw new Error('Film not found');
             }
 
-            const { file_name } = await file_utils.uploadFile(request, "film");
+            const { file_name } = await file_utils.uploadFile(request, UploadFiles.FILMS);
             const name = request_utils.extractParamFromRequest(request, "name");
             const studio_id = request_utils.extractParamFromRequest(request, "studio_id");
             const code_id = request_utils.extractParamFromRequest(request, "code_id");
@@ -72,7 +73,7 @@ export class FilmService {
             }
 
             if(file_name) {
-                  FileService.deleteFile("film", existing_film.thumbnail);
+                  FileService.deleteFile(UploadFiles.FILMS, existing_film.thumbnail);
                   updateFilm_data.thumbnail = file_name;
             }
 
