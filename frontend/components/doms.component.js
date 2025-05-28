@@ -29,6 +29,12 @@ function createSpan({ text, css_class}) {
 
       return span;
 }
+function createLiElement(css_class) {
+      const li_element = document.createElement('li');
+      li_element.classList.add(css_class);
+
+      return li_element;
+}
 
 const doms_component = {
       createArticle,
@@ -36,5 +42,6 @@ const doms_component = {
       createAhref,
       createH3,
       createSpan,
+      createLiElement,
 }
 export default doms_component;

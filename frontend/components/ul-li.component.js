@@ -1,5 +1,7 @@
 import css_selectors from "../selectors/css.selectors.js";
 import { showToast } from "../utils/toast-notification.js";
+import doms_component from "./doms.component.js";
+import tags_component from "./tags.component.js";
 
 /**
  * Xóa tất cả các thẻ <li> con khỏi một thẻ <ul> được chỉ định.
@@ -36,42 +38,8 @@ function removeLiFromUl(css_class) {
       }
 }
 
-/**
- * Creates a new <li> element with an <a> tag and appends it to the given <ul>.
- * @param {HTMLUListElement} ul_element - The <ul> element to append the new <li> to.
- * @param {object} tag - An object containing tag data. Expected to have a 'name' property.
- * Optionally, it can have a 'url' property for the link's href.
- * @returns {HTMLLIElement|null} The newly created <li> element, or null if an error occurs.
- */
-function createLiElement(ul_element, tag) {
-      const error_notification = 'error create li element';
-      if (!(ul_element instanceof HTMLElement) || ul_element.tagName !== 'UL') {
-            console.error('createLiElement Error: First argument must be a UL HTML element.');
-            showToast(error_notification, 'error');
-            return null;
-      }
-      if (!tag || typeof tag.name === 'undefined') {
-            console.error('createLiElement Error: Second argument must be an object with a "name" property.');
-            showToast(error_notification, 'error');
-            return null;
-      }
-
-      const li_element = document.createElement('li');
-      li_element.classList.add(css_selectors.tags.tag_item);
-
-      const a_element = document.createElement('a');
-      a_element.href = tag.url || `#${encodeURIComponent(tag.name.trim().toLowerCase().replace(/\s+/g, '-'))}`;
-      a_element.classList.add(css_selectors.tags.tag_link);
-      a_element.textContent = tag.name;
-
-      li_element.appendChild(a_element);
-      ul_element.appendChild(li_element);
-
-      return li_element; 
-}
 
 const ul_li_component = {
       removeLiFromUl,
-      createLiElement,
 }
 export default ul_li_component;

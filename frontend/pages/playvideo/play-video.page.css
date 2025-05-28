@@ -1,0 +1,15 @@
+#play-video_page {
+      max-width: 1375px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+}
+#play-video_page .right-column {
+      width: 399px;
+}
+#video-player {
+      border-radius: 10px;
+}
+#video_film-thumbnail {
+      border-radius: 10px;
+}

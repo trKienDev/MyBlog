@@ -46,9 +46,9 @@ function waitForUploadOrSubmit(thumbnailImg_id, thumbnailUpload_id, submitBtn_id
 }
 
 
-async function updateFilmThumbnailSource({ video, thumbnailElement_id, upload_path, }) {
-      const film_thumbnail = await film_api.getFilmThumbnail(video.film_id);
-      const film_name = await film_api.getFilmNameById(video.film_id);
+async function updateFilmThumbnailSource({ film_id, thumbnailElement_id, upload_path, }) {
+      const film_thumbnail = await film_api.getFilmThumbnail(film_id);
+      const film_name = await film_api.getFilmNameById(film_id);
       const filmThumbnail_element = document.getElementById(thumbnailElement_id);
       filmThumbnail_element.src = `${api_configs.server}/${upload_path}/${film_thumbnail}`;
       filmThumbnail_element.alt = `${film_name} thumbnail`;

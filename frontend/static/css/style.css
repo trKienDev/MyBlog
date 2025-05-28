@@ -1,5 +1,6 @@
 @import url('../../sections//tags/tags.section.css');
 @import url('../../sections/new-videos/new-video.section.css');
+@import url('../../pages/playvideo/play-video.page.css')    ;
 @import url('./video.css');
 @import url('./keyword.css');
 
@@ -32,6 +33,9 @@ a {
       max-width: 1200px;
       margin: 0 auto;
       display: flex;
+}
+#page-content {
+      padding-top: 30px;
 }
 .page-container {
       width: 90%;
@@ -182,5 +186,10 @@ a {
 #main-content .wrapper {
       padding: 0px 30px;
 }
+/* ================================================================ */
 
+/* thumbnail */
+.film-thumbnail {
+      border-radius: 5px;
+}
 /* ================================================================ */
