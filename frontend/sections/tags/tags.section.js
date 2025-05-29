@@ -8,7 +8,7 @@ export async function TagsSectionController() {
       const tags = await tag_api.getTags();
 
       tags.forEach(tag => {
-            const tag_li = tags_component.createTagItem(tag, 'tag-item');
+            const tag_li = tags_component.createTagLi(tag, 'tag-item');
             tagLists_ul.appendChild(tag_li);
       });
 }

@@ -26,6 +26,8 @@ a {
       --bright-yellow: #FFEA00;
       --gold: #FFD700;
       --golden-yellow: #FFC000;
+      /* gray */
+      --dark-gray: #2e3138;
 }
 
 .container {
@@ -191,5 +193,24 @@ a {
 /* thumbnail */
 .film-thumbnail {
       border-radius: 5px;
+}
+/* ================================================================ */
+
+/* thumbnail */
+.tag-item {
+      flex-shrink: 0;
+      background-color: var(--golden-yellow);
+      padding: 4px 10px; 
+      border-radius: 5px; 
+      transition: background 0.8s, filter 0.8s;
+}
+.tag-item a { 
+      color: black;
+      font-size: 13px;
+      line-height: 10px;
+}
+.tag-item:hover {
+      cursor: pointer;
+      background-color: var(--bright-yellow);
 }
 /* ================================================================ */

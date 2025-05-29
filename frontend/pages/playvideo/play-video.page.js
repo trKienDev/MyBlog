@@ -18,13 +18,18 @@ export async function playVideoPageController(id) {
 async function renderVideoData(video) {
       videos_component.updateVideoSourceById({element_id: dom_id.VIDEO_PLAYER, ivideo: video, upload_path: ServerFolders.VIDEOS });
       span_component.updateSpanText(dom_id.VIDEO_NAME, video.name);
+      updateVideoActionData(video);
       
-      const videoAction_element = document.getElementById('video-action');
-      const video_action = await tag_api.getTagById(video.action_id);
-      const action_tag = tags_component.createTagItem(video_action, 'tag-item');
-      videoAction_element.appendChild(action_tag);
 }
 
 function renedrFilmData(film_id) {
       thumbnail_component.updateFilmThumbnailSource({ film_id: film_id, thumbnailElement_id: dom_id.VIDEO_FILM_THUMBNAIL, upload_path: `${ServerFolders.FILMS}`});
+}
+
+async function updateVideoActionData(video) {
+      const video_action = document.getElementById('video-action');
+      const action_tag = await tags_component.createTagDivFromAPI({ tag_field: video.action_id, tag_css: 'tag-item' });
+      video_action.appendChild(action_tag);
+
+      return video_action;
 }

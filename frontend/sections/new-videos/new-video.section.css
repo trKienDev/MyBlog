@@ -22,7 +22,7 @@
       height: 50px;
 }
 .new-videos .video-article-container {
-      background-color: #2e3138;
+      background-color: var(--dark-gray);
       border-radius: 5px;
 }
 .new-videos .video-article-container:hover {

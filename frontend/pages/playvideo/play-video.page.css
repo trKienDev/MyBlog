@@ -13,3 +13,21 @@
 #video_film-thumbnail {
       border-radius: 10px;
 }
+#video-info {
+      margin-top: 10px;
+}
+.video-info_container {
+      padding: 15px 15px;
+      background-color: var(--dark-gray);
+      border-radius: 10px;
+}
+#video-info #video-action {
+      margin-left: 10px ;
+}
+#video-info #video-name {
+      align-content: center;
+      font-weight: bold;
+}
+#video-info .tag-item {
+      padding: 3px;
+}
