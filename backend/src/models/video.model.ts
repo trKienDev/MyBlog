@@ -12,6 +12,7 @@ const VideoSchema: Schema = new Schema({
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
       file_path: { type: String, match: /\.(mp4)$/i },
       views: { type: Number, default: 0 },
+      likes: { type: Number, default: 0 },
 }, {
       collection: 'Videos',
       timestamps: true

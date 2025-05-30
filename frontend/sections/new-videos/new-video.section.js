@@ -5,6 +5,8 @@ import { video_api } from "../../api/video.api.js";
 import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
 import videos_component from "../../components/videos.component.js";
+import app_configs from "../../config/app.config.js";
+import css_class from "../../constants/css.constant.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import FolderUploads from "../../selectors/upload-folder-name.js";
 import spa_navigation from "../../services/spa/navigate-link.spa.js";
@@ -82,7 +84,7 @@ async function createVideoInfo(video) {
       const videoInfo_div = doms_component.createDiv('video-info');
       const videoInfo_container = doms_component.createDiv('video-info-container');
       
-      let video_creator = await createCreatorAvatar(video);
+      let video_creator = await images_component.createCreatorAvatar(video.creator_id);
       videoInfo_container.appendChild(video_creator);
 
       const video_film = await createInfor({
@@ -110,24 +112,6 @@ async function createVideoInfo(video) {
       videoInfo_div.appendChild(videoInfo_container);
 
       return videoInfo_div;
-}
-
-async function createCreatorAvatar(video) {
-      const video_creator = doms_component.createDiv('video-creator-avatar');
-
-      const videoCreator_container = doms_component.createDiv('video-creator-avatar-container');
-      videoCreator_container.classList.add('container-hover-zoom-img');
-      const creator_image = await images_component.createImgFromApi({
-            api_function: creator_api.getCreatorImg,
-            id: video.creator_id,
-            upload_path: FolderUploads.CREATOR_AVATAR,
-            css_class: css_selectors.creators.creator_image
-      });
-      creator_image.classList.add('hover-to-zoom-img');
-      videoCreator_container.appendChild(creator_image);
-      video_creator.appendChild(videoCreator_container);
-
-      return video_creator;
 }
 
 async function createInfor({ ihref, itext, icss_class, icontainer_css}) {

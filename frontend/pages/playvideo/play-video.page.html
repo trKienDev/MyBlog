@@ -1,7 +1,14 @@
 <div class="page-container">
       <div id="play-video_page" class="column">
             <div class="left-column">
-                  <div class="left_col-wrapper">
+                  <div class="column-wrapper">
+                        <div class="thumbnail_video-wrapper">
+                              <img id="video_film-thumbnail" width="399px" height="599px" class="film-thumbnail">
+                        </div>
+                  </div>
+            </div>
+            <div class="center-column">
+                  <div class="column-wrapper">
                         <div class="play_video-wrapper">
                               <video id="video-player" width="925px" height="520px" controls>
                                     <source src="" type="video/mp4">
@@ -9,26 +16,29 @@
                               <div id="video-info">
                                     <div class="video-info_container">
                                           <div class="first-row d-flex jt-space_between">
-                                                <div class="left-column d-flex">
-                                                      <span id="video-name"></span>
+                                                <div class="primary-column d-flex">
+                                                      <div id="video-creator">
+                                                            <img class="creator-image">
+                                                      </div>
+                                                      <span id="video-film_name"></span>
                                                       <div id="video-action"></div>
                                                 </div>
-                                                <div class="right-column d-flex space">
-                                                      <div class="video-views">
+                                                <div class="secondary-column d-flex">
+                                                      <div class="video-views video-info_box">
                                                             <i class="fa-solid fa-eye"></i>
-                                                            <span class="total-views"></span>
+                                                            <span id="video-total-views"></span>
                                                       </div>
-                                                      <div class="video-playlist">
+                                                      <div class="video-likes video-info_box">
+                                                            <i class="fa-solid fa-thumbs-up"></i>
+                                                            <span id="video-total-likes"></span>
+                                                      </div>
+                                                      <div class="video-playlist video-info_box">
                                                             <i class="fa-solid fa-bookmark"></i>
                                                             <span class="save">Save</span>
                                                       </div>
                                                 </div>
                                           </div>
-                                          <div class="second-row">
-                                                <div class="video-creator">
-                                                      <img id="creator-image">
-                                                </div>
-                                                
+                                          <div class="second-row">                                                
                                           </div>
                                           <div class="third-row">
                                                 <div class="video-tags">
@@ -41,10 +51,8 @@
                   </div>
             </div>
             <div class="right-column">
-                  <div class="right_col-wrapper">
-                        <div class="thumbnail_video-wrapper">
-                              <img id="video_film-thumbnail" width="399px" height="599px" class="film-thumbnail">
-                        </div>
+                  <div class="column-wrapper">
+                        
                   </div>
             </div>
       </div>

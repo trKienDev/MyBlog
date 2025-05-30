@@ -1,4 +1,9 @@
+import creator_api from "../api/creator.api.js";
+import app_configs from "../config/app.config.js";
+import css_class from "../constants/css.constant.js";
+import FolderUploads from "../selectors/upload-folder-name.js";
 import image_utils from "../utils/image.utils.js";
+import doms_component from "./doms.component.js";
 
 export function HandleImageUpload(imageElementId, fileInputElementId) {
       const imageElement = document.getElementById(imageElementId);
@@ -33,8 +38,30 @@ async function createImgFromApi({api_function, id, upload_path, css_class}) {
       return createImg(image_source, css_class);
 }
 
+async function createCreatorAvatar(creator_id) {
+      const creatorAvatar_img = await creator_api.getCreatorImg(creator_id);
+      const avatar_source = `${app_configs.SERVER}/${FolderUploads.CREATOR_AVATAR}/${creatorAvatar_img}`;
+      const creator_avatar = await createAvatarFrame({ avatar_src: avatar_source, avatar_css: css_class.CREATOR_IMAGE});
+      
+      return creator_avatar;
+}
+
+async function createAvatarFrame({ avatar_src, avatar_css }) {
+      const avatar_frame = doms_component.createDiv('avatar-frame');
+      const avatarFrame_container = doms_component.createDiv('avatar-frame_container');
+      
+      const avatar_image = await createImg(avatar_src, avatar_css);
+      avatarFrame_container.appendChild(avatar_image);
+      image_utils.addEffectHoverToZoomImage(avatarFrame_container, avatar_image);
+      avatar_frame.appendChild(avatarFrame_container);
+
+      return avatar_frame;
+}
+
+
 const images_component = {
       createImg,
       createImgFromApi,
+      createCreatorAvatar,
 }
 export default images_component;

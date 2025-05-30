@@ -7,6 +7,9 @@
 #play-video_page .right-column {
       width: 399px;
 }
+#play-video_page .center-column {
+      margin-left: 20px;
+}
 #video-player {
       border-radius: 10px;
 }
@@ -24,10 +27,29 @@
 #video-info #video-action {
       margin-left: 10px ;
 }
-#video-info #video-name {
+#video-info #video-film_name {
       align-content: center;
       font-weight: bold;
 }
 #video-info .tag-item {
       padding: 3px;
+}
+#video-info .video-info_box {
+      align-content: center;
+      background-color: #24262b;
+      padding: 5px 12px;
+      border-radius: 5px;
+      transition: .1s all ease;
+}
+#video-info .video-info_box:hover {
+      background-color: white;
+      color: black;
+      cursor: pointer;
+}
+#video-info .video-info_box span {
+      margin-left: 10px;
+}
+#video-info .secondary-column {
+      width: 30%;
+      justify-content: space-between;
 }

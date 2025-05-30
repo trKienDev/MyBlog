@@ -38,4 +38,5 @@ export interface VideoDTO {
       tag_ids: string[];
       file_path: string;
       views: number;
+      likes: number;
 }

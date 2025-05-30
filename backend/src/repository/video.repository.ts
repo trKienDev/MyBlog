@@ -92,6 +92,7 @@ function mappingDocToDTO(doc: iVideo): VideoDTO {
             tag_ids: doc.tag_ids.map(id => id.toString()),
             file_path: doc.file_path,
             views: doc.views,
+            likes: doc.likes,
       }
 }
 

@@ -12,5 +12,6 @@ export interface iVideo extends Document {
       tag_ids: mongoose.Types.ObjectId[];
       file_path: string;
       views: number;
+      likes: number;
 }
 

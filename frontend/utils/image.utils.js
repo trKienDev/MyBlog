@@ -1,6 +1,8 @@
 import api_configs from "../api/api.config.js";
 import selectSearch_component from "../components/select-search.component.js";
+import css_class from "../constants/css.constant.js";
 import id_selectors from "../selectors/element-id.selector.js";
+import { showToast } from "./toast-notification.js";
 
 async function getImageSourceFromApi(apiFn, id, upload_path) {
       const image_file = await apiFn(id);
@@ -30,9 +32,19 @@ function resetImageElementValue(id_img, id_imgInput, default_img) {
       if(img_input) img_input.value = "";
 }
 
-function addHoverToZoomImage(img_container) {
-      img_element.classList.add('hover-to-zoom-img');
-      return img_container
+function addEffectHoverToZoomImage(container_element, image_element) {
+      if (!(container_element instanceof HTMLElement) || container_element.tagName !== 'DIV') {
+            console.error('Error: container_element is not DIV HTML.');
+            showToast('Error add effect hover to zoom image', 'error');
+            return; 
+      }
+      if (!(image_element instanceof HTMLElement) || image_element.tagName !== 'IMG') {
+            console.error('Error: image_element is not IMG HTML');
+            return; 
+      }
+
+      container_element.classList.add(css_class.HOVER_CONTAINER_TO_ZOOM_IMG);
+      image_element.classList.add(css_class.HOVER_TO_ZOOM_IMG);
 }
 
 const image_utils = {
@@ -40,6 +52,6 @@ const image_utils = {
       displayThumbnailOfSelectedSearchFilm,
       getImageSourceFromApi,
       resetImageElementValue,
-      addHoverToZoomImage,
+      addEffectHoverToZoomImage,
 };
 export default image_utils;

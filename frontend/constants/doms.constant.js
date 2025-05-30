@@ -29,13 +29,17 @@ const dom_id = {
       THUMBNAIL_UPLOAD: 'thumbnail-upload',
 
       // video
-      VIDEO_NAME: 'video-name',
       VIDEO_ACTION: 'video-action',
-      VIDEO_PLAYLIST: 'video-playlist',
       VIDEO_CREATOR: 'video-creator',
-      VIDEO_TAG: 'video-tag',
-      VIDEO_PLAYER: 'video-player',
+      VIDEO_FILM_NAME: 'video-film_name',
       VIDEO_FILM_THUMBNAIL: 'video_film-thumbnail',
+      VIDEO_NAME: 'video-name',
+      VIDEO_PLAYLIST: 'video-playlist',
+      VIDEO_TAG: 'video-tag',
+      VIDEO_TOTAL_VIEWS: 'video-total-views',
+      VIDEO_TOTAL_LIKES: 'video-total-likes',
+      VIDEO_PLAYER: 'video-player',
+
 }
 
 export default dom_id;
