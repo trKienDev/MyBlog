@@ -1,7 +1,6 @@
 @import url('../../sections//tags/tags.section.css');
 @import url('../../sections/new-videos/new-video.section.css');
-@import url('../../pages/playvideo/play-video.page.css')    ;
-@import url('./video.css');
+@import url('../../pages/playvideo/play-video.page.css');
 @import url('./keyword.css');
 
 body {
@@ -20,6 +19,10 @@ a {
       --primary-color_hover: #0864d1;
       --secondary-color: #f6f8fa;
       --secondary-color_hover: #eff2f5;
+      /* blue */
+      --bright-blue: #0096FF;
+      --sky-blue: #87CEEB;
+      /* pink */
       --hot-pink: #FF69B4;
       /* yellow */
       --yellow: #FFFF00;
@@ -142,6 +145,7 @@ a {
 .hover-to-zoom-img:hover {
       transform: scale(1.2);
       transition: all .3s ease-in-out;
+      cursor: pointer;
 }
 /* ================================================================ */
 
@@ -214,3 +218,11 @@ a {
       background-color: var(--bright-yellow);
 }
 /* ================================================================ */
+
+/* star rating */
+.star-yellow {
+      color: var(--gold);
+}
+.star-yellow:hover {
+      color: var(--bright-yellow) !important;
+}

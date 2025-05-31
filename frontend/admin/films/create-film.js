@@ -16,6 +16,7 @@ export async function createFilm() {
                   submit_btn.disabled = true;
 
                   const form_data = collectFilmFormData(id_selectors.thumbnail.thumbnail_upload);
+                  console.log('form data: ', form_data);
                   if(!form_data) {
                         submit_btn.disabled = false;
                         return;

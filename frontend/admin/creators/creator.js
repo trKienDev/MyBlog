@@ -5,6 +5,8 @@ import { HandleImageUpload } from "../../components/image.component.js";
 import  table_component from "../../components/table.component.js";
 import fetch_api from "../../api/fetch.api.js";
 import css_selectors from "../../selectors/css.selectors.js";
+import creator_api from "../../api/creator.api.js";
+import { ServerFolders } from "../../constants/folders.constant.js";
 
 let formId = "creator-form";
 let imgId = "img";
@@ -24,38 +26,23 @@ export function initCreatorAdmin() {
 
 async function renderCreators(element) {
       try {
-            const result = await fetch_api.apiGet(api_configs.endpoints.getCreators);
-            if(result.success === false) {
-                  throw new Error(result.error);
-            }
-
-            const creators = result.data;
+            const creators = await creator_api.getCreators();
             const tbody = document.querySelector(element);
             tbody.innerHTML = '';
 
-            
-            creators.forEach(creator => {
+            creators.forEach(async (creator) => {
                   const tr = document.createElement('tr');
                   tr.setAttribute('data-id', creator._id);
 
-                  const editBtn = table_component.createEditBtn(css_selectors.container.edit_container, creator, updateCreator);
+                  const editBtn = await table_component.createEditBtn(css_selectors.container.edit_container, creator, updateCreator);
                   tr.appendChild(editBtn);
 
                   const name = table_component.createTextTd({ i_text: creator.name });
                   tr.appendChild(name);
 
-                  const imgSrc = `${api_configs.server}/uploads/creator/avatar/${creator.image}`;
+                  const imgSrc = `${api_configs.server}/${ServerFolders.CREATOR_AVATARS}/${creator.image}`;
                   const image = table_component.createImageTd(imgSrc, 'profile');
                   tr.appendChild(image);
-                  
-                  const body = table_component.createTextTd({ i_text: creator.body });
-                  tr.appendChild(body);
-
-                  const breast = table_component.createTextTd({ i_text: creator.breast });
-                  tr.appendChild(breast);
-
-                  const skin = table_component.createTextTd({ i_text: creator.skin });
-                  tr.appendChild(skin);
 
                   tbody.appendChild(tr); 
             });
@@ -73,7 +60,7 @@ async function createNewCreator() {
             event.preventDefault();
 
             const formData = new FormData(form);
-
+            console.log('form data: ', formData);
             try {
                   const result = await fetch_api.createForm(api_configs.endpoints.createCreator, formData);
                   if(result.success === false) {
@@ -86,7 +73,7 @@ async function createNewCreator() {
                   error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
-                  RenderCreators(tableBody);
+                  renderCreators(tableBody);
                   resetModal(resetOptions);
             }
       }
@@ -105,11 +92,7 @@ async function updateCreator(creator) {
 
       document.getElementById("creator-name").value = creator.name || "";
       document.getElementById("creator-birth").value = creator.birth ? new Date(creator.birth).toISOString().split("T")[0] : "";
-      document.getElementById("creator-skin").value = creator.skin || "";
-
-      document.getElementById("creator-breast").value = creator.breast || "";
-      document.getElementById("creator-body").value = creator.body || "";
-      image.src = creator.image ? `${api_configs.server}/uploads/creator/avatar/${creator.image}` : defaultImg;
+      image.src = creator.image ? `${api_configs.server}/${ServerFolders.CREATOR_AVATARS}/${creator.image}` : defaultImg;
 
       form.onsubmit = async(event) => {
             event.preventDefault();

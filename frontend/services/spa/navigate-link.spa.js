@@ -29,10 +29,9 @@ function navigateAnchorLink(a_href, section_id, endpoint, callback = () => {}) {
       }
 };
 
-function navigateMediaLink(event) {
+function navigateMediaLink(event, anchor_element) {
       event.preventDefault();
-      
-      const anchor_element = event.currentTarget;
+
       const a_href = anchor_element.getAttribute('href');
 
       try {

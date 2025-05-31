@@ -13,7 +13,7 @@ import { studio_api } from "../../api/studio.api.js";
 import tags_utils from "../../utils/tags.utils.js";
 import select_component from "../../components/select.component.js";
 import film_helper from "./film.helper.js";
-import date_utils from "../../utils/date.js";
+import date_utils from "../../utils/date.utils.js";
 
 let default_thumbnail = '/admin/static/images/film/thumbnail-upload_default.png';
 

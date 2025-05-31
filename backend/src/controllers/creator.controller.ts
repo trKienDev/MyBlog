@@ -21,7 +21,7 @@ const getCreatorById = async(req: ValidateIdRequest, res: ServerResponse) => {
       }
 }
 
-export const GetCreators = async ( req: CustomRequest , res: ServerResponse ) => {
+const GetCreators = async ( req: CustomRequest , res: ServerResponse ) => {
       try {
             const creators = await repository.GetCreators();
             if(creators == null) {
@@ -70,6 +70,7 @@ export const DeleteCreator = async(req: ValidateIdRequest, res: ServerResponse) 
 
 export const creator_controller = {
       getCreatorById,
+      GetCreators,
 }
 
 

@@ -42,18 +42,22 @@ export class FilmRepository implements iFilmRepository {
             }
       }
 
-      async createFilm(data: CreateFilmDTO): Promise<CreateFilmDTO> {
+      async createFilm(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>> {
+            console.log('data: ', data);
             const newFilm = new Film({
                   name: data.name,
                   code_id: new mongoose.Types.ObjectId(data.code_id),
                   studio_id: new mongoose.Types.ObjectId(data.studio_id),
-                  tag_ids: data.tag_ids.map(id => new mongoose.Types.ObjectId(id)),
-                  collection_id: new mongoose.Types.ObjectId(data.collection_id),
+                  tag_ids: data.tag_ids?.map(id => new mongoose.Types.ObjectId(id)),
                   date: data.date,
                   rating: data.rating || 0,
                   thumbnail: data.thumbnail,
             });
 
+            if(typeof data.collection_id !== "undefined") {
+                  newFilm.collection_id = new mongoose.Types.ObjectId(data.collection_id);
+            }
+            
             const savedFilm = await newFilm.save();
 
             const createdFilm: CreateFilmDTO = {
@@ -61,7 +65,7 @@ export class FilmRepository implements iFilmRepository {
                   code_id: savedFilm.code_id.toString(),
                   studio_id: savedFilm.studio_id.toString(),
                   tag_ids: savedFilm.tag_ids.map(id => id.toString()),
-                  collection_id: savedFilm.collection_id.toString(),
+                  collection_id: savedFilm.collection_id?.toString(),
                   date: savedFilm.date,
                   rating: savedFilm.rating,
                   thumbnail: savedFilm.thumbnail,
@@ -92,7 +96,7 @@ export class FilmRepository implements iFilmRepository {
                         name: updated_doc.name,
                         code_id: updated_doc.code_id.toString(),
                         studio_id: updated_doc.studio_id.toString(),
-                        collection_id: updated_doc.collection_id.toString(),
+                        collection_id: updated_doc.collection_id?.toString(),
                         date: updated_doc.date,
                         thumbnail: updated_doc.thumbnail,
                         rating: updated_doc.rating,

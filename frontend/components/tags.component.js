@@ -1,8 +1,8 @@
 import tag_api from "../api/tag.api.js";
 import doms_component from "./doms.component.js";
 
-async function createTagDivFromAPI({tag_field, tag_css }) {
-      const tag_value = await tag_api.getTagById(tag_field);
+async function createTagDivFromAPI({tag_id, tag_css }) {
+      const tag_value = await tag_api.getTagById(tag_id);
       const tag_element = createTagDiv(tag_value, tag_css);
       
       return tag_element;

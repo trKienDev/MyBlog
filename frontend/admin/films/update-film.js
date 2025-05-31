@@ -160,7 +160,9 @@ function initModalUI(film) {
 async function populateFilmForm(film) {
       await selectSearch_component.loadInfoSelectSearch(film, dom_id.FILM_STUDIO, 'studio_id', studio_api.getStudioNameById);
       await select_component.selectCodeByStudio(dom_id.FILM_CODE, film.studio_id);
-      await selectSearch_component.loadInfoSelectSearch(film, dom_id.FILM_COLLECTION, id_selectors.collection.collection_id, collection_api.getCollectionName);
+      if(film.collection_id) {
+            await selectSearch_component.loadInfoSelectSearch(film, dom_id.FILM_COLLECTION, 'collection_id', collection_api.getCollectionName);
+      }
       
       select_component.getCodeOptionByStudoId(dom_id.FILM_CODE, film.code_id);
       const film_name = film.name;

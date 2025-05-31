@@ -30,26 +30,99 @@
 #video-info #video-film_name {
       align-content: center;
       font-weight: bold;
+      margin-left: 20px;
 }
+
+/* center column */
 #video-info .tag-item {
       padding: 3px;
 }
-#video-info .video-info_box {
+#video-info .video-function_box {
       align-content: center;
       background-color: #24262b;
       padding: 5px 12px;
       border-radius: 5px;
       transition: .1s all ease;
+      height: fit-content;
 }
-#video-info .video-info_box:hover {
+#video-info .video-function_box:hover {
       background-color: white;
       color: black;
       cursor: pointer;
 }
-#video-info .video-info_box span {
+#video-info .video-function_box span {
       margin-left: 10px;
 }
 #video-info .secondary-column {
       width: 30%;
       justify-content: space-between;
+      align-items: center;
+}
+#video-info .avatar-frame_container {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+}
+#video-info .avatar-frame_container img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+}
+#video-info #video-action {
+      align-content: center;
+}
+#video-info #video-tags a:hover {
+      color: black !important;
+}
+#film-videos {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 950px;
+}
+#film-videos .film-videos_frame {
+      flex-basis: calc(100%/3);
+      flex-grow: 0;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      padding: 3px;
+}
+#film-videos .video-frame {
+      width: 100%;
+      display: block;
+      border-radius: 5px;
+}
+
+/* second row */
+#video-info .second-row, #video-info .third-row {
+      margin-top: 25px;
+}
+
+/* third row */
+#video-info .video-info_box {
+      display: flex;
+}
+#video-info .video-info_box span {
+      margin-right: 10px;
+      align-content: center;
+      color: #aaa;
+}
+#video-info .video-info_box a:hover {
+      color: var(--hot-pink);
+}
+
+/* left column */
+#film-info .film-info_box {
+      display: flex;
+      margin-top: 10px;
+}
+#film-info .film-info_box .title {
+      margin-right: 10px;
+      color: #aaa;
+      align-content: center;
+}
+#film-info .film-info_box a:hover {
+      color: var(--hot-pink);
+}
+#film-info #film-tags a:hover {
+      color: black !important;
 }

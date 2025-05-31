@@ -14,7 +14,7 @@ export class FilmService {
             this.film_repository = filmRepository;
       }
       
-      async createFilm(request: CustomRequest): Promise<CreateFilmDTO> {
+      async createFilm(request: CustomRequest): Promise<Partial<CreateFilmDTO>> {
             const { file_name } = await file_utils.uploadFile(request, UploadFiles.FILMS);
             const name = request_utils.extractParamFromRequest(request, "name");
             const existing_film = await this.film_repository.findByName(name);
@@ -26,22 +26,33 @@ export class FilmService {
             const studio = request_utils.extractParamFromRequest(request, "studio_id");
             const code = request_utils.extractParamFromRequest(request, "code_id");
             const tag_params = request_utils.extractParamFromRequest(request, "tag_ids");
-            const collection = request_utils.extractParamFromRequest(request, "collection_id");
             const date_str = request_utils.extractParamFromRequest(request, "date");
             const date: Date = new Date(date_str);
             const rating = request_utils.extractParamFromRequest(request, "rating");
             const tag_ids: string[] = tag_params.split(',').map((string) => string.trim()).filter((string) => string.length > 0);
             
-            const new_film: CreateFilmDTO = {
+            const new_film: Partial<CreateFilmDTO> = {
                   name: name,
                   code_id: code,
                   studio_id: studio,
                   tag_ids: tag_ids,
-                  collection_id: collection,
                   date: date,
                   rating: rating? Number(rating): 0,
                   thumbnail: thumbnail,
             };
+
+            let collection_value: string | null | undefined = request_utils.extractParamFromRequest(request, "collection_id");
+
+            if (typeof collection_value === 'string') {
+                  const lower_collection_value = collection_value.toLowerCase();
+                  if (lower_collection_value === 'null' || lower_collection_value === 'undefined' || collection_value.trim() === '') {
+                        collection_value = null; 
+                  }
+            }
+
+            if(collection_value !== null) {
+                  new_film.collection_id = collection_value;
+            }
 
             return await this.film_repository.createFilm(new_film);
       }      

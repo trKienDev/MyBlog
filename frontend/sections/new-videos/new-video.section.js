@@ -1,15 +1,9 @@
-import api_configs from "../../api/api.config.js";
 import creator_api from "../../api/creator.api.js";
 import { film_api } from "../../api/film.api.js";
 import { video_api } from "../../api/video.api.js";
 import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
-import videos_component from "../../components/videos.component.js";
-import app_configs from "../../config/app.config.js";
-import css_class from "../../constants/css.constant.js";
-import css_selectors from "../../selectors/css.selectors.js";
-import FolderUploads from "../../selectors/upload-folder-name.js";
-import spa_navigation from "../../services/spa/navigate-link.spa.js";
+import videos_component from "../../components/videos.component.js";    
 
 export async function NewVideosSectionController() {
       const videos = await video_api.getVideos();
@@ -22,62 +16,26 @@ export async function NewVideosSectionController() {
       });
 
       await Promise.all(video_promises);
-
-      const video_links = newVideos_div.querySelectorAll('a[href^="video/"]');
-      video_links.forEach(link => {
-            if (link) {
-                  link.addEventListener('click', spa_navigation.navigateMediaLink);
-            }
-      });
 }
 
 async function createVideoArticle(video) {
       let video_article = doms_component.createArticle('video-article');
       const videoArticle_container = doms_component.createDiv('video-article-container');
       
-      const videoArticle_ahref = doms_component.createAhref({ href: `video/#id=${video._id}`, css_class: 'video-article-link'});
+      let videoArticle_ahref = doms_component.createAhref({ href: `video/#id=${video._id}`, css_class: 'video-article-link'});
       videoArticle_container.appendChild(videoArticle_ahref);
 
-      const video_container = createVideo(video);
+      const video_container = videos_component.createVideoPlayer(video.name, video.file_path);
       videoArticle_ahref.appendChild(video_container);
 
       const videoInfo_div = await createVideoInfo(video);
       videoArticle_ahref.appendChild(videoInfo_div);
 
       video_article.appendChild(videoArticle_container);
-      videoArticle_ahref.addEventListener('mouseenter', () => {
-            const video_frame = videoArticle_ahref.querySelector('video'); 
-            if (video_frame) {
-            video_frame.play().catch(error => {
-                  console.warn("Video play failed:", error);
-            });
-            }
-      });
 
-      videoArticle_ahref.addEventListener('mouseleave', () => {
-            const video_frame = videoArticle_ahref.querySelector('video');
-            if (video_frame) {
-                  video_frame.pause();
-            }
-      });
+      videoArticle_ahref = videos_component.hoverMouseVideoToPlay(videoArticle_ahref);
 
       return video_article;
-}
-
-function createVideo(video) {
-      const video_container = doms_component.createDiv('video-container');
-
-      const videoSrc_ahref = doms_component.createAhref({ css_class: 'video-link'});
-      videoSrc_ahref.setAttribute('arial-label', `Watch video: ${video.name}`);
-
-      let video_frame = videos_component.createVideoPreview(css_selectors.videos.video_frame);
-
-      const video_src = videos_component.createVideoSource(`${api_configs.server}/${FolderUploads.VIDEOS}/${video.file_path}`);
-      
-      video_frame.appendChild(video_src);
-      video_container.appendChild(video_frame);
-
-      return video_container;
 }
 
 async function createVideoInfo(video) {

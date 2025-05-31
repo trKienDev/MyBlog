@@ -57,9 +57,6 @@ function MappingDocToDTO(doc: ICreator): CreatorDTO {
             _id: doc._id.toString(),
             name: doc.name,
             birth: doc.birth,
-            image: doc.image,
-            body: doc.body,
-            breast: doc.breast,
-            skin: doc.skin,
+            image: doc.image
       }
 }

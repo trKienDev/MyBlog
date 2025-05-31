@@ -5,7 +5,7 @@ export interface CreateFilmDTO {
       code_id: string;
       studio_id: string;
       tag_ids: string[];
-      collection_id: string;
+      collection_id?: string | '';
       date: Date;
       thumbnail: string;
       rating: number;
@@ -17,7 +17,7 @@ export interface UpdateFilmDTO {
       code_id: string;
       studio_id: string;
       tag_ids: string[];
-      collection_id: string;
+      collection_id?: string;
       date: Date;
       thumbnail: string;
       rating: number;

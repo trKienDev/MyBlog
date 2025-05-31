@@ -20,6 +20,15 @@ const dom_id = {
 
       // modal
       CREATE_FILM_MODAL: 'create-film_modal',
+      OPEN_MODAL_BUTTON: 'open-modal_button',
+      CLOSE_MODAL_BUTTON: 'close-modal_button',
+
+      // page
+      PAGE_CONTENT: 'page-content',
+
+      // studio 
+      STUDIO_MODAL: 'studio-modal',
+      STUDIO_FORM: 'studio-form',
 
       // table
       SEARCH_FILM_TABLE: 'searched-films_table',
@@ -39,7 +48,7 @@ const dom_id = {
       VIDEO_TOTAL_VIEWS: 'video-total-views',
       VIDEO_TOTAL_LIKES: 'video-total-likes',
       VIDEO_PLAYER: 'video-player',
-
+      VIDEO_TAGS: 'video-tags',
 }
 
 export default dom_id;

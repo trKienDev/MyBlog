@@ -4,6 +4,7 @@ import { FileService } from "../utils/file.service.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
+import { UploadFiles } from "../enums.js";
 
 export class StudioService {
       private studioRepo: IStudioRepository;
@@ -20,7 +21,7 @@ export class StudioService {
       }
       
       public async createStudio(request: CustomRequest): Promise<StudioDTO> {
-            const { file_name } = await file_utils.uploadFile(request, "studio");
+            const { file_name } = await file_utils.uploadFile(request, UploadFiles.STUDIOS);
             const name = request_utils.extractParamFromRequest(request, "name");
             const existingStudio = await this.studioRepo.findStudioByName(name);
             if(existingStudio) {
@@ -37,7 +38,7 @@ export class StudioService {
                   throw new Error("Studio not found");
             }
 
-            const { file_name } = await file_utils.uploadFile(request, "studio");
+            const { file_name } = await file_utils.uploadFile(request, UploadFiles.STUDIOS);
             const name = request_utils.extractParamFromRequest(request, "name");
             const updateData: Record<string, any> = { name };
             

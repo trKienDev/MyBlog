@@ -45,16 +45,20 @@ async function renderListVideo() {
                   video_td.appendChild(video_info);
                   tr.appendChild(video_td);
 
-                  const filmThumbnail_td = await table_component.createImgTdFromApi({ apiFn: film_api.getFilmThumbnail,
-                                                                                                                                          id: video.film_id,
-                                                                                                                                          upload_path: ServerFolders.FILMS,
-                                                                                                                                          css_class: css_selectors.films.film_thumbnail});
+                  const filmThumbnail_td = await table_component.createImgTdFromApi({ 
+                        apiFn: film_api.getFilmThumbnail,
+                        id: video.film_id,
+                        upload_path: ServerFolders.FILMS,
+                        css_class: css_selectors.films.film_thumbnail
+                  });   
                   tr.appendChild(filmThumbnail_td);
 
-                  const creatorAvatar_td = await table_component.createImgTdFromApi({ apiFn: creator_api.getCreatorImg,
-                                                                                                                                          id: video.creator_id,
-                                                                                                                                          upload_path: 'uploads/creator/avatar',
-                                                                                                                                          css_class: css_selectors.creators.creator_image });
+                  const creatorAvatar_td = await table_component.createImgTdFromApi({ 
+                        apiFn: creator_api.getCreatorImg,
+                        id: video.creator_id,
+                        upload_path: ServerFolders.CREATOR_AVATARS,
+                        css_class: css_selectors.creators.creator_image 
+                  });
                   tr.appendChild(creatorAvatar_td);
 
                   const video_views = table_component.createTextTd({ i_text: video.views, i_css: css_selectors.videos.video_views });

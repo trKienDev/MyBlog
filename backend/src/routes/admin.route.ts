@@ -6,7 +6,7 @@ import animeTag_controller from "../controllers/animes/anime-tag.controller.js";
 import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
 import { createCode, getCode_byId, getCodes, getCodesByStudio } from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
-import { CreateCreator, creator_controller, DeleteCreator, GetCreators, UpdateCreator } from "../controllers/creator.controller.js";
+import { CreateCreator, creator_controller, DeleteCreator, UpdateCreator } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
 import mangaTag_controller from "../controllers/mangas/manga-tag.controller.js";
 import { manga_controller } from "../controllers/mangas/manga.controller.js";
@@ -26,7 +26,7 @@ const adminRoutes: Route[] = [
       { method: 'PUT', path: '/admin/studio/:id', handler: validated_id.validateId(UpdateStudio) },
       { method: 'DELETE', path: '/admin/studio/:id', handler: validated_id.validateId(DeleteStudio) },
       // creator
-      { method: 'GET', path: '/admin/creators', handler: GetCreators },
+      { method: 'GET', path: '/admin/creators', handler: creator_controller.GetCreators },
       { method: 'GET', path: '/admin/creator/:id', handler: validated_id.validateId(creator_controller.getCreatorById) },
       { method: 'POST', path: '/admin/creator', handler: CreateCreator },
       { method: 'PUT', path: '/admin/creator/:id', handler: validated_id.validateId(UpdateCreator) },

@@ -1,5 +1,24 @@
 import app_configs from "../config/app.config.js";
+import css_class from "../constants/css.constant.js";
+import { ServerFolders } from "../constants/folders.constant.js";
 import id_selectors from "../selectors/element-id.selector.js";
+import doms_component from "./doms.component.js";
+
+function createVideoPlayer(video_name, video_filepath) {
+      const video_container = doms_component.createDiv('video-container');
+
+      const videoSrc_ahref = doms_component.createAhref({ css_class: 'video-link'});
+      videoSrc_ahref.setAttribute('arial-label', `Watch video: ${video_name}`);
+
+      let video_frame = createVideoPreview(css_class.VIDEO_FRAME);
+
+      const video_src = videos_component.createVideoSource(`${app_configs.SERVER}/${ServerFolders.VIDEOS}/${video_filepath}`);
+      
+      video_frame.appendChild(video_src);
+      video_container.appendChild(video_frame);
+
+      return video_container;
+}
 
 function createVideoPreview(css_class) {
       const video = document.createElement('video');
@@ -39,10 +58,31 @@ function updateVideoSourceById({element_id, ivideo, upload_path}) {
       return video_element;
 }
 
+function hoverMouseVideoToPlay(video_ahref) {
+      video_ahref.addEventListener('mouseenter', () => {
+            const video_element = video_ahref.querySelector('video');
+            if(video_element) {
+                  video_element.play().catch(error => {
+                        console.warn('VIdeo play failed: ', error);
+                  });
+            }
+      });
+      video_ahref.addEventListener('mouseleave', () => {
+            const video_element = video_ahref.querySelector('video');
+            if(video_element) {
+                  video_element.pause();
+            }
+      });
+
+      return video_ahref;
+}
+
 const videos_component = {
+      createVideoPlayer,
       createVideoPreview,
       createVideoSource,
       populateVideo,
       updateVideoSourceById,
+      hoverMouseVideoToPlay,
 }
 export default videos_component;

@@ -24,8 +24,8 @@ function createH3(text, css_class) {
 }
 function createSpan({ text, css_class}) {
       const span = document.createElement('span');
-      span.textContent = text;
-      span.classList.add(css_class);
+      if(text) span.textContent = text;
+      if(css_class) span.classList.add(css_class);
 
       return span;
 }

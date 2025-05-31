@@ -48,11 +48,12 @@ async function CreateNewCode() {
       document.getElementById('form').addEventListener('submit', async(event) => {
             event.preventDefault();
             const studio = document.getElementById(formStudio);
-            const code = document.getElementById('form-code');
+            const code = document.getElementById('form-code').value;
+            const upperCase_code = code.toUpperCase();
 
-            const data = { studio: studio.value , code: code.value };
+            const data = { studio: studio.value , code: upperCase_code };
             try {
-                  const result = await fetchAPI.create_json(`${api_configs.endpoints.createCode}`, data);
+                  const result = await fetch_api.createJson(`${api_configs.endpoints.createCode}`, data);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -66,7 +67,7 @@ async function CreateNewCode() {
                   selectStudio.value = studio.value;
                   RenderCodes(studio.value);
                   studio.value = "";
-                  code.value = "";
+                  code = "";
             }
       });
 }

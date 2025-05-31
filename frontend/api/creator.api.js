@@ -1,5 +1,14 @@
 import api_configs from "./api.config.js";
+import { api_user } from "./endpoint.api.js";
 import fetch_api from "./fetch.api.js";
+
+async function getCreators() {
+      const result = await fetch_api.apiGet(`${api_user.getCreators}`);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+      return result.data;
+}
 
 async function getCreatorById(creator_id) {
       const result = await fetch_api.apiGet(`${api_configs.endpoints.getCreatorById}/${creator_id}`);
@@ -20,6 +29,7 @@ async function getCreatorImg(creator_id) {
 }
 
 const creator_api = {
+      getCreators,
       getCreatorName,
       getCreatorImg,
 }

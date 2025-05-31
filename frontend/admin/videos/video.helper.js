@@ -5,7 +5,7 @@ import table_component from "../../components/table.component.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import date_utils from "../../utils/date.js";
+import date_utils from "../../utils/date.utils.js";
 import image_utils from "../../utils/image.utils.js";
 import film_helper from "../films/film.helper.js";
 

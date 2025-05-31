@@ -1,4 +1,5 @@
 import { CreatorDTO } from "../dtos/creator.dto.js";
+import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ICreatorRepository } from "../repository/interfaces/icreator.repository.js";
 import { FileService } from "../utils/file.service.js";
@@ -13,15 +14,15 @@ export class CreatorService {
       public async FindCreatorById(id: string): Promise<CreatorDTO> {
             const creator = await this.creatorRepo.findById(id);
             if(!creator) { 
-                  throw new Error("Studio not found.");
+                  throw new Error("Creator not found.");
             }
             
             return creator;
       }
 
       async CreateCreator(req: CustomRequest) {
-            const { file_name } = await file_utils.uploadFile(req, "creator/avatar");
-            const { name, birth, skin, body, breast } = req.body;
+            const { file_name } = await file_utils.uploadFile(req, UploadFiles.CREATOR_AVATARS);
+            const { name, birth } = req.body;
             const existingCreator = await this.creatorRepo.FindByNameAndBirth(name, birth);
             if(existingCreator) {
                   return { success: false, code: 409, message: 'Creator has already existed' };
@@ -30,9 +31,6 @@ export class CreatorService {
             const data: CreatorDTO = {
                   name,
                   birth: new Date(birth),
-                  skin,
-                  body,
-                  breast,
                   image: file_name
             };
             
@@ -46,12 +44,12 @@ export class CreatorService {
                   throw new Error("Creator not found!");
             }
 
-            const { file_name } = await file_utils.uploadFile(req, "creator/avatar");
-            const { name, birth, skin, studio, breast, body } = req.body;
-            const updateData: Record<string, any> = { name, birth, skin, body, breast };
+            const { file_name } = await file_utils.uploadFile(req, UploadFiles.CREATOR_AVATARS);
+            const { name, birth } = req.body;
+            const updateData: Record<string, any> = { name, birth };
 
             if(file_name) {
-                  FileService.deleteFile("creator/avatar", currentCreator.image);
+                  FileService.deleteFile(UploadFiles.CREATOR_AVATARS, currentCreator.image);
                   updateData.image = file_name;
             }
 
