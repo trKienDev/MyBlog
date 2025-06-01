@@ -17,6 +17,13 @@ async function getVideos() {
       return result.data;
 }
 
+async function getVideosByCreatorId(creator_id) {
+      const result = await fetch_api.apiGet(`${api_user.getVideosByCreatorId}/${creator_id}`);
+      if(result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
+
 async function getVideoFilePath(id) {
       const result = await getVideoById(id);
       if(result.success === false) throw new Error(result.error);
@@ -40,6 +47,7 @@ export const video_api = {
       getVideos,
       getVideoById,
       getVideoName,
+      getVideosByCreatorId,
       getVideoFilePath,
       updateVideo,
 }

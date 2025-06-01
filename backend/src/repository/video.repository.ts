@@ -19,6 +19,16 @@ export class VideoRepository implements iVIdeoRepository {
       public async findByName(name: string): Promise<VideoDTO | null> {
             return await Video.findOne({ name });      
       }
+      
+      async findByCreatorId(creator_id: string): Promise<VideoDTO[]> {
+            if (!mongoose.Types.ObjectId.isValid(creator_id)) {
+                  console.warn("Invalid creator_id format");
+                  throw new Error('invalid creator_id');
+            }
+
+            const videos = await Video.find({ creator_id: new mongoose.Types.ObjectId(creator_id) });
+            return videos.map(doc => mappingDocToDTO(doc));
+      }
 
       public async createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO> {
             const new_video = new Video({

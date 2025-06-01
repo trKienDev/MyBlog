@@ -30,6 +30,7 @@ async function getCreatorImg(creator_id) {
 
 const creator_api = {
       getCreators,
+      getCreatorById,
       getCreatorName,
       getCreatorImg,
 }

@@ -15,7 +15,6 @@ import date_utils from "../../utils/date.utils.js";
 
 export async function playVideoPageController(id) {
       const video = await video_api.getVideoById(id);
-      console.log('video: ', video);
       
       renderVideoData(video);
       renderFilmData(video.film_id);
@@ -73,7 +72,6 @@ async function populateVideoPlaylist(video) {
 async function renderFilmData(film_id) {
       thumbnail_component.updateFilmThumbnailSource({ film_id: film_id, thumbnailElement_id: dom_id.VIDEO_FILM_THUMBNAIL, upload_path: `${ServerFolders.FILMS}`});
       const film_info = await film_api.findFilmById(film_id);
-      console.log('film info: ', film_info);
       
       populateFilmName(film_info);
       populateFilmStudio(film_info);
@@ -81,7 +79,6 @@ async function renderFilmData(film_id) {
       populateFilmCollection(film_info);
       stars_component.createStarsRating('film-rating', film_info.rating);
 
-      const film_tags = document.getElementById('film-tags');
       populateFilmTags(film_info);
 
 }     

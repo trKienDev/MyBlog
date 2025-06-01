@@ -1,10 +1,13 @@
+#films .modal-content {
+      max-width: 700px;
+}
 .film-form .modal-left {
-      width: 50%;
+      width: 44%;
       margin: 0px 10px;
       margin-top: -10px;
 }
 .film-form .modal-right {
-      width: 44.5%;
+      width: 55%;
       display: flex;
       justify-content: end;
 }
@@ -36,8 +39,8 @@
       border: none;
 }
 #films .thumbnail-wrapper {
-      height: 400px;
-      width: 267px;
+      height: 500px;
+      width: 379px;
 }
 .selected-tag_container {
       background: #f7f6f6;

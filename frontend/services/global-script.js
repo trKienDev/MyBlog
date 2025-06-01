@@ -41,5 +41,14 @@ function handleUserClick() {
                         console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
                   }
             }
+
+            const creator_link = event.target.closest('a[href^="creator/"]');
+            if (creator_link) {
+                  if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
+                        spa_navigation.navigateMediaLink(event, creator_link);
+                  } else {
+                        console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
+                  }
+            }
       });
 }

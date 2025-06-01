@@ -11,7 +11,7 @@ export const api_admin = {
 export const api_user = {
       // videos
       getVideoById: '/video', // GET
-
+      getVideosByCreatorId: '/videos/creator', // GET
       // creators
       getCreators : '/creators', // GET
 }

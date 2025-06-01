@@ -1,4 +1,4 @@
-import { ServerResponse } from "http";
+import { request, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { VideoService } from "../services/video.service.js";
@@ -33,6 +33,17 @@ const findVideoById = async(request: ValidateIdRequest, response: ServerResponse
       }
 }
 
+const findVideosByCreatorId = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const creator_id = request.params?.id;
+            const videos = await repository.findByCreatorId(creator_id);
+            return sendResponse(response, 200, videos);
+      } catch(error) {
+            console.error('Error finding videos by creator', error);
+            return sendError(response, 500, error);
+      }
+}
+
 const createVideo = async(req: CustomRequest, res: ServerResponse) => {
       try {
             const saved_video = await service.createVideo(req);
@@ -56,6 +67,7 @@ const updatedVIdeo = async(req: ValidateIdRequest, res: ServerResponse) => {
 const video_controller = {
       getVideos,
       findVideoById,
+      findVideosByCreatorId,
       createVideo,
       updatedVIdeo,
 }

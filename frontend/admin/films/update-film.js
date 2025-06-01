@@ -18,6 +18,7 @@ import thumbnail_component from "../../components/thumbnail.component.js";
 import dom_id from "../../constants/doms.constant.js";
 import css_class from "../../constants/css.constant.js";
 import { api_admin } from "../../api/endpoint.api.js";
+import file_utils from "../../utils/file.utils.js";
 
 export async function updateFilm(film) {
       try {                 
@@ -133,6 +134,7 @@ function getUpdatedFilmFields(film, updated_fields) {
 
       return changes;
 }
+
 function buildUpdateFilmForm(updated_fields) {
       const form = new FormData();
       form.append("name", updated_fields.name);
@@ -142,8 +144,10 @@ function buildUpdateFilmForm(updated_fields) {
       if(updated_fields.date) form.append("date", updated_fields.date);
       if(updated_fields.rating) form.append("rating", updated_fields.rating);
       if(updated_fields.tag_ids) form.append("tag_ids", updated_fields.tag_ids);
-      if(updated_fields.thumbnail) form.append("file", updated_fields.thumbnail);
-
+      if(updated_fields.thumbnail) {
+            const renamed_file = file_utils.renameUploadedFile(updated_fields.thumbnail, updated_fields.name);
+            form.append("file", renamed_file);
+      }
       return form
 }
 

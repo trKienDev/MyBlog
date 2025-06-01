@@ -14,6 +14,7 @@ import tags_utils from "../../utils/tags.utils.js";
 import select_component from "../../components/select.component.js";
 import film_helper from "./film.helper.js";
 import date_utils from "../../utils/date.utils.js";
+import file_utils from "../../utils/file.utils.js";
 
 let default_thumbnail = '/admin/static/images/film/thumbnail-upload_default.png';
 
@@ -128,7 +129,8 @@ export function buildFilmForm(include_file, thumbnail_file) {
       form.append("tag_ids", tags);
 
       if(include_file && thumbnail_file) {
-            form.append("file", thumbnail_file);
+            const renamed_file = file_utils.renameUploadedFile(thumbnail_file, name);
+            form.append("file", renamed_file);
       }
 
       return form;

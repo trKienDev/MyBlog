@@ -6,7 +6,8 @@ import { createRouter } from "./routes.js";
 
 const user_routes: Route[] = [
       // video
-      { method: 'GET', path: '/video/:id', handler: validated_id.validateId(video_controller.findVideoById ) },
+      { method: 'GET', path: '/video/:id', handler: validated_id.validateId(video_controller.findVideoById)},
+      { method: 'GET', path: '/videos/creator/:id', handler: validated_id.validateId(video_controller.findVideosByCreatorId)},
 
       // creators
       { method: 'GET', path: '/creators', handler: creator_controller.GetCreators },

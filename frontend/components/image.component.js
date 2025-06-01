@@ -42,17 +42,21 @@ async function createImgFromApi({api_function, id, upload_path, css_class}) {
 async function createCreatorAvatar(creator_id) {
       const creatorAvatar_img = await creator_api.getCreatorImg(creator_id);
       const avatar_source = `${app_configs.SERVER}/${ServerFolders.CREATOR_AVATARS}/${creatorAvatar_img}`;
-      const creator_avatar = await createAvatarFrame({ avatar_src: avatar_source, avatar_css: css_class.CREATOR_IMAGE});
+      const creator_avatar = await createAvatarFrame({ creator_id: creator_id, avatar_src: avatar_source, avatar_css: css_class.CREATOR_IMAGE});
       
       return creator_avatar;
 }
 
-async function createAvatarFrame({ avatar_src, avatar_css }) {
+async function createAvatarFrame({ creator_id, avatar_src, avatar_css }) {
       const avatar_frame = doms_component.createDiv('avatar-frame');
       const avatarFrame_container = doms_component.createDiv('avatar-frame_container');
       
       const avatar_image = await createImg(avatar_src, avatar_css);
-      avatarFrame_container.appendChild(avatar_image);
+      const creator_ahref = doms_component.createAhref({
+            href: `creator/#id=${creator_id}`,
+      });
+      creator_ahref.appendChild(avatar_image);
+      avatarFrame_container.appendChild(creator_ahref);
       image_utils.addEffectHoverToZoomImage(avatarFrame_container, avatar_image);
       avatar_frame.appendChild(avatarFrame_container);
 
