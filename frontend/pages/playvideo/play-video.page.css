@@ -76,10 +76,13 @@
 #video-info #video-tags a:hover {
       color: black !important;
 }
+#video-info #video-playlist {
+      display: flex;
+}
 #film-videos {
       display: flex;
       flex-wrap: wrap;
-      max-width: 950px;
+      margin: 0 -2px;
 }
 #film-videos .film-videos_frame {
       flex-basis: calc(100%/3);
@@ -127,4 +130,22 @@
 }
 #film-info #film-tags a:hover {
       color: black !important;
+}
+
+/* video playlist modal */
+#video-playlist_modal {
+      color: black;
+}
+#video-playlist_modal .modal-content {
+      max-width: 350px;
+}
+#close-videoplaylist_modal i {
+      padding: 7px 20px;
+}
+#add_video-playlist {
+      width: 100%;
+}
+#add_video-playlist .content {
+      position: initial;
+      z-index: 0;
 }

@@ -3,7 +3,7 @@ import { cloneResetForm } from "../../components/form.component.js";
 import modal_component from "../../components/modal.component.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
-import { buildFilmForm, getCodeByStudio, getFilmName, renderFilms, resetFilmModal } from "./films.js";
+import { getCodeByStudio, getFilmName, renderFilms, resetFilmModal } from "./films.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import fetch_api from "../../api/fetch.api.js";

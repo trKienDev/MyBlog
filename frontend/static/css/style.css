@@ -2,6 +2,10 @@
 @import url('../../sections/new-videos/new-video.section.css');
 @import url('../../pages/playvideo/play-video.page.css');
 @import url('./keyword.css');
+@import url('./popup-modal.css');
+@import url('./select-search.css');
+@import url('./button.css');
+@import url('./multi-select-search.css');
 
 body {
       font-family: 'Lexend', sans-serif;
@@ -19,6 +23,23 @@ a {
       --primary-color_hover: #0864d1;
       --secondary-color: #f6f8fa;
       --secondary-color_hover: #eff2f5;
+      /* button */
+      --primary-btn: #007bff;
+      --primary-btn_hover: #0069d9;
+      --danger-btn: #dc3545;
+      --danger-btn_hover: #c82333;
+      --light-btn: #f8f9fa;
+      --light-btn_hover: #e2e6ea;
+      --info-btn: #17a2b8;
+      --info-btn_hover: #138496;
+      --light-btn: #f8f9fa;
+      --light-btn_hover: #e2e6ea;
+      --warning-btn: #ffc107;
+      --warning-btn_hover: #e0a800;
+      --update-btn: #FF5F1F;
+      --update-btn_hover: #d84005;
+      --search-btn: #7F00FF;
+      --search-btn_hover: #5f02bd;
       /* blue */
       --bright-blue: #0096FF;
       --sky-blue: #87CEEB;

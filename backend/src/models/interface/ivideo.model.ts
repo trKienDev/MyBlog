@@ -8,7 +8,7 @@ export interface iVideo extends Document {
       film_id: mongoose.Types.ObjectId;
       code_id: mongoose.Types.ObjectId;
       studio_id: mongoose.Types.ObjectId;
-      playlist_id: mongoose.Types.ObjectId;
+      playlist_ids: mongoose.Types.ObjectId[];
       tag_ids: mongoose.Types.ObjectId[];
       file_path: string;
       views: number;

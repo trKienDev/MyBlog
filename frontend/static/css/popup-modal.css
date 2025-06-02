@@ -71,3 +71,10 @@
 .thumbnail-wrapper input {
       display: none;
 }
+.modal-button {
+      display: flex;
+}
+
+.modal button {
+      margin-top: 20px;
+}

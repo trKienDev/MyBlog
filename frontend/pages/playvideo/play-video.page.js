@@ -12,13 +12,16 @@ import videos_component from "../../components/videos.component.js";
 import dom_id from "../../constants/doms.constant.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
 import date_utils from "../../utils/date.utils.js";
+import { videoPlaylistModalController } from "./video-playlist-modal.js";
 
-export async function playVideoPageController(id) {
-      const video = await video_api.getVideoById(id);
-      
+export async function playVideoPageController(video_id) {
+      const video = await video_api.getVideoById(video_id);
+      console.log('video: ', video);
       renderVideoData(video);
       renderFilmData(video.film_id);
       renderFilmVideo(video); 
+
+      videoPlaylistModalController(video);
 }
 
 async function renderVideoData(video) {
@@ -58,15 +61,17 @@ async function populateVideoTags(video) {
 
       return video_tags;
 }
-async function populateVideoPlaylist(video) {
+async function populateVideoPlaylist(video) {   
       const videoPlaylist_element = document.getElementById('video-playlist');
-      const videoPlaylist_name = await playlist_api.getPlaylistName(video.playlist_id);
-      const playlist_ahref = doms_component.createAhref({
-            href: `#playlist=${video.playlist_id}`,
-            text: videoPlaylist_name,
-            css_class: 'playlist-link',
-      })
-      videoPlaylist_element.appendChild(playlist_ahref);
+      console.log('playlist_ids: ', video.playlist_ids);
+      video.playlist_ids.forEach(async (playlist_id) => {
+            const playlist_name = await playlist_api.getPlaylistName(playlist_id);
+            const playlist_ahref = doms_component.createAhref({ 
+                  href: `#playlist=${playlist_id}`,
+                  text: playlist_name, 
+                  css: 'playlist-link'});
+            videoPlaylist_element.appendChild(playlist_ahref);
+      });
 }
 
 async function renderFilmData(film_id) {

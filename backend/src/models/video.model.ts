@@ -8,7 +8,7 @@ const VideoSchema: Schema = new Schema({
       film_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Film' },
       code_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Code' },
       studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio', require: false },
-      playlist_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Playlist', require: false },
+      playlist_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist', require: false }],
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
       file_path: { type: String, match: /\.(mp4)$/i },
       views: { type: Number, default: 0 },

@@ -59,7 +59,7 @@
                                                             <i class="fa-solid fa-thumbs-up"></i>
                                                             <span id="video-total-likes"></span>
                                                       </div>
-                                                      <div class="video-playlist video-function_box">
+                                                      <div id="open-videoplaylist_modal" class="video-playlist video-function_box">
                                                             <i class="fa-solid fa-bookmark"></i>
                                                             <span class="save">Save</span>
                                                       </div>
@@ -92,5 +92,39 @@
                         
                   </div>
             </div>
+      </div>
+</div>
+
+<div id="video-playlist_modal" class="modal">
+      <div class="modal-content">
+            <div id="close-videoplaylist_modal">
+                  <div class="btn-close">
+                        <i class="fa-solid fa-xmark"></i>
+                  </div>
+            </div>
+            <form id="video-playlist_form">
+                  <div class="modal-body">
+                        <div id="add_video-playlist">
+                              <div class="select-search_component">
+                                    <div class="wrapper">
+                                          <div class="select-btn">
+                                                <span>Select playlist</span>
+                                                <i class="caret-down fa-solid fa-caret-down"></i>
+                                          </div>
+                                          <div class="content">
+                                                <div class="search row ">
+                                                      <input type="text" placeholder="search playlist ... ">
+                                                </div>
+                                                <ul class="options"></ul>
+                                          </div>
+                                    </div>
+                              </div>
+                              <div id="selected-options_container" class="selected-options_container"></div>
+                        </div>
+                  </div>
+                  <div class="save-button">
+                        <button id="add-videoplaylist-btn" class="btn primary-btn" type="submit">Save</button>
+                  </div>
+            </form>
       </div>
 </div>

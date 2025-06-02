@@ -16,6 +16,7 @@ async function getPlaylistName(playlist_id) {
 }
 
 const playlist_api = {
+      getPlaylistById,
       getPlaylistName,
 };
 export default playlist_api;

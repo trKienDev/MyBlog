@@ -14,5 +14,8 @@ export const api_user = {
       getVideosByCreatorId: '/videos/creator', // GET
       // creators
       getCreators : '/creators', // GET
+      getPlaylists: '/playlists', // GET
+      // tags
+      addPlaylistsToVideo: '/video/playlists', // PUT
 }
 

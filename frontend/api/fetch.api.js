@@ -1,3 +1,4 @@
+import app_configs from "../config/app.config.js";
 import { showToast } from "../utils/toast-notification.js";
 import api_configs from "./api.config.js";
 
@@ -39,6 +40,29 @@ async function createJson(endpoint, data) {
       try {
             const response = await fetch(`${api_configs.server}${endpoint}`, {
                   method: 'POST',
+                  header: {
+                        'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(data)
+            });
+
+            if(!response.ok) {
+                  const error = await response.json();
+                  showToast(error.error, 'error');
+                  return { success: false, error: error.error };
+            }
+
+            const result = await response.json();
+            return { success: true, data: result };
+      } catch(error) {
+            throw new Error(`Error in api method: ${error}`);
+      }
+}
+
+async function updateJson(endpoint, data) {
+      try {
+            const response = await fetch(`${app_configs.SERVER}${endpoint}`, {
+                  method: 'PUT',
                   header: {
                         'Content-Type': 'application/json'
                   },
@@ -101,6 +125,7 @@ const fetch_api = {
       apiGet,
       createForm,
       createJson,
+      updateJson,
       updateForm,
       apiDelete,
 };

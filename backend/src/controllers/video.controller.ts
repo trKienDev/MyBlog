@@ -64,11 +64,21 @@ const updatedVIdeo = async(req: ValidateIdRequest, res: ServerResponse) => {
       }
 }
 
+const addPlaylistToVideo = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const addedPlaylist_video = await service.addPlaylistsToVideo(request);
+      } catch(error) {
+            console.error('Error adding playlist to video: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
 const video_controller = {
       getVideos,
       findVideoById,
       findVideosByCreatorId,
       createVideo,
       updatedVIdeo,
+      addPlaylistToVideo,
 }
 export default video_controller;

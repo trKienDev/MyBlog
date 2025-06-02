@@ -2,15 +2,15 @@
       display: flex;
       margin: -10px -10px;
       flex-wrap: wrap;
+      width: 80%;
 }
 .new-videos .video-article {
-      padding: 10px 10px;
+      width: calc(100% / 4);
 }
 .new-videos .video-article:hover {
       cursor: pointer;
 }
 .new-videos .video-frame {
-      height: 200px;
       width: 100%;
       border-radius: 5px;
 }

@@ -7,4 +7,5 @@ export interface iVIdeoRepository {
       findByCreatorId(creator_id: string): Promise<VideoDTO[]>;
       createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO>;
       updateVideo(id: string, data: Partial<UpdateVideoDTO>): Promise<UpdateVideoDTO | null>;
+      addPlaylistsToVideo(video_id: string, playlistIds_toAdd: string[]): Promise<boolean>;
 }

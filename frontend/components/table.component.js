@@ -5,9 +5,10 @@ import video_utils from "../utils/video.utils.js";
 import images_component from "./image.component.js";
 import videos_component from "./videos.component.js";
 
-function createTrWithId(id) {
+function createTrWithId(id, css_class) {
       const tr = document.createElement('tr');
       tr.setAttribute('data-id', id);
+      tr.classList.add(css_class);
       return tr;
 }
 

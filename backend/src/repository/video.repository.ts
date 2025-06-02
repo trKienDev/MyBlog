@@ -6,7 +6,7 @@ import { CreateVideoDTO, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
 import Film from "../models/film.model.js";
 
 export class VideoRepository implements iVIdeoRepository {
-      public async getVIdeos(): Promise<VideoDTO[]> {
+      async getVIdeos(): Promise<VideoDTO[]> {
             const videos = await Video.find();
             return videos.map(doc => mappingDocToDTO(doc));
       }
@@ -16,7 +16,7 @@ export class VideoRepository implements iVIdeoRepository {
             return video ? mappingDocToDTO(video) : null;
       }
 
-      public async findByName(name: string): Promise<VideoDTO | null> {
+      async findByName(name: string): Promise<VideoDTO | null> {
             return await Video.findOne({ name });      
       }
       
@@ -30,7 +30,7 @@ export class VideoRepository implements iVIdeoRepository {
             return videos.map(doc => mappingDocToDTO(doc));
       }
 
-      public async createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO> {
+      async createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO> {
             const new_video = new Video({
                   name: data.name,
                   action_id: new mongoose.Types.ObjectId(data.action_id),
@@ -38,7 +38,6 @@ export class VideoRepository implements iVIdeoRepository {
                   code_id: new mongoose.Types.ObjectId(data.code_id),
                   studio_id: new mongoose.Types.ObjectId(data.studio_id),
                   creator_id: new mongoose.Types.ObjectId(data.creator_id),
-                  ...(data.playlist_id && { playlist_id: new mongoose.Types.ObjectId(data.playlist_id)}),
                   file_path: data.file_path,
                   tag_ids: data.tag_ids.map(id => new mongoose.Types.ObjectId(id)), 
             });
@@ -60,7 +59,6 @@ export class VideoRepository implements iVIdeoRepository {
             if (data.studio_id) update_fields.studio_id = new mongoose.Types.ObjectId(data.studio_id);
             if (data.film_id) update_fields.film_id = new mongoose.Types.ObjectId(data.film_id);
             if (data.code_id) update_fields.code_id = new mongoose.Types.ObjectId(data.code_id);
-            if (data.playlist_id) update_fields.playlist_id = new mongoose.Types.ObjectId(data.playlist_id);
             if (data.tag_ids) update_fields.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
             if (data.file_path) update_fields.file_path   = data.file_path;
 
@@ -71,6 +69,24 @@ export class VideoRepository implements iVIdeoRepository {
             );
 
             return updated_doc ? mappingDocToDTO(updated_doc) : null;
+      }
+
+      async addPlaylistsToVideo(video_id: string, playlistIds_toAdd: string[]): Promise<boolean> {
+            console.log('repository: ', playlistIds_toAdd);
+            const updated_video = await Video.findByIdAndUpdate(
+                  video_id,
+                  { $addToSet: { playlist_ids: { $each: playlistIds_toAdd }}}, 
+                  {
+                        new: true,
+                        runValidators: true
+                  }
+            ).exec();
+            console.log('updated_video: ', updated_video);
+            if(!updated_video) {
+                  return false;
+            }
+
+            return true;
       }
 }
 
@@ -83,7 +99,6 @@ function mappingDocToCreateDTO(doc: iVideo): CreateVideoDTO {
             studio_id: doc.studio_id?.toString() ?? "",
             film_id: doc.film_id.toString(),
             code_id: doc.code_id.toString(),
-            playlist_id: doc.playlist_id?.toString() ?? "",
             tag_ids: doc.tag_ids.map(id => id.toString()),
             file_path: doc.file_path,
       }
@@ -98,7 +113,7 @@ function mappingDocToDTO(doc: iVideo): VideoDTO {
             film_id: doc.film_id.toString(),
             code_id: doc.code_id.toString(),
             studio_id: doc.studio_id.toString(),
-            playlist_id: doc.playlist_id?.toString() ?? "",
+            playlist_ids: doc.playlist_ids?.map(id => id.toString()),
             tag_ids: doc.tag_ids.map(id => id.toString()),
             file_path: doc.file_path,
             views: doc.views,

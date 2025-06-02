@@ -28,16 +28,18 @@ async function renderListVideo() {
             const videos = await video_api.getVideos();
             console.log('videos: ', videos);
             videos.forEach(async (video) => {
-                  const tr = table_component.createTrWithId(video._id);
+                  const tr = table_component.createTrWithId(video._id, 'video-tr');
                   
                   const edit_btn = await table_component.createEditBtn(css_selectors.container.edit_container, 
                                                                                                             video, 
                                                                                                             redirectToEditVideoPage);
                   tr.appendChild(edit_btn);
 
-                  const video_td = await table_component.createVideoTdFromApi({ ifile_path: video.file_path, 
-                                                                                                                              iupload_path: 'videos',
-                                                                                                                              icss: css_selectors.videos.video_td });
+                  const video_td = await table_component.createVideoTdFromApi({ 
+                        ifile_path: video.file_path, 
+                        iupload_path: 'videos',
+                        icss: css_selectors.videos.video_td 
+                  });
                   const video_name = span_component.createSpanText(video.name, css_selectors.videos.video_name);
                   const videoTags_container = div_component.createDiv({ icss_class: css_selectors.videos.video_tags, idiv_id: id_selectors.videos.video_tags});
                   await tags_utils.renderSelectedTags(video.tag_ids, videoTags_container, tag_api.getTagById);
@@ -45,12 +47,8 @@ async function renderListVideo() {
                   video_td.appendChild(video_info);
                   tr.appendChild(video_td);
 
-                  const filmThumbnail_td = await table_component.createImgTdFromApi({ 
-                        apiFn: film_api.getFilmThumbnail,
-                        id: video.film_id,
-                        upload_path: ServerFolders.FILMS,
-                        css_class: css_selectors.films.film_thumbnail
-                  });   
+                  const film_name = await film_api.getFilmNameById(video.film_id);
+                  const filmThumbnail_td = table_component.createTextTd({ i_text: film_name});
                   tr.appendChild(filmThumbnail_td);
 
                   const creatorAvatar_td = await table_component.createImgTdFromApi({ 

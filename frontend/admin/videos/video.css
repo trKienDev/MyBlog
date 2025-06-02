@@ -19,7 +19,7 @@
 }
 /* video table */
 #videos-table table {
-      width: 80%;
+      width: 70%;
 }
 #videos-table .video-td {
       display: flex;
@@ -29,8 +29,6 @@
 }
 #videos-table .video-frame {
       height: 200px;
-      aspect-ratio: 16/9;
-      width: auto;
       border-radius: 5px;
 }
 #videos-table .video-frame:hover {
@@ -49,8 +47,8 @@
       border-radius: 5px;
 }
 #videos-table .film-thumbnail {
-      height: 200px;
-      width: 133.5px;   
+      height: 250px;
+      width: auto;   
       border-radius: 5px;
 }
 #videos-table .video-tags {

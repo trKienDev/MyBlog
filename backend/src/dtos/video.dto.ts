@@ -8,7 +8,6 @@ export interface CreateVideoDTO {
       film_id: string;
       code_id: string;
       studio_id: string;
-      playlist_id?: string;
       tag_ids: string[];
       file_path: string;
 }
@@ -21,7 +20,7 @@ export interface UpdateVideoDTO {
       film_id: string;
       code_id: string;
       studio_id: string;
-      playlist_id?: string;
+      playlist_id?: string[];
       tag_ids: string[];
       file_path: string;
 }
@@ -34,7 +33,7 @@ export interface VideoDTO {
       film_id: string;
       code_id: string;
       studio_id: string;
-      playlist_id?: string;
+      playlist_ids?: string[];
       tag_ids: string[];
       file_path: string;
       views: number;

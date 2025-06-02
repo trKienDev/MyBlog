@@ -1,3 +1,4 @@
+import { IncomingMessage } from "http";
 import { CreateVideoDTO, UpdateVideoDTO } from "../dtos/video.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
@@ -6,6 +7,7 @@ import { iVIdeoRepository } from "../repository/interfaces/ivideo.repository.js"
 import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
+import { parseJSON } from "../middlewares/json-parser.js";
 
 export class VideoService {
       private video_repository: iVIdeoRepository;
@@ -38,7 +40,6 @@ export class VideoService {
                   film_id: film_id,
                   code_id: code_id,
                   studio_id: studio_id,
-                  playlist_id: playlist_id,
                   tag_ids: tag_ids,
                   file_path: file_name,
             };
@@ -54,7 +55,6 @@ export class VideoService {
             const { file_name } = await file_utils.uploadFile(req, UploadFiles.VIDEOS);
             const video_name = request_utils.extractParamFromRequest(req, "name");
             const action_id = request_utils.extractParamFromRequest(req, "action_id");
-            const playlist_id = request_utils.extractParamFromRequest(req, "playlist_id");
             const creator_id = request_utils.extractParamFromRequest(req, "creator_id");
             const film_id = request_utils.extractParamFromRequest(req, "film_id");
             const code_id = request_utils.extractParamFromRequest(req, "code_id");
@@ -62,7 +62,7 @@ export class VideoService {
             const tagId_array = request_utils.extractParamFromRequest(req, "tag_ids");
             const tag_ids: string[] = tagId_array.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
 
-            const updatedVideo_data: Record<string, any> = { video_name, action_id, playlist_id, creator_id, film_id, code_id, studio_id, tag_ids};
+            const updatedVideo_data: Record<string, any> = { video_name, action_id, creator_id, film_id, code_id, studio_id, tag_ids};
             
             if(file_name) { 
                   FileService.deleteFile(UploadFiles.VIDEOS, existing_video.file_path);
@@ -73,5 +73,24 @@ export class VideoService {
             if(!updated_video) throw new Error("Error updating video");
 
             return updated_video;
+      }
+
+      async addPlaylistsToVideo(request: ValidateIdRequest): Promise<void> {
+            const video_id = request.params?.id;
+            const required_fields = ['playlist_ids'];
+            const existing_video = await this.video_repository.findById(video_id);
+
+            if(!existing_video) {
+                  throw new Error('Video not found');
+            }
+
+            const body = await parseJSON(request, required_fields);
+            const { playlist_ids } = body;
+            if(!playlist_ids) {
+                  throw new Error('Missing required information');
+            }
+
+            const addedPlaylistVideo = await this.video_repository.addPlaylistsToVideo(video_id, playlist_ids);
+            console.log('added PlaylistVideo: ', addedPlaylistVideo);
       }
 }
