@@ -49,6 +49,12 @@
 .btn-search:hover {
       background-color: var(--search-btn_hover);
 }
+.pink-btn {
+      background-color: var(--light-pink) !important;
+}
+.pink-btn:hover {
+      background-color: var(--hot-pink) !important;
+}
 .btn-close {
       background-color: var(--danger-btn);
       width: 50px;

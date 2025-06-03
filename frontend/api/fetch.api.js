@@ -61,13 +61,18 @@ async function createJson(endpoint, data) {
 
 async function updateJson(endpoint, data) {
       try {
-            const response = await fetch(`${app_configs.SERVER}${endpoint}`, {
+            const fetch_options = {
                   method: 'PUT',
-                  header: {
+            }
+
+            if(data !== undefined && data !== null) {
+                  fetch_options.headers = {
                         'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(data)
-            });
+                  };
+                  fetch_options.body = JSON.stringify(data)
+            }
+            console.log('fetch_option: ', fetch_options);
+            const response = await fetch(`${app_configs.SERVER}${endpoint}`, fetch_options);
 
             if(!response.ok) {
                   const error = await response.json();
@@ -101,6 +106,7 @@ async function updateForm(endpoint, form) {
             throw new Error(`Error in api method: ${error}`);
       }
 }
+
 
 async function apiDelete(endpoint) {
       try {

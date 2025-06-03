@@ -1,5 +1,5 @@
 import { IncomingMessage } from "http";
-import { CreateVideoDTO, UpdateVideoDTO } from "../dtos/video.dto.js";
+import { CreateVideoDTO, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
@@ -8,6 +8,8 @@ import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 import { parseJSON } from "../middlewares/json-parser.js";
+import mongoose from "mongoose";
+import { error } from "console";
 
 export class VideoService {
       private video_repository: iVIdeoRepository;
@@ -25,7 +27,6 @@ export class VideoService {
             }
 
             const action_id = request_utils.extractParamFromRequest(req, "action_id");
-            const playlist_id = request_utils.extractParamFromRequest(req, "playlist_id");
             const creator_id = request_utils.extractParamFromRequest(req, "creator_id");
             const film_id = request_utils.extractParamFromRequest(req, "film_id");
             const code_id = request_utils.extractParamFromRequest(req, "code_id");
@@ -75,7 +76,7 @@ export class VideoService {
             return updated_video;
       }
 
-      async addPlaylistsToVideo(request: ValidateIdRequest): Promise<void> {
+      async addPlaylistsToVideo(request: ValidateIdRequest): Promise<VideoDTO | null> {
             const video_id = request.params?.id;
             const required_fields = ['playlist_ids'];
             const existing_video = await this.video_repository.findById(video_id);
@@ -91,6 +92,28 @@ export class VideoService {
             }
 
             const addedPlaylistVideo = await this.video_repository.addPlaylistsToVideo(video_id, playlist_ids);
-            console.log('added PlaylistVideo: ', addedPlaylistVideo);
+            return addedPlaylistVideo;
+      }
+
+      async increaseVIdeoViewsByOne(request: ValidateIdRequest): Promise<VideoDTO | null> {
+            const video_id = request.params?.id;
+            if(!mongoose.Types.ObjectId.isValid(video_id)) {
+                  console.warn("Invalid video_id in format for increasingVideoViewsByOne");
+                  throw new Error("Invalid video_id format");
+            }
+
+            const existing_video = await this.video_repository.findById(video_id);
+            if(existing_video === null) {
+                  console.warn("video not found");
+                  throw new Error("video not found");
+            }
+
+            const updated_video = await this.video_repository.increaseVideoViewsByOne(video_id);
+            if(updated_video === null) {
+                  console.warn("error increaseVideoViewsByOne in repository");
+                  throw new Error("error increaseVideoViewsByOne");
+            }
+
+            return updated_video;
       }
 }

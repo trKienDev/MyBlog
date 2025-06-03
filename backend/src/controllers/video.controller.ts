@@ -6,7 +6,7 @@ import { VideoRepository } from "../repository/video.repository.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 
 const repository = new VideoRepository();
-const service = new VideoService(repository);
+const video_service = new VideoService(repository);
 
 const getVideos = async(request: CustomRequest, response: ServerResponse) => {
       try {
@@ -46,7 +46,7 @@ const findVideosByCreatorId = async(request: ValidateIdRequest, response: Server
 
 const createVideo = async(req: CustomRequest, res: ServerResponse) => {
       try {
-            const saved_video = await service.createVideo(req);
+            const saved_video = await video_service.createVideo(req);
             sendResponse(res, 201, saved_video);
       } catch(error) {
             console.error('Error creating video: ', error);
@@ -56,7 +56,7 @@ const createVideo = async(req: CustomRequest, res: ServerResponse) => {
 
 const updatedVIdeo = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
-            const updated_video = await service.updateVideo(req);
+            const updated_video = await video_service.updateVideo(req);
             return sendResponse(res, 200, updated_video);
       } catch(error) {
             console.error('Error updating video: ', error);
@@ -66,9 +66,20 @@ const updatedVIdeo = async(req: ValidateIdRequest, res: ServerResponse) => {
 
 const addPlaylistToVideo = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const addedPlaylist_video = await service.addPlaylistsToVideo(request);
+            const addedPlaylist_video = await video_service.addPlaylistsToVideo(request);
+            return sendResponse(response, 200, addedPlaylist_video);
       } catch(error) {
             console.error('Error adding playlist to video: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
+const increaseVideoViewsByOne = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const video_increaseViewByOne = await video_service.increaseVIdeoViewsByOne(request);
+            return sendResponse(response, 200, video_increaseViewByOne);
+      } catch(error) {
+            console.error('Error increasing video views by one');
             return sendError(response, 500, error);
       }
 }
@@ -80,5 +91,6 @@ const video_controller = {
       createVideo,
       updatedVIdeo,
       addPlaylistToVideo,
+      increaseVideoViewsByOne,
 }
 export default video_controller;

@@ -40,11 +40,13 @@ a {
       --update-btn_hover: #d84005;
       --search-btn: #7F00FF;
       --search-btn_hover: #5f02bd;
+
       /* blue */
       --bright-blue: #0096FF;
       --sky-blue: #87CEEB;
       /* pink */
       --hot-pink: #FF69B4;
+      --light-pink: #FFB6C1;
       /* yellow */
       --yellow: #FFFF00;
       --bright-yellow: #FFEA00;

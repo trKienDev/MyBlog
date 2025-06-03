@@ -10,6 +10,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/video/:id', handler: validated_id.validateId(video_controller.findVideoById)},
       { method: 'GET', path: '/videos/creator/:id', handler: validated_id.validateId(video_controller.findVideosByCreatorId)},
       { method: 'PUT', path: '/video/playlists/:id', handler: validated_id.validateId(video_controller.addPlaylistToVideo )},
+      { method: 'PUT', path: '/video/view/:id', handler: validated_id.validateId(video_controller.increaseVideoViewsByOne )},
 
       // creators
       { method: 'GET', path: '/creators', handler: creator_controller.GetCreators },

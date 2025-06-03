@@ -48,7 +48,7 @@
       height: fit-content;
 }
 #video-info .video-function_box:hover {
-      background-color: white;
+      background-color: var(--light-pink);
       color: black;
       cursor: pointer;
 }
@@ -76,6 +76,12 @@
 #video-info #video-tags a:hover {
       color: black !important;
 }
+#video-info .video-action {
+      background-color: var(--light-btn);
+}
+#video-info .video-action:hover {
+      background-color: var(--light-btn_hover);
+}
 #video-info #video-playlist {
       display: flex;
 }
@@ -83,6 +89,7 @@
       display: flex;
       flex-wrap: wrap;
       margin: 0 -2px;
+      margin-top: 10px
 }
 #film-videos .film-videos_frame {
       flex-basis: calc(100%/3);
@@ -112,7 +119,7 @@
       color: #aaa;
 }
 #video-info .video-info_box a:hover {
-      color: var(--hot-pink);
+      color: var(--light-pink);
 }
 
 /* left column */
@@ -126,7 +133,7 @@
       align-content: center;
 }
 #film-info .film-info_box a:hover {
-      color: var(--hot-pink);
+      color: var(--light-pink);
 }
 #film-info #film-tags a:hover {
       color: black !important;

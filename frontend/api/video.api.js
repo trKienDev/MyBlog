@@ -43,6 +43,13 @@ async function updateVideo(video_id, form_data) {
       return result.data;
 }
 
+async function increaseVideoViewsByOne(video_id) {
+      const result = await fetch_api.updateJson(`${api_user.increaseVideoViewsByOne}/${video_id}`);
+      if(result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
+
 export const video_api = {
       getVideos,
       getVideoById,
@@ -50,4 +57,5 @@ export const video_api = {
       getVideosByCreatorId,
       getVideoFilePath,
       updateVideo,
+      increaseVideoViewsByOne,
 }

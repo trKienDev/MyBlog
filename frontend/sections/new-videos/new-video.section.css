@@ -1,11 +1,15 @@
 .new-videos {
       display: flex;
-      margin: -10px -10px;
+      margin: 0px -8px;
       flex-wrap: wrap;
-      width: 80%;
+      width: 90%;
 }
 .new-videos .video-article {
-      width: calc(100% / 4);
+      flex-basis: calc(100%/4);
+      flex-grow: 0;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      padding: 8px;
 }
 .new-videos .video-article:hover {
       cursor: pointer;
@@ -49,7 +53,7 @@
       font-weight: bold;
 }
 .new-videos .video-film:hover {
-      color: var(--hot-pink);
+      color: var(--light-pink);
 }
 .new-videos .video-creator {
       font-size: 13px;

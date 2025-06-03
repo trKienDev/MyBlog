@@ -12,15 +12,15 @@ import videos_component from "../../components/videos.component.js";
 import dom_id from "../../constants/doms.constant.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
 import date_utils from "../../utils/date.utils.js";
+import { showToast } from "../../utils/toast-notification.js";
 import { videoPlaylistModalController } from "./video-playlist-modal.js";
 
 export async function playVideoPageController(video_id) {
+      await increaseVideoViewByOne(video_id);
       const video = await video_api.getVideoById(video_id);
-      console.log('video: ', video);
       renderVideoData(video);
       renderFilmData(video.film_id);
       renderFilmVideo(video); 
-
       videoPlaylistModalController(video);
 }
 
@@ -41,6 +41,7 @@ async function populateVideoFilm(video) {
 async function populateVideoActionData(video) {
       const video_action = document.getElementById(dom_id.VIDEO_ACTION);
       const action_tag = await tags_component.createTagDivFromAPI({ tag_id: video.action_id, tag_css: 'tag-item' });
+      action_tag.classList.add('pink-btn')
       video_action.appendChild(action_tag);
 
       return video_action;
@@ -61,7 +62,7 @@ async function populateVideoTags(video) {
 
       return video_tags;
 }
-async function populateVideoPlaylist(video) {   
+export async function populateVideoPlaylist(video) {   
       const videoPlaylist_element = document.getElementById('video-playlist');
       console.log('playlist_ids: ', video.playlist_ids);
       video.playlist_ids.forEach(async (playlist_id) => {
@@ -162,4 +163,15 @@ async function getRelatedVideosByFilm(video_info) {
       const film_videos = film.video_ids.filter(id => id !== video_info._id);
 
       return film_videos;
+}
+
+async function increaseVideoViewByOne(video_id) {
+      try {
+            const result = await video_api.increaseVideoViewsByOne(video_id);
+            return result;
+      } catch(error) {
+            console.error('error increase video view by 1: ', error);
+            showToast('Error increase video view by 1', 'error');
+            return;
+      }
 }

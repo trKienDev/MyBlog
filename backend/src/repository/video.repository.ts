@@ -71,8 +71,7 @@ export class VideoRepository implements iVIdeoRepository {
             return updated_doc ? mappingDocToDTO(updated_doc) : null;
       }
 
-      async addPlaylistsToVideo(video_id: string, playlistIds_toAdd: string[]): Promise<boolean> {
-            console.log('repository: ', playlistIds_toAdd);
+      async addPlaylistsToVideo(video_id: string, playlistIds_toAdd: string[]): Promise<VideoDTO | null> {
             const updated_video = await Video.findByIdAndUpdate(
                   video_id,
                   { $addToSet: { playlist_ids: { $each: playlistIds_toAdd }}}, 
@@ -81,12 +80,18 @@ export class VideoRepository implements iVIdeoRepository {
                         runValidators: true
                   }
             ).exec();
-            console.log('updated_video: ', updated_video);
-            if(!updated_video) {
-                  return false;
-            }
 
-            return true;
+            return updated_video ? mappingDocToDTO(updated_video) : null;
+      }
+
+      async increaseVideoViewsByOne(video_id: string): Promise<VideoDTO | null> {
+            const updated_video = await Video.findByIdAndUpdate(
+                  video_id,
+                  { $inc: {views: 1 }},
+                  { new: true }
+            ).exec();
+
+            return updated_video ? mappingDocToDTO(updated_video) : null;
       }
 }
 
