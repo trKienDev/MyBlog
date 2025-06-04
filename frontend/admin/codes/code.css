@@ -1,0 +1,9 @@
+.code_container  {
+      display: flex;
+}
+#studios {
+      margin-top: -10px;
+}
+#code .primary-form {
+      margin-left: 50px;
+}

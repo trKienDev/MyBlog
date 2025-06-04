@@ -1,0 +1,93 @@
+#admin-mangas .body {
+      display: block;
+}
+#admin-mangas .btn {
+      width: fit-content;
+}
+#create-manga_btn, #create-manga-tag_btn {
+      margin-top: 20px;
+}
+#create-manga-tag_btn {
+      margin-left: 20px;
+}
+#list-manga_section {
+      margin-top: 50px;
+}
+
+/* manga table */
+#mangas-table {
+      width: 50%;
+}
+#mangas-table .manga-thumbnail {
+      height: 145px;
+      border-radius: 5%;
+}
+
+/* manga-tag modal */
+#manga-tag_modal .modal-content {
+      width: 15%;
+}
+#manga-tag_modal .save-button {
+      display: flex;
+      justify-content: center;
+}
+/* create manga */
+.create-manga_section {
+      display: flex;
+      margin-top: 30px;
+}
+#create-manga_form {
+      width: 50%;
+}
+#create-manga #form {
+      width: 100%;
+}
+#create-manga #form .col-info, #create-manga #form .col-description {
+      width: 37%;
+}
+#create-manga #form .col-description textarea {
+      height: calc(100% - 10px);
+      resize: none;
+} 
+#create-manga .thumbnail-wrapper {
+      padding-top: 10px;
+      height: 222px;
+      width: 174px;
+}
+#create-manga .thumbnail-wrapper input {
+      display: none;
+}
+#upload-images_btn {
+      margin-left: 50px;
+      height: fit-content;
+}
+#upload-images_btn .primary-btn {
+      width: fit-content;
+}
+#upload-images_btn i {
+      display: flex;
+      align-items: center;
+}
+
+/* preview manga images */
+.preview-manga_section {
+      margin-top: 50px;
+}
+.upload-images_list {
+      display: flex;
+      flex-wrap: wrap; 
+      gap: 10px; 
+      justify-content: flex-start; 
+      align-items: flex-start;
+      margin: 0 -5px;
+}
+.image-frame {
+      width: 200px; 
+      flex-basis: 200px; 
+      margin: 5px; 
+}
+.manga-image {
+      max-width: 100%; 
+      height: auto; 
+      display: block; 
+}

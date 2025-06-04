@@ -1,0 +1,70 @@
+.new-videos {
+      display: flex;
+      margin: 0px -8px;
+      flex-wrap: wrap;
+      width: 90%;
+}
+.new-videos .video-article {
+      flex-basis: calc(100%/4);
+      flex-grow: 0;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      padding: 8px;
+}
+.new-videos .video-article:hover {
+      cursor: pointer;
+}
+.new-videos .video-frame {
+      width: 100%;
+      border-radius: 5px;
+}
+.new-videos .avatar-frame_container {
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+}
+.new-videos .creator-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+}
+.new-videos .video-article-container {
+      background-color: var(--dark-gray);
+      border-radius: 5px;
+}
+.new-videos .video-article-container:hover {
+      background-color: #3a3d44;
+      transition: .3s;
+}
+.new-videos .video-info-container {
+      padding: 5px 5px;
+      display: flex;
+}
+.new-videos .video-creator {
+      width: fit-content;
+}
+.new-videos .video-details {
+      width: 100%;
+      margin-left: 10px;
+      line-height: 1;
+}
+.new-videos .video-film {
+      font-size: 15px;
+      font-weight: bold;
+}
+.new-videos .video-film:hover {
+      color: var(--light-pink);
+}
+.new-videos .video-creator {
+      font-size: 13px;
+      color: rgb(172, 172, 172);
+}
+.new-videos .video-creator:hover {
+      color: white;
+}
+.new-videos .video-views {
+      font-size: 13px;
+}
+.new-videos .video-frame:hover {
+      cursor: pointer;
+}

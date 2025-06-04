@@ -1,0 +1,14 @@
+.tags-list {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
+      gap: 10px; 
+      list-style-type: none; 
+      scrollbar-width: none;
+      padding: 0;
+
+}
+
+

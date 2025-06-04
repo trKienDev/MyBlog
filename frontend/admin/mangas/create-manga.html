@@ -1,0 +1,67 @@
+<section id="create-manga">
+      <div class="container">
+            <h1 class="heading-title">Create manga</h1>
+            <div class="create-manga_section">
+                  <div id="create-manga_form" class="primary-form">
+                        <div class="form-container">
+                              <div class="title">
+                                    <span>Add new manga</span>
+                              </div>
+                              <div class="body">
+                                    <form id="form" action="" method="POST">
+                                          <div class="d-flex jt-space_between">
+                                                <div class="col-info">
+                                                      <input type="text" class="form-input" name="name" id="name" placeholder="manga" required>
+                                                      <div id="manga-tag">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select tag</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search tag ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div id="selected-tag_container" class="selected-tag_container">
+                                                                  
+                                                            </div>
+                                                            
+                                                      </div>
+                                                </div>
+                                                <div class="col-description">
+                                                      <textarea name="manga-description" id="manga-description" placeholder="description"></textarea>
+                                                </div>
+                                                <div class="thumbnail-wrapper">
+                                                       <img id="thumbnail-image" src="/admin/static/images/film/thumbnail-upload_default.png" alt="film-thumbnail">
+                                                      <input type="file" id="thumbnail-upload" name="file" accept="image/*">
+                                                </div>
+                                          </div>
+                                          <div class="button">
+                                                <button id="create-manga_btn" class="btn primary-btn"  type="submit">Add</button>
+                                          </div>
+                                    </form>
+                              </div>
+                        </div>
+                  </div>
+                  <div id='upload-images_btn' class="">
+                        <div class="btn primary-btn d-flex">
+                              <i class="fa-solid fa-circle-arrow-up"></i>
+                              <span style="padding-left: 10px;">upload images</span>
+                        </div>
+                        <input type="file" id="upload-images" accept="image/*" style="display: none;" multiple="true">
+                  </div>
+            </div>
+            <div class="preview-manga_section">
+                  <div class="preview-manga_wrapper">
+                        <div class="upload-images_list">
+
+                        </div>
+                  </div>
+            </div>
+      </div>
+</section>

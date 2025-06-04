@@ -2,16 +2,29 @@
 <html lang="en">
 <div id="header"></div>
 <body>
-        <div class="container">
-                <section id="sidebar"></section>
-                <section id="videos-tag"></section>
-        </div>
+      <header class="top-bar">
+            <!-- search -->
+            <form class="search-form" role="search" action="/search" method="GET">
+                  <div class="search-group">
+                        <input type="search" name="q" class="search-input" placeholder="Search" aria-label="Tìm kiếm" required/>
+                        <button type="submit" class="btn-advanced-search" aria-label="Search">
+                              <i class="fa-solid fa-magnifying-glass"></i>
+                              <span class="search-tooltip">advance search</span>
+                        </button>
+                  </div>
+            </form>
+      </header>
 
-        <div id="footer"></div>
-                
-        <script src="static/js/layout.js"></script>
-        <script type="text/javascript" src="../static/js/loadTitle.js"></script>
+      <div id='page-content' class="d-flex"></div>
+
+      <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+      <div id="footer"></div>
+            
+      <script src="static/js/layout.js"></script>
+      <script type="text/javascript" src="../static/js/load-title.js"></script>
+      <script type="module" src="static/js/init-homepage.js"></script>
+      <script type="module" src="services/global-script.js"></script>
 </body>
 </html>
 
-<script type="module" src="./services/loadElement/loadHomeSection.js"></script>
+<!-- <script type="module" src="./services/loadElement/loadHomeSection.js"></script> -->

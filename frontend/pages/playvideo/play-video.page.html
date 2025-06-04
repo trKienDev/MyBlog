@@ -1,0 +1,130 @@
+<div class="page-container">
+      <div id="play-video_page" class="column">
+            <div class="left-column">
+                  <div class="column-wrapper">
+                        <div class="thumbnail_video-wrapper">
+                              <img id="video_film-thumbnail" width="399px" height="599px" class="film-thumbnail">
+                        </div>
+                        <div id="film-info">
+                              <div class="film-info_wrapper">
+                                    <div class="film-name_wrapper film-info_box">
+                                          <span class="title">code:</span>
+                                          <div id="film-name"></div>
+                                    </div>
+                                    <div class="film-studio_wrapper film-info_box">
+                                          <span class="title">studio:</span>
+                                          <div id="film-studio"></div>
+                                    </div>
+                                    <div class="film-date_wrapper film-info_box">
+                                          <span class="title">release date:</span>
+                                          <div id="film-date"></div>
+                                    </div>
+                                    <div class="film-collection_wrapper film-info_box">
+                                          <span class="title">collection:</span>
+                                          <div id="film-collection"></div>
+                                    </div>
+                                    <div class="film-rating_wrapper film-info_box">
+                                          <span class="title">rating</span>
+                                          <div id="film-rating"></div>
+                                    </div>
+                                    <div class="film-tags_wrapper film-info_box">
+                                          <span class="title">tags: </span>
+                                          <div id="film-tags"></div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+            <div class="center-column">
+                  <div class="column-wrapper">
+                        <div class="play_video-wrapper">
+                              <video id="video-player" width="950px" controls>
+                                    <source src="" type="video/mp4">
+                              </video>
+                              <div id="video-info">
+                                    <div class="video-info_container">
+                                          <div class="first-row d-flex jt-space_between">
+                                                <div class="primary-column d-flex">
+                                                      <div id="video-creator">
+                                                      </div>
+                                                      <span id="video-film_name"></span>
+                                                      <div id="video-action"></div>
+                                                </div>
+                                                <div class="secondary-column d-flex">
+                                                      <div class="video-views video-function_box">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                            <span id="video-total-views"></span>
+                                                      </div>
+                                                      <div class="video-likes video-function_box">
+                                                            <i class="fa-solid fa-thumbs-up"></i>
+                                                            <span id="video-total-likes"></span>
+                                                      </div>
+                                                      <div id="open-videoplaylist_modal" class="video-playlist video-function_box">
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                            <span class="save">Save</span>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div class="second-row">  
+                                                <div class="video-tags_wrapper video-info_box">
+                                                      <span class="title">tags: </span>
+                                                      <div id="video-tags"></div>    
+                                                </div>        
+                                          </div>
+                                          <div class="third-row">  
+                                                <div class="video-playlist_wrapper video-info_box">
+                                                      <span class="title">playlist: </span>
+                                                      <div id="video-playlist"></div>    
+                                                </div>        
+                                          </div>
+                                    </div>
+                              </div>
+                              <div class="film-video_wrapper">
+                                    <div id="film-videos">
+
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+            <div class="right-column">
+                  <div class="column-wrapper">
+                        
+                  </div>
+            </div>
+      </div>
+</div>
+
+<div id="video-playlist_modal" class="modal">
+      <div class="modal-content">
+            <div id="close-videoplaylist_modal">
+                  <div class="btn-close">
+                        <i class="fa-solid fa-xmark"></i>
+                  </div>
+            </div>
+            <form id="video-playlist_form">
+                  <div class="modal-body">
+                        <div id="add_video-playlist">
+                              <div class="select-search_component">
+                                    <div class="wrapper">
+                                          <div class="select-btn">
+                                                <span>Select playlist</span>
+                                                <i class="caret-down fa-solid fa-caret-down"></i>
+                                          </div>
+                                          <div class="content">
+                                                <div class="search row ">
+                                                      <input type="text" placeholder="search playlist ... ">
+                                                </div>
+                                                <ul class="options"></ul>
+                                          </div>
+                                    </div>
+                              </div>
+                              <div id="selected-options_container" class="selected-options_container"></div>
+                        </div>
+                  </div>
+                  <div class="save-button">
+                        <button id="add-videoplaylist-btn" class="btn primary-btn" type="submit">Save</button>
+                  </div>
+            </form>
+      </div>
+</div>

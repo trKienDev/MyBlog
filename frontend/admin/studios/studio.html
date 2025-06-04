@@ -1,0 +1,53 @@
+<section id="studio">
+      <div class="container">
+            <h1 class="heading-title">Studio Management</h1>
+            <div class="body">
+                  <div class="studio-container">
+                        <div id="studio-table">
+                              <table cellpadding="0" cellspacing="0">
+                                    <thead>
+                                          <tr>
+                                                <th style="width: 10%;">
+                                                      <div class="create-studio">
+                                                            <div class="btn primary-btn" id="open-modal_button">
+                                                                  <i class="fa-solid fa-square-plus"></i>
+                                                            </div>
+                                                      </div>
+                                                </th>
+                                                <th class="creator">Name</th>
+                                                <th class="image">Image</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                              </table>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <div id="studio-modal" class="modal">
+            <div class="modal-content"> 
+                  <div id="close-modal_button">
+                        <div class="btn-close">
+                              <i class="fa-solid fa-xmark"></i>
+                        </div>
+                  </div>
+                  <h2 style="text-align: center;">Create New Studio</h2>
+                  <form id="studio-form">
+                        <div class="modal-body">
+                              <div class="modal-image">
+                                    <img id="img" src="/admin/static/images/studio/studio-upload.png" alt="">
+                                    <input type="file" id="image-upload" name="file" style="display: none;" accept="image/*">
+                              </div>
+                              <div class="modal-info">
+                                    <input type="text" name="name" id="studio-name" placeholder="name" required>
+                                    <div class="save-button">
+                                          <button class="primary-btn" type="submit">Save</button>
+                                    </div>
+                              </div>
+                        </div>
+                  </form>
+            </div>
+    </div>
+</section>

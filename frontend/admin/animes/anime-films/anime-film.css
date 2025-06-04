@@ -1,0 +1,23 @@
+#anime-films {
+      padding-top: 20px;
+}
+#anime-films #anime-films_table {
+      min-width: 50%;
+      margin-right: 50px;
+}
+#anime-films .thumbnail-wrapper {
+      width: 240px;
+      height: 340px;
+}
+#anime-films .modal-right {
+      width: 46%;
+      display: flex;
+      justify-content: center;
+}
+#anime-film_rating {
+      width: 40%;
+      margin-left: 10px;
+}
+.search-anime-film_form {
+      width: 25%;
+}

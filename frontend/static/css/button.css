@@ -1,0 +1,69 @@
+.btn {
+      width: 100%;
+      padding: 10px 10px; 
+      color: white; 
+      border-radius: 5px; 
+      text-align: center; 
+      cursor: pointer; 
+      transition: background 0.8s, filter 0.8s;
+      font-family: 'Lexend';
+      font-weight: bold;
+      border: none;
+}
+.primary-btn {
+      background-color: var(--primary-btn); 
+}
+.primary-btn:hover {
+      background-color: var(--primary-btn_hover);
+}
+.light-btn {
+      color: black;
+      background-color: var(--light-btn);
+      border: 1px solid var(--light-btn_hover);
+}
+.light-btn:hover {
+      background-color: var(--light-btn_hover);
+}
+.edit-btn {
+      background-color: var(--neon-orange);
+      border: 1px solid var(--neon-orange_hover);
+}
+.edit-btn:hover {
+      background-color: var(--neon-orange_hover);
+}
+.btn-delete {
+      background-color: var(--danger-btn);
+}
+.btn-delete:hover {
+      background-color: var(--danger-btn_hover);
+}
+.btn-update {
+      background-color: var(--update-btn);
+}
+.btn-update:hover {
+      background-color: var(--update-btn_hover);
+}
+.btn-search {
+      background-color: var(--search-btn);
+}
+.btn-search:hover {
+      background-color: var(--search-btn_hover);
+}
+.pink-btn {
+      background-color: var(--light-pink) !important;
+}
+.pink-btn:hover {
+      background-color: var(--hot-pink) !important;
+}
+.btn-close {
+      background-color: var(--danger-btn);
+      width: 50px;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+}
+.btn-close:hover {
+      background-color: var(--danger-btn_hover);
+}
+

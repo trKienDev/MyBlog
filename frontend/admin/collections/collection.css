@@ -1,0 +1,10 @@
+.collection-container {
+      display: flex;
+      width: 100%;
+}
+#collection-table {
+      width: 20%;
+}
+#collection .primary-form {
+      margin-left: 50px;
+}

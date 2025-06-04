@@ -1,0 +1,54 @@
+<section id="admin-mangas">
+      <div class="container">
+            <h1 class="heading-title">Manga Management</h1>
+            <div class="body">
+                  <div class="d-flex">
+                        <div id='create-manga_btn'>
+                              <a href="create-manga.html">
+                                    <div class="btn primary-btn d-flex">
+                                          <span>new manga</span>
+                                    </div>
+                              </a>
+                        </div>
+                        <div id='create-manga-tag_btn'>
+                              <div class="btn primary-btn" id="open-modal_btn">
+                                    <span>new tag</span>
+                              </div>
+                        </div>
+                  </div>
+                  <div id="list-manga_section">
+                        <h3 class="heading-title">List mangas</h3>
+                        <div id="mangas-table">
+                              <table cellpadding="0" cellspacing="0">
+                                    <thead>
+                                          <tr>
+                                                <th class="video">Manga</th>
+                                                <th class="video">Thumbnail</th>
+                                                <th class="video">Tags</th>
+                                                <th class="video-view" style="width: 5%;">views</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                              </table>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <div id="manga-tag_modal" class="modal">
+            <div class="modal-content">
+                  <div id="close-modal_button">
+                        <div class="btn-close">
+                              <i class="fa-solid fa-xmark"></i>
+                        </div>
+                  </div>
+                  <h2 style="text-align: center;">Create manga tag</h2>
+                  <form class="manga-tag_form" id="manga-tag_form">
+                        <input type="text" class="form-input" name="tag" id="tag" placeholder="tag" required>
+                        <div class="save-button">
+                              <button id="submit-btn" class="btn primary-btn" type="submit">Add</button>
+                        </div>
+                  </form>
+            </div>
+      </div>
+</section>

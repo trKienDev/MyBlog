@@ -1,0 +1,124 @@
+<section id="films">
+      <div class="container">
+            <h1 class="heading-title">Films Management</h1>
+            <div class="body">
+                  <div id="film-container">
+                        <div id="film-table">
+                              <table cellpadding="0" cellspacing="0">
+                                    <thead>
+                                          <tr>
+                                                <th style="width: 8%;">
+                                                      <div class="create-film">
+                                                            <div class="btn primary-btn" id="open-modal_btn">
+                                                                  <i class="fa-solid fa-square-plus"></i>
+                                                            </div>
+                                                      </div>
+                                                </th>
+                                                <th class="film-name">Name</th>
+                                                <th class="film-studio">Studio</th>
+                                                <th class="film-date">Date</th>
+                                                <th class="film-rating">Rating</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          
+                                    </tbody>
+
+                              </table>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <div id="create-film_modal" class="modal">
+            <div class="modal-content">
+                  <div id="close-modal_button">
+                        <div class="btn-close">
+                              <i class="fa-solid fa-xmark"></i>
+                        </div>
+                  </div>
+                  <h2 style="text-align: center;">Create new film</h2>
+                  <form class="film-form" id="film-form">
+                        <div class="modal-body">
+                              <div class="modal-left">
+                                    <div id="film-studio">
+                                          <div class="select-search_component">
+                                                <div class="wrapper">
+                                                      <div class="select-btn">
+                                                            <span>Select studio</span>
+                                                            <i class="caret-down fa-solid fa-caret-down"></i>
+                                                      </div>
+                                                      <div class="content">
+                                                            <div class="search row ">
+                                                                  <input type="text" placeholder="search studio ... ">
+                                                            </div>
+                                                            <ul class="options"></ul>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="row">
+                                          <select id="film-code">
+                                                <option value="" disabled selected>Select code</option>
+                                          </select>
+                                          <input type="number" name="code" id="code-number" placeholder="123">
+                                    </div>
+                                    <div id="film-collection">
+                                          <div class="select-search_component">
+                                                <div class="wrapper">
+                                                      <div class="select-btn">
+                                                            <span>Select colletion</span>
+                                                            <i class="caret-down fa-solid fa-caret-down"></i>
+                                                      </div>
+                                                      <div class="content">
+                                                            <div class="search row ">
+                                                                  <input type="text" placeholder="search colletion ... ">
+                                                            </div>
+                                                            <ul class="options"></ul>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="row">
+                                          <input type="date" name="release-date" id="release-date" placeholder="25 Mar 2025">
+                                          <select name="film-rating" id="film-rating">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                          </select>
+                                    </div>
+                                    <div id="film-tag">
+                                          <div class="select-search_component">
+                                                <div class="wrapper">
+                                                      <div class="select-btn">
+                                                            <span>Select tag</span>
+                                                            <i class="caret-down fa-solid fa-caret-down"></i>
+                                                      </div>
+                                                      <div class="content">
+                                                            <div class="search row ">
+                                                                  <input type="text" placeholder="search tag ... ">
+                                                            </div>
+                                                            <ul class="options"></ul>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div id="selected-tag_container" class="selected-tag_container"></div>
+                                    </div>
+                              </div>
+                              <div class="modal-right">
+                                    <div class="thumbnail-wrapper">
+                                          <img id="thumbnail-image" src="/admin/static/images/film/thumbnail-upload_default.png" alt="film-thumbnail">
+                                          <input type="file" id="thumbnail-upload" name="file" accept="image/*">
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="save-button">
+                              <button id="submit-btn" class="btn primary-btn" type="submit">Save</button>
+                        </div>
+                  </form>
+            </div>
+      </div>
+</section>
+

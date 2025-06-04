@@ -1,0 +1,60 @@
+<section id="creator">
+      <div class="container">
+            <h1 class="heading-title">Creator Management</h1>
+            <div class="body">
+                  <div id="creator-table">
+                        <table cellpadding="0" cellspacing="0">
+                              <thead>
+                                    <tr>
+                                          <th style="width: 1%;">
+                                                <div class="create-creator">
+                                                      <div class="btn primary-btn" id="open-modal_button">
+                                                            <i class="fa-solid fa-square-plus"></i>
+                                                      </div>
+                                                </div>
+                                          </th>
+                                          <th class="creator">Name</th>
+                                          <th class="image">Image</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                        </table>
+                  </div>
+                  <div id="search-creator">
+                        <div class="search-container">
+                              <div class="search-box">
+                                    <input type="text" id="search-input" placeholder="Search by name..." style="width: 200px; padding: 5px;">
+                              </div>
+                              
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <div id="creator-modal" class="modal">
+            <div class="modal-content">
+                  <div id="close-modal_button">
+                        <div class="btn-close">
+                              <i class="fa-solid fa-xmark"></i>
+                        </div>
+                  </div>
+                  <h2 style="text-align: center;">Create new creator</h2>
+                  <form id="creator-form">
+                        <div class="modal-body">
+                                    <div class="modal-image">
+                                          <img id="img" src="/admin/static/images/face/upload-profile.jpg" alt="">
+                                          <input type="file" id="image-upload" name="file" style="display: none;" accept="image/*">
+                                    </div>
+                                    <div class="modal-info" style="width: 45%">
+                                          <input type="text" name="name" id="creator-name" placeholder="name" required>
+                                          <input type="date" name="birth" id="creator-birth" placeholder="birth" required>                         
+                                          <div class="save-button">
+                                                <button type="submit">Save</button>
+                                          </div>
+                                    </div>
+                        </div>
+                  </form>
+            </div>
+      </div>
+</section>

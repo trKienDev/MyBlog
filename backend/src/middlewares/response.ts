@@ -18,7 +18,6 @@ export const sendResponse = (res: ServerResponse, statusCode: number, data: any)
  * @param statusCode - Mã trạng thái HTTP (400, 404, 500, ...)
  * @param error - Đối tượng lỗi hoặc thông báo lỗi
  */
-
 export const sendError = (res: ServerResponse, statusCode: number, error: any) => {
         res.statusCode = statusCode;
         res.setHeader('Content-Type', 'application/json');

@@ -1,0 +1,34 @@
+#studio .body {
+      justify-content: unset;
+}
+#studio-table table tbody tr td {
+      font-size: 15px;
+}
+#studio .studio-container {
+      width: 45%;
+}
+#studio-modal .modal-content {
+      max-width: 400px;
+}
+#studio-modal .modal-body {
+      display: block;
+}
+#studio .create-studio {
+      display: flex;
+      justify-content: center;
+}
+#studio-table .primary-btn {
+      font-size: 15px;
+}
+#studio-table .profile {
+      height: 50px;
+      width: 100px;
+      border-radius: 5px;
+}
+#studio .code-container {
+      margin-left: 50px;
+      padding: 20px;
+}
+#atudio .modal-image #img {
+      height: 205px;
+}

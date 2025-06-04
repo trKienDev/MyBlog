@@ -1,0 +1,98 @@
+#anime-videos {
+      padding-top: 20px;
+}
+#anime-videos .anime-wrapper {
+      display: block;
+}
+
+/* anime video table */
+#anime-videos_table table {
+      width: 75%;
+}
+#anime-videos_table .video-td {
+      display: flex;
+}
+#anime-videos_table .video-container {
+      padding: 10px;    
+}
+#anime-videos_table .video-frame {
+      height: 200px;
+      aspect-ratio: 16/9;
+      width: auto;
+      border-radius: 5px;
+}
+#anime-videos_table .video-frame:hover {
+      cursor: pointer;
+}
+#anime-videos_table .video-info {
+      padding: 10px;
+}
+#anime-videos_table .video-name {
+      font-weight: bold;
+      font-size: 15px;
+}
+#anime-videos_table .creator-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 5px;
+}
+#anime-videos_table .film-thumbnail {
+      height: 200px;
+      width: 133.5px;   
+      border-radius: 5px;
+}
+#anime-videos_table .video-tags {
+      margin-top: 10px;
+      margin-bottom: 10px;
+}
+#anime-videos_table .selected-tag {
+      margin: 10px 2px;
+}
+#anime-videos_table .selected-tag:hover {
+      cursor: unset;
+      background: var(--warning-btn);
+      user-select: none;
+}
+#anime-videos_table .video-views {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--primary-color);
+      height: 30px;
+      width: 30px;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      user-select: none;
+}
+
+/* create anime video */
+#anime-videos #create-video_btn {
+      margin-top: 0px;
+}
+#create-anime-video {
+      padding-top: 20px;
+}
+#create-anime-video .film-thumbnail {
+      width: 240px;
+      height: 340px;
+}
+#anime-videos .col-video {
+      margin-left: 50px;
+      width: 100%;
+}
+#search-anime_film {
+      width: 70%; 
+}
+
+/* edit anime video */
+#edit-anime-video {
+      padding-top: 20px;
+}
+#edit-anime-video .film-thumbnail {
+      width: 240px;
+      height: 340px;
+}
+#edit-anime-video .thumbnail-video {
+      padding-top: 20px;
+}

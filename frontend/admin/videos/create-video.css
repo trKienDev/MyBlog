@@ -1,0 +1,77 @@
+#create-video .body {
+      justify-content: unset;
+}
+#search-films_section .primary-form {
+      width: 150px;
+      height: 194px;
+      overflow-y: auto;
+}
+#create-video .primary-form .title {
+      margin-bottom: 10px;
+}
+#searched-films {
+      margin-left: 50px;
+      width: 50%;
+}
+#searched-films tr:hover {
+      cursor: pointer;
+}
+#search-films_section {
+      display: flex;
+      margin-top: 30px;
+}
+#create-video_section {
+      margin-top: 50px;
+      width: 100%;
+}
+#create-video_section .col-video {
+      width: 80%;
+      padding: 0 25px;
+}
+#create-video_section .col-video_info {
+      width: 40%;
+}
+#create-video_section .submit-video_container {
+      overflow-y: auto;
+      min-height: 359px;
+}
+#create-video_section .button {
+      margin-top: 20px;
+}
+#create-video_section .film-thumbnail {
+      height: 400px;
+      width: 267px;
+}
+#create-video_section .thumbnail-image {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 5px;
+}
+#create-video_section .video-frame {
+      border-radius: 5px;
+}
+th.fiilm-select, td.film-select {
+      width: 40px;
+      text-align: center;
+}
+#searched-films_table tbody tr.selected {
+      background-color: #eef5ff;
+}
+#searched-films_table input[type="checkbox"] {
+      accent-color: var(--primary-color);
+      pointer-events: none;
+}
+.thumbnail-video:hover {
+      transition: all 0.5s ease;
+      filter: brightness(0.9);
+}
+#thumbnail-video {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 5px;
+}
+#thumbnail-video:hover {
+      cursor: pointer;
+}

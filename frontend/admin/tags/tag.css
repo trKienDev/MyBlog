@@ -1,0 +1,10 @@
+#tag .tag-container {
+      display: flex;
+      width: 100%;
+}
+#tag #tag-table {
+      width: 30%;
+}
+#tag .primary-form {
+      margin-left: 50px;
+}

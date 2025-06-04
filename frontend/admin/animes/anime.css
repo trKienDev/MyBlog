@@ -1,0 +1,34 @@
+@import url('./anime-studios/anime-studio.css');
+@import url('./anime-series/anime-series.css');
+@import url('./anime-tags/anime-tag.css');
+@import url('./anime-films/anime-film.css');
+@import url('./anime-playlists/anime-playlist.css');
+@import url('./anime-videos/anime-video.css');
+
+#admin-anime .navigation-item {
+      background-color: var(--light-btn);
+      border: 1px solid var(--light-btn_hover);
+      padding: 10px;
+      border-radius: 5px;
+      margin-right: 15px;
+      user-select: none;
+      color: black;
+}
+#admin-anime .navigation-item:hover {
+      background-color: var(--light-btn_hover);
+      cursor: pointer;
+}
+#admin-anime .body {
+      display: block;
+}
+#admin-section .content {
+      border: 1px solid var(--secondary-border);
+      border-radius: 5px;
+      padding: 20px;
+}
+.anime-wrapper {
+      border: 1px solid var(--secondary-border);
+      border-radius: 5px;
+      padding: 20px;
+      display: flex;
+}
