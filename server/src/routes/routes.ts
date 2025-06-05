@@ -24,8 +24,6 @@ export function handleRoutes(req: CustomRequest, res: ServerResponse) {
 export function createRouter(routes: Route[]) {
       return function(req: CustomRequest, res: ServerResponse) {
             const { url, method } = req;
-            // console.log('url: ', url);
-            // console.log('method: ', method);
             const [pathname] = url ? url.split('?') : [''];
             const matchedRoute = routes.find(route => {
                   const routeSegments = route.path.split('/');

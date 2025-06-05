@@ -52,6 +52,7 @@ export const UpdateCreator = async (req: ValidateIdRequest, res: ServerResponse)
             sendResponse(res, 200, updatedCreator);
       }
       catch(error) {
+            console.error('Error updating creator: ', error);
             sendError(res, 500, error);
       }
 };

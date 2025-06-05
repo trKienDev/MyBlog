@@ -46,6 +46,7 @@
       border-radius: 5px;
       transition: .1s all ease;
       height: fit-content;
+      user-select: none;
 }
 #video-info .video-function_box:hover {
       background-color: var(--light-pink);
@@ -138,7 +139,13 @@
 #film-info #film-tags a:hover {
       color: black !important;
 }
-
+#film-info #film-tags {
+      display: flex;
+      flex-wrap: wrap;
+}
+#film-info #film-tags .tag-item {
+      margin-right: 5px;
+}
 /* video playlist modal */
 #video-playlist_modal {
       color: black;

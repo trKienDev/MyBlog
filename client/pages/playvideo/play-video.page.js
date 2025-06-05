@@ -18,10 +18,17 @@ import { videoPlaylistModalController } from "./video-playlist-modal.js";
 export async function playVideoPageController(video_id) {
       await increaseVideoViewByOne(video_id);
       const video = await video_api.getVideoById(video_id);
+
       renderVideoData(video);
       renderFilmData(video.film_id);
       renderFilmVideo(video); 
       videoPlaylistModalController(video);
+
+      const likeVideo_btn = document.getElementById('like-video');
+      likeVideo_btn.addEventListener('click', async(event) => {
+            const liked_video = await increaseVideoLikeByOne(event, video_id);
+            span_component.updateSpanText(dom_id.VIDEO_TOTAL_LIKES, liked_video.likes);
+      });
 }
 
 async function renderVideoData(video) {
@@ -175,3 +182,17 @@ async function increaseVideoViewByOne(video_id) {
             return;
       }
 }
+
+async function increaseVideoLikeByOne(event, video_id) {
+      event.preventDefault();
+
+      try {
+            const result = await video_api.increaseVideoLikeByOne(video_id);
+            return result;
+      } catch(error) {
+            console.error('Error increasing video like by 1: ', error);
+            showToast('Error increasing video like by 1', 'error');
+            return;
+      }
+}
+

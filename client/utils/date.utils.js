@@ -5,7 +5,14 @@ function getDateFromStr(dateStr) {
       return `${day}-${month}-${year}`;
 }
 
+function calculateAgeFromBirth(birth) {
+      const current_year = new Date().getFullYear();
+      const current_age = current_year - birth;
+      return current_age;
+}
+
 const date_utils = {
       getDateFromStr,
+      calculateAgeFromBirth,
 }
 export default date_utils;

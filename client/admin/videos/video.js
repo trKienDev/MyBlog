@@ -30,9 +30,11 @@ async function renderListVideo() {
             videos.forEach(async (video) => {
                   const tr = table_component.createTrWithId(video._id, 'video-tr');
                   
-                  const edit_btn = await table_component.createEditBtn(css_selectors.container.edit_container, 
-                                                                                                            video, 
-                                                                                                            redirectToEditVideoPage);
+                  const edit_btn = await table_component.createEditBtn(
+                        css_selectors.container.edit_container, 
+                        video, 
+                        redirectToEditVideoPage
+                  );
                   tr.appendChild(edit_btn);
 
                   const video_td = await table_component.createVideoTdFromApi({ 
@@ -40,6 +42,7 @@ async function renderListVideo() {
                         iupload_path: 'videos',
                         icss: css_selectors.videos.video_td 
                   });
+                  
                   const video_name = span_component.createSpanText(video.name, css_selectors.videos.video_name);
                   const videoTags_container = div_component.createDiv({ icss_class: css_selectors.videos.video_tags, idiv_id: id_selectors.videos.video_tags});
                   await tags_utils.renderSelectedTags(video.tag_ids, videoTags_container, tag_api.getTagById);

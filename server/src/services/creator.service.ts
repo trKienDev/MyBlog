@@ -27,9 +27,10 @@ export class CreatorService {
             if(existingCreator) {
                   return { success: false, code: 409, message: 'Creator has already existed' };
             }
-
+            const creator_identifierName = await createCreatorIdentifierName(name);
             const data: CreatorDTO = {
                   name,
+                  identifier_name: creator_identifierName,
                   birth: new Date(birth),
                   image: file_name
             };
@@ -46,7 +47,8 @@ export class CreatorService {
 
             const { file_name } = await file_utils.uploadFile(req, UploadFiles.CREATOR_AVATARS);
             const { name, birth } = req.body;
-            const updateData: Record<string, any> = { name, birth };
+            const identifier_name = createCreatorIdentifierName(name);
+            const updateData: Record<string, any> = { name, identifier_name, birth };
 
             if(file_name) {
                   FileService.deleteFile(UploadFiles.CREATOR_AVATARS, currentCreator.image);
@@ -69,4 +71,12 @@ export class CreatorService {
 
             return this.creatorRepo.Delete(id);
       }
+}
+
+async function createCreatorIdentifierName(creator_name: string): Promise<string> {
+      const lowercased_name = creator_name.toLowerCase();
+      const noSpaces_name = lowercased_name.replace(/\s/g, '');
+      const identifier_name = `@${noSpaces_name}`;
+
+      return identifier_name;
 }

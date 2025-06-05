@@ -10,7 +10,7 @@ const video_service = new VideoService(repository);
 
 const getVideos = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const videos = await repository.getVIdeos();
+            const videos = await repository.getVideos();
             return sendResponse(response, 200, videos);
       } catch(error) {
             console.error('Error get all videos: ', error);
@@ -54,7 +54,7 @@ const createVideo = async(req: CustomRequest, res: ServerResponse) => {
       }
 }
 
-const updatedVIdeo = async(req: ValidateIdRequest, res: ServerResponse) => {
+const updatedVideo = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const updated_video = await video_service.updateVideo(req);
             return sendResponse(res, 200, updated_video);
@@ -76,10 +76,20 @@ const addPlaylistToVideo = async(request: ValidateIdRequest, response: ServerRes
 
 const increaseVideoViewsByOne = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const video_increaseViewByOne = await video_service.increaseVIdeoViewsByOne(request);
+            const video_increaseViewByOne = await video_service.increaseVideoViewsByOne(request);
             return sendResponse(response, 200, video_increaseViewByOne);
       } catch(error) {
             console.error('Error increasing video views by one');
+            return sendError(response, 500, error);
+      }
+}
+
+const increaseVideoLikeByOne = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const liked_video = await video_service.increaseVideoLikeByOne(request);
+            return sendResponse(response, 200, liked_video);
+      } catch(error) {
+            console.error('Error increasing video like by one');
             return sendError(response, 500, error);
       }
 }
@@ -89,8 +99,9 @@ const video_controller = {
       findVideoById,
       findVideosByCreatorId,
       createVideo,
-      updatedVIdeo,
+      updatedVideo,
       addPlaylistToVideo,
       increaseVideoViewsByOne,
+      increaseVideoLikeByOne,
 }
 export default video_controller;

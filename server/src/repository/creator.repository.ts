@@ -56,6 +56,7 @@ function MappingDocToDTO(doc: ICreator): CreatorDTO {
       return {
             _id: doc._id.toString(),
             name: doc.name,
+            identifier_name: doc.identifier_name,
             birth: doc.birth,
             image: doc.image
       }

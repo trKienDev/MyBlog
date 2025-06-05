@@ -1,3 +1,4 @@
+import app_configs from "../config/app.config.js";
 import api_configs from "./api.config.js";
 import { api_user } from "./endpoint.api.js";
 import fetch_api from "./fetch.api.js";
@@ -50,6 +51,13 @@ async function increaseVideoViewsByOne(video_id) {
       return result.data;
 }
 
+async function increaseVideoLikeByOne(video_id) {
+      const result = await fetch_api.updateJson(`/video/${video_id}/like`);
+      if(result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
+
 export const video_api = {
       getVideos,
       getVideoById,
@@ -58,4 +66,5 @@ export const video_api = {
       getVideoFilePath,
       updateVideo,
       increaseVideoViewsByOne,
+      increaseVideoLikeByOne,
 }

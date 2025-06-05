@@ -98,6 +98,7 @@ async function updateCreator(creator) {
             event.preventDefault();
 
             const formData = new FormData(form);
+            console.log('form data: ', formData);
             
             try {
                   const result = await fetch_api.updateForm(`${api_configs.endpoints.updateCreator}/${creator._id}`, formData);

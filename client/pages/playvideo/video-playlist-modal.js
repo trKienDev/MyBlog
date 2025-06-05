@@ -41,7 +41,7 @@ async function addPlaylistsToVideo(event, video) {
       const data = { playlist_ids: playlist_ids};
 
       try {
-            const result = await fetch_api.updateJson(`${api_user.addPlaylistsToVideo}/${video._id}`, data);
+            const result = await fetch_api.updateJson(`/video/${video._id}/playlists`, data);
             if(result.success === false) {
                   throw new Error(result.error);
             }

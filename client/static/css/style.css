@@ -1,6 +1,7 @@
 @import url('../../sections//tags/tags.section.css');
 @import url('../../sections/new-videos/new-video.section.css');
 @import url('../../pages/playvideo/play-video.page.css');
+@import url('../../pages/creator_info/creator-info.page.css');
 @import url('./keyword.css');
 @import url('./popup-modal.css');
 @import url('./select-search.css');

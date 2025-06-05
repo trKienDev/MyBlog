@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import Video from "../models/video.model.js";
-import { iVIdeoRepository } from "./interfaces/ivideo.repository.js";
+import { iVideoRepository } from "./interfaces/ivideo.repository.js";
 import { iVideo } from "../models/interface/ivideo.model.js";
 import { CreateVideoDTO, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
 import Film from "../models/film.model.js";
 
-export class VideoRepository implements iVIdeoRepository {
-      async getVIdeos(): Promise<VideoDTO[]> {
+export class VideoRepository implements iVideoRepository {
+      async getVideos(): Promise<VideoDTO[]> {
             const videos = await Video.find();
             return videos.map(doc => mappingDocToDTO(doc));
       }
@@ -74,7 +74,7 @@ export class VideoRepository implements iVIdeoRepository {
       async addPlaylistsToVideo(video_id: string, playlistIds_toAdd: string[]): Promise<VideoDTO | null> {
             const updated_video = await Video.findByIdAndUpdate(
                   video_id,
-                  { $addToSet: { playlist_ids: { $each: playlistIds_toAdd }}}, 
+                  { $set: { playlist_ids: playlistIds_toAdd }}, 
                   {
                         new: true,
                         runValidators: true
@@ -88,6 +88,16 @@ export class VideoRepository implements iVIdeoRepository {
             const updated_video = await Video.findByIdAndUpdate(
                   video_id,
                   { $inc: {views: 1 }},
+                  { new: true }
+            ).exec();
+
+            return updated_video ? mappingDocToDTO(updated_video) : null;
+      }
+
+      async increaseVideoLikeByOne(video_id: string): Promise<VideoDTO | null> {
+            const updated_video = await Video.findByIdAndUpdate(
+                  video_id,
+                  { $inc: { likes: 1 }},
                   { new: true }
             ).exec();
 
