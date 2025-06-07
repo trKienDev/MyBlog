@@ -4,6 +4,7 @@ import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ICreatorRepository } from "../repository/interfaces/icreator.repository.js";
 import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
+import { request_utils } from "../utils/request.utils.js";
 
 export class CreatorService {
       private creatorRepo: ICreatorRepository;
@@ -22,19 +23,22 @@ export class CreatorService {
 
       async CreateCreator(req: CustomRequest) {
             const { file_name } = await file_utils.uploadFile(req, UploadFiles.CREATOR_AVATARS);
-            const { name, birth } = req.body;
-            const existingCreator = await this.creatorRepo.FindByNameAndBirth(name, birth);
+            const creator_name = request_utils.extractParamFromRequest(req, "name");
+            const creator_birth = request_utils.extractParamFromRequest(req, "birth");
+            const formated_creatorBirth = new Date(creator_birth);
+
+            const existingCreator = await this.creatorRepo.FindByNameAndBirth(creator_name, formated_creatorBirth);
             if(existingCreator) {
                   return { success: false, code: 409, message: 'Creator has already existed' };
             }
-            const creator_identifierName = await createCreatorIdentifierName(name);
+            const creator_identifierName = await createCreatorIdentifierName(creator_name);
             const data: CreatorDTO = {
-                  name,
+                  name: creator_name,
                   identifier_name: creator_identifierName,
-                  birth: new Date(birth),
+                  birth: formated_creatorBirth,
                   image: file_name
             };
-            
+
             const newCreator = await this.creatorRepo.Create(data);
             return newCreator;
       }
@@ -46,9 +50,17 @@ export class CreatorService {
             }
 
             const { file_name } = await file_utils.uploadFile(req, UploadFiles.CREATOR_AVATARS);
-            const { name, birth } = req.body;
-            const identifier_name = createCreatorIdentifierName(name);
-            const updateData: Record<string, any> = { name, identifier_name, birth };
+            const creator_name = request_utils.extractParamFromRequest(req, "name");
+
+            const identifier_name = await createCreatorIdentifierName(creator_name);
+            const creator_birth = request_utils.extractParamFromRequest(req, "birth");
+
+            const formated_creatorBirth = new Date(creator_birth);
+            const updateData: Partial<CreatorDTO> = { 
+                  name: creator_name, 
+                  identifier_name: identifier_name, 
+                  birth: formated_creatorBirth 
+            };
 
             if(file_name) {
                   FileService.deleteFile(UploadFiles.CREATOR_AVATARS, currentCreator.image);

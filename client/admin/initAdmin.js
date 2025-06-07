@@ -1,7 +1,7 @@
 import api_configs from "../api/api.config.js";
 import id_selectors from "../selectors/element-id.selector.js";
 import spa_navigation from "../services/spa/navigate-link.spa.js";
-import { handleElementActiveState } from "../utils/active-state.js";
+import activeState_utils from "../utils/active-state.js";
 import { initAdminAnime } from "./animes/anime.js";
 import { initCodeAdmin } from "./codes/code.js";
 import { InitCollectionAdmin } from "./collections/collection.js";
@@ -14,7 +14,7 @@ import { initTagAdmin } from "./tags/tag.js";
 import { initVideoAdmin } from "./videos/video.js";
 
 function initAdmin() {
-      handleElementActiveState(".sidebar-item");
+      activeState_utils.handleElementActiveState(".sidebar-item");
       navigateSidebar();
 }
 

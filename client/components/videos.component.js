@@ -59,15 +59,22 @@ function updateVideoSourceById({element_id, ivideo, upload_path}) {
 }
 
 function hoverMouseVideoToPlay(video_ahref) {
+      let playTimeout; 
+      
       video_ahref.addEventListener('mouseenter', () => {
             const video_element = video_ahref.querySelector('video');
             if(video_element) {
-                  video_element.play().catch(error => {
-                        console.warn('VIdeo play failed: ', error);
-                  });
+                  playTimeout = setTimeout(() => {
+                        video_element.play().catch(error => {
+                              if (error.name !== 'AbortError') {
+                                    console.warn('Video play failed: ', error);
+                              }
+                        });
+                  }, 300);
             }
       });
       video_ahref.addEventListener('mouseleave', () => {
+            clearTimeout(playTimeout);
             const video_element = video_ahref.querySelector('video');
             if(video_element) {
                   video_element.pause();

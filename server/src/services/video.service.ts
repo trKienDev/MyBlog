@@ -1,4 +1,3 @@
-import { IncomingMessage } from "http";
 import { CreateVideoDTO, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
@@ -9,7 +8,6 @@ import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 import { parseJSON } from "../middlewares/json-parser.js";
 import mongoose from "mongoose";
-import { error } from "console";
 
 export class VideoService {
       private video_repository: iVideoRepository;
@@ -20,11 +18,6 @@ export class VideoService {
       async createVideo(req: CustomRequest): Promise<CreateVideoDTO | unknown> {
             const { file_name } = await file_utils.uploadFile(req, UploadFiles.VIDEOS);
             let video_name = request_utils.extractParamFromRequest(req, "name");
-
-            const existing_video = await this.video_repository.findByName(video_name);
-            if(existing_video) {
-                  video_name = existing_video.name + '_2';
-            }
 
             const action_id = request_utils.extractParamFromRequest(req, "action_id");
             const creator_id = request_utils.extractParamFromRequest(req, "creator_id");

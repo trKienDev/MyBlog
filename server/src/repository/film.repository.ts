@@ -43,7 +43,6 @@ export class FilmRepository implements iFilmRepository {
       }
 
       async createFilm(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>> {
-            console.log('data: ', data);
             const newFilm = new Film({
                   name: data.name,
                   code_id: new mongoose.Types.ObjectId(data.code_id),

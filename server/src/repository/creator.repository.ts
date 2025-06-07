@@ -43,6 +43,7 @@ export class CreatorRepository implements ICreatorRepository {
             }
             return MappingDocToDTO(updatedDoc);
       }
+
       public async Delete(id: string): Promise<CreatorDTO> {
             const deletedDoc = await Creator.findByIdAndDelete(id).exec();
             if(!deletedDoc) {

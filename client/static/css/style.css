@@ -250,3 +250,17 @@ a {
 .star-yellow:hover {
       color: var(--bright-yellow) !important;
 }
+
+/* video  */
+.video-frame {
+      width: 100%;
+      border-radius: 5px;
+}
+.video-article-container {
+      background-color: var(--dark-gray);
+      border-radius: 5px;
+}
+.video-article-container:hover {
+      background-color: #3a3d44;
+      transition: .3s;
+}

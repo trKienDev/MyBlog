@@ -15,7 +15,7 @@ export const router_config = {
       'creator': (id) => ({
             endpoint: ClientPages.CREATORINFO, 
             media_id: id,           
-            url: `/watch?creator=${id}`,
+            url: `/info?creator=${id}`,
             state: { page: 'infor', videoId: id },
             title: `Looking ${id}`,
             callback: creatorInforController,

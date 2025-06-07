@@ -14,10 +14,6 @@
 .new-videos .video-article:hover {
       cursor: pointer;
 }
-.new-videos .video-frame {
-      width: 100%;
-      border-radius: 5px;
-}
 .new-videos .avatar-frame_container {
       border-radius: 50%;
       height: 50px;
@@ -27,14 +23,6 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-}
-.new-videos .video-article-container {
-      background-color: var(--dark-gray);
-      border-radius: 5px;
-}
-.new-videos .video-article-container:hover {
-      background-color: #3a3d44;
-      transition: .3s;
 }
 .new-videos .video-info-container {
       padding: 5px 5px;

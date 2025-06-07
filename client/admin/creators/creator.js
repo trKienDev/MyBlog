@@ -7,6 +7,7 @@ import fetch_api from "../../api/fetch.api.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import creator_api from "../../api/creator.api.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
+import file_utils from "../../utils/file.utils.js";
 
 let formId = "creator-form";
 let imgId = "img";
@@ -18,13 +19,13 @@ let defaultImg = "/admin/static/images/face/upload-profile.jpg";
 const { initModal, resetModal } = modal_component;
 
 export function initCreatorAdmin() {
-      renderCreators(tableBody);
+      RenderCreators(tableBody);
       createNewCreator();
       initModal("open-modal_button", "close-modal_button", modalId, () => resetModal(formId, imgId, imgInputId, defaultImg ));
       HandleImageUpload("img", "image-upload");
 }
 
-async function renderCreators(element) {
+async function RenderCreators(element) {
       try {
             const creators = await creator_api.getCreators();
             const tbody = document.querySelector(element);
@@ -59,8 +60,17 @@ async function createNewCreator() {
       form.onsubmit = async(event) => {
             event.preventDefault();
 
-            const formData = new FormData(form);
-            console.log('form data: ', formData);
+            const formData = new FormData();
+
+            const creator_name = document.getElementById('creator-name').value;
+            const creator_birth = document.getElementById('creator-birth').value;
+            const creator_image = document.getElementById('image-upload').files[0];
+            const renamed_image = file_utils.renameUploadedFile(creator_image, creator_name);
+
+            formData.append("name", creator_name);
+            formData.append("birth", creator_birth);
+            formData.append("file", renamed_image);
+
             try {
                   const result = await fetch_api.createForm(api_configs.endpoints.createCreator, formData);
                   if(result.success === false) {
@@ -73,7 +83,7 @@ async function createNewCreator() {
                   error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
-                  renderCreators(tableBody);
+                  RenderCreators(tableBody);
                   resetModal(resetOptions);
             }
       }
@@ -97,8 +107,16 @@ async function updateCreator(creator) {
       form.onsubmit = async(event) => {
             event.preventDefault();
 
-            const formData = new FormData(form);
-            console.log('form data: ', formData);
+            const formData = new FormData();
+            const creator_name = document.getElementById('creator-name').value;
+            formData.append("name", creator_name);
+            const creator_birth = document.getElementById('creator-birth').value;
+            formData.append("birth", creator_birth);
+            const creator_image = document.getElementById('image-upload').files[0];
+            if(creator_image) {
+                  const renamed_image = file_utils.renameUploadedFile(creator_image, creator_name);
+                  formData.append("file", renamed_image);
+            }
             
             try {
                   const result = await fetch_api.updateForm(`${api_configs.endpoints.updateCreator}/${creator._id}`, formData);
