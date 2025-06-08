@@ -14,6 +14,9 @@ const CreatorSchema: Schema = new Schema({
       studio_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio', required: false },
       film_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Film', required: false },
       video_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Video', required: false },
+      tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag', require: false }],
+      active: { type: Boolean, require: true },
+      views: { type: Number, require: true },
 }, 
 {   
       collection: 'Creators', 

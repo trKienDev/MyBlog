@@ -1,4 +1,3 @@
-import app_configs from "../config/app.config.js";
 import api_configs from "./api.config.js";
 import { api_user } from "./endpoint.api.js";
 import fetch_api from "./fetch.api.js";

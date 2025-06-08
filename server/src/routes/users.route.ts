@@ -1,5 +1,6 @@
 import { creator_controller } from "../controllers/creator.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
+import { tag_controller } from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
 import { Route } from "../interfaces/Route.js";
 import { validated_id } from "../middlewares/validate-id.js";
@@ -21,6 +22,9 @@ const user_routes: Route[] = [
       { method: 'PUT', path: '/video/:id/playlists', handler: validated_id.validateId(video_controller.addPlaylistToVideo )},
       { method: 'PUT', path: '/video/view/:id', handler: validated_id.validateId(video_controller.increaseVideoViewsByOne )},
       { method: 'PUT', path: '/video/:id/like', handler: validated_id.validateId(video_controller.increaseVideoLikeByOne )},
+
+      // tag
+      { method: 'GET', path: '/tags/creator', handler: tag_controller.getTagsByCreator },
 ]
 
 export const handleUserRoutes = createRouter(user_routes);

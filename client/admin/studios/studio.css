@@ -5,7 +5,7 @@
       font-size: 15px;
 }
 #studio .studio-container {
-      width: 45%;
+      width: 30%;
 }
 #studio-modal .modal-content {
       max-width: 400px;
@@ -28,7 +28,4 @@
 #studio .code-container {
       margin-left: 50px;
       padding: 20px;
-}
-#atudio .modal-image #img {
-      height: 205px;
 }

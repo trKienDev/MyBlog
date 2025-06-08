@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export interface CreateFilmDTO {
       name: string;
+      description?: string;
       code_id: string;
       studio_id: string;
       tag_ids: string[];
@@ -14,6 +15,7 @@ export interface CreateFilmDTO {
 export interface UpdateFilmDTO {
       _id: string;
       name: string;
+      description?: string;
       code_id: string;
       studio_id: string;
       tag_ids: string[];
@@ -26,8 +28,9 @@ export interface UpdateFilmDTO {
 export interface FilmDTO {
       _id?: mongoose.Types.ObjectId;
       name: string;
+      description?: string;
       studio_id: mongoose.Types.ObjectId;
-      creators_id?: mongoose.Types.ObjectId[];
+      creator_ids?: mongoose.Types.ObjectId[];
       collection_id?: mongoose.Types.ObjectId;
       video_ids?: mongoose.Types.ObjectId[];
       code_id?: mongoose.Types.ObjectId;

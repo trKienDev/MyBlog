@@ -3,9 +3,10 @@ import { iFilm } from "./interface/ifilm.model.js";
 
 const FilmSchema: Schema  = new Schema({
       name: { type: String },
+      description: { type: String, require: false },
       code_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Code'},
       studio_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio'},
-      creator_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Creator'},
+      creator_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Creator', require: false }],
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
       collection_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Collection', require: false },
       video_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video', require: false }],

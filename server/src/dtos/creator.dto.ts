@@ -4,5 +4,10 @@ export interface CreatorDTO {
       identifier_name: string;
       birth: Date;
       image: string;
-      studio_id?: string[];
+      studio_ids?: string[];
+      films_ids?: string[];
+      video_ids?: string[];
+      tag_ids?: string[];
+      active: boolean;
+      views: number;
 }

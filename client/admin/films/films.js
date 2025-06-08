@@ -115,6 +115,7 @@ export function buildFilmForm(include_file, thumbnail_file) {
       const studio_id = selectSearch_component.getSelectedOptionValue(id_selectors.films.film_studio, 'id');
       const code_id = film_helper.getSelectedCodeOption(id_selectors.films.film_code).value;
       const name = getFilmName(id_selectors.films.film_code, id_selectors.films.code_number);
+      const description = document.getElementById('film-description').value;
       const collection_id = selectSearch_component.getSelectedOptionValue(id_selectors.films.film_collection, 'id');
       const date = document.getElementById(id_selectors.date.release_date).value;
       const rating = document.getElementById(id_selectors.films.film_rating).value;
@@ -123,6 +124,7 @@ export function buildFilmForm(include_file, thumbnail_file) {
       form.append("studio_id", studio_id);
       form.append("code_id", code_id);
       form.append("name", name);
+      form.append("description", description);
       form.append("collection_id", collection_id);
       form.append("date", date);
       form.append("rating", rating);

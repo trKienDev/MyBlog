@@ -3,6 +3,7 @@ const css_class = {
       CREATOR_IMAGE: 'creator-image',
       // tag
       SELECTED_TAG: 'selected-tag',
+      SELECTED_TAG_CONTAINER: 'selected-tag_container',
 
       // button 
       SUBMIT_BTN: 'submit-btn',

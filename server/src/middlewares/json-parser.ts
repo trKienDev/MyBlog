@@ -24,7 +24,6 @@ export const parseJSON = (req: IncomingMessage, required_fields?: string[]): Pro
                   req.on('end', () => {
                         try {
                               const parsed = body ? JSON.parse(body) : {};
-                              
                               if(required_fields && required_fields.length > 0) {
                                     for(const field of required_fields) {
                                           if(!parsed.hasOwnProperty(field)) {

@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { CreatorDTO } from "../dtos/creator.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
@@ -24,8 +25,23 @@ export class CreatorService {
       async CreateCreator(req: CustomRequest) {
             const { file_name } = await file_utils.uploadFile(req, UploadFiles.CREATOR_AVATARS);
             const creator_name = request_utils.extractParamFromRequest(req, "name");
+
             const creator_birth = request_utils.extractParamFromRequest(req, "birth");
             const formated_creatorBirth = new Date(creator_birth);
+            
+            const creator_views = request_utils.extractParamFromRequest(req, "views");
+            const formated_creatorViews: number = Number(creator_views);
+
+            const creattor_active = request_utils.extractParamFromRequest(req, "status");
+            let isCreatorActive: boolean;
+            if(creattor_active === 'active') {
+                  isCreatorActive = true;
+            } else {
+                  isCreatorActive = false;
+            }
+
+            const tags_param = request_utils.extractParamFromRequest(req, "tag_ids");
+            const creator_tags: string[] = tags_param.split(',').map((string) => string.trim()).filter((string) => string.length > 0);
 
             const existingCreator = await this.creatorRepo.FindByNameAndBirth(creator_name, formated_creatorBirth);
             if(existingCreator) {
@@ -36,7 +52,10 @@ export class CreatorService {
                   name: creator_name,
                   identifier_name: creator_identifierName,
                   birth: formated_creatorBirth,
-                  image: file_name
+                  image: file_name,
+                  active: isCreatorActive,
+                  views: formated_creatorViews,
+                  tag_ids: creator_tags,
             };
 
             const newCreator = await this.creatorRepo.Create(data);

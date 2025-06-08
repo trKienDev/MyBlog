@@ -61,6 +61,16 @@ const getTagsByAction = async(req: IncomingMessage, res: ServerResponse) => {
       }
 }
 
+const getTagsByCreator = async(request: IncomingMessage, response: ServerResponse) => {
+      try {
+            const tags_creator = await repository.GetTagsByCreator();
+            return sendResponse(response, 200, tags_creator);
+      } catch(error) {
+            console.error('Error getting tag by video: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
 export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
       try {
             const createdTag = await service.createTag(req);
@@ -75,4 +85,5 @@ export const tag_controller = {
       getTagById,
       getTagsByVideo,
       getTagsByAction,
+      getTagsByCreator,
 }

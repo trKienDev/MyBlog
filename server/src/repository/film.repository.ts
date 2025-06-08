@@ -45,6 +45,7 @@ export class FilmRepository implements iFilmRepository {
       async createFilm(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>> {
             const newFilm = new Film({
                   name: data.name,
+                  description: data.description,
                   code_id: new mongoose.Types.ObjectId(data.code_id),
                   studio_id: new mongoose.Types.ObjectId(data.studio_id),
                   tag_ids: data.tag_ids?.map(id => new mongoose.Types.ObjectId(id)),
@@ -61,6 +62,7 @@ export class FilmRepository implements iFilmRepository {
 
             const createdFilm: CreateFilmDTO = {
                   name: savedFilm.name,
+                  description: savedFilm.description,
                   code_id: savedFilm.code_id.toString(),
                   studio_id: savedFilm.studio_id.toString(),
                   tag_ids: savedFilm.tag_ids.map(id => id.toString()),
@@ -112,8 +114,9 @@ function mappingDocToDTO(doc: iFilm): FilmDTO {
       return {
             _id: doc._id,
             name: doc.name,
+            description: doc?.description ?? '',
             studio_id: doc.studio_id,
-            creators_id: doc.creators_id,
+            creator_ids: doc.creator_ids,
             date: doc.date,
             thumbnail: doc.thumbnail,
             rating: doc.rating,

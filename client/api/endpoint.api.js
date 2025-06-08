@@ -3,7 +3,7 @@ export const api_admin = {
       getCollections: '/admin/collections', // GET
       // studios
       getStudios: '/admin/studios', // GET
-
+      createStudio: '/admin/studio', // POST
       // tag
       getTagsByFilm: '/admin/tags/film', // GET
       
@@ -18,5 +18,5 @@ export const api_user = {
       getPlaylists: '/playlists', // GET
       // tags
       addPlaylistsToVideo: '/video/playlists', // PUT
+      getTagsByCreator: '/tags/creator', // GET
 }
-

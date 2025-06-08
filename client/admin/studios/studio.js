@@ -6,21 +6,15 @@ import fetch_api from "../../api/fetch.api.js";
 import table_component from "../../components/table.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
-import dom_id from "../../constants/doms.constant.js";
-import { ServerFolders } from "../../constants/folders.constant.js";
-import { uploads_folder } from "../../selectors/upload-folder-name.js";
-import file_utils from "../../utils/file.utils.js";
-import { showToast } from "../../utils/toast-notification.js";
+import { api_admin } from "../../api/endpoint.api.js";
 
-let imgId = "img";
-let imgInputId = 'image-upload';
-let defaultImg = "/admin/static/images/studio/studio-upload.png";
-
-export function initStudioAdmin() {
+export function AdminStudioController() {
       RenderStudios(id_selectors.table.studio_tbody);
       CreateNewStudio();
-      modal_component.initModal(dom_id.OPEN_MODAL_BUTTON, dom_id.CLOSE_MODAL_BUTTON, dom_id.STUDIO_MODAL, () => modal_component.resetModal(dom_id.STUDIO_FORM, imgId, imgInputId, defaultImg));
-      HandleImageUpload("img", "image-upload"); 
+      modal_component.initModal(
+            "open-modal_button", "close-modal_button", "studio-modal", 
+            () => modal_component.resetModal("studio-form")
+      );
 }
 
 async function RenderStudios(element) {
@@ -44,10 +38,6 @@ async function RenderStudios(element) {
                   const name = await table_component.createTextTd({ i_text: studio?.name });
                   tr.appendChild(name);
 
-                  const img_src = `${api_configs.server}/${ServerFolders.STUDIOS}/${studio.image}`;
-                  const image = await table_component.createImageTd(img_src, 'profile');
-                  tr.appendChild(image);
-
                   tbody.appendChild(tr);
             });
 
@@ -60,33 +50,20 @@ async function RenderStudios(element) {
 
 
 async function CreateNewStudio() {
-      const { form, modal, imgInput, image } = getELement();
+      const { form, modal } = getELement();
       const submitBtn = form.querySelector('button[type="submit"]');
       
-      const resetOptions = { form, image, imgInput, modal, defaultImg };
+      const resetOptions = { form };
 
       form.onsubmit = async (event) => {
             event.preventDefault(); 
             submitBtn.disabled = true;
 
             const studio_name = document.getElementById('studio-name').value;
-            const original_file = document.getElementById('image-upload').files[0];
-
-            if(!original_file instanceof File) {
-                  console.error('Cannot find file in formData');
-                  showToast('Cannot find file in formData', 'error');
-                  return;    
-            } 
-            const renamed_file = file_utils.renameUploadedFile(original_file, studio_name);
-
-            const formData = new FormData();
-            formData.append('name', studio_name);
-            formData.append('file', renamed_file);
-
-            console.log('renamed file: ', renamed_file);
-
+            const json_data = { name: studio_name };
+            console.log('json data: ', json_data);
             try {
-                  const result = await fetch_api.createForm(api_configs.endpoints.createStudio, formData);
+                  const result = await fetch_api.createJson(`${api_admin.createStudio}`, json_data);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
@@ -94,28 +71,27 @@ async function CreateNewStudio() {
                   success_sweetAlert("studio created");
                   RenderStudios(id_selectors.table.studio_tbody);
             } catch (error) {
-                  console.error('Error creating studio: ', error.message);
+                  console.error('Error creating studio: ', error);
                   error_sweetAlert(error);
             } finally {
                   submitBtn.disabled = false;
                   modal.style.display = "none";
-                  resetModal(resetOptions);
+                  modal_component.resetModal(resetOptions);
             }
       };
 }
 
 function UpdateStudio(studio) {
-      const { form, modal, imgInput, image } = getELement();
+      const { form, modal } = getELement();
       const name = document.getElementById("studio-name");  
 
       const title = document.querySelector("#studio-modal h2");
       title.innerHTML = "Edit studio";
 
       name.value = studio.name;
-      image.src = `${api_configs.server}/${uploads_folder.STUDIOS}/${studio.image}`;
       modal.style.display = "block";
 
-      const reset_options = { form, image, imgInput, modal, defaultImg };
+      const reset_options = { form };
 
       form.onsubmit = async(event) => {
             event.preventDefault();
@@ -135,7 +111,7 @@ function UpdateStudio(studio) {
                   error_sweetAlert(error);
             } finally {
                   modal.style.display = "none";
-                  resetModal(reset_options);
+                  modal_component.resetModal(reset_options);
             }
       };
 }
@@ -143,8 +119,6 @@ function UpdateStudio(studio) {
 function getELement() {
       const form = document.getElementById(id_selectors.studio.studio_form);
       const modal = document.getElementById(id_selectors.studio.studio_modal);
-      const imgInput = document.getElementById("image-upload");
-      const image = document.getElementById("img");
 
-      return { form, modal, imgInput, image };
+      return { form, modal };
 }

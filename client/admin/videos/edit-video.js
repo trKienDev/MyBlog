@@ -30,6 +30,7 @@ export function redirectToEditVideoPage(ivideo) {
 }
 
 async function initEditVideoAdmin(ivideo) {
+      
       selectSearch_component.initSelectSearch(dom_id.VIDEO_ACTION, api_configs.endpoints.getTagsByAction, 'name');
       selectSearch_component.initSelectSearch(dom_id.VIDEO_CREATOR, api_configs.endpoints.getCreators, 'name');
       selectSearch_component.initSelectSearch(dom_id.VIDEO_TAG, api_configs.endpoints.getTagsByVideo, 'name');
@@ -57,7 +58,9 @@ async function populateFilmInfo(ivideo) {
 
 async function populateVideoInfo(ivideo) {
       await selectSearch_component.loadInfoSelectSearch(ivideo, dom_id.VIDEO_ACTION, 'action_id', tag_api.getTagName);
-      await selectSearch_component.loadInfoSelectSearch(ivideo, dom_id.VIDEO_PLAYLIST, 'playlist_id', playlist_api.getPlaylistName);
+      if(ivideo.playlist_ids.length > 0) {
+            await selectSearch_component.loadInfoSelectSearch(ivideo, dom_id.VIDEO_PLAYLIST, 'playlist_id', playlist_api.getPlaylistName);
+      }
       await selectSearch_component.loadInfoSelectSearch(ivideo, dom_id.VIDEO_CREATOR, 'creator_id', creator_api.getCreatorName);
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);    

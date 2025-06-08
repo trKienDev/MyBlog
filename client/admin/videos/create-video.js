@@ -18,7 +18,6 @@ export function initCreateVideo() {
       selectSearch_component.initSelectSearch(dom_id.VIDEO_ACTION, api_configs.endpoints.getTagsByAction, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_creator, api_configs.endpoints.getCreators, 'name');
       selectSearch_component.initSelectSearch(id_selectors.videos.video_tag, api_configs.endpoints.getTagsByVideo, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.videos.video_playlist, api_configs.endpoints.getPlaylists, 'name');
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.videos.video_tag);
       video_utils.waitForUploadVideo(id_selectors.videos.thumbnail_video, id_selectors.videos.upload_video);
       createVideo();
@@ -37,11 +36,11 @@ function createVideo() {
                         throw new Error(result.error);
                   }
 
-                  success_sweetAlert("Video created successfully");
+                  showToast('video create successfully', 'success');
                   resetCreateVideoForm();
             } catch(error) {
-                  console.error('Error creating video: ', error.message);
-                  error_sweetAlert(error);
+                  console.error('Error creating video: ', error);
+                  showToast(error, 'error');
             }
       });
 }
@@ -110,9 +109,7 @@ function buildVideoForm(video_info) {
 
 function resetCreateVideoForm() {
       video_utils.resetVideoPreview();
-      tags_utils.resetTagSelection(id_selectors.container.selected_tag);
       selectSearch_component.resetSelectSearch([
             { id: id_selectors.videos.video_action, placeholder: "Select Action" },
-            { id: id_selectors.videos.video_playlist, placeholder: "Select Playlist" },
       ]);
 }

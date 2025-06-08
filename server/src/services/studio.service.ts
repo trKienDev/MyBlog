@@ -1,10 +1,11 @@
 import { StudioDTO } from "../dtos/studio.dto.js";
 import { IStudioRepository } from "../repository/interfaces/istudio.repository.js";
-import { FileService } from "../utils/file.service.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 import { UploadFiles } from "../enums.js";
+import { IncomingMessage } from "http";
+import { parseJSON } from "../middlewares/json-parser.js";
 
 export class StudioService {
       private studioRepo: IStudioRepository;
@@ -20,16 +21,18 @@ export class StudioService {
             return studio;
       }
       
-      public async createStudio(request: CustomRequest): Promise<StudioDTO> {
-            const { file_name } = await file_utils.uploadFile(request, UploadFiles.STUDIOS);
-            const name = request_utils.extractParamFromRequest(request, "name");
-            const existingStudio = await this.studioRepo.findStudioByName(name);
-            if(existingStudio) {
+      public async CreateStudio(request: IncomingMessage): Promise<StudioDTO> {
+            const require_param = ['name'];
+            const request_body = await parseJSON(request, require_param);
+            const { name } = request_body;
+
+            const existing_studio = await this.studioRepo.findStudioByName(name);
+            if(existing_studio) {
                   throw new Error('Studio with this name has already existed.');
             }
       
-            const newStudio = await this.studioRepo.createStudio(name, file_name);
-            return newStudio;
+            const new_studio = await this.studioRepo.createStudio(name);
+            return new_studio;
       }
 
       public async updateStudio(request: CustomRequest, id: string): Promise<StudioDTO> {
@@ -41,11 +44,6 @@ export class StudioService {
             const { file_name } = await file_utils.uploadFile(request, UploadFiles.STUDIOS);
             const name = request_utils.extractParamFromRequest(request, "name");
             const updateData: Record<string, any> = { name };
-            
-            if(file_name) {
-                  FileService.deleteFile("studio", currentStudio.image);
-                  updateData.image = file_name
-            }
 
             const updatedStudio = await this.studioRepo.updateStudio(id, updateData);
             if(!updatedStudio) {
@@ -57,10 +55,6 @@ export class StudioService {
 
       public async DeleteStudio(id: string): Promise<void> {
             const studio = await this.findStudioById(id);
-            if(studio.image) {
-                  await FileService.deleteFile("studio", studio.image);
-            }
-
             await this.studioRepo.deleteStudioById(id);
       }
 }

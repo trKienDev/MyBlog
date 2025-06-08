@@ -26,10 +26,10 @@ export class StudioRepository implements IStudioRepository{
             return MappingDocToDTO(doc);
       }
 
-      async createStudio(name: string, imageName: string): Promise<StudioDTO> {
-            const doc = new Studio({ name, image: imageName });
-            const savedDoc = await doc.save();
-            return MappingDocToDTO(savedDoc);
+      async createStudio(name: string): Promise<StudioDTO> {
+            const doc = new Studio({name});
+            const saved_doc = await doc.save();
+            return MappingDocToDTO(saved_doc);
       }
 
       async updateStudio(id: string, updateData: Partial<StudioDTO>): Promise<StudioDTO> {
@@ -53,7 +53,6 @@ function MappingDocToDTO(doc: IStudio): StudioDTO {
       return {
             _id: doc._id.toString(),
             name: doc.name,
-            image: doc.image,
       };
 }
 

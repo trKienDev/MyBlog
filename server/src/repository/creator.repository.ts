@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { CreatorDTO } from "../dtos/creator.dto.js";
 import Creator from "../models/creator.model.js";
 import { ICreator } from "../models/interface/icreator.model.js";
@@ -31,9 +32,20 @@ export class CreatorRepository implements ICreatorRepository {
             return MappingDocToDTO(doc);
       }
 
-      public async Create(data: CreatorDTO): Promise<any> {
-            const creator = new Creator(data);
-            return creator.save();
+      public async Create(data: CreatorDTO): Promise<CreatorDTO> {
+            const new_creator = new Creator({
+                  name: data.name,
+                  identifier_name: data.identifier_name,
+                  birth: data.birth,
+                  image: data.image,
+                  active: data.active,
+                  views: data.views,
+                  tag_ids: data.tag_ids?.map(id => new mongoose.Types.ObjectId(id)),
+            });
+
+            const saved_creator = await new_creator.save();
+
+            return MappingDocToDTO(saved_creator);
       }
 
       public async UpdateCreator(id: string, data: Partial<CreatorDTO>): Promise<CreatorDTO> {
@@ -59,6 +71,9 @@ function MappingDocToDTO(doc: ICreator): CreatorDTO {
             name: doc.name,
             identifier_name: doc.identifier_name,
             birth: doc.birth,
-            image: doc.image
+            image: doc.image,
+            active: doc.active,
+            views: doc.views,
+            tag_ids: doc.tag_ids?.map(id => id.toString()),
       }
 }

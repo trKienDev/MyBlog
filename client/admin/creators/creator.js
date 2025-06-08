@@ -8,6 +8,11 @@ import css_selectors from "../../selectors/css.selectors.js";
 import creator_api from "../../api/creator.api.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
 import file_utils from "../../utils/file.utils.js";
+import selectSearch_component from "../../components/select-search.component.js";
+import { api_user } from "../../api/endpoint.api.js";
+import tags_utils from "../../utils/tags.utils.js";
+import css_class from "../../constants/css.constant.js";
+import tag_api from "../../api/tag.api.js";
 
 let formId = "creator-form";
 let imgId = "img";
@@ -23,6 +28,8 @@ export function initCreatorAdmin() {
       createNewCreator();
       initModal("open-modal_button", "close-modal_button", modalId, () => resetModal(formId, imgId, imgInputId, defaultImg ));
       HandleImageUpload("img", "image-upload");
+      selectSearch_component.initSelectSearch('creator-tags', api_user.getTagsByCreator, 'name');
+      tags_utils.displaySelectedTag(css_class.SELECTED_TAG_CONTAINER, css_class.SELECTED_TAG, 'creator-tags');
 }
 
 async function RenderCreators(element) {
@@ -64,12 +71,17 @@ async function createNewCreator() {
 
             const creator_name = document.getElementById('creator-name').value;
             const creator_birth = document.getElementById('creator-birth').value;
+            const creator_views = document.getElementById('creator-views').value;
+            const creator_status = document.getElementById('creator-active').value;
             const creator_image = document.getElementById('image-upload').files[0];
             const renamed_image = file_utils.renameUploadedFile(creator_image, creator_name);
-
+            const creator_tags = tags_utils.getSelectedTags('creator-tags', css_class.SELECTED_TAG);
             formData.append("name", creator_name);
             formData.append("birth", creator_birth);
             formData.append("file", renamed_image);
+            formData.append("view", creator_views);
+            formData.append("status", creator_status);
+            formData.append("tag_ids", creator_tags);
 
             try {
                   const result = await fetch_api.createForm(api_configs.endpoints.createCreator, formData);
@@ -90,6 +102,7 @@ async function createNewCreator() {
 }
 
 async function updateCreator(creator) {
+      console.log('creator: ', creator);
       const { form, modal, imgInput, image } = getELement();
       
       const resetOptionss = { form, image, imgInput, modal, defaultImg};
@@ -102,7 +115,16 @@ async function updateCreator(creator) {
 
       document.getElementById("creator-name").value = creator.name || "";
       document.getElementById("creator-birth").value = creator.birth ? new Date(creator.birth).toISOString().split("T")[0] : "";
+      document.getElementById("creator-views").value = String(creator.views) || "";
       image.src = creator.image ? `${api_configs.server}/${ServerFolders.CREATOR_AVATARS}/${creator.image}` : defaultImg;
+      if(creator.active === true) {
+            document.getElementById('creator-active').value = 'active';
+      } else {
+            document.getElementById('creator-active').value = 'deactive';
+      }
+      const selectTag_container = document.getElementById(css_class.SELECTED_TAG_CONTAINER);
+      selectTag_container.innerHTML = '';
+      await tags_utils.renderSelectedTags(creator.tag_ids, selectTag_container, tag_api.getTagById);
 
       form.onsubmit = async(event) => {
             event.preventDefault();
@@ -110,13 +132,17 @@ async function updateCreator(creator) {
             const formData = new FormData();
             const creator_name = document.getElementById('creator-name').value;
             formData.append("name", creator_name);
+
             const creator_birth = document.getElementById('creator-birth').value;
             formData.append("birth", creator_birth);
+
             const creator_image = document.getElementById('image-upload').files[0];
             if(creator_image) {
                   const renamed_image = file_utils.renameUploadedFile(creator_image, creator_name);
                   formData.append("file", renamed_image);
             }
+
+            const creator
             
             try {
                   const result = await fetch_api.updateForm(`${api_configs.endpoints.updateCreator}/${creator._id}`, formData);

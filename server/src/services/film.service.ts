@@ -23,6 +23,7 @@ export class FilmService {
             }
 
             const thumbnail = file_name;
+            const description = request_utils.extractParamFromRequest(request, "description");
             const studio = request_utils.extractParamFromRequest(request, "studio_id");
             const code = request_utils.extractParamFromRequest(request, "code_id");
             const tag_params = request_utils.extractParamFromRequest(request, "tag_ids");
@@ -33,6 +34,7 @@ export class FilmService {
             
             const new_film: Partial<CreateFilmDTO> = {
                   name: name,
+                  description: description,
                   code_id: code,
                   studio_id: studio,
                   tag_ids: tag_ids,

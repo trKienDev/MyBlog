@@ -45,7 +45,10 @@ export class VideoRepository implements iVideoRepository {
 
             await Film.findByIdAndUpdate(
                   data.film_id,
-                  { $push: { video_ids: created_video._id }}
+                  { 
+                        $push: { video_ids: created_video._id },
+                        $addToSet: { creator_ids: created_video.creator_id },
+                  },
             );
 
             return mappingDocToCreateDTO(created_video);            

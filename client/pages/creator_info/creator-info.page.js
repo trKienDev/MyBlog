@@ -1,5 +1,4 @@
 import creator_api from "../../api/creator.api.js";
-import { film_api } from "../../api/film.api.js";
 import { video_api } from "../../api/video.api.js";
 import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
@@ -49,7 +48,6 @@ async function populateCreatorAvatar(creator_id) {
       });
       creatorAvatar_div.appendChild(creatorAvatar_image);
 }
-
 async function populateCreatorBio(creator_id) {
       const creator_bio = await creator_api.getCreatorById(creator_id);
 
@@ -122,15 +120,10 @@ function CreateVideoPlayer(video) {
 }
 
 // films tab
-async function RenderCreatorVideo(creator_id) {
-      const creatorFilms_section = document.getElementById('creator-films_section'),
-      creatorFilmsSection_wrapper = creatorVideos_section.querySelector('.creator-films_section-wrapper');
-      creatorFilmsSection_wrapper.innerHTML = '';
+// async function RenderCreatorFilms(creator_id) {
+//       const creatorFilms_section = document.getElementById('creator-films_section'),
+//       creatorFilmSection_wrapper = creatorFilms_section.querySelector('.creator-films_section-wrapper');
+//       creatorFilmSection_wrapper.innerHTML = '';
       
-      
-
-      creator_videos.forEach(video => {
-            const video_article = CreateVideoPlayer(video);
-            creatorVideosSection_wrapper.appendChild(video_article);      
-      });
-}
+//       const creator_films = await 
+// }

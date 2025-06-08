@@ -69,9 +69,14 @@ table {
       border-radius: 8px;
       border: 1px solid var(--secondary-border);
       width: 100%;
+      border-collapse: collapse;
 }
 table thead {
       background-color: var(--secondary-color);
+      display: table-header-group;
+}
+table tbody {
+      width: 100%;
 }
 table tr {
       height: 50px;

@@ -48,7 +48,29 @@
                                     </div>
                                     <div class="modal-info" style="width: 45%">
                                           <input type="text" name="name" id="creator-name" placeholder="name" required>
-                                          <input type="date" name="birth" id="creator-birth" placeholder="birth" required>                         
+                                          <input type="date" name="birth" id="creator-birth" placeholder="birth" required>
+                                          <input type="number" name="views", id="creator-views", placeholder="views" required>
+                                          <select name="active" id="creator-active">
+                                                <option value="active">active</option>
+                                                <option value="deactive">deactive</option>
+                                          </select>   
+                                          <div id="creator-tags">
+                                                <div class="select-search_component">
+                                                      <div class="wrapper">
+                                                            <div class="select-btn">
+                                                                  <span>Select tag</span>
+                                                                  <i class="caret-down fa-solid fa-caret-down"></i>
+                                                            </div>
+                                                            <div class="content">
+                                                                  <div class="search row ">
+                                                                        <input type="text" placeholder="search tag ... ">
+                                                                  </div>
+                                                                  <ul class="options"></ul>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div id="selected-tag_container" class="selected-tag_container"></div>
+                                          </div>                      
                                           <div class="save-button">
                                                 <button type="submit">Save</button>
                                           </div>

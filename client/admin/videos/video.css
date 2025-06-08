@@ -19,10 +19,33 @@
 }
 /* video table */
 #videos-table table {
-      width: 70%;
+      width: 65%;
 }
-#videos-table .video-td {
-      display: flex;
+#videos-table table tbody{
+      height: 500px;
+      display: block;
+      overflow-x: hidden;
+      overflow-y: auto;
+}
+#videos-table table tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+}
+#videos-table td:nth-child(1) {
+      width: 5%;
+}
+#videos-table td:nth-child(2) {
+      width: 30%;
+}
+#videos-table td:nth-child(3) {
+      width: 10%;
+}
+#videos-table td:nth-child(4) {
+      width: 17%;
+}
+#videos-table td:nth-child(5) {
+      width: 5%;
 }
 #videos-table .video-container {
       padding: 10px;    

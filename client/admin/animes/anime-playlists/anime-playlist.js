@@ -35,7 +35,7 @@ async function createAnimePlaylist() {
             event.preventDefault();
             const playlist = document.getElementById('playlist').value;
             const data = { name: playlist };
-
+            
             try {
                   const result = await fetch_api.createJson(`${api_configs.endpoints.createAnimePlaylist}`, data);
                   if(result.success === false) {

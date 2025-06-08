@@ -9,7 +9,7 @@ import { initCreatorAdmin } from "./creators/creator.js";
 import { initFilmAdmin } from "./films/films.js";
 import { initMangaAdmin } from "./mangas/manga.js";
 import { initPlaylistAdmin } from "./playlists/playlist.js";
-import { initStudioAdmin } from "./studios/studio.js";
+import { AdminStudioController } from "./studios/studio.js";
 import { initTagAdmin } from "./tags/tag.js";
 import { initVideoAdmin } from "./videos/video.js";
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', initAdmin);
 
 function navigateSidebar() {
       spa_navigation.navigateLink('creator-link', id_selectors.section.dynamic_section, api_configs.endpoints.adminCreatorPage, initCreatorAdmin );
-      spa_navigation.navigateLink('studio-link', id_selectors.section.dynamic_section, api_configs.endpoints.adminStudioPage, initStudioAdmin );
+      spa_navigation.navigateLink('studio-link', id_selectors.section.dynamic_section, api_configs.endpoints.adminStudioPage, AdminStudioController );
       spa_navigation.navigateLink('film-link', id_selectors.section.dynamic_section, api_configs.endpoints.adminFilmPage, initFilmAdmin );
       spa_navigation.navigateLink('code-link', id_selectors.section.dynamic_section, api_configs.endpoints.adminCodePage, initCodeAdmin );
       spa_navigation.navigateLink('tag-link', id_selectors.section.dynamic_section, api_configs.endpoints.adminTagPage, initTagAdmin );

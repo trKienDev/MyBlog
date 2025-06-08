@@ -5,6 +5,17 @@
 #tag #tag-table {
       width: 30%;
 }
+#tag-table table tbody{
+      height: 500px;
+      display: block;
+      overflow-x: hidden;
+      overflow-y: auto;
+}
+#tag-table table tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+}
 #tag .primary-form {
       margin-left: 50px;
 }

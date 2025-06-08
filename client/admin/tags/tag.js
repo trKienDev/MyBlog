@@ -5,11 +5,11 @@ import table_component from "../../components/table.component.js";
 import tag_api from "../../api/tag.api.js";
 
 export function initTagAdmin() {
-      renderTags();
-      createNewTag();
+      RenderTagsTable();
+      CreateNewTag();
 }
 
-async function renderTags() {
+async function RenderTagsTable() {
       try {
             const tbody = document.querySelector("#tag-table tbody");
             tbody.innerHTML = '';
@@ -32,7 +32,7 @@ async function renderTags() {
       }
 }
 
-async function createNewTag() {
+async function CreateNewTag() {
       document.getElementById('form').addEventListener('submit', async(event) => {
             event.preventDefault();
             const name = document.getElementById('name');
@@ -46,7 +46,7 @@ async function createNewTag() {
                   }
       
                   success_sweetAlert("tag created");
-                  renderTags();
+                  RenderTagsTable();
             } catch(error) {
                   console.error('Error creating tag: ', error.message);
                   error_sweetAlert(error);

@@ -72,13 +72,14 @@ function collectUpdateForm() {
       const studio_id = selectSearch_component.getSelectedOptionValue(dom_id.FILM_STUDIO, 'id');
       const code_id = film_helper.getSelectedCodeOption(dom_id.FILM_CODE).value;
       const name = getFilmName(dom_id.FILM_CODE, dom_id.CODE_NUMBER);
+      const description = document.getElementById('film-description').value;
       const collection_id = selectSearch_component.getSelectedOptionValue(dom_id.FILM_COLLECTION, 'id');
       const date = document.getElementById(dom_id.RELEASE_DATE).value;
       const rating = document.getElementById(dom_id.FILM_RATING).value;
       const tags = tags_utils.getSelectedTags(dom_id.SELECTED_TAG_CONTAINER, css_class.SELECTED_TAG);
       const thumbnail = document.getElementById(dom_id.THUMBNAIL_UPLOAD).files[0];
       
-      return { name, studio_id, code_id, collection_id, date, rating, tags, thumbnail };
+      return { name, description, studio_id, code_id, collection_id, date, rating, tags, thumbnail };
 }
 
 /**
@@ -100,6 +101,14 @@ function getUpdatedFilmFields(film, updated_fields) {
             const old_date = new Date(film.date).toISOString().slice(0, 10);
             if (updated_fields.date !== old_date) 
                   changes.date = updated_fields.date; 
+      }
+
+      if(updated_fields.description) {
+            const old_description = film.description;
+            const new_description = updated_fields.description;
+            if(old_description !== new_description) {
+                  changes.description = updated_fields.description;
+            }
       }
 
       if (updated_fields.rating != null) {
@@ -138,6 +147,7 @@ function getUpdatedFilmFields(film, updated_fields) {
 function buildUpdateFilmForm(updated_fields) {
       const form = new FormData();
       form.append("name", updated_fields.name);
+      if(updated_fields.description) form.append("description", updated_fields.description);
       if(updated_fields.studio_id) form.append("studio_id", updated_fields.studio_id);
       if(updated_fields.code_id) form.append("code_id", updated_fields.code_id);
       if(updated_fields.collection_id) form.append("collection_id", updated_fields.collection_id);
@@ -167,6 +177,9 @@ async function populateFilmForm(film) {
       if(film.collection_id) {
             await selectSearch_component.loadInfoSelectSearch(film, dom_id.FILM_COLLECTION, 'collection_id', collection_api.getCollectionName);
       }
+      
+      const film_description = document.getElementById('film-description');
+      film_description.value = film.description;
       
       select_component.getCodeOptionByStudoId(dom_id.FILM_CODE, film.code_id);
       const film_name = film.name;

@@ -1,5 +1,5 @@
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { ServerResponse } from "http";
+import { IncomingMessage, ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { StudioRepository } from '../repository/studio.repository.js';
 import { StudioService } from '../services/studio.service.js';
@@ -29,14 +29,13 @@ export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
       }
 }
 
-export const CreateStudio = async (req: CustomRequest, res: ServerResponse) => {
+const CreateStudio = async (request: IncomingMessage, response: ServerResponse) => {
       try {
-            const createdStudio = await service.createStudio(req);
-
-            return sendResponse(res, 201, createdStudio);
+            const createdStudio = await service.CreateStudio(request);
+            return sendResponse(response, 201, createdStudio);
       } catch(error) {
             console.error('Unexpected error: ', error);
-            return sendError(res, 500, error);
+            return sendError(response, 500, error);
       }
 }
 
@@ -66,5 +65,6 @@ export const DeleteStudio = async(req: ValidateIdRequest, res: ServerResponse) =
 
 const studio_controller = {
       getStudioById,
+      CreateStudio,
 }
 export default studio_controller;
