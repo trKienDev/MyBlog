@@ -9,14 +9,16 @@ export const api_admin = {
       
 }
 export const api_user = {
+      // creators
+      getCreators : '/creators', // GET
+      getPlaylists: '/playlists', // GET
+      // films
+      getFilmsByCreatorId : '/films/creator', // GET
+      // tags
+      addPlaylistsToVideo: '/video/playlists', // PUT
+      getTagsByCreator: '/tags/creator', // GET
       // videos
       getVideoById: '/video', // GET
       getVideosByCreatorId: '/videos/creator', // GET
       increaseVideoViewsByOne: '/video/view', // PUT
-      // creators
-      getCreators : '/creators', // GET
-      getPlaylists: '/playlists', // GET
-      // tags
-      addPlaylistsToVideo: '/video/playlists', // PUT
-      getTagsByCreator: '/tags/creator', // GET
 }

@@ -141,8 +141,6 @@ async function updateCreator(creator) {
                   const renamed_image = file_utils.renameUploadedFile(creator_image, creator_name);
                   formData.append("file", renamed_image);
             }
-
-            const creator
             
             try {
                   const result = await fetch_api.updateForm(`${api_configs.endpoints.updateCreator}/${creator._id}`, formData);

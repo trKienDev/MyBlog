@@ -1,11 +1,15 @@
 import creator_api from "../../api/creator.api.js";
+import { film_api } from "../../api/film.api.js";
 import { video_api } from "../../api/video.api.js";
 import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
+import thumbnail_component from "../../components/thumbnail.component.js";
 import videos_component from "../../components/videos.component.js";
+import app_configs from "../../config/app.config.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
 import activeState_utils from "../../utils/active-state.js";
 import date_utils from "../../utils/date.utils.js";
+import image_utils from "../../utils/image.utils.js";
 
 export async function creatorInforController(creator_id) {
       const creator = await creator_api.getCreatorById(creator_id);
@@ -24,12 +28,13 @@ export async function creatorInforController(creator_id) {
 }
 
 async function HandleActiveTab(tab, creator_id) { 
+
       switch(tab.id) {
             case 'creator_videos-tab': 
                   await RenderCreatorVideo(creator_id);
                   break;
             case 'creator_films-tab':
-                  console.log('films');
+                  await RenderCreatorFilms(creator_id);
                   break;
             case 'creator_photos-tab':
                   console.log('photos');
@@ -120,10 +125,50 @@ function CreateVideoPlayer(video) {
 }
 
 // films tab
-// async function RenderCreatorFilms(creator_id) {
-//       const creatorFilms_section = document.getElementById('creator-films_section'),
-//       creatorFilmSection_wrapper = creatorFilms_section.querySelector('.creator-films_section-wrapper');
-//       creatorFilmSection_wrapper.innerHTML = '';
+async function RenderCreatorFilms(creator_id) {
+      const creatorVideos_section = document.getElementById('creator-videos_section'),
+      creatorVideosSection_wrapper = creatorVideos_section.querySelector('.creator-videos_section-wrapper');
+      creatorVideosSection_wrapper.innerHTML = '';
+
+      const creatorFilms_section = document.getElementById('creator-films_section'),
+      creatorFilmSection_wrapper = creatorFilms_section.querySelector('.creator-films_section-wrapper');
+      creatorFilmSection_wrapper.innerHTML = '';
       
-//       const creator_films = await 
-// }
+      const creator_films = await film_api.GetFilmsByCreatorId(creator_id);
+      creator_films.forEach(film => {
+            const film_article = CreateFilmThumbnailFrame(film);
+            creatorFilmSection_wrapper.appendChild(film_article);
+      });
+}
+function CreateFilmThumbnailFrame(film) {
+      const film_article = doms_component.createArticle('film-article');
+      const filmArticle_container = doms_component.createDiv('film-article_container');
+      film_article.appendChild(filmArticle_container);
+
+      const filmArticle_ahref = doms_component.createAhref({
+            href: `film/#id=${film._id}`,
+            css_class: 'film-article_link',
+      });
+      filmArticle_container.appendChild(filmArticle_ahref);
+
+      const filmThumbnail_container = doms_component.createDiv('film-thumbnail_container');
+      const filmThumbnail_image = images_component.createImg(null, 'film-thumbnail_image');
+      filmThumbnail_image.src = `${app_configs.SERVER}/${ServerFolders.FILMS}/${film.thumbnail}`;
+      filmThumbnail_container.appendChild(filmThumbnail_image);
+      filmArticle_ahref.appendChild(filmThumbnail_container);
+      image_utils.addEffectHoverToZoomImage(filmThumbnail_container, filmThumbnail_image);
+
+      const filmInfor_div = doms_component.createDiv('film-infor_container');
+      
+      const filmName_div = doms_component.createDiv('film-name');
+      filmName_div.textContent = film.name;
+      filmInfor_div.appendChild(filmName_div);
+
+      const filmDate_str = date_utils.getDateFromStr(new Date(film.date));
+      const filmDate_div = doms_component.createDiv('film-date');
+      filmDate_div.textContent = filmDate_str;
+      filmInfor_div.appendChild(filmDate_div);
+
+      filmArticle_ahref.appendChild(filmInfor_div);
+      return film_article;
+}

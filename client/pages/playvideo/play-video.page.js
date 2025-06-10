@@ -1,3 +1,4 @@
+import creator_api from "../../api/creator.api.js";
 import { film_api } from "../../api/film.api.js";
 import playlist_api from "../../api/playlist.api.js";
 import { studio_api } from "../../api/studio.api.js";
@@ -9,6 +10,7 @@ import stars_component from "../../components/stars.component.js";
 import tags_component from "../../components/tags.component.js";
 import thumbnail_component from "../../components/thumbnail.component.js";
 import videos_component from "../../components/videos.component.js";
+import css_class from "../../constants/css.constant.js";
 import dom_id from "../../constants/doms.constant.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
 import date_utils from "../../utils/date.utils.js";
@@ -85,8 +87,9 @@ export async function populateVideoPlaylist(video) {
 async function renderFilmData(film_id) {
       thumbnail_component.updateFilmThumbnailSource({ film_id: film_id, thumbnailElement_id: dom_id.VIDEO_FILM_THUMBNAIL, upload_path: `${ServerFolders.FILMS}`});
       const film_info = await film_api.findFilmById(film_id);
-      
+
       populateFilmName(film_info);
+      PopulateFilmCreator(film_info);
       populateFilmStudio(film_info);
       populateFilmDate(film_info);
       populateFilmCollection(film_info);
@@ -97,13 +100,32 @@ async function renderFilmData(film_id) {
 }     
 function populateFilmName(film_info) {
       const filmName_ahref = doms_component.createAhref({
-            href: `film/#${film_info._id}`,
+            href: `film/#id=${film_info._id}`,
             text: film_info.name,
             css_class: 'film-name',
       });
 
       const filmName_element = document.getElementById('film-name');
       filmName_element.appendChild(filmName_ahref);
+}
+async function PopulateFilmCreator(film_info) {
+      const filmCreator_element = document.getElementById('film-creator');
+      film_info.creator_ids.forEach(async(creator_id) => {
+            const creator_info = await creator_api.getCreatorById(creator_id);
+            const filmCreator_ahref = doms_component.createAhref({
+                  href: `creator/#id=${creator_id}`,
+                  text: creator_info.name,
+                  css_class: 'creatpr-name',
+            });
+            filmCreator_element.appendChild(filmCreator_ahref);
+
+            const creator_age = date_utils.calculateAgeFromTwoYearStr(film_info.date, creator_info.birth);
+            const creatorAge_span = doms_component.createSpan({
+                  text: `[ ${creator_age} ]`,
+                  css_class: 'creator-age',
+            });
+            filmCreator_element.appendChild(creatorAge_span);
+      });
 }
 async function populateFilmStudio(film_info) {
       const filmStudio_element = document.getElementById('film-studio');

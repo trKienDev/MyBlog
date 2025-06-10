@@ -39,7 +39,7 @@ const findVideosByCreatorId = async(request: ValidateIdRequest, response: Server
             const videos = await repository.findByCreatorId(creator_id);
             return sendResponse(response, 200, videos);
       } catch(error) {
-            console.error('Error finding videos by creator', error);
+            console.error('Error finding videos by creator: ', error);
             return sendError(response, 500, error);
       }
 }

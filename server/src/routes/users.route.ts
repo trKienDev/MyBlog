@@ -1,4 +1,5 @@
 import { creator_controller } from "../controllers/creator.controller.js";
+import { filmController } from "../controllers/film.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
 import { tag_controller } from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
@@ -11,7 +12,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/creators', handler: creator_controller.GetCreators },
 
       // films
-      
+      { method: 'GET', path: '/films/creator/:id', handler: validated_id.validateId( filmController.FindFIlmsByCreator )},
 
       // playlist
       { method: 'GET', path: '/playlists', handler: playlist_controller.getPlaylists },

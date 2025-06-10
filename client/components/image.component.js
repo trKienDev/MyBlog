@@ -28,8 +28,8 @@ export function HandleImageUpload(imageElementId, fileInputElementId) {
 
 function createImg(img_src, css_class) {
       const image = document.createElement('img');
-      image.src = img_src;
-      image.classList.add(css_class);
+      if(img_src) image.src = img_src;
+      if(css_class) image.classList.add(css_class);
       
       return image;
 }

@@ -144,6 +144,11 @@
 #film-info #film-tags a:hover {
       color: black !important;
 }
+#film-info .creator-age {
+      margin-left: 5px;
+      color: var(--light-pink);
+      font-weight: bold;
+}
 #film-info #film-tags {
       display: flex;
       flex-wrap: wrap;

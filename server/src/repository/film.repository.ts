@@ -42,6 +42,16 @@ export class FilmRepository implements iFilmRepository {
             }
       }
 
+      async FindByCreatorId(creator_id: string): Promise<FilmDTO[]> {
+            if(!mongoose.Types.ObjectId.isValid(creator_id)) {
+                  console.warn("Invalid creator_id");
+                  throw new Error('invalid creator_id');
+            }
+
+            const films = await Film.find({ creator_ids: new mongoose.Types.ObjectId(creator_id)});
+            return films.map(doc => mappingDocToDTO(doc));
+      }
+
       async createFilm(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>> {
             const newFilm = new Film({
                   name: data.name,

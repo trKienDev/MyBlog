@@ -63,7 +63,7 @@
       transition: color 0.3s;
 }
 
-/* creator video list */
+/* creator videos list */
 #creator-videos_section {
       margin-top: 10px;
 }
@@ -89,4 +89,37 @@
 }
 #creator-infor_page .video-views:hover {
       color: white;
+}
+/* ============================= */
+
+/* creator films list */
+#creator-infor_page .film-article {
+      width: fit-content;
+      border-radius: 8px;
+      background-color: var(--dark-gray);
+}
+#creator-infor_page .film-article:hover {
+      background-color: #3a3d44;
+      transition: .3s;
+}
+#creator-infor_page .film-thumbnail_container {
+      width: fit-content;
+      border-radius: 8px;
+}
+#creator-infor_page .film-thumbnail_image {
+      height: 300px;
+}
+#creator-infor_page .film-infor_container {
+      text-align: center;
+      padding: 5px;
+}
+#creator-infor_page .film-name {
+      margin-bottom: 5px;
+}
+#creator-infor_page .film-name:hover {
+      color: var(--light-pink);
+}
+
+#creator-infor_page .film-date {
+      color: #c2c2c2;
 }

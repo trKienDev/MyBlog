@@ -20,4 +20,13 @@ export const router_config = {
             title: `Looking ${id}`,
             callback: creatorInforController,
       }),
+
+      'film': (id) => ({
+            endpoint: ClientPages.FILMINFO,
+            media_id: id,
+            url: `/info?film=${id}`,
+            state: { page: 'infor', videoId: id },
+            title: `Looking ${id}`,
+            callback: FilmInforController,
+      }),
 }

@@ -12,7 +12,7 @@ const CreatorSchema: Schema = new Schema({
       }},
       image: { type: String, required: false, match: /\.(jpeg|jpg|gif|png)$/i },
       studio_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Studio', required: false },
-      film_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Film', required: false },
+      film_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Film', required: false }],
       video_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Video', required: false },
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag', require: false }],
       active: { type: Boolean, require: true },
