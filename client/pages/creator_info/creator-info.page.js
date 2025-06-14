@@ -3,7 +3,6 @@ import { film_api } from "../../api/film.api.js";
 import { video_api } from "../../api/video.api.js";
 import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
-import thumbnail_component from "../../components/thumbnail.component.js";
 import videos_component from "../../components/videos.component.js";
 import app_configs from "../../config/app.config.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
@@ -12,23 +11,17 @@ import date_utils from "../../utils/date.utils.js";
 import image_utils from "../../utils/image.utils.js";
 
 export async function creatorInforController(creator_id) {
-      const creator = await creator_api.getCreatorById(creator_id);
-      console.log('creator: ', creator);
-      
       populateCreatorAvatar(creator_id);
       populateCreatorBio(creator_id);
 
-      activeState_utils.handleElementActiveState('.tab-item', (tab) => {
-            HandleActiveTab(tab, creator_id);
+      activeState_utils.InitializeActiveState('tab-item', (activatedTab) => {
+            HandleActiveTab(activatedTab, creator_id);
       });
-      const initialActiveTab = document.querySelector('.tab-item.active');
-      if (initialActiveTab) {
-            HandleActiveTab(initialActiveTab, creator_id);
-      }
 }
 
-async function HandleActiveTab(tab, creator_id) { 
 
+
+async function HandleActiveTab(tab, creator_id) { 
       switch(tab.id) {
             case 'creator_videos-tab': 
                   await RenderCreatorVideo(creator_id);
@@ -87,6 +80,10 @@ async function RenderCreatorVideo(creator_id) {
       const creatorVideos_section = document.getElementById('creator-videos_section'),
       creatorVideosSection_wrapper = creatorVideos_section.querySelector('.creator-videos_section-wrapper');
       creatorVideosSection_wrapper.innerHTML = '';
+
+      const creatorFilms_section = document.getElementById('creator-films_section'),
+      creatorFilmSection_wrapper = creatorFilms_section.querySelector('.creator-films_section-wrapper');
+      creatorFilmSection_wrapper.innerHTML = '';
       
       const creator_videos = await video_api.getVideosByCreatorId(creator_id);
 
@@ -132,7 +129,7 @@ async function RenderCreatorFilms(creator_id) {
 
       const creatorFilms_section = document.getElementById('creator-films_section'),
       creatorFilmSection_wrapper = creatorFilms_section.querySelector('.creator-films_section-wrapper');
-      creatorFilmSection_wrapper.innerHTML = '';
+      creatorFilmSection_wrapper.innerHTML = '';      
       
       const creator_films = await film_api.GetFilmsByCreatorId(creator_id);
       creator_films.forEach(film => {

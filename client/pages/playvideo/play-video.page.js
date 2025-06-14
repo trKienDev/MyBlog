@@ -10,7 +10,6 @@ import stars_component from "../../components/stars.component.js";
 import tags_component from "../../components/tags.component.js";
 import thumbnail_component from "../../components/thumbnail.component.js";
 import videos_component from "../../components/videos.component.js";
-import css_class from "../../constants/css.constant.js";
 import dom_id from "../../constants/doms.constant.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
 import date_utils from "../../utils/date.utils.js";
@@ -87,16 +86,20 @@ export async function populateVideoPlaylist(video) {
 async function renderFilmData(film_id) {
       thumbnail_component.updateFilmThumbnailSource({ film_id: film_id, thumbnailElement_id: dom_id.VIDEO_FILM_THUMBNAIL, upload_path: `${ServerFolders.FILMS}`});
       const film_info = await film_api.findFilmById(film_id);
-
+      console.log('film info: ', film_info);
       populateFilmName(film_info);
       PopulateFilmCreator(film_info);
       populateFilmStudio(film_info);
       populateFilmDate(film_info);
       populateFilmCollection(film_info);
-      stars_component.createStarsRating('film-rating', film_info.rating);
-
       populateFilmTags(film_info);
-
+      stars_component.createStarsRating('film-rating', film_info.rating);
+      const filmDescription_div = document.getElementById('film-description');
+      const filmDescrption_span = doms_component.createSpan({
+            text: film_info.description,
+            css_class: 'film-description',
+      });
+      filmDescription_div.appendChild(filmDescrption_span);
 }     
 function populateFilmName(film_info) {
       const filmName_ahref = doms_component.createAhref({

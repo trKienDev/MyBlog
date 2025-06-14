@@ -1,6 +1,7 @@
 import { creator_controller } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
+import studio_controller from "../controllers/studio.controller.js";
 import { tag_controller } from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
 import { Route } from "../interfaces/Route.js";
@@ -12,7 +13,15 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/creators', handler: creator_controller.GetCreators },
 
       // films
+      { method: 'GET', path: '/films', handler: filmController.getFilms },
       { method: 'GET', path: '/films/creator/:id', handler: validated_id.validateId( filmController.FindFIlmsByCreator )},
+      { method: 'GET', path: '/films/studio/:id', handler: validated_id.validateId( filmController.FindFilmsByStudio )},
+
+      // studios
+       { method: 'GET', path: '/studios', handler: studio_controller.GetStudios },
+
+      // tag
+      { method: 'GET', path: '/tags/creator', handler: tag_controller.getTagsByCreator },
 
       // playlist
       { method: 'GET', path: '/playlists', handler: playlist_controller.getPlaylists },
@@ -23,9 +32,6 @@ const user_routes: Route[] = [
       { method: 'PUT', path: '/video/:id/playlists', handler: validated_id.validateId(video_controller.addPlaylistToVideo )},
       { method: 'PUT', path: '/video/view/:id', handler: validated_id.validateId(video_controller.increaseVideoViewsByOne )},
       { method: 'PUT', path: '/video/:id/like', handler: validated_id.validateId(video_controller.increaseVideoLikeByOne )},
-
-      // tag
-      { method: 'GET', path: '/tags/creator', handler: tag_controller.getTagsByCreator },
 ]
 
 export const handleUserRoutes = createRouter(user_routes);

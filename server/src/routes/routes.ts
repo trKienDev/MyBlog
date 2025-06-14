@@ -54,6 +54,8 @@ export function createRouter(routes: Route[]) {
                   req.params = params;
                   matchedRoute.handler(req, res);
             } else {
+                  console.log('url: ', url);
+                  console.log('method: ', method);
                   console.error("route does not matched in createRoute - routes.ts");
                   res.statusCode = 404;
                   res.setHeader('Content-Type', 'text/plain');

@@ -20,7 +20,7 @@ export class TagRepostory implements ITagRepository{
       }
 
       async getTagsByVideo(): Promise<TagDTO[]> {
-            const tags = await Tag.find({ kind: { $nin: ['film', 'creator'] } });
+            const tags = await Tag.find({ kind: { $nin: ['film', 'creator', 'action'] } });
             return tags.map(tag => mappingDocToDTO(tag));
       }
 

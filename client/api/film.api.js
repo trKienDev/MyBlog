@@ -2,6 +2,14 @@ import api_configs from "./api.config.js";
 import { api_user } from "./endpoint.api.js";
 import fetch_api from "./fetch.api.js";
 
+async function GetFilms() {
+      const result = await fetch_api.apiGet(api_user.getFilms);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+      return result.data;
+}
+
 async function findFilmById(film_id) {
       const result = await fetch_api.apiGet(`${api_configs.endpoints.findFilmById}/${film_id}`);
       if(result.success === false) {
@@ -36,10 +44,21 @@ async function GetFilmsByCreatorId(creator_id) {
       return result.data;
 }
 
+async function GetFilmsByStudioId(studio_id) {
+      const result = await fetch_api.apiGet(`${api_user.getFilmsByStudioId}/${studio_id}`);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+
+      return result.data;
+}
+
 export const film_api = {
+      GetFilms,
       findFilmById,
       getFilmNameById,
       getFilmsByStudioCode,
       getFilmThumbnail,
       GetFilmsByCreatorId,
+      GetFilmsByStudioId,
 }

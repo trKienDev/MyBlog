@@ -2,11 +2,29 @@
       display: flex;
       width: 100%;
 }
-#tag #tag-table {
+#tag .tag-table_container {
       width: 30%;
+      margin-right: 100px;
 }
-#tag-table table tbody{
-      height: 500px;
+#tag .search-tag_box input {
+      margin: 0px 0px;
+      margin-bottom: 10px;
+}
+#tag-table {
+      max-height: 70vh;
+      overflow-y: auto;
+      display: block;
+}
+#tag-table thead th {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      z-index: 1;
+      border-bottom: 2px solid #eee;
+}
+
+/* #tag-table table tbody{
+      height: 70vh;
       display: block;
       overflow-x: hidden;
       overflow-y: auto;
@@ -18,4 +36,4 @@
 }
 #tag .primary-form {
       margin-left: 50px;
-}
+} */

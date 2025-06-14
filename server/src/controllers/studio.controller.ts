@@ -19,7 +19,7 @@ export const getStudioById = async(req: ValidateIdRequest, res: ServerResponse) 
       }
 }
 
-export const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
+const GetStudios = async (req: CustomRequest, res: ServerResponse) => {
       try {
             const studios = await repository.findStudios();
             return  sendResponse(res, 200, studios);
@@ -64,6 +64,7 @@ export const DeleteStudio = async(req: ValidateIdRequest, res: ServerResponse) =
 }
 
 const studio_controller = {
+      GetStudios,
       getStudioById,
       CreateStudio,
 }

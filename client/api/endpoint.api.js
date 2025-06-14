@@ -14,6 +14,8 @@ export const api_user = {
       getPlaylists: '/playlists', // GET
       // films
       getFilmsByCreatorId : '/films/creator', // GET
+      getFilms: '/films', // GET
+      getFilmsByStudioId: '/films/studio', // GET
       // tags
       addPlaylistsToVideo: '/video/playlists', // PUT
       getTagsByCreator: '/tags/creator', // GET
@@ -21,4 +23,6 @@ export const api_user = {
       getVideoById: '/video', // GET
       getVideosByCreatorId: '/videos/creator', // GET
       increaseVideoViewsByOne: '/video/view', // PUT
+      // studios
+      GetStudios: '/studios', // GET
 }

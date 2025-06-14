@@ -1,0 +1,18 @@
+#list-studios_section .list-studios_section-wrapper {
+      display: flex;
+      gap: 5px;         
+}
+#list-studios_section .studio-container {
+      flex-shrink: 0;
+      background-color: var(--light-pink);
+      padding: 4px 10px;
+      border-radius: 5px;
+      transition: background 0.8s, filter 0.8s;
+}
+#list-studios_section .studio-container a {
+      color: black;
+}
+#list-studios_section .studio-container:hover {
+      cursor: pointer;
+      background-color: var(--hot-pink);
+}

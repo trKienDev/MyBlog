@@ -54,6 +54,17 @@ const FindFIlmsByCreator = async(request: ValidateIdRequest, response: ServerRes
       }
 }
 
+const FindFilmsByStudio = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const studio_id = request.params?.id;
+            const films = await repository.FindByStudioId(studio_id);
+            return sendResponse(response, 200, films);
+      } catch(error) {
+            console.error('Error finding films by studio: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
 const createFilm = async(request: CustomRequest, response: ServerResponse) => {
       try {
             const newFilm = await service.createFilm(request);
@@ -81,4 +92,5 @@ export const filmController = {
       updateFilm,
       findFilmsByStudioAndCode,
       FindFIlmsByCreator,
+      FindFilmsByStudio,
 }

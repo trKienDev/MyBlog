@@ -1,3 +1,19 @@
+function InitializeActiveState(activatableClassName, onElementActivated) {
+      const activatableSelector = `.${activatableClassName}`;
+
+      const activeElementSelector = `${activatableSelector}.active`;
+
+
+      activeState_utils.handleElementActiveState(activatableSelector, (activatedElement) => {
+            onElementActivated(activatedElement);
+      });
+
+      const initialActiveElement = document.querySelector(activeElementSelector);
+      if (initialActiveElement) {
+            onElementActivated(initialActiveElement);
+      }
+}
+
 function handleElementActiveState(htmlElement, callbackFn) {
       const sidebaritems = document.querySelectorAll(htmlElement);
       sidebaritems.forEach(item => {
@@ -20,6 +36,7 @@ function handleElementActiveState(htmlElement, callbackFn) {
 }
 
 const activeState_utils = {
+      InitializeActiveState,
       handleElementActiveState,
 }
 export default activeState_utils;

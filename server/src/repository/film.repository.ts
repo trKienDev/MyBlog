@@ -52,6 +52,16 @@ export class FilmRepository implements iFilmRepository {
             return films.map(doc => mappingDocToDTO(doc));
       }
 
+      async FindByStudioId(studio_id: string): Promise<FilmDTO[]> {
+            if(!mongoose.Types.ObjectId.isValid(studio_id)) {
+                  console.warn("Invalid studio_id");
+                  throw new Error("Invalid studio_id");
+            }
+
+            const films = await Film.find({ studio_id: new mongoose.Types.ObjectId(studio_id)});
+            return films.map(doc => mappingDocToDTO(doc));
+      }
+
       async createFilm(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>> {
             const newFilm = new Film({
                   name: data.name,

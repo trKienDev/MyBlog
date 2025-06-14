@@ -11,7 +11,7 @@ import { filmController } from "../controllers/film.controller.js";
 import mangaTag_controller from "../controllers/mangas/manga-tag.controller.js";
 import { manga_controller } from "../controllers/mangas/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
-import studio_controller, { DeleteStudio, GetStudios, UpdateStudio } from "../controllers/studio.controller.js";
+import studio_controller, { DeleteStudio, UpdateStudio } from "../controllers/studio.controller.js";
 import { getTags, createTag, GetFilmTags, tag_controller } from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
 import { Route } from "../interfaces/Route.js";
@@ -20,7 +20,7 @@ import { createRouter } from "./routes.js";
 
 const adminRoutes: Route[] = [
       // studio 
-      { method: 'GET', path: '/admin/studios', handler: GetStudios },
+      { method: 'GET', path: '/admin/studios', handler: studio_controller.GetStudios },
       { method: 'GET', path: '/admin/studio/:id', handler: validated_id.validateId(studio_controller.getStudioById) },
       { method: 'POST', path: '/admin/studio', handler: studio_controller.CreateStudio },
       { method: 'PUT', path: '/admin/studio/:id', handler: validated_id.validateId(UpdateStudio) },

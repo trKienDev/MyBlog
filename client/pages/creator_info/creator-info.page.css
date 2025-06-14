@@ -93,21 +93,26 @@
 /* ============================= */
 
 /* creator films list */
+#creator-infor_page .creator-films_section-wrapper {
+      display: flex;
+      margin: 0 -8px;
+}
 #creator-infor_page .film-article {
+      padding: 0 8px;
+      width: fit-content;
+}
+#creator-infor_page .film-article_container {
       width: fit-content;
       border-radius: 8px;
       background-color: var(--dark-gray);
 }
-#creator-infor_page .film-article:hover {
+#creator-infor_page .film-article_container:hover {
       background-color: #3a3d44;
       transition: .3s;
 }
 #creator-infor_page .film-thumbnail_container {
       width: fit-content;
       border-radius: 8px;
-}
-#creator-infor_page .film-thumbnail_image {
-      height: 300px;
 }
 #creator-infor_page .film-infor_container {
       text-align: center;
@@ -119,7 +124,9 @@
 #creator-infor_page .film-name:hover {
       color: var(--light-pink);
 }
-
 #creator-infor_page .film-date {
       color: #c2c2c2;
+}
+#creator-infor_page .film-thumbnail_image {
+      height: 300px;
 }

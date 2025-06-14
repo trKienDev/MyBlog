@@ -6,6 +6,7 @@ export interface iFilmRepository {
       findByName(name: string): Promise<FilmDTO | null>;
       findById(id: string): Promise<FilmDTO | null>;
       FindByCreatorId(creator_id: string): Promise<FilmDTO[]>;
+      FindByStudioId(studio_id: string): Promise<FilmDTO[]>;
       createFilm(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>>;
       updateFilm(id: string, data: Partial<UpdateFilmDTO>): Promise<UpdateFilmDTO | null>;
 }

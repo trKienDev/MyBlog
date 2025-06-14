@@ -2,7 +2,10 @@ import ClientPages from "../../constants/client-pages.constant.js";
 import { HomePageController } from "../../pages/homepage/homepage.page.js";
 import { film_api } from "../api/film.api.js";
 import doms_component from "../components/doms.component.js";
+import ClientSections from "../constants/client-sections.constant.js";
 import dom_id from "../constants/doms.constant.js";
+import { FilmSectionController } from "../sections/films/films.section.js";
+import { StudiosSectionController } from "../sections/studios/studio.section.js";
 import spa_navigation from "./spa/navigate-link.spa.js";
 import spa_renderHTML from "./spa/render-html.js";
 
@@ -25,15 +28,13 @@ window.addEventListener('popstate', (event) => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-      const pathname = window.location.pathname;
-      const search = window.location.search;
       document.addEventListener('click', function(event) {
             handleUserClick(event);    
       });
         
 });
 
-async function handleUserClick(event) {
+async function handleUserClick(event) {   
       const video_link = event.target.closest('a[href^="video/"]');
       if (video_link) {
             if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
@@ -47,6 +48,15 @@ async function handleUserClick(event) {
       if (creator_link) {
             if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
                   spa_navigation.navigateMediaLink(event, creator_link);
+            } else {
+                  console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
+            }
+      }
+
+      const studio_link = event.target.closest('a[href^="studio/"]');
+      if (studio_link) {
+            if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
+                  spa_navigation.navigateMediaLink(event, studio_link);
             } else {
                   console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
             }
@@ -72,5 +82,23 @@ async function handleUserClick(event) {
             } catch(error) {
                   alert(error);
             }
+      }
+
+      const section_homepage = event.target.closest('a[href^="#"]');
+      if(section_homepage) {
+            event.preventDefault();
+            spa_renderHTML.loadContentFromUrl(ClientPages.HOMEPAGE, 'page-content', HomePageController);
+      }
+
+      const section_film = event.target.closest('a[href^="sections/films"]');
+      if(section_film) {
+            event.preventDefault();
+            spa_renderHTML.loadContentFromUrl(ClientSections.FILMS, 'main-content', FilmSectionController);
+      }
+
+      const section_studios = event.target.closest('a[href^="sections/studios"]');
+      if(section_studios) {
+            event.preventDefault();
+            spa_renderHTML.loadContentFromUrl(ClientSections.STUDIOS, 'main-content', StudiosSectionController );
       }
 }

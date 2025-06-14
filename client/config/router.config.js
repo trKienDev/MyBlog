@@ -1,6 +1,7 @@
 import ClientPages from "../constants/client-pages.constant.js";
 import { creatorInforController } from "../pages/creator_info/creator-info.page.js";
 import { playVideoPageController } from "../pages/playvideo/play-video.page.js";
+import { StudioInforController } from "../pages/studios_info/studio-info.page.js";
 
 export const router_config = {
       'video': (id) => ({
@@ -16,17 +17,19 @@ export const router_config = {
             endpoint: ClientPages.CREATORINFO, 
             media_id: id,           
             url: `/info?creator=${id}`,
-            state: { page: 'infor', videoId: id },
+            state: { page: 'infor', creatorId: id },
             title: `Looking ${id}`,
             callback: creatorInforController,
       }),
 
-      'film': (id) => ({
-            endpoint: ClientPages.FILMINFO,
+
+      'studio': (id) => ({
+            endpoint: ClientPages.STUDIOINFO,
             media_id: id,
-            url: `/info?film=${id}`,
-            state: { page: 'infor', videoId: id },
+            url: `/info?studio=${id}`,
+            state: { page: 'infor', studioId: id },
             title: `Looking ${id}`,
-            callback: FilmInforController,
+            callback: StudioInforController,
       }),
+      
 }
