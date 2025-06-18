@@ -19,8 +19,6 @@ export async function creatorInforController(creator_id) {
       });
 }
 
-
-
 async function HandleActiveTab(tab, creator_id) { 
       switch(tab.id) {
             case 'creator_videos-tab': 

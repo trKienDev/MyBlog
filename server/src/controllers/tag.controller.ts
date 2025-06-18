@@ -7,7 +7,7 @@ import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 const repository = new TagRepostory();
 const service = new TagService(repository);
 
-export const getTags = async(req: IncomingMessage, res: ServerResponse) => {
+const GetTags = async(req: IncomingMessage, res: ServerResponse) => {
       try {
             const tags = await repository.getTags();
             return sendResponse(res, 200, tags);
@@ -31,13 +31,13 @@ const getTagById = async(req: ValidateIdRequest, res: ServerResponse) => {
       }
 }
 
-export const GetFilmTags = async(req: IncomingMessage, res: ServerResponse) => {
+const GetTagsByFilm = async(request: IncomingMessage, response: ServerResponse) => {
       try {
             const filmTags = await repository.getFilmTags();
-            return sendResponse(res, 200, filmTags);
+            return sendResponse(response, 200, filmTags);
       } catch(error) {
             console.error('Error getting tag by film: ', error);
-            return sendError(res, 500, error);
+            return sendError(response, 500, error);
       }     
 }
 
@@ -82,7 +82,9 @@ export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
 }
 
 export const tag_controller = {
+      GetTags,
       getTagById,
+      GetTagsByFilm,
       getTagsByVideo,
       getTagsByAction,
       getTagsByCreator,

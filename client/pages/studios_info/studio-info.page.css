@@ -1,0 +1,36 @@
+#studio-infor_page .studio-infor_page-container {
+      width: 80%;
+      margin: 0 auto;
+}
+#studio-infor_page #search-code_form {
+      width: 10%;
+}
+#studio-infor_page .second-row {
+      display: flex;
+}
+#studio-infor_page .left-column {
+      margin-right: 20px;
+}
+#studio-infor_page .studio-code {
+      background-color: var(--light-btn);
+      color: black;
+      padding: 5px 12px;
+      border-radius: 5px;
+      transition: .3s ease;
+      width: 60px;
+      text-align: center;
+      margin-bottom: 10px;
+}
+#studio-infor_page .studio-code:hover {
+      background-color: var(--light-btn_hover);
+      cursor: pointer;
+}
+#studio-infor_page .studio-films_container {
+      display: flex;
+      margin: 0 -8px;
+      flex-wrap: wrap;
+}
+.film-infor_container {
+      text-align: center;
+      padding: 5px;
+}

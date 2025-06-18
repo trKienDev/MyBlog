@@ -41,7 +41,6 @@ async function createNewPlaylist(event) {
 
       const name = document.getElementById('name');
       const data = { name: name.value };
-      console.log('playlist: ', data);
       try {
             const result = await fetch_api.createJson(`${api_configs.endpoints.createPlaylist}`, data);
             if(result.success === false) {

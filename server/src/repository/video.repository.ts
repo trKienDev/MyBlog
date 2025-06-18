@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Video from "../models/video.model.js";
 import { iVideoRepository } from "./interfaces/ivideo.repository.js";
 import { iVideo } from "../models/interface/ivideo.model.js";
-import { CreateVideoDTO, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
+import { CreateVideoDTO, iPaginatedVideoDto, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
 import Film from "../models/film.model.js";
 
 export class VideoRepository implements iVideoRepository {
@@ -10,6 +10,21 @@ export class VideoRepository implements iVideoRepository {
             const videos = await Video.find();
             return videos.map(doc => mappingDocToDTO(doc));
       }
+
+      async FindPaginatedVideos(page: number, limit: number): Promise<iPaginatedVideoDto> {
+            const skip = (page - 1) * limit;
+            const [videos, total] = await Promise.all([
+                  Video.find()
+                        .sort({ createdAt: -1 })
+                        .skip(skip)
+                        .limit(limit)
+                        .exec(),
+                  Video.countDocuments().exec()
+            ]);
+
+            return { videos, total };
+      }
+
 
       async findById(id: string): Promise<VideoDTO | null> {
             const video = await Video.findById(id);

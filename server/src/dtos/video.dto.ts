@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { iVideo } from "../models/interface/ivideo.model";
 
 export interface CreateVideoDTO {
       _id?: mongoose.Types.ObjectId;
@@ -38,4 +39,9 @@ export interface VideoDTO {
       file_path: string;
       views: number;
       likes: number;
+}
+
+export interface iPaginatedVideoDto {
+      videos: iVideo[];
+      total: number;
 }

@@ -1,21 +1,103 @@
 import creator_api from "../../api/creator.api.js";
+import { api_user } from "../../api/endpoint.api.js";
+import fetch_api from "../../api/fetch.api.js";
 import { film_api } from "../../api/film.api.js";
 import { video_api } from "../../api/video.api.js";
 import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
 import videos_component from "../../components/videos.component.js";    
+import { error_sweetAlert } from "../../utils/sweet-alert.js";
+import { showToast } from "../../utils/toast-notification.js";
+
+let current_page = 1;
+const limit = 12;
+let is_loading = false;
+let hasMoreVideos = true;
+
+async function loadMoreVideos() {
+      // 1> Kiểm tra nếu đang tải hoặc đã hết video thì ko làm gì cả
+      if(is_loading || !hasMoreVideos) {
+            return;
+      }
+
+      // 2> Đặt cờ đang tải & hiển thị icon loading
+      is_loading = true;
+      document.getElementById('video-loader').style.display = 'block';
+
+      try {
+            const result = await video_api.GetVideosPaginated({ page: current_page, limit: limit});
+            const videos = result.videos;
+            const pagination = result.pagination;
+
+            if(videos && videos.length > 0) {
+                  // HIỂN THỊ VIDEO LÊN GIAO DIỆN
+                  const video_promises = videos.map(video => createVideoArticle(video));
+                  const video_articles = await Promise.all(video_promises);
+
+                  const newVideos_div = document.querySelector('.new-videos');
+                  video_articles.forEach(article => newVideos_div.appendChild(article));
+                  current_page++;
+                  const totalLoad = pagination.page * pagination.limit;
+                  if(totalLoad >= pagination.total) {
+                        hasMoreVideos = false;
+                        document.getElementById('video-loader').innerHTML = 'Bạn đã xem hết video';
+                  }
+            } else {
+                  hasMoreVideos = false;
+                  document.getElementById('video-loader').innerHTML = 'Bạn đã xem hết video';
+            }
+      } catch(error) {
+            console.error('Error getting videos: ', error);
+            showToast('Error getting videos', 'error');
+      } finally {
+            is_loading = false;
+      }
+}
 
 export async function NewVideosSectionController() {
-      const videos = await video_api.getVideos();
-      const newVideos_div = document.querySelector('.new-videos');
-      newVideos_div.innerHTML = '';
+      console.log("Khởi tạo tính năng Tải vô hạn cho video...");
 
-      const video_promises = videos.map(async (video) => {
-            const video_article = await createVideoArticle(video);
-            newVideos_div.appendChild(video_article);
+      // --- Thiết lập trạng thái ban đầu ---
+      // (Đảm bảo các biến này được reset nếu cần)
+      is_loading = false;
+      hasMoreVideos = true;
+      current_page = 1;
+
+      // Xóa các video cũ để tránh trùng lặp nếu hàm được gọi lại
+      document.querySelector('.new-videos').innerHTML = '';
+
+      // --- BƯỚC 1: THIẾT LẬP "NGƯỜI GIÁM SÁT" KHI CUỘN ---
+      // Lấy phần tử loader ở cuối trang
+      const loader = document.getElementById('video-loader');
+      if (!loader) {
+            console.error("Không tìm thấy phần tử #video-loader.");
+            return;
+      }
+
+      // Tạo một IntersectionObserver
+      const observer = new IntersectionObserver((entries) => {
+            // entries[0] chính là phần tử loader của chúng ta
+            const firstEntry = entries[0];
+            
+            // Nếu loader đi vào trong màn hình (isIntersecting = true)
+            // và chúng ta không đang trong quá trình tải (is_loading = false)
+            if (firstEntry.isIntersecting && !is_loading) {
+            // Thì gọi hàm để tải thêm video
+                  console.log("Đã cuộn đến cuối, đang tải thêm...");
+                  loadMoreVideos(); // <-- GỌI LẦN THỨ 2, 3, 4...
+            }
+      }, {
+            root: null, // Quan sát so với viewport của trình duyệt
+            threshold: 0.1 // Kích hoạt khi 10% của loader hiện ra
       });
 
-      await Promise.all(video_promises);
+      // Bắt đầu quan sát phần tử loader
+      observer.observe(loader);
+
+      // --- BƯỚC 2: TẢI DỮ LIỆU LẦN ĐẦU TIÊN ---
+      // Gọi hàm này ngay lập tức để tải trang 1 mà không cần chờ người dùng cuộn.
+      console.log("Đang tải loạt video đầu tiên...");
+      loadMoreVideos(); // <-- GỌI LẦN ĐẦU TIÊN
 }
 
 async function createVideoArticle(video) {

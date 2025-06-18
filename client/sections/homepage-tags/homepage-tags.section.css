@@ -1,0 +1,9 @@
+#list-tags .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+}
+#list-tags .tag-item {
+      color: black;
+      width: fit-content;
+}

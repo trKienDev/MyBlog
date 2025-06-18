@@ -1,4 +1,5 @@
 import api_configs from './api.config.js';
+import { api_user } from './endpoint.api.js';
 import fetch_api from './fetch.api.js';
 
 async function getTags() {
@@ -24,10 +25,41 @@ async function getTagName(tag_id) {
       return tag.name;
 }
 
+async function GetTagsByFilm() {
+      const result = await fetch_api.apiGet(api_user.getTagsByFilm);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+
+      return result.data;
+}
+
+async function GetTagsByVideo() {
+      const result = await fetch_api.apiGet(api_user.getTagsByVideo);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+
+      return result.data;
+}
+
+async function GetTagsByCreator() {
+      const result = await fetch_api.apiGet(api_user.getTagsByCreator);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+
+      return result.data;
+}
+
+
 const tag_api = {
       getTags,
       getTagById,
       getTagName,
+      GetTagsByFilm,
+      GetTagsByVideo,
+      GetTagsByCreator,
 };
 export default tag_api;
 

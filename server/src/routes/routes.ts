@@ -24,7 +24,7 @@ export function handleRoutes(req: CustomRequest, res: ServerResponse) {
 export function createRouter(routes: Route[]) {
       return function(req: CustomRequest, res: ServerResponse) {
             const { url, method } = req;
-            const [pathname] = url ? url.split('?') : [''];
+            const [pathname, query_string] = url ? url.split('?') : [''];
             const matchedRoute = routes.find(route => {
                   const routeSegments = route.path.split('/');
                   const pathSegments = pathname.split('/');
@@ -52,6 +52,15 @@ export function createRouter(routes: Route[]) {
                   }
 
                   req.params = params;
+
+                  const query: any = {};
+                  if(query_string) {
+                        const search_params = new URLSearchParams(query_string);
+                        for(const [key, value] of search_params.entries()) {
+                              query[key] = value;
+                        }
+                  }
+                  req.query = query;
                   matchedRoute.handler(req, res);
             } else {
                   console.log('url: ', url);

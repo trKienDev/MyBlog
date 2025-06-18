@@ -19,50 +19,50 @@ export async function initVideoAdmin() {
       renderListVideo();
 }     
 
-async function renderListVideo() {      
-      try {
-            const tbody = document.querySelector(`#${id_selectors.table.video_tbody}`);
-            tbody.innerHTML = '';
+// async function renderListVideo() {      
+//       try {
+//             const tbody = document.querySelector(`#${id_selectors.table.video_tbody}`);
+//             tbody.innerHTML = '';
             
-            const videos = await video_api.getVideos();
-            console.log('videos: ', videos);
-            videos.forEach(async (video) => {
-                  const tr = table_component.createTrWithId(video._id, 'video-tr');
+//             const videos = await video_api.getVideos();
+//             console.log('videos: ', videos);
+//             videos.forEach(async (video) => {
+//                   const tr = table_component.createTrWithId(video._id, 'video-tr');
                   
-                  const edit_btn = await table_component.createEditBtn(
-                        css_selectors.container.edit_container, 
-                        video, 
-                        redirectToEditVideoPage
-                  );
-                  tr.appendChild(edit_btn);
+//                   const edit_btn = await table_component.createEditBtn(
+//                         css_selectors.container.edit_container, 
+//                         video, 
+//                         redirectToEditVideoPage
+//                   );
+//                   tr.appendChild(edit_btn);
 
-                  const video_td = await table_component.createVideoTdFromApi({ 
-                        ifile_path: video.file_path, 
-                        iupload_path: 'videos',
-                        icss: css_selectors.videos.video_td 
-                  });
-                  tr.appendChild(video_td);
+//                   const video_td = await table_component.createVideoTdFromApi({ 
+//                         ifile_path: video.file_path, 
+//                         iupload_path: 'videos',
+//                         icss: css_selectors.videos.video_td 
+//                   });
+//                   tr.appendChild(video_td);
 
-                  const film_name = await film_api.getFilmNameById(video.film_id);
-                  const filmName_td = table_component.createTextTd({ i_text: film_name});
-                  tr.appendChild(filmName_td);
+//                   const film_name = await film_api.getFilmNameById(video.film_id);
+//                   const filmName_td = table_component.createTextTd({ i_text: film_name});
+//                   tr.appendChild(filmName_td);
 
-                  const creatorAvatar_td = await table_component.createImgTdFromApi({ 
-                        apiFn: creator_api.getCreatorImg,
-                        id: video.creator_id,
-                        upload_path: ServerFolders.CREATOR_AVATARS,
-                        css_class: css_selectors.creators.creator_image 
-                  });
-                  tr.appendChild(creatorAvatar_td);
+//                   const creatorAvatar_td = await table_component.createImgTdFromApi({ 
+//                         apiFn: creator_api.getCreatorImg,
+//                         id: video.creator_id,
+//                         upload_path: ServerFolders.CREATOR_AVATARS,
+//                         css_class: css_selectors.creators.creator_image 
+//                   });
+//                   tr.appendChild(creatorAvatar_td);
 
-                  const video_views = table_component.createTextTd({ i_text: video.views, i_css: css_selectors.videos.video_views });
-                  tr.appendChild(video_views);
+//                   const video_views = table_component.createTextTd({ i_text: video.views, i_css: css_selectors.videos.video_views });
+//                   tr.appendChild(video_views);
 
-                  tbody.appendChild(tr);
-            })            
-      } catch(error) {
-            console.error('Error in renderListVideo: ', error);
-            error_sweetAlert('Error loading videos: ', error.message);
-      }
-}
+//                   tbody.appendChild(tr);
+//             })            
+//       } catch(error) {
+//             console.error('Error in renderListVideo: ', error);
+//             error_sweetAlert('Error loading videos: ', error.message);
+//       }
+// }
 

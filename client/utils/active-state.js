@@ -3,7 +3,6 @@ function InitializeActiveState(activatableClassName, onElementActivated) {
 
       const activeElementSelector = `${activatableSelector}.active`;
 
-
       activeState_utils.handleElementActiveState(activatableSelector, (activatedElement) => {
             onElementActivated(activatedElement);
       });

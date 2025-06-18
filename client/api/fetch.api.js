@@ -16,7 +16,6 @@ async function apiGet(endpoint) {
             throw new Error(`Error in GET api: ${error}`);
       }
 }
-
 async function createForm(endpoint, form) {
       try {
             const response = await fetch(`${api_configs.server}${endpoint}`, {

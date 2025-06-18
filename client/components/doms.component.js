@@ -3,9 +3,12 @@ function createArticle(css_clas) {
       article.classList.add(css_clas);
       return article;
 }
-function createDiv(css_clas) {
+function createDiv(css_clas, text) {
       const div = document.createElement('div');
       div.classList.add(css_clas);
+      if(text) {
+            div.textContent = text;
+      }
       return div;
 }
 function createAhref({ href, text, css_class }) {

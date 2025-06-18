@@ -1,4 +1,4 @@
-import { request, ServerResponse } from "http";
+import { IncomingMessage, request, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { VideoService } from "../services/video.service.js";
@@ -14,6 +14,21 @@ const getVideos = async(request: CustomRequest, response: ServerResponse) => {
             return sendResponse(response, 200, videos);
       } catch(error) {
             console.error('Error get all videos: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
+const getVIdeosPaginated = async(request: CustomRequest, response: ServerResponse) => {
+      try {
+            const page_str = request.query?.page;
+            const page_number = parseInt(page_str as string) || 1;
+            const limit_str = request.query?.limit;
+            const limit_number = parseInt(limit_str as string) || 10;
+
+            const videos = await video_service.getPaginatedVideos(page_number, limit_number);
+            return sendResponse(response, 200, videos);
+      } catch(error) {
+            console.error('Error get paginated videos');
             return sendError(response, 500, error);
       }
 }
@@ -96,6 +111,7 @@ const increaseVideoLikeByOne = async(request: ValidateIdRequest, response: Serve
 
 const video_controller = {
       getVideos,
+      getVIdeosPaginated,
       findVideoById,
       findVideosByCreatorId,
       createVideo,

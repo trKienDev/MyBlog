@@ -8,6 +8,8 @@ import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 import { parseJSON } from "../middlewares/json-parser.js";
 import mongoose from "mongoose";
+import { iVideo } from "../models/interface/ivideo.model.js";
+import { IncomingMessage } from "http";
 
 export class VideoService {
       private video_repository: iVideoRepository;
@@ -39,6 +41,19 @@ export class VideoService {
             };
 
             return await this.video_repository.createVideo(new_video);
+      }
+
+      async getPaginatedVideos(page: number, limit: number) {
+            const { videos, total } = await this.video_repository.FindPaginatedVideos(page, limit);
+            const paginated_videos = videos.map(doc => MappingDocToDTO(doc));
+            return {
+                  videos: paginated_videos,
+                  pagination: {
+                        page: page,
+                        limit: limit,
+                        total: total
+                  }
+            }
       }
 
       async updateVideo(req: ValidateIdRequest): Promise<UpdateVideoDTO | null> {
@@ -83,8 +98,7 @@ export class VideoService {
             if(!playlist_ids) {
                   throw new Error('Missing required information');
             }
-            console.log('video_id: ', video_id);
-            console.log('playlist_ids: ', playlist_ids);
+
             const addedPlaylistVideo = await this.video_repository.addPlaylistsToVideo(video_id, playlist_ids);
             return addedPlaylistVideo;
       }
@@ -131,5 +145,22 @@ export class VideoService {
             }
 
             return updated_video;
+      }
+}
+
+function MappingDocToDTO(doc: iVideo): VideoDTO {
+      return {
+            _id: doc._id,
+            name: doc.name,
+            action_id: doc.action_id.toString(),
+            creator_id: doc.creator_id?.toString() ?? "",
+            film_id: doc.film_id.toString(),
+            code_id: doc.code_id.toString(),
+            studio_id: doc.studio_id.toString(),
+            playlist_ids: doc.playlist_ids?.map(id => id.toString()),
+            tag_ids: doc.tag_ids.map(id => id.toString()),
+            file_path: doc.file_path,
+            views: doc.views,
+            likes: doc.likes,
       }
 }

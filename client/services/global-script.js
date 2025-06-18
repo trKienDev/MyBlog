@@ -5,6 +5,7 @@ import doms_component from "../components/doms.component.js";
 import ClientSections from "../constants/client-sections.constant.js";
 import dom_id from "../constants/doms.constant.js";
 import { FilmSectionController } from "../sections/films/films.section.js";
+import { HomepageTagsSectionController } from "../sections/homepage-tags/homepage-tags.section.js";
 import { StudiosSectionController } from "../sections/studios/studio.section.js";
 import spa_navigation from "./spa/navigate-link.spa.js";
 import spa_renderHTML from "./spa/render-html.js";
@@ -62,6 +63,15 @@ async function handleUserClick(event) {
             }
       }
 
+      const tag_link = event.target.closest('a[href^="tag/"]');
+      if(tag_link) {
+             if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
+                  spa_navigation.navigateMediaLink(event, tag_link);
+            } else {
+                  console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
+            }
+      }
+
       const film_link = event.target.closest('a[href^="film/"]');
       if(film_link) {
             event.preventDefault();
@@ -100,5 +110,11 @@ async function handleUserClick(event) {
       if(section_studios) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.STUDIOS, 'main-content', StudiosSectionController );
+      }
+
+      const section_tags = event.target.closest('a[href^="sections/tags"]');
+      if(section_tags) {
+            event.preventDefault();
+            spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_TAGS , 'main-content', HomepageTagsSectionController);
       }
 }

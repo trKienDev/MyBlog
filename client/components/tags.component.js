@@ -16,7 +16,7 @@ function createTagLi(tag, tag_css) {
       return tag_li;
 }
 
-function createTagDiv(tag, tag_css) {
+function createTagDiv(tag, tag_css,) {
       const tag_div = doms_component.createDiv(tag_css);
       const tag_ahref = createTagAhref(tag);
       tag_div.appendChild(tag_ahref);
@@ -26,7 +26,7 @@ function createTagDiv(tag, tag_css) {
 
 function createTagAhref(tag) {
       const tag_ahref = doms_component.createAhref({
-            href: tag.url || `#${encodeURIComponent(tag.name.trim().toLowerCase().replace(/\s+/g, '-'))}`,
+            href: `tag/#id=${tag._id}`,
             text: tag.name,
             css_class: 'tag-link',
       });

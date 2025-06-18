@@ -5,7 +5,7 @@ async function initSelectSearch(elment_id, endpoint, value) {
       const list = await getSelectList(endpoint);
       createSelectSearchElement(elment_id, list, value);
 }
- 
+
 async function getSelectList(endpoint) {
       const result = await fetch_api.apiGet(endpoint);
       if(result.success === false) {

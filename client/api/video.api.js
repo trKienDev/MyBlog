@@ -17,6 +17,24 @@ async function getVideos() {
       return result.data;
 }
 
+/**
+ * Gọi API để lấy danh sách video có phân trang.
+ * @param {object} params - Một object chứa page và limit.
+ * @param {number} params.page - Trang hiện tại cần lấy.
+ * @param {number} params.limit - Số lượng video trên mỗi trang.
+ * @returns {Promise<object>} - Toàn bộ object kết quả trả về từ server, 
+ * bao gồm { success, data, pagination }.
+ */
+async function GetVideosPaginated({ page, limit }) {
+      const enpoint = api_user.GetPaginatedVideos;
+      const url = `${enpoint}?page=${page}&limit=${limit}`; 
+
+      const result = await  fetch_api.apiGet(url);
+      if(!result || result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
+
 async function getVideosByCreatorId(creator_id) {
       const result = await fetch_api.apiGet(`${api_user.getVideosByCreatorId}/${creator_id}`);
       if(result.success === false) throw new Error(result.error);
@@ -59,6 +77,7 @@ async function increaseVideoLikeByOne(video_id) {
 
 export const video_api = {
       getVideos,
+      GetVideosPaginated,
       getVideoById,
       getVideoName,
       getVideosByCreatorId,

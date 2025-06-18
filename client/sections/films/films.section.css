@@ -1,29 +1,5 @@
-
-#list-films_section .film-infor_container {
-      text-align: center;
-      padding: 5px;
-}
 #list-films_section .list-films_section-wrapper {
       display: flex;
       margin: 0px -8px;
       flex-wrap: wrap;
-}
-#list-films_section .film-article {
-      padding: 0 8px;
-      width: fit-content;
-}
-#list-films_section .film-article_container {
-      width: fit-content;
-      border-radius: 8px;
-      background-color: var(--dark-gray);
-}
-#list-films_section .film-article_container:hover {
-      background-color: #3a3d44;
-      transition: .3s;
-}
-#list-films_section .film-thumbnail_container {
-      border-radius: 5px;
-}
-#list-films_section .film-thumbnail_image {
-      height: 300px;
 }

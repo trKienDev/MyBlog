@@ -74,15 +74,23 @@ async function selectFilmTags(tagId) {
 
 function renderSelectElement(selectId, data, placeholder, value, option) {
       try {
-            const selectElement = document.getElementById(selectId);
-            selectElement.innerHTML = `<option value="" disabled selected multiple>Select ${placeholder}</option>`;
-            if(option === 1 ) selectElement.innerHTML = '';
+            const select_element = document.getElementById(selectId);
+            // selectElement.innerHTML = `<option value="" disabled selected multiple>Select ${placeholder}</option>`;
+            // if(option === 1 ) selectElement.innerHTML = '';
+            // data.forEach(item => {
+            //       const option = document.createElement('option');
+            //       option.value = item._id;
+            //       option.textContent = item[value];
+            //       selectElement.appendChild(option);
+            // });
+            if(!select_element) return;
+            
+            let options_html = '';
             data.forEach(item => {
-                  const option = document.createElement('option');
-                  option.value = item._id;
-                  option.textContent = item[value];
-                  selectElement.appendChild(option);
+                  options_html +=  `<option value="${item._id}">${item[value]}</option>`;
             });
+            select_element.innerHTML = options_html;
+
       } catch(error) {
             console.error('Error in RenderSelectElement: ', error);
             error_sweetAlert(error);
