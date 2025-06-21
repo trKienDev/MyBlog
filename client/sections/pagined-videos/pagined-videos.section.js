@@ -14,7 +14,7 @@ const limit = 12;
 let is_loading = false;
 let hasMoreVideos = true;
 
-async function loadMoreVideos() {
+async function loadMoreVideos(element_id, filters = {}) {
       // 1> Kiểm tra nếu đang tải hoặc đã hết video thì ko làm gì cả
       if(is_loading || !hasMoreVideos) {
             return;
@@ -23,9 +23,8 @@ async function loadMoreVideos() {
       // 2> Đặt cờ đang tải & hiển thị icon loading
       is_loading = true;
       document.getElementById('video-loader').style.display = 'block';
-
       try {
-            const result = await video_api.GetVideosPaginated({ page: current_page, limit: limit});
+            const result = await video_api.GetVideosPaginated({ page: current_page, limit: limit, filters: filters});
             const videos = result.videos;
             const pagination = result.pagination;
 
@@ -34,7 +33,7 @@ async function loadMoreVideos() {
                   const video_promises = videos.map(video => createVideoArticle(video));
                   const video_articles = await Promise.all(video_promises);
 
-                  const newVideos_div = document.querySelector('.new-videos');
+                  const newVideos_div = document.getElementById(element_id);
                   video_articles.forEach(article => newVideos_div.appendChild(article));
                   current_page++;
                   const totalLoad = pagination.page * pagination.limit;
@@ -54,8 +53,16 @@ async function loadMoreVideos() {
       }
 }
 
-export async function NewVideosSectionController() {
+// Hiển thị tất cả videos
+// PaginedVideosSectionController('all-videos-container');
+// Hiển thị video theo tag_id
+// PaginedVideosSectionController('filtered-videos-container', { tagId: 'abcde12345' });
+// HIển thị video theo creator_id
+// PaginedVideosSectionController('creator-video-list', { creatorId: creatorId });
+export async function PaginedVideosSectionController(element_id, initial_filters = {}) {
       console.log("Khởi tạo tính năng Tải vô hạn cho video...");
+
+      const active_filters = initial_filters;
 
       // --- Thiết lập trạng thái ban đầu ---
       // (Đảm bảo các biến này được reset nếu cần)
@@ -64,7 +71,7 @@ export async function NewVideosSectionController() {
       current_page = 1;
 
       // Xóa các video cũ để tránh trùng lặp nếu hàm được gọi lại
-      document.querySelector('.new-videos').innerHTML = '';
+      document.getElementById(element_id).innerHTML = '';
 
       // --- BƯỚC 1: THIẾT LẬP "NGƯỜI GIÁM SÁT" KHI CUỘN ---
       // Lấy phần tử loader ở cuối trang
@@ -73,6 +80,9 @@ export async function NewVideosSectionController() {
             console.error("Không tìm thấy phần tử #video-loader.");
             return;
       }
+      loader.style.display = 'block';
+      // bổ sung sau
+      // loader.innerHTML = '<div class="spinner"></div>'; // Ví dụ icon loading
 
       // Tạo một IntersectionObserver
       const observer = new IntersectionObserver((entries) => {
@@ -84,7 +94,7 @@ export async function NewVideosSectionController() {
             if (firstEntry.isIntersecting && !is_loading) {
             // Thì gọi hàm để tải thêm video
                   console.log("Đã cuộn đến cuối, đang tải thêm...");
-                  loadMoreVideos(); // <-- GỌI LẦN THỨ 2, 3, 4...
+                  loadMoreVideos(element_id, active_filters); // <-- GỌI LẦN THỨ 2, 3, 4...
             }
       }, {
             root: null, // Quan sát so với viewport của trình duyệt
@@ -97,7 +107,8 @@ export async function NewVideosSectionController() {
       // --- BƯỚC 2: TẢI DỮ LIỆU LẦN ĐẦU TIÊN ---
       // Gọi hàm này ngay lập tức để tải trang 1 mà không cần chờ người dùng cuộn.
       console.log("Đang tải loạt video đầu tiên...");
-      loadMoreVideos(); // <-- GỌI LẦN ĐẦU TIÊN
+      console.log('active_filters: ', active_filters);
+      loadMoreVideos(element_id, active_filters); // <-- GỌI LẦN ĐẦU TIÊN
 }
 
 async function createVideoArticle(video) {

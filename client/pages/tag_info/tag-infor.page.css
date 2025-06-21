@@ -1,0 +1,8 @@
+#tag-infor_page .tag-infor_page-container {
+      width: 90%;
+      margin: 0 auto;
+}
+#tag-infor_page #tag-name {
+      width: fit-content;
+      margin-bottom: 20px;
+}

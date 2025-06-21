@@ -41,7 +41,15 @@ export class FilmRepository implements iFilmRepository {
                   throw error instanceof Error ? error : new Error(String(error));
             }
       }
+      async FindFilmsByTagId(tag_id: string): Promise<FilmDTO[] | null> {
+            if(!mongoose.Types.ObjectId.isValid(tag_id)) {
+                  console.warn("Invalid tag_id");
+                  throw new Error('invalid tag_id');
+            }
 
+            const films = await Film.find({ tag_ids: new mongoose.Types.ObjectId(tag_id)});
+            return films.map(doc => mappingDocToDTO(doc));
+      }
       async FindByCreatorId(creator_id: string): Promise<FilmDTO[]> {
             if(!mongoose.Types.ObjectId.isValid(creator_id)) {
                   console.warn("Invalid creator_id");

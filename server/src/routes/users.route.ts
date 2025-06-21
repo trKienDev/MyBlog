@@ -18,10 +18,11 @@ const user_routes: Route[] = [
       // films
       { method: 'GET', path: '/films', handler: filmController.getFilms },
       { method: 'GET', path: '/films/creator/:id', handler: validated_id.validateId( filmController.FindFIlmsByCreator )},
+      { method: 'GET', path: '/films/tag/:id', handler: validated_id.validateId( filmController.FindFilmsByTagId   )},
       { method: 'GET', path: '/films/studio/:id', handler: validated_id.validateId( filmController.FindFilmsByStudio )},
 
       // studios
-       { method: 'GET', path: '/studios', handler: studio_controller.GetStudios },
+      { method: 'GET', path: '/studios', handler: studio_controller.GetStudios },
 
       // tag
       { method: 'GET', path: '/api/tags', handler: tag_controller.GetTags },

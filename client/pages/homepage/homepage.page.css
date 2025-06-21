@@ -1,3 +1,6 @@
 .homepage-bottom {
       display: flex;
 }
+#new-videos-section {
+      width: 90%;
+}

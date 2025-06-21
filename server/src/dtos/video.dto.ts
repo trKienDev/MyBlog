@@ -45,3 +45,12 @@ export interface iPaginatedVideoDto {
       videos: iVideo[];
       total: number;
 }
+
+export interface iVIdeoPaginatedFilters {
+      tag_id?: string;
+      creator_id?: string;
+      studio_id?: string;
+      code_id?: string;
+      playlist_id?: string;
+      action_id?: string;
+}

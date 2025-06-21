@@ -44,6 +44,15 @@ async function GetFilmsByCreatorId(creator_id) {
       return result.data;
 }
 
+async function GetFilmsByTagId(tag_id) {
+      const result = await fetch_api.apiGet(`${api_user.getFilmsByTagId}/${tag_id}`);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+
+      return result.data;
+}
+
 async function GetFilmsByStudioId(studio_id) {
       const result = await fetch_api.apiGet(`${api_user.getFilmsByStudioId}/${studio_id}`);
       if(result.success === false) {
@@ -56,6 +65,7 @@ async function GetFilmsByStudioId(studio_id) {
 export const film_api = {
       GetFilms,
       findFilmById,
+      GetFilmsByTagId,
       getFilmNameById,
       getFilmsByStudioCode,
       getFilmThumbnail,

@@ -38,7 +38,17 @@ function createLiElement(css_class) {
 
       return li_element;
 }
+function CreateSection({id, css_class}) {
+      const section_element = document.createElement('section');
+      if(id) {
+            section_element.id = id;
+      }
+      if(css_class) {
+            section_element.classList.add(css_class);
+      }
 
+      return section_element;
+}
 const doms_component = {
       createArticle,
       createDiv,
@@ -46,5 +56,6 @@ const doms_component = {
       createH3,
       createSpan,
       createLiElement,
+      CreateSection,
 }
 export default doms_component;

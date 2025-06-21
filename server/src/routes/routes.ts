@@ -39,7 +39,6 @@ export function createRouter(routes: Route[]) {
 
                   return true;
             });
-
             if(matchedRoute) {
                   const routeSegments = matchedRoute.path.split('/');
                   const pathSegments = pathname.split('/');

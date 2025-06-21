@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Video from "../models/video.model.js";
 import { iVideoRepository } from "./interfaces/ivideo.repository.js";
 import { iVideo } from "../models/interface/ivideo.model.js";
-import { CreateVideoDTO, iPaginatedVideoDto, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
+import { CreateVideoDTO, iPaginatedVideoDto, iVIdeoPaginatedFilters, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
 import Film from "../models/film.model.js";
 
 export class VideoRepository implements iVideoRepository {
@@ -11,17 +11,39 @@ export class VideoRepository implements iVideoRepository {
             return videos.map(doc => mappingDocToDTO(doc));
       }
 
-      async FindPaginatedVideos(page: number, limit: number): Promise<iPaginatedVideoDto> {
+      async FindPaginatedVideos(page: number, limit: number, filters: iVIdeoPaginatedFilters): Promise<iPaginatedVideoDto> {
             const skip = (page - 1) * limit;
-            const [videos, total] = await Promise.all([
-                  Video.find()
+            const filter_query: any = {};
+            console.log('filters in repository: ', filters);
+            if(filters.action_id && mongoose.Types.ObjectId.isValid(filters.action_id)) {
+                  filter_query.action_id = new mongoose.Types.ObjectId(filters.action_id);
+            }
+            if(filters.creator_id && mongoose.Types.ObjectId.isValid(filters.creator_id)) {
+                  filter_query.creator_id = new mongoose.Types.ObjectId(filters.creator_id);
+            }
+            if(filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
+                  filter_query.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
+            }
+            if(filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
+                  filter_query.code_id = new mongoose.Types.ObjectId(filters.code_id);
+            }
+            console.log('filter.tag_id: ', filters.tag_id);
+            if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
+                  filter_query.tag_ids = new mongoose.Types.ObjectId(filters.tag_id);
+            }
+            if(filters.playlist_id && mongoose.Types.ObjectId.isValid(filters.playlist_id)) {
+                  filter_query.playlist_id = new mongoose.Types.ObjectId(filters.playlist_id);
+            }
+            console.log('filter_query in repository: ', filter_query);
+            const [ videos, total ] = await Promise.all([
+                  Video.find(filter_query)
                         .sort({ createdAt: -1 })
                         .skip(skip)
                         .limit(limit)
                         .exec(),
-                  Video.countDocuments().exec()
+                  Video.countDocuments(filter_query).exec()
             ]);
-
+            console.log('videos: ', videos);
             return { videos, total };
       }
 

@@ -16,6 +16,7 @@ export const api_user = {
       getFilmsByCreatorId : '/films/creator', // GET
       getFilms: '/films', // GET
       getFilmsByStudioId: '/films/studio', // GET
+      getFilmsByTagId: '/films/tag', // GET
       // tags
       addPlaylistsToVideo: '/video/playlists', // PUT
       getTagsByCreator: '/api/tags/creator', // GET

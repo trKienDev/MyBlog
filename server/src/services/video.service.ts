@@ -1,4 +1,4 @@
-import { CreateVideoDTO, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
+import { CreateVideoDTO, iVIdeoPaginatedFilters, UpdateVideoDTO, VideoDTO } from "../dtos/video.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
@@ -43,8 +43,8 @@ export class VideoService {
             return await this.video_repository.createVideo(new_video);
       }
 
-      async getPaginatedVideos(page: number, limit: number) {
-            const { videos, total } = await this.video_repository.FindPaginatedVideos(page, limit);
+      async getPaginatedVideos(page: number, limit: number, filters: iVIdeoPaginatedFilters) {
+            const { videos, total } = await this.video_repository.FindPaginatedVideos(page, limit, filters);
             const paginated_videos = videos.map(doc => MappingDocToDTO(doc));
             return {
                   videos: paginated_videos,
