@@ -66,6 +66,12 @@ async function getVideoName(id) {
       return result.name;
 }
 
+async function GetFilmIdFromVideo(id) {
+      const result = await getVideoById(id);
+      if(result.success === false) throw new Error(result.error);
+      return result.film_id;
+}
+
 async function updateVideo(video_id, form_data) {
       const result = await fetch_api.updateForm(`${api_configs.endpoints.updateVideo}/${video_id}`, form_data);
       if(result.success === false) throw new Error(result.error);
@@ -94,6 +100,7 @@ export const video_api = {
       getVideoName,
       getVideosByCreatorId,
       getVideoFilePath,
+      GetFilmIdFromVideo,
       updateVideo,
       increaseVideoViewsByOne,
       increaseVideoLikeByOne,

@@ -1,4 +1,5 @@
 import code_controller from "../controllers/code.controller.js";
+import collection_controller from "../controllers/collection.controller.js";
 import { creator_controller } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
@@ -12,25 +13,30 @@ import { createRouter } from "./routes.js";
 const user_routes: Route[] = [
       // codes
       { method: 'GET', path: '/api/codes/studio/:id', handler: validated_id.validateId(code_controller.GetCodesByStudio) },
+      // collections
+      { method: 'GET', path: '/api/collections', handler: collection_controller.getCollections },
       // creators
       { method: 'GET', path: '/creators', handler: creator_controller.GetCreators },
+      { method: 'GET', path: '/api/creators/tag/:id', handler: validated_id.validateId( creator_controller.GetCreatorByTagId )},
 
       // films
       { method: 'GET', path: '/films', handler: filmController.getFilms },
       { method: 'GET', path: '/films/creator/:id', handler: validated_id.validateId( filmController.FindFIlmsByCreator )},
       { method: 'GET', path: '/films/tag/:id', handler: validated_id.validateId( filmController.FindFilmsByTagId   )},
       { method: 'GET', path: '/films/studio/:id', handler: validated_id.validateId( filmController.FindFilmsByStudio )},
+      { method: 'GET', path: '/films/collection/:id', handler: validated_id.validateId( filmController.GetFilmsByCollection )},
 
       // studios
       { method: 'GET', path: '/studios', handler: studio_controller.GetStudios },
 
-      // tag
+      // tags
       { method: 'GET', path: '/api/tags', handler: tag_controller.GetTags },
       { method: 'GET', path: '/api/tags/creator', handler: tag_controller.getTagsByCreator },
       { method: 'GET', path: '/api/tags/film', handler: tag_controller.GetTagsByFilm },
       { method: 'GET', path: '/api/tags/video', handler: tag_controller.getTagsByVideo },
+      { method: 'GET', path: '/api/tags/videos/homepage', handler: tag_controller.GetTagsForVideoHomepage },
       // playlist
-      { method: 'GET', path: '/playlists', handler: playlist_controller.getPlaylists },
+      { method: 'GET', path: '/api/playlists', handler: playlist_controller.getPlaylists },
 
       // video
       { method: 'GET', path: '/video/:id', handler: validated_id.validateId(video_controller.findVideoById)},

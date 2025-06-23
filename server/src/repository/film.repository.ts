@@ -3,6 +3,7 @@ import { CreateFilmDTO, FilmDTO, UpdateFilmDTO } from "../dtos/film.dto.js";
 import { iFilmRepository } from "./interfaces/ifilm.repository.js";
 import Film from "../models/film.model.js";
 import { iFilm } from "../models/interface/ifilm.model.js";
+import Collection from "../models/collection.model.js";
 
 export class FilmRepository implements iFilmRepository {
       async getFilms(): Promise<FilmDTO[] | null> {
@@ -70,6 +71,18 @@ export class FilmRepository implements iFilmRepository {
             return films.map(doc => mappingDocToDTO(doc));
       }
 
+      async FindByCollectionId(collection_id: string): Promise<FilmDTO[]> {
+            if(!mongoose.Types.ObjectId.isValid(collection_id)) {
+                  console.warn("Invalid collection id");
+                  throw new Error("Invalid collection id");
+            }
+
+            const films = await Film.find({ collection_id: new mongoose.Types.ObjectId(collection_id)});
+            return films.map(doc => mappingDocToDTO(doc));
+      }
+
+
+
       async createFilm(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>> {
             const newFilm = new Film({
                   name: data.name,
@@ -136,6 +149,20 @@ export class FilmRepository implements iFilmRepository {
                   return null;
             }            
       }
+
+      async UpdateCollectionsToFilm(film_id: string, collection_id: string): Promise<FilmDTO | null> {
+            console.log('run UpdateCollectionsToFilm in repository');
+            const updated_film = await Film.findByIdAndUpdate(
+                  film_id,
+                  { $set: { collection_id: collection_id }},
+                  {
+                        new: true,
+                        runValidators: true
+                  }
+            );
+
+            return updated_film ? mappingDocToDTO(updated_film) : null;
+      }
 }
 
 function mappingDocToDTO(doc: iFilm): FilmDTO {
@@ -149,7 +176,7 @@ function mappingDocToDTO(doc: iFilm): FilmDTO {
             thumbnail: doc.thumbnail,
             rating: doc.rating,
             ...(doc.video_ids?.length && { video_ids: doc.video_ids }),
-            collection_id: doc.collection_id,
+            collection_id: doc?.collection_id,
             code_id: doc.code_id,
             tag_ids: doc.tag_ids,
       }

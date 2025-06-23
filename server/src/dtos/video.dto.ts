@@ -51,6 +51,6 @@ export interface iVIdeoPaginatedFilters {
       creator_id?: string;
       studio_id?: string;
       code_id?: string;
-      playlist_id?: string;
+      playlist_ids?: string;
       action_id?: string;
 }

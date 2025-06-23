@@ -1,3 +1,4 @@
+import collection_api from "../../api/collection.api.js";
 import creator_api from "../../api/creator.api.js";
 import { film_api } from "../../api/film.api.js";
 import playlist_api from "../../api/playlist.api.js";
@@ -14,16 +15,19 @@ import dom_id from "../../constants/doms.constant.js";
 import { ServerFolders } from "../../constants/folders.constant.js";
 import date_utils from "../../utils/date.utils.js";
 import { showToast } from "../../utils/toast-notification.js";
+import { FilmCollectionModalController } from "./add-film-collection.modal.js";
 import { videoPlaylistModalController } from "./video-playlist-modal.js";
 
 export async function playVideoPageController(video_id) {
       await increaseVideoViewByOne(video_id);
       const video = await video_api.getVideoById(video_id);
-
       renderVideoData(video);
       renderFilmData(video.film_id);
       renderFilmVideo(video); 
       videoPlaylistModalController(video);
+
+      const film_id = await video_api.GetFilmIdFromVideo(video_id);
+      FilmCollectionModalController(film_id);    
 
       const likeVideo_btn = document.getElementById('like-video');
       likeVideo_btn.addEventListener('click', async(event) => {
@@ -72,7 +76,6 @@ async function populateVideoTags(video) {
 }
 export async function populateVideoPlaylist(video) {   
       const videoPlaylist_element = document.getElementById('video-playlist');
-      console.log('playlist_ids: ', video.playlist_ids);
       video.playlist_ids.forEach(async (playlist_id) => {
             const playlist_name = await playlist_api.getPlaylistName(playlist_id);
             const playlist_ahref = doms_component.createAhref({ 
@@ -86,7 +89,7 @@ export async function populateVideoPlaylist(video) {
 async function renderFilmData(film_id) {
       thumbnail_component.updateFilmThumbnailSource({ film_id: film_id, thumbnailElement_id: dom_id.VIDEO_FILM_THUMBNAIL, upload_path: `${ServerFolders.FILMS}`});
       const film_info = await film_api.findFilmById(film_id);
-      console.log('film info: ', film_info);
+
       populateFilmName(film_info);
       PopulateFilmCreator(film_info);
       populateFilmStudio(film_info);
@@ -99,7 +102,7 @@ async function renderFilmData(film_id) {
             text: film_info.description,
             css_class: 'film-description',
       });
-      filmDescription_div.appendChild(filmDescrption_span);
+      filmDescription_div.appendChild(filmDescrption_span);      
 }     
 function populateFilmName(film_info) {
       const filmName_ahref = doms_component.createAhref({
@@ -118,16 +121,13 @@ async function PopulateFilmCreator(film_info) {
             const filmCreator_ahref = doms_component.createAhref({
                   href: `creator/#id=${creator_id}`,
                   text: creator_info.name,
-                  css_class: 'creatpr-name',
+                  css_class: 'creator-name',
             });
             filmCreator_element.appendChild(filmCreator_ahref);
 
             const creator_age = date_utils.calculateAgeFromTwoYearStr(film_info.date, creator_info.birth);
-            const creatorAge_span = doms_component.createSpan({
-                  text: `[ ${creator_age} ]`,
-                  css_class: 'creator-age',
-            });
-            filmCreator_element.appendChild(creatorAge_span);
+            const creatorAge_div = doms_component.createDiv('creator-age', creator_age);
+            filmCreator_element.appendChild(creatorAge_div);
       });
 }
 async function populateFilmStudio(film_info) {
@@ -148,13 +148,21 @@ async function populateFilmDate(film_info) {
       });
       filmDate_element.appendChild(filmDate_span);
 }
-function populateFilmCollection(film_info) {
+export async function populateFilmCollection(film_info) {
+      const filmCollection_element = document.getElementById('film-collection');
       if(typeof film_info.collection_id === 'undefined') {
-            const filmCollection_element = document.getElementById('film-collection');
-            const filmCollection_span = doms_component.createSpan({
+            const noCollection_span = doms_component.createSpan({
                   text: 'no collection',
-            })
-            filmCollection_element.appendChild(filmCollection_span);
+            });
+            filmCollection_element.appendChild(noCollection_span);
+      } else {
+            const collection_name = await collection_api.getCollectionName(film_info.collection_id);
+            const filmCollection_ahref = doms_component.createAhref({
+                  href: `collection/#id=${film_info.collection_id}`,
+                  text: collection_name,
+                  css_class: 'film-collection',
+            });
+            filmCollection_element.appendChild(filmCollection_ahref);
       }
 }
 async function populateFilmTags(film_info) {

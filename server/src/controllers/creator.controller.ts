@@ -1,5 +1,5 @@
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { ServerResponse } from "http";
+import { Server, ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { CreatorRepository } from "../repository/creator.repository.js";
 import { CreatorService } from "../services/creator.service.js";
@@ -33,6 +33,21 @@ const GetCreators = async ( req: CustomRequest , res: ServerResponse ) => {
             return sendError(res, 500, error);
       } 
 };
+
+const GetCreatorByTagId = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const id = request.params?.id;
+            const creators = await repository.FindByTagId(id);
+            if(creators.length == 0) {
+                  return sendError(response, 404, 'video not found');
+            }
+
+            return sendResponse(response, 200, creators);
+      } catch(error) {
+            console.error('Error find creator by id: ', error);
+            return sendError(response, 500, error);
+      }
+}
 
 export const CreateCreator = async (req: CustomRequest, res: ServerResponse) => {
       try {
@@ -72,6 +87,7 @@ export const DeleteCreator = async(req: ValidateIdRequest, res: ServerResponse) 
 export const creator_controller = {
       getCreatorById,
       GetCreators,
+      GetCreatorByTagId,
 }
 
 

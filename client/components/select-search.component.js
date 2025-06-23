@@ -53,7 +53,7 @@ function attachSearchInput(list, value, search_input, options) {
 function filterOptions(list, value, search_input) {
       const search_value = search_input.value.toLowerCase();
       const filtered_option = list.filter(item => 
-            item[value].toLowerCase().startsWith(search_value)
+            item[value].toLowerCase().includes(search_value)
       );
 
       return filtered_option;

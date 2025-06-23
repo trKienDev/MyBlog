@@ -8,11 +8,13 @@ import selectSearch_component from "../../components/select-search.component.js"
 import { showToast } from "../../utils/toast-notification.js";
 import { populateVideoPlaylist } from "./play-video.page.js";
 
+const selected_playlist_container = 'selected-playlists_container';
+
 export async function videoPlaylistModalController(video) {
       modal_component.initModal('open-videoplaylist_modal', 'close-videoplaylist_modal', 'video-playlist_modal');
       selectSearch_component.initSelectSearch('add_video-playlist', api_user.getPlaylists, 'name');
       multiSelectSearch_component.displaySelectedOptions({
-            selectSearchContainer_id: 'selected-options_container',
+            selectSearchContainer_id: selected_playlist_container,
             selectedOption_class: 'selected-option',
             selectElement_id: 'add_video-playlist',
       });
@@ -25,21 +27,21 @@ export async function videoPlaylistModalController(video) {
 }
 
 async function renderSelectedPlaylist(video) {
-      const selectPlaylist_container = document.getElementById('selected-options_container');
+      const selectPlaylist_container = document.getElementById(selected_playlist_container);
       selectPlaylist_container.innerHTML = '';
       await multiSelectSearch_component.renderSelectedOptions(video.playlist_ids, selectPlaylist_container, playlist_api.getPlaylistById);
 }
 
 async function addPlaylistsToVideo(event, video) {
       event.preventDefault();
-      const playlist_ids = multiSelectSearch_component.getSelectedOptions('selected-options_container', 'selected-option');
+      const playlist_ids = multiSelectSearch_component.getSelectedOptions(selected_playlist_container, 'selected-option');
       if(playlist_ids.length === 0) {
             showToast('Please select at least a playlist', 'warning');
             return;
       }
       
       const data = { playlist_ids: playlist_ids};
-
+      console.log('data: ', data);
       try {
             const result = await fetch_api.updateJson(`/video/${video._id}/playlists`, data);
             if(result.success === false) {

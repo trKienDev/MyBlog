@@ -1,12 +1,9 @@
 import creator_api from "../../api/creator.api.js";
-import { api_user } from "../../api/endpoint.api.js";
-import fetch_api from "../../api/fetch.api.js";
 import { film_api } from "../../api/film.api.js";
 import { video_api } from "../../api/video.api.js";
 import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
 import videos_component from "../../components/videos.component.js";    
-import { error_sweetAlert } from "../../utils/sweet-alert.js";
 import { showToast } from "../../utils/toast-notification.js";
 
 let current_page = 1;
@@ -59,7 +56,7 @@ async function loadMoreVideos(element_id, filters = {}) {
 // PaginedVideosSectionController('filtered-videos-container', { tagId: 'abcde12345' });
 // HIển thị video theo creator_id
 // PaginedVideosSectionController('creator-video-list', { creatorId: creatorId });
-export async function PaginedVideosSectionController(element_id, initial_filters = {}) {
+async function PaginedVideosSectionController(element_id, initial_filters = {}) {
       console.log("Khởi tạo tính năng Tải vô hạn cho video...");
 
       const active_filters = initial_filters;
@@ -176,3 +173,8 @@ async function createInfor({ ihref, itext, icss_class, icontainer_css}) {
       
       return info_container;
 }
+
+const videoPagination_section = {
+      PaginedVideosSectionController
+}
+export default videoPagination_section;

@@ -1,10 +1,12 @@
+import creator_api from "../../api/creator.api.js";
 import { film_api } from "../../api/film.api.js";
 import tag_api from "../../api/tag.api.js";
 import doms_component from "../../components/doms.component.js";
 import film_component from "../../components/films.component.js";
+import images_component from "../../components/image.component.js";
 import tags_component from "../../components/tags.component.js";
 import ClientSections from "../../constants/client-sections.constant.js";
-import { PaginedVideosSectionController } from "../../sections/pagined-videos/pagined-videos.section.js";
+import videoPagination_section from "../../sections/pagined-videos/pagined-videos.section.js";
 import spa_renderHTML from "../../services/spa/render-html.js";
 
 export async function TagInforController(tag_id) {
@@ -26,9 +28,7 @@ export async function TagInforController(tag_id) {
       }
 
       const tagInfor_div = await tags_component.createTagDivFromAPI({ tag_id: tag_id, tag_css: 'tag-item' });
-      console.log('tag infor: ', tagInfor_div);
       tagName_div.appendChild(tagInfor_div);
-      
 }
 
 async function RenderTagByFilm(tag_id, list_media) {
@@ -42,11 +42,31 @@ async function RenderTagByFilm(tag_id, list_media) {
       list_media.appendChild(listFilm_sectionWrapper);
 }
 
-function RenderTagByVideo(tag_id, list_media) {
+async function RenderTagByVideo(tag_id, list_media) {
+      const tag_info = await tag_api.getTagById(tag_id);
+      if(tag_info.kind === "action") {
+            spa_renderHTML.loadContentFromUrl(ClientSections.NEWVIDEOS, 'list-media', () => videoPagination_section.PaginedVideosSectionController('pagined-videos', { action_id: tag_id }));
+      } else {
+            spa_renderHTML.loadContentFromUrl(ClientSections.NEWVIDEOS, 'list-media', () => videoPagination_section.PaginedVideosSectionController('pagined-videos', { tag_id: tag_id }));
+      }
       const video_section = doms_component.CreateSection({ id: 'pagined-videos' });
-      spa_renderHTML.loadContentFromUrl(ClientSections.NEWVIDEOS, 'list-media', () => PaginedVideosSectionController('pagined-videos', { tag_id: tag_id }));
+      
       list_media.appendChild(video_section);
 }
-function RenderTagByCreator(tag_id) {
-      alert('creator');
+
+async function RenderTagByCreator(tag_id, list_media) {
+      const creators = await creator_api.GetCreatorsByTagId(tag_id);
+      
+      const listCreators_sectionWrapper = doms_component.createDiv('list_creators-section_wrapper');
+      creators.forEach(async (creator) => {
+            const creator_wrapper = doms_component.createDiv('creator-wrapper');
+            const creator_avatar = await images_component.createCreatorAvatar(creator._id);
+            creator_wrapper.appendChild(creator_avatar);
+            const creator_name = doms_component.createDiv('creator-name', creator.name);
+            creator_wrapper.appendChild(creator_name);
+            listCreators_sectionWrapper.appendChild(creator_wrapper);
+      });
+
+      list_media.appendChild(listCreators_sectionWrapper);
+      return list_media;
 }

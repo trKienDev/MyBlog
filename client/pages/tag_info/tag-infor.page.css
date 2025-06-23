@@ -6,3 +6,26 @@
       width: fit-content;
       margin-bottom: 20px;
 }
+#list-media .list_creators-section_wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px
+}
+#list-media .list_creators-section_wrapper .avatar-frame_container {
+      border-radius: 5px;
+}
+#list-media .list_creators-section_wrapper .creator-wrapper {
+      width: fit-content;
+}
+#list-media .list_creators-section_wrapper .avatar-frame {
+      margin-bottom: 10px;
+}
+#list-media .list_creators-section_wrapper .creator-image {
+      display: block;
+      width: 150px;
+      height: 150px;
+}
+#list-media .list_creators-section_wrapper .creator-name {
+      text-align: center;
+      font-size: 15px;
+}

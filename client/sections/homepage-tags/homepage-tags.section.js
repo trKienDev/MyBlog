@@ -26,7 +26,7 @@ async function RenderVideoTags() {
       const videoTags_element = document.getElementById('video-tags');
       const videoTags_container = videoTags_element.querySelector('.video-tags_container');
 
-      const video_tags = await tag_api.GetTagsByVideo();
+      const video_tags = await tag_api.GetTagsByVideoHomepage();
       video_tags.forEach(async (tag) => {
             const video_tag = await tags_component.createTagDivFromAPI({ tag_id: tag._id, tag_css: 'tag-item'});
             videoTags_container.appendChild(video_tag);

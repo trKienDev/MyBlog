@@ -53,6 +53,8 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/films/studio-code/:studio_id/:code_id', handler: validated_id.validateIds(['studio_id', 'code_id'], filmController.findFilmsByStudioAndCode) },
       { method: 'POST', path: '/admin/film', handler: filmController.createFilm },
       { method: 'PUT', path: '/admin/film/:id', handler: validated_id.validateId(filmController.updateFilm) },
+      { method: 'PUT', path: '/admin/film/:id/collections', handler: validated_id.validateId(filmController.UpdateFilmCollections )},
+      
       // video
       { method: 'GET', path: '/admin/videos', handler: video_controller.getVideos },
       { method: 'GET', path: '/admin/video/:id', handler: validated_id.validateId(video_controller.findVideoById ) },

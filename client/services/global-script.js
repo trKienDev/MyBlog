@@ -5,8 +5,11 @@ import doms_component from "../components/doms.component.js";
 import ClientSections from "../constants/client-sections.constant.js";
 import dom_id from "../constants/doms.constant.js";
 import { FilmSectionController } from "../sections/films/films.section.js";
+import { HomepageCollectionSectionController } from "../sections/homepage-collections/homepage-collections.section.js";
+import { HomePageCreatorsSectionController } from "../sections/homepage-creators/homepage-creators.section.js";
+import { HomepagePlaylistSectionController } from "../sections/homepage-playlists/homepage-playlist.section.js";
+import { HomepageStudiosSectionController } from "../sections/homepage-studios/studio.section.js";
 import { HomepageTagsSectionController } from "../sections/homepage-tags/homepage-tags.section.js";
-import { StudiosSectionController } from "../sections/studios/studio.section.js";
 import spa_navigation from "./spa/navigate-link.spa.js";
 import spa_renderHTML from "./spa/render-html.js";
 
@@ -65,8 +68,28 @@ async function handleUserClick(event) {
 
       const tag_link = event.target.closest('a[href^="tag/"]');
       if(tag_link) {
-             if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
+            if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
                   spa_navigation.navigateMediaLink(event, tag_link);
+            } else {
+                  console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
+            }
+      }
+
+      const collection_link = event.target.closest('a[href^="collection/"]');
+      if(collection_link) {
+            event.preventDefault();
+            if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
+                  spa_navigation.navigateMediaLink(event, collection_link);
+            } else {
+                  console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
+            }
+      }
+
+      const playlist_link = event.target.closest('a[href^="playlist/"]');
+      if(playlist_link) {
+            event.preventDefault();
+            if (typeof spa_navigation !== 'undefined' && spa_navigation.navigateMediaLink) {
+                  spa_navigation.navigateMediaLink(event, playlist_link);
             } else {
                   console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
             }
@@ -109,12 +132,30 @@ async function handleUserClick(event) {
       const section_studios = event.target.closest('a[href^="sections/studios"]');
       if(section_studios) {
             event.preventDefault();
-            spa_renderHTML.loadContentFromUrl(ClientSections.STUDIOS, 'main-content', StudiosSectionController );
+            spa_renderHTML.loadContentFromUrl(ClientSections.STUDIOS, 'main-content', HomepageStudiosSectionController );
       }
 
       const section_tags = event.target.closest('a[href^="sections/tags"]');
       if(section_tags) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_TAGS , 'main-content', HomepageTagsSectionController);
+      }
+
+      const section_creators = event.target.closest('a[href^="sections/creators"]');
+      if(section_creators) {
+            event.preventDefault();
+            spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_CREATORS , 'main-content', HomePageCreatorsSectionController);
+      }
+
+      const homepage_collection_section = event.target.closest('a[href^="sections/homepage_collections"]');
+      if(homepage_collection_section) {
+            event.preventDefault();
+            spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_COLLECTIONS, 'main-content', HomepageCollectionSectionController);
+      }
+
+      const homepage_playlist_section = event.target.closest('a[href^="sections/homepage_playlists"]');
+      if(homepage_playlist_section) {
+            event.preventDefault();
+            spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_PLAYLISTS, 'main-content', HomepagePlaylistSectionController);
       }
 }

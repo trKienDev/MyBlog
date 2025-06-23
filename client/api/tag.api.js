@@ -43,6 +43,15 @@ async function GetTagsByVideo() {
       return result.data;
 }
 
+async function GetTagsByVideoHomepage() {
+      const result = await fetch_api.apiGet(api_user.getTagsByVideoHomepage);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+
+      return result.data;
+}
+
 async function GetTagsByCreator() {
       const result = await fetch_api.apiGet(api_user.getTagsByCreator);
       if(result.success === false) {
@@ -59,6 +68,7 @@ const tag_api = {
       getTagName,
       GetTagsByFilm,
       GetTagsByVideo,
+      GetTagsByVideoHomepage,
       GetTagsByCreator,
 };
 export default tag_api;

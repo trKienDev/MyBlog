@@ -1,0 +1,23 @@
+#homepage-creators_section .homepage_creator-section_wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+}
+#homepage-creators_section .homepage_creator-section_wrapper .avatar-frame_container {
+      border-radius: 5px;
+}
+#homepage-creators_section .homepage_creator-section_wrapper .creator-wrapper {
+      width: fit-content;
+}
+#homepage-creators_section .homepage_creator-section_wrapper .avatar-frame {
+      margin-bottom: 10px;
+}
+#homepage-creators_section .homepage_creator-section_wrapper .creator-image {
+      display: block;
+      width: 150px;
+      height: 150px;
+}
+#homepage-creators_section .homepage_creator-section_wrapper .creator-name {
+      text-align: center;
+      font-size: 15px;
+}

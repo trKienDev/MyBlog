@@ -15,7 +15,6 @@ export class CreatorRepository implements ICreatorRepository {
             }
             
       }
-      
       public async findById(id: string): Promise<CreatorDTO | null> {
             const doc = await Creator.findById(id).exec();
             if(!doc) {
@@ -23,7 +22,6 @@ export class CreatorRepository implements ICreatorRepository {
             }
             return MappingDocToDTO(doc);
       }
-
       public async FindByNameAndBirth(name: string, birth: Date): Promise<CreatorDTO | null> {
             const doc = await Creator.findOne({ name, birth });
             if(!doc) {
@@ -31,7 +29,15 @@ export class CreatorRepository implements ICreatorRepository {
             }
             return MappingDocToDTO(doc);
       }
+      async FindByTagId(tag_id: string): Promise<CreatorDTO[]> {
+            if(!mongoose.Types.ObjectId.isValid(tag_id)) {
+                  console.warn("Invalid tag_id format");
+                  throw new Error('invalid tag id');
+            }
 
+            const creators = await Creator.find({ tag_ids: new mongoose.Types.ObjectId(tag_id)});
+            return creators.map(doc => MappingDocToDTO(doc));
+      }
       public async Create(data: CreatorDTO): Promise<CreatorDTO> {
             const new_creator = new Creator({
                   name: data.name,
@@ -47,7 +53,6 @@ export class CreatorRepository implements ICreatorRepository {
 
             return MappingDocToDTO(saved_creator);
       }
-
       public async UpdateCreator(id: string, data: Partial<CreatorDTO>): Promise<CreatorDTO> {
             const updatedDoc = await Creator.findByIdAndUpdate(id, data, { new: true, runValidators: true }).exec();
             if(!updatedDoc) {
@@ -55,7 +60,6 @@ export class CreatorRepository implements ICreatorRepository {
             }
             return MappingDocToDTO(updatedDoc);
       }
-
       public async Delete(id: string): Promise<CreatorDTO> {
             const deletedDoc = await Creator.findByIdAndDelete(id).exec();
             if(!deletedDoc) {

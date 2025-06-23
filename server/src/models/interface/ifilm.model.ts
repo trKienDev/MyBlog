@@ -1,4 +1,4 @@
-import mongoose, { StringExpressionOperatorReturningBoolean } from "mongoose";
+import mongoose from "mongoose";
 
 export interface iFilm extends Document {
       _id: mongoose.Types.ObjectId;

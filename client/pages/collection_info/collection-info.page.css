@@ -1,0 +1,9 @@
+#collection-infor_page {
+      width: 90%;
+      margin: 0 auto;
+}
+#collection-infor_page #collection-films {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+}

@@ -2,6 +2,7 @@ import { CreateFilmDTO, FilmDTO, UpdateFilmDTO } from "../dtos/film.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { parseJSON } from "../middlewares/json-parser.js";
 import { iFilmRepository } from "../repository/interfaces/ifilm.repository.js";
 import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
@@ -96,5 +97,26 @@ export class FilmService {
             }
 
             return updated_film;
+      }
+
+      async UpdateFilmCollections(request: ValidateIdRequest): Promise<FilmDTO | null> {
+            console.log('run UpdateFilmCollections in service');
+            const film_id = request.params?.id;
+            const required_fields = ['collection_ids'];
+            const existing_film = await this.film_repository.findById(film_id);
+
+            if(!existing_film) {
+                  throw new Error('Film not found');
+            }
+
+            const body = await parseJSON(request, required_fields);
+            const { collection_ids } = body;
+
+            if(!collection_ids) {
+                  throw new Error('Missing required information');
+            }
+
+            const addingFilmCollections = await this.film_repository.UpdateCollectionsToFilm(film_id, collection_ids);
+            return addingFilmCollections;
       }
 }

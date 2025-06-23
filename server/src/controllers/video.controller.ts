@@ -23,17 +23,15 @@ const getVIdeosPaginated = async(request: CustomRequest, response: ServerRespons
       try {
             const page_number = parseInt(request.query?.page as string) || 1;
             const limit_number = parseInt(request.query?.limit as string) || 10;
-            console.log(`run getVideosPaginated with page_number: [${page_number}] & limit_number: [${limit_number}]`);
             const filters: iVIdeoPaginatedFilters = {};
             const query = request.query;
-            console.log('query: ', query);
             if(query?.tag_id) filters.tag_id = query.tag_id as string;
             if(query?.creator_id) filters.creator_id = query.creator_id as string;
             if(query?.studio_id) filters.studio_id = query.studio_id as string;
             if(query?.code_id) filters.code_id = query.code_id as string;
-            if(query?.playlist_id) filters.playlist_id = query.playlist_id as string;
+            if(query?.playlist_ids) filters.playlist_ids = query.playlist_ids as string;
             if(query?.action_id) filters.action_id = query.action_id as string;
-            console.log('filters: ', filters);
+
             const videos = await video_service.getPaginatedVideos(page_number, limit_number, filters);
             return sendResponse(response, 200, videos);
       } catch(error) {

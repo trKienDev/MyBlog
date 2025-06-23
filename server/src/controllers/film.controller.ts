@@ -1,4 +1,4 @@
-import { ServerResponse } from "http";
+import { request, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { FilmRepository } from "../repository/film.repository.js";
@@ -65,6 +65,18 @@ const FindFilmsByStudio = async(request: ValidateIdRequest, response: ServerResp
       }
 }
 
+const GetFilmsByCollection = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const collection_id = request.params?.id;
+            const films = await repository.FindByCollectionId(collection_id);
+            return sendResponse(response, 200, films);
+      } catch(error) {
+            console.error('Error finding films by studio: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
+
 const FindFilmsByTagId = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const tag_id = request.params?.id;
@@ -96,6 +108,16 @@ const updateFilm = async(request: ValidateIdRequest, response: ServerResponse) =
       }
 }
 
+const UpdateFilmCollections = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const updateCollectionsFilm = await service.UpdateFilmCollections(request);
+            return sendResponse(response, 200, updateCollectionsFilm);
+      } catch(error) {
+            console.error('Error updating film collections: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
 export const filmController = {
       getFilms,
       findFilmById,
@@ -104,5 +126,7 @@ export const filmController = {
       findFilmsByStudioAndCode,
       FindFIlmsByCreator,
       FindFilmsByStudio,
+      GetFilmsByCollection,
       FindFilmsByTagId,
+      UpdateFilmCollections,
 }

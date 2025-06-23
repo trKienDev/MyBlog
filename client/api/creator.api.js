@@ -17,7 +17,13 @@ async function getCreatorById(creator_id) {
       }
       return result.data;
 }
-
+async function GetCreatorsByTagId(tag_id) {
+      const result = await fetch_api.apiGet(`${api_user.getCreatorsByTagId}/${tag_id}`);
+      if(result.success === false) {
+            throw new Error(result.error);
+      }
+      return result.data;
+}
 async function getCreatorName(creator_id) {
       const creator = await getCreatorById(creator_id);
       return creator.name;
@@ -33,5 +39,6 @@ const creator_api = {
       getCreatorById,
       getCreatorName,
       getCreatorImg,
+      GetCreatorsByTagId,
 }
 export default creator_api;

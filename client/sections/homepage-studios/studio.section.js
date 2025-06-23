@@ -1,7 +1,7 @@
 import { studio_api } from "../../api/studio.api.js";
 import doms_component from "../../components/doms.component.js";
 
-export async function StudiosSectionController() {
+export async function HomepageStudiosSectionController() {
       const listStudios_section = document.getElementById('list-studios_section'),
       listStudiosSection_wrapper = listStudios_section.querySelector('.list-studios_section-wrapper');
       listStudiosSection_wrapper.innerHTML = '';

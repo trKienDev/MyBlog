@@ -11,17 +11,26 @@ export const api_admin = {
 export const api_user = {
       // creators
       getCreators : '/creators', // GET
-      getPlaylists: '/playlists', // GET
+      getCreatorsByTagId: '/api/creators/tag', // GET
+      // code
+      GetCodesByStudio: '/api/codes/studio', // GET
+      // collections
+      getCollections: '/api/collections', // GET
       // films
       getFilmsByCreatorId : '/films/creator', // GET
       getFilms: '/films', // GET
       getFilmsByStudioId: '/films/studio', // GET
       getFilmsByTagId: '/films/tag', // GET
+      getFilmsByCollection: '/films/collection', // GET
+      
+      //playlist
+      getPlaylists: '/api/playlists', // GET
       // tags
       addPlaylistsToVideo: '/video/playlists', // PUT
       getTagsByCreator: '/api/tags/creator', // GET
       getTagsByFilm: '/api/tags/film', // GET
       getTagsByVideo: '/api/tags/video', // GET
+      getTagsByVideoHomepage: '/api/tags/videos/homepage', // GET
       // videos
       getVideoById: '/video', // GET
       getVideosByCreatorId: '/videos/creator', // GET
@@ -29,6 +38,4 @@ export const api_user = {
       GetPaginatedVideos: '/videos/paginated', // GET
       // studios
       GetStudios: '/studios', // GET
-      // code
-      GetCodesByStudio: '/api/codes/studio', // GET
 }

@@ -1,13 +1,18 @@
-@import url('../../sections//tags/tags.section.css');
-@import url('../../sections/pagined-videos/pagined-videos.section.css');
 @import url('../../pages/playvideo/play-video.page.css');
 @import url('../../pages/creator_info/creator-info.page.css');
 @import url('../../pages/tag_info/tag-infor.page.css');
 @import url('../../pages/homepage/homepage.page.css');
-@import url('../../sections/films/films.section.css');
-@import url('../../sections/studios/studio.section.css') ;
-@import url('../../sections/homepage-tags/homepage-tags.section.css');
 @import url('../../pages/studios_info/studio-info.page.css');
+@import url('../../pages/collection_info/collection-info.page.css');
+@import url('../../pages/playlist_info/playlist-info.page.css');
+@import url('../../sections/films/films.section.css');
+@import url('../../sections//tags/tags.section.css');
+@import url('../../sections/pagined-videos/pagined-videos.section.css');
+@import url('../../sections/homepage-studios/homepage-studio.section.css') ;
+@import url('../../sections/homepage-collections/homepage-collections.section.css');
+@import url('../../sections//homepage-creators/homepage-creators.section.css');
+@import url('../../sections/homepage-tags/homepage-tags.section.css');
+@import url('../../sections/homepage-playlists/homepage-playlist.section.css');
 @import url('./keyword.css');
 @import url('./popup-modal.css');
 @import url('./select-search.css');
@@ -254,6 +259,7 @@ select:hover {
       padding: 4px 10px; 
       border-radius: 5px; 
       transition: background 0.8s, filter 0.8s;
+      width: fit-content;
 }
 .tag-item a { 
       color: black;
@@ -291,12 +297,17 @@ select:hover {
 /* films component  */
 .list-films_section-wrapper {
       display: flex;
-      margin: 0px -8px;
       flex-wrap: wrap;
+      gap: 10px
 }
 .film-article {
-      padding: 0 8px;
-      width: fit-content;
+      width: 197px;
+}
+.film-thumbnail_image {
+      display: block;
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
 }
 .film-article_container {
       width: fit-content;
@@ -309,8 +320,4 @@ select:hover {
 }
 .film-thumbnail_container {
       border-radius: 5px;
-      height: 300px
-}
-.film-thumbnail_image {
-      height: 300px;
 }

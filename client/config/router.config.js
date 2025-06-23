@@ -1,5 +1,7 @@
 import ClientPages from "../constants/client-pages.constant.js";
+import { CollectionInforPageController } from "../pages/collection_info/collection-info.page.js";
 import { creatorInforController } from "../pages/creator_info/creator-info.page.js";
+import { PlaylistInforPageController } from "../pages/playlist_info/playlist-info.page.js";
 import { playVideoPageController } from "../pages/playvideo/play-video.page.js";
 import { StudioInforController } from "../pages/studios_info/studio-info.page.js";
 import { TagInforController } from "../pages/tag_info/tag-infor.page.js";
@@ -39,5 +41,23 @@ export const router_config = {
             state: { page: 'infor', tagId: id },
             title: `Looking ${id}`,
             callback: TagInforController,
+      }),
+
+      'collection': (id) => ({
+            endpoint: ClientPages.COLLECTIONINFO,
+            media_id: id,
+            url: `/info?collection=${id}`,
+            state: { page: 'infor', collectionId: id },
+            title: `Looking ${id}`,
+            callback: CollectionInforPageController,
+      }),
+
+      'playlist': (id) => ({
+            endpoint: ClientPages.PLAYLISTINFO,
+            media_id: id,
+            url: `/info?playlist=${id}`,
+            state: { page: 'infor', playlistId: id },
+            title: `Looking ${id}`,
+            callback: PlaylistInforPageController,
       }),
 }

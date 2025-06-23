@@ -14,7 +14,6 @@ export class VideoRepository implements iVideoRepository {
       async FindPaginatedVideos(page: number, limit: number, filters: iVIdeoPaginatedFilters): Promise<iPaginatedVideoDto> {
             const skip = (page - 1) * limit;
             const filter_query: any = {};
-            console.log('filters in repository: ', filters);
             if(filters.action_id && mongoose.Types.ObjectId.isValid(filters.action_id)) {
                   filter_query.action_id = new mongoose.Types.ObjectId(filters.action_id);
             }
@@ -27,14 +26,14 @@ export class VideoRepository implements iVideoRepository {
             if(filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
                   filter_query.code_id = new mongoose.Types.ObjectId(filters.code_id);
             }
-            console.log('filter.tag_id: ', filters.tag_id);
+
             if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
                   filter_query.tag_ids = new mongoose.Types.ObjectId(filters.tag_id);
             }
-            if(filters.playlist_id && mongoose.Types.ObjectId.isValid(filters.playlist_id)) {
-                  filter_query.playlist_id = new mongoose.Types.ObjectId(filters.playlist_id);
+            if(filters.playlist_ids && mongoose.Types.ObjectId.isValid(filters.playlist_ids)) {
+                  filter_query.playlist_ids = new mongoose.Types.ObjectId(filters.playlist_ids);
             }
-            console.log('filter_query in repository: ', filter_query);
+            console.log('filter_query: ', filter_query);
             const [ videos, total ] = await Promise.all([
                   Video.find(filter_query)
                         .sort({ createdAt: -1 })
@@ -43,10 +42,9 @@ export class VideoRepository implements iVideoRepository {
                         .exec(),
                   Video.countDocuments(filter_query).exec()
             ]);
-            console.log('videos: ', videos);
+            
             return { videos, total };
       }
-
 
       async findById(id: string): Promise<VideoDTO | null> {
             const video = await Video.findById(id);
