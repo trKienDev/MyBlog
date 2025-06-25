@@ -51,6 +51,16 @@ const getTagsByVideo = async(req: IncomingMessage, res: ServerResponse) => {
       }
 }
 
+const GetTagsByImage = async(req: IncomingMessage, res: ServerResponse) => {
+      try {
+            const tags_image = await repository.GetTagsByImage();
+            return sendResponse(res, 200, tags_image);
+      } catch(error) {  
+            console.error('Error getting tag by video: ', error);
+            return sendError(res, 500, error);
+      }
+}
+
 const GetTagsForVideoHomepage = async(request: IncomingMessage, response: ServerResponse) => {
       try {
             const tags = await repository.GetTagsByVideoHomepage();
@@ -99,4 +109,5 @@ export const tag_controller = {
       getTagsByVideo,
       getTagsByAction,
       getTagsByCreator,
+      GetTagsByImage,
 }

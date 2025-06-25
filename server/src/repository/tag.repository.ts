@@ -20,12 +20,12 @@ export class TagRepostory implements ITagRepository{
       }
 
       async getTagsByVideo(): Promise<TagDTO[]> {
-            const tags = await Tag.find({ kind: { $nin: ['film', 'creator', 'action'] } });
+            const tags = await Tag.find({ kind: { $nin: ['film', 'creator', 'action', 'image'] } });
             return tags.map(tag => mappingDocToDTO(tag));
       }
 
       async GetTagsByVideoHomepage(): Promise<TagDTO[]> {
-            const tags = await Tag.find({ kind: { $nin: ['film', 'creator'] } });
+            const tags = await Tag.find({ kind: { $nin: ['film', 'creator', 'image'] } });
             return tags.map(tag => mappingDocToDTO(tag));
       }
 
@@ -38,7 +38,12 @@ export class TagRepostory implements ITagRepository{
             const tags = await Tag.find({ kind: 'creator' });
             return tags.map(tag => mappingDocToDTO(tag));
       }
-      
+
+      async GetTagsByImage(): Promise<TagDTO[]> {
+            const tags = await Tag.find({ kind: 'image' });
+            return tags.map(tag => mappingDocToDTO(tag));
+      }
+
       async createTag(data: TagDTO): Promise<TagDTO> {
             const tag = new Tag(data);
             const savedTag = await tag.save();

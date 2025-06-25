@@ -1,7 +1,6 @@
 import api_configs from "../../api/api.config.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import modal_component from "../../components/modal.component.js";
-import { HandleImageUpload } from "../../components/image.component.js";
 import  table_component from "../../components/table.component.js";
 import fetch_api from "../../api/fetch.api.js";
 import css_selectors from "../../selectors/css.selectors.js";
@@ -13,6 +12,7 @@ import { api_user } from "../../api/endpoint.api.js";
 import tags_utils from "../../utils/tags.utils.js";
 import css_class from "../../constants/css.constant.js";
 import tag_api from "../../api/tag.api.js";
+import images_component from "../../components/image.component.js";
 
 let formId = "creator-form";
 let imgId = "img";
@@ -27,7 +27,7 @@ export function initCreatorAdmin() {
       RenderCreators(tableBody);
       createNewCreator();
       initModal("open-modal_button", "close-modal_button", modalId, () => resetModal(formId, imgId, imgInputId, defaultImg ));
-      HandleImageUpload("img", "image-upload");
+      images_component.HandleImageUpload("img", "image-upload");
       selectSearch_component.initSelectSearch('creator-tags', api_user.getTagsByCreator, 'name');
       tags_utils.displaySelectedTag(css_class.SELECTED_TAG_CONTAINER, css_class.SELECTED_TAG, 'creator-tags');
 }

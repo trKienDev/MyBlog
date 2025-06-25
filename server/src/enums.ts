@@ -5,6 +5,6 @@ export enum UploadFiles {
       MANGAS = 'mangas',      
       STUDIOS = 'studios',      
       VIDEOS = 'videos',
-
-
+      IDOLS = 'idols',
+      IMAGES = 'images',
 }

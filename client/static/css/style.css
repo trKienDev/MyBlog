@@ -305,7 +305,7 @@ select:hover {
 }
 .film-thumbnail_image {
       display: block;
-      width: 100%;
+      width: 197px;
       height: 300px;
       object-fit: cover;
 }

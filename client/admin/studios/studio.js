@@ -1,5 +1,4 @@
 import modal_component from "../../components/modal.component.js";
-import { HandleImageUpload } from "../../components/image.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../utils/sweet-alert.js";
 import api_configs from "../../api/api.config.js";
 import fetch_api from "../../api/fetch.api.js";

@@ -1,0 +1,29 @@
+<section id="admin-idol">
+      <div class="container">
+            <h1 class="heading-title">Idols Management</h1>
+            <div class="admin-idol_wrapper">
+                  <div class="primary-form">
+                        <div class="form-wrapper">
+                              <div class="title">
+                                    <span>Add new idol</span>
+                              </div>
+                              <div class="form-body">
+                                    <form id="form-idol" method="POST">
+                                          <input type="text" name="name" id="idol-name" class="form-input" placeholder="idol name" required>
+                                          <div class="form-image">
+                                                <img id="idol-image" src="/admin/static/images/face/upload-profile.jpg" alt="">
+                                                <input type="file" id="img-input" name="file" style="display: none;" accept="image/*">
+                                          </div>
+                                          <select id="idol-region">
+                                                <option value="vietnam">Việt Nam</option>
+                                          </select>
+                                          <div class="button">
+                                                <button id="idol-form_submit" class="btn primary-btn" type="submit">Add</button>
+                                          </div>
+                                    </form>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</section>

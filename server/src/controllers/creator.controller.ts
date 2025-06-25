@@ -52,7 +52,6 @@ const GetCreatorByTagId = async(request: ValidateIdRequest, response: ServerResp
 export const CreateCreator = async (req: CustomRequest, res: ServerResponse) => {
       try {
             const createdCreator = await service.CreateCreator(req);
-            
             return sendResponse(res, 201, createdCreator)
       } catch(error) { 
             console.error('Error in CreateCreator: ', error);

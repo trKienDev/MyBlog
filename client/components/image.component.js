@@ -2,11 +2,10 @@ import creator_api from "../api/creator.api.js";
 import app_configs from "../config/app.config.js";
 import css_class from "../constants/css.constant.js";
 import { ServerFolders } from "../constants/folders.constant.js";
-import FolderUploads from "../selectors/upload-folder-name.js";
 import image_utils from "../utils/image.utils.js";
 import doms_component from "./doms.component.js";
 
-export function HandleImageUpload(imageElementId, fileInputElementId) {
+function HandleImageUpload(imageElementId, fileInputElementId) {
       const imageElement = document.getElementById(imageElementId);
       const fileInput = document.getElementById(fileInputElementId);
 
@@ -68,5 +67,6 @@ const images_component = {
       createImg,
       createImgFromApi,
       createCreatorAvatar,
+      HandleImageUpload
 }
 export default images_component;

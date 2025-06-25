@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { CreatorDTO } from "../dtos/creator.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";

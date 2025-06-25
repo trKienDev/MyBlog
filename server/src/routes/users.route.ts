@@ -2,6 +2,7 @@ import code_controller from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
 import { creator_controller } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
+import idol_controller from "../controllers/idol.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
 import studio_controller from "../controllers/studio.controller.js";
 import { tag_controller } from "../controllers/tag.controller.js";
@@ -26,6 +27,9 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/films/studio/:id', handler: validated_id.validateId( filmController.FindFilmsByStudio )},
       { method: 'GET', path: '/films/collection/:id', handler: validated_id.validateId( filmController.GetFilmsByCollection )},
 
+      // idols
+      { method: 'GET', path: '/api/idols', handler: idol_controller.GetAllIdols },
+
       // studios
       { method: 'GET', path: '/studios', handler: studio_controller.GetStudios },
 
@@ -35,6 +39,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/api/tags/film', handler: tag_controller.GetTagsByFilm },
       { method: 'GET', path: '/api/tags/video', handler: tag_controller.getTagsByVideo },
       { method: 'GET', path: '/api/tags/videos/homepage', handler: tag_controller.GetTagsForVideoHomepage },
+      { method: 'GET', path: '/api/tags/images', handler: tag_controller.GetTagsByImage },
       // playlist
       { method: 'GET', path: '/api/playlists', handler: playlist_controller.getPlaylists },
 

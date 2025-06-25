@@ -1,0 +1,14 @@
+#admin-idol form, #admin-idol img {
+      width: 100%;
+}
+#admin-idol .admin-idol_wrapper {
+      margin-top: 20px;
+}
+#admin-idol .primary-form {
+      width: 15%;
+}
+#admin-idol #idol-image {
+      cursor: pointer;
+      border-radius: 5px;
+}
+

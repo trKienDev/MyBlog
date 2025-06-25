@@ -1,6 +1,10 @@
 export const api_admin = {
       // collection
       getCollections: '/admin/collections', // GET
+      // idol
+      createIdol: '/admin/idol', // POST
+      // images
+      createImage: '/admin/image', // POST
       // studios
       getStudios: '/admin/studios', // GET
       createStudio: '/admin/studio', // POST
@@ -21,8 +25,7 @@ export const api_user = {
       getFilms: '/films', // GET
       getFilmsByStudioId: '/films/studio', // GET
       getFilmsByTagId: '/films/tag', // GET
-      getFilmsByCollection: '/films/collection', // GET
-      
+      getFilmsByCollection: '/films/collection', // GET  
       //playlist
       getPlaylists: '/api/playlists', // GET
       // tags
@@ -31,6 +34,7 @@ export const api_user = {
       getTagsByFilm: '/api/tags/film', // GET
       getTagsByVideo: '/api/tags/video', // GET
       getTagsByVideoHomepage: '/api/tags/videos/homepage', // GET
+      getTagsByImages: '/api/tags/images', // GET
       // videos
       getVideoById: '/video', // GET
       getVideosByCreatorId: '/videos/creator', // GET
@@ -38,4 +42,6 @@ export const api_user = {
       GetPaginatedVideos: '/videos/paginated', // GET
       // studios
       GetStudios: '/studios', // GET
+      // idols
+      getAllIdols: '/api/idols', // GET
 }

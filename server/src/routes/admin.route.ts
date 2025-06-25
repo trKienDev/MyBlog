@@ -8,6 +8,9 @@ import code_controller, { createCode, getCode_byId, getCodes } from "../controll
 import collection_controller from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, UpdateCreator } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
+import gallery_controller from "../controllers/gallery.controller.js";
+import idol_controller from "../controllers/idol.controller.js";
+import image_controller from "../controllers/image.controller.js";
 import mangaTag_controller from "../controllers/mangas/manga-tag.controller.js";
 import { manga_controller } from "../controllers/mangas/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
@@ -101,6 +104,13 @@ const adminRoutes: Route[] = [
       // manga-tag
       { method: 'GET', path: '/admin/manga-tags', handler: mangaTag_controller.getMangaTags },
       { method: 'POST', path: '/admin/manga-tag', handler: mangaTag_controller.createMangaTag },
+
+      // idols
+      { method: 'POST', path: '/admin/idol', handler: idol_controller.CreateIdol },
+      // images
+      { method: 'POST', path: '/admin/image', handler: image_controller.CreateImage },
+      // gallery
+      { method: 'POST', path: '/admin/gallery', handler: gallery_controller.CreateGallery },
 ]
 
 

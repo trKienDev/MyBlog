@@ -9,4 +9,5 @@ export interface ITagRepository {
       GetTagsByCreator(): Promise<TagDTO[]>;
       getFilmTags(): Promise <TagDTO[]>;
       createTag(data: TagDTO): Promise<TagDTO>;
+      GetTagsByImage(): Promise<TagDTO[]>;
 }
