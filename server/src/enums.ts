@@ -7,4 +7,5 @@ export enum UploadFiles {
       VIDEOS = 'videos',
       IDOLS = 'idols',
       IMAGES = 'images',
+      SHORTS = 'shorts',
 }

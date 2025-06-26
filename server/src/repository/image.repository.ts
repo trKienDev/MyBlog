@@ -9,6 +9,7 @@ export class ImageRepository implements iImageRepository {
             const new_image = new Image({
                   idol_id: (data && data.idol_id) ? new mongoose.Types.ObjectId(data.idol_id) : null,
                   tag_ids: data.tag_ids?.map(id => new mongoose.Types.ObjectId(id)),
+                  image_url: data.image_url
             });
 
             const saved_image = await new_image.save();

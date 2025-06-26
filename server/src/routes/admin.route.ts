@@ -14,6 +14,7 @@ import image_controller from "../controllers/image.controller.js";
 import mangaTag_controller from "../controllers/mangas/manga-tag.controller.js";
 import { manga_controller } from "../controllers/mangas/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
+import short_controller from "../controllers/short.controller.js";
 import studio_controller, { DeleteStudio, UpdateStudio } from "../controllers/studio.controller.js";
 import { createTag, tag_controller } from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
@@ -111,6 +112,8 @@ const adminRoutes: Route[] = [
       { method: 'POST', path: '/admin/image', handler: image_controller.CreateImage },
       // gallery
       { method: 'POST', path: '/admin/gallery', handler: gallery_controller.CreateGallery },
+      // short
+      { method: 'POST', path: '/admin/short', handler: short_controller.CreateShort },
 ]
 
 
