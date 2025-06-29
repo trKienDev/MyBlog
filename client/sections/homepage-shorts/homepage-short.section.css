@@ -1,0 +1,23 @@
+#homepage-shorts_container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+}
+#homepage-shorts .short-article {
+      width: calc((100% - 60px) / 6);
+}
+#homepage-shorts .short-article-container {
+      width: 100%;
+}
+#homepage-shorts .short-container {
+      width: 100%;
+}
+#homepage-shorts .short-preview {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+}
+#homepage-shorts .short-preview:hover {
+      cursor: pointer;
+}

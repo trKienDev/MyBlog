@@ -10,8 +10,10 @@ import { initCreatorAdmin } from "./creators/creator.js";
 import { initFilmAdmin } from "./films/films.js";
 import { AdminIdolsController } from "./idols/idol.admin.js";
 import { AdminImageController } from "./images/image.admin.js";
-import { initMangaAdmin } from "./mangas/manga.js";
+import { AdminMangaController } from "./mangas/manga.admin.js";
 import { initPlaylistAdmin } from "./playlists/playlist.js";
+import { AdminRecordController } from "./records/record.admin.js";
+import { AdminShortController } from "./shorts/short.admin.js";
 import { AdminStudioController } from "./studios/studio.js";
 import { initTagAdmin } from "./tags/tag.js";
 import { initVideoAdmin } from "./videos/video.js";
@@ -33,8 +35,11 @@ function navigateSidebar() {
       spa_navigation.navigateLink('video-link', id_selectors.section.dynamic_section, api_configs.endpoints.adminVideoPage, initVideoAdmin );
       spa_navigation.navigateLink('playlist-link', id_selectors.section.dynamic_section, api_configs.endpoints.adminPlaylistPage, initPlaylistAdmin );
       spa_navigation.navigateLink('admin-anime', id_selectors.section.dynamic_section, api_configs.endpoints.adminAnimePage, initAdminAnime );
+      spa_navigation.navigateLink('admin-manga', id_selectors.section.dynamic_section, ClientPages.ADMIN_MANGA, AdminMangaController );
       spa_navigation.navigateLink('admin-idol', id_selectors.section.dynamic_section, ClientPages.ADMIN_IDOL, AdminIdolsController );
       spa_navigation.navigateLink('admin-image', id_selectors.section.dynamic_section, ClientPages.ADMIN_IMAGE, AdminImageController );
+      spa_navigation.navigateLink('admin-short', id_selectors.section.dynamic_section, ClientPages.ADMIN_SHORT, AdminShortController );
+      spa_navigation.navigateLink('admin-record', id_selectors.section.dynamic_section, ClientPages.ADMIN_RECORD, AdminRecordController );
 }
 
 

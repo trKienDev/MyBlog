@@ -1,0 +1,26 @@
+#manga-infor_page {
+      width: 90%;
+      margin: 0 auto;
+}
+
+/* |==| Masonry.js |==| */
+
+/* Vùng chứa ảnh */
+#manga-infor_page #manga-images {
+      position: relative; /* Rất quan trọng! Để JS định vị các ảnh con bên trong */
+}
+
+/* Định dạng cho "viên gạch" trước khi JS sắp xếp */
+#manga-infor_page .manga-img_container {
+      /* Đây là chiều rộng của một cột. Bạn có thể thay đổi số 5 */
+      width: calc((100% - 30px) / 4); 
+      margin-bottom: 10px; /* Tạo khoảng cách dọc */
+      border-radius: 5px;
+}
+#manga-infor_page .manga-img {
+      display: block;
+      height: auto; /* Giữ đúng tỷ lệ ảnh */
+      width: 100%;
+      border-radius: 5px;
+}
+

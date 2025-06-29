@@ -8,7 +8,7 @@ import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 const repository = new CodeRepository();
 const service = new CodeService(repository);
 
-export const getCodes = async(request: IncomingMessage, response: ServerResponse) => {
+const GetCodes = async(request: IncomingMessage, response: ServerResponse) => {
       try {
             const codes = await repository.GetCodes();
             return sendResponse(response, 200, codes);
@@ -52,6 +52,7 @@ export const createCode = async(req: IncomingMessage, res: ServerResponse) => {
 }
 
 const code_controller = {
+      GetCodes,
       GetCodesByStudio,
 }
 export default code_controller;

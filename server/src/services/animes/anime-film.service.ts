@@ -29,15 +29,19 @@ export class AnimeFilmService {
             const tag_ids: string[] = tag_params.split(',').map((string) => string.trim()).filter((string) => string.length > 0);
             const year = request_utils.extractParamFromRequest(request, "year");
             const rating = request_utils.extractParamFromRequest(request, "rating");
+
             const new_animeFilm: CreateAnimeFilmDTO = {
                   name: name,
                   studio_id: studio_id,
-                  series_id: series_id,
                   tag_ids: tag_ids,
                   year: Number(year),
                   rating: rating? Number(rating): 0,
                   thumbnail: thumbnail, 
             };
+
+            if(series_id) {
+                  new_animeFilm.series_id = series_id
+            }
 
             return await this.animeFilm_repository.createAnimeFilm(new_animeFilm);
       }

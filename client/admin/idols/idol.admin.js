@@ -9,7 +9,6 @@ import { showToast } from "../../utils/toast-notification.js";
 
 export async function AdminIdolsController() {
       const idols = await idol_api.GetAllIdols();
-      console.log('idols: ', idols);
       images_component.HandleImageUpload("idol-image", "img-input");
       
       const form_btn = document.getElementById('idol-form_submit');
@@ -17,7 +16,7 @@ export async function AdminIdolsController() {
             event.preventDefault(); 
 
             const idol_name = document.getElementById('idol-name');
-            const idol_identifiername = string_utils.RemoveAccents(idol_name.value);
+            const idol_identifiername = document.getElementById('idol-username').value;
             const idol_avatar = document.getElementById('img-input').files[0];
             const renamedIdolAvatar = file_utils.renameUploadedFile(idol_avatar, idol_identifiername);
             const idol_region = document.getElementById('idol-region');

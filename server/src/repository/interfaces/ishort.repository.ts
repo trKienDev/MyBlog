@@ -1,5 +1,7 @@
-import { CreateShortDTO, ShortDTO } from "../../dtos/short.dto.js";
+import { CreateShortDTO, iPaginatedShortDto, iShortPaginatedFilters, ShortDTO } from "../../dtos/short.dto.js";
 
 export interface iShortRepository {
-      CreateShort(data: CreateShortDTO): Promise<ShortDTO>;
+      GetAll(): Promise<ShortDTO[]>;
+      GetPaginatedShorts(page: number, limit: number, filter: iShortPaginatedFilters): Promise<iPaginatedShortDto>;
+      Create(data: CreateShortDTO): Promise<ShortDTO>;
 }

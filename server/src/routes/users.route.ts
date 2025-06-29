@@ -1,9 +1,13 @@
+import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
 import code_controller from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
 import { creator_controller } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
 import idol_controller from "../controllers/idol.controller.js";
+import image_controller from "../controllers/image.controller.js";
+import { manga_controller } from "../controllers/mangas/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
+import short_controller from "../controllers/short.controller.js";
 import studio_controller from "../controllers/studio.controller.js";
 import { tag_controller } from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
@@ -12,8 +16,11 @@ import { validated_id } from "../middlewares/validate-id.js";
 import { createRouter } from "./routes.js";
 
 const user_routes: Route[] = [
+      // anime-videos
+      { method: 'GET', path: '/api/anime-video/:id', handler: validated_id.validateId(animeVideo_controller.GetAnimeVideoById ) },
       // codes
       { method: 'GET', path: '/api/codes/studio/:id', handler: validated_id.validateId(code_controller.GetCodesByStudio) },
+      { method: 'GET', path: '/api/codes', handler: code_controller.GetCodes },
       // collections
       { method: 'GET', path: '/api/collections', handler: collection_controller.getCollections },
       // creators
@@ -29,6 +36,13 @@ const user_routes: Route[] = [
 
       // idols
       { method: 'GET', path: '/api/idols', handler: idol_controller.GetAllIdols },
+      
+      // images 
+      { method: 'GET', path: '/api/images', handler: image_controller.GetAllImages },
+
+      // mangas
+      { method: 'GET', path: '/api/mangas', handler: manga_controller.getMangas },
+      { method: 'GET', path: '/api/manga/:id', handler: validated_id.validateId( manga_controller.FindMangaById ) },
 
       // studios
       { method: 'GET', path: '/studios', handler: studio_controller.GetStudios },
@@ -42,7 +56,9 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/api/tags/images', handler: tag_controller.GetTagsByImage },
       // playlist
       { method: 'GET', path: '/api/playlists', handler: playlist_controller.getPlaylists },
-
+      // shorts
+      { method: 'GET', path: '/api/shorts', handler: short_controller.GetAllShorts },
+      { method: 'GET', path: '/api/shorts/paginated', handler: short_controller.GetPaginationShorts },
       // video
       { method: 'GET', path: '/video/:id', handler: validated_id.validateId(video_controller.findVideoById)},
       { method: 'GET', path: '/videos/creator/:id', handler: validated_id.validateId(video_controller.findVideosByCreatorId)},

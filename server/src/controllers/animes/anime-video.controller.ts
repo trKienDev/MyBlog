@@ -8,6 +8,17 @@ import { ValidateIdRequest } from "../../interfaces/validated-id-request.js";
 const repository = new AnimeVIdeoRepository();
 const service = new AnimeVideoService(repository);
 
+const GetAnimeVideoById = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const id = request.params?.id;
+            const anime_video = await repository.findAnimeVideoById(id);
+            return sendResponse(response, 200, anime_video);
+      } catch(error) {
+            console.error('Error getting anime video by id: ', error);
+            return sendError(response, 500, error);
+      }
+}
+ 
 const getAnimeVideos = async(req: IncomingMessage, res: ServerResponse) => {
       try {
             const anime_videos = await repository.getAnimeVideos();
@@ -44,6 +55,7 @@ const updateAnimeVideo  = async(req: ValidateIdRequest, res: ServerResponse) => 
 
 const animeVideo_controller = {
       getAnimeVideos,
+      GetAnimeVideoById,
       createAnimeVideo,
       updateAnimeVideo,
 }

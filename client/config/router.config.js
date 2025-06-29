@@ -1,6 +1,7 @@
 import ClientPages from "../constants/client-pages.constant.js";
 import { CollectionInforPageController } from "../pages/collection_info/collection-info.page.js";
 import { creatorInforController } from "../pages/creator_info/creator-info.page.js";
+import { MangaInforPageController } from "../pages/manga_info/manga-infor.page.js";
 import { PlaylistInforPageController } from "../pages/playlist_info/playlist-info.page.js";
 import { playVideoPageController } from "../pages/playvideo/play-video.page.js";
 import { StudioInforController } from "../pages/studios_info/studio-info.page.js";
@@ -15,7 +16,6 @@ export const router_config = {
             title: `Watching ${id}`,
             callback: playVideoPageController,
       }),
-
       'creator': (id) => ({
             endpoint: ClientPages.CREATORINFO, 
             media_id: id,           
@@ -24,7 +24,6 @@ export const router_config = {
             title: `Looking ${id}`,
             callback: creatorInforController,
       }),
-
       'studio': (id) => ({
             endpoint: ClientPages.STUDIOINFO,
             media_id: id,
@@ -33,7 +32,6 @@ export const router_config = {
             title: `Looking ${id}`,
             callback: StudioInforController,
       }),
-      
       'tag': (id) => ({
             endpoint: ClientPages.TAGINFO,
             media_id: id,
@@ -42,7 +40,6 @@ export const router_config = {
             title: `Looking ${id}`,
             callback: TagInforController,
       }),
-
       'collection': (id) => ({
             endpoint: ClientPages.COLLECTIONINFO,
             media_id: id,
@@ -51,7 +48,6 @@ export const router_config = {
             title: `Looking ${id}`,
             callback: CollectionInforPageController,
       }),
-
       'playlist': (id) => ({
             endpoint: ClientPages.PLAYLISTINFO,
             media_id: id,
@@ -59,5 +55,13 @@ export const router_config = {
             state: { page: 'infor', playlistId: id },
             title: `Looking ${id}`,
             callback: PlaylistInforPageController,
+      }),
+      'manga': (id) => ({
+            endpoint: ClientPages.MANGAINFO,
+            media_id: id,
+            url: `/info?manga=${id}`,
+            state: { page: 'infor', mangaId: id },
+            title: `Looking ${id}`,
+            callback: MangaInforPageController,
       }),
 }

@@ -1,0 +1,137 @@
+<section id="admin-record">
+      <div class="container">
+            <h1 class="heading-title">Admin records</h1>
+            <div class="body">
+                  <div class="record-navigation">
+                        <div class="navigation-list d-flex">
+                              <a href="admin-records" class="navigation-item">
+                                    <span>Records</span>
+                              </a>
+                              <a href="admin-clips" class="navigation-item">
+                                    <span>Clips</span>
+                              </a>
+                        </div>
+                  </div>
+                  <main>
+                        <section id="admin-record-info" class="record-section_content">
+                              <div class="section-content_wrapper">
+                                    <form id="record-infor_form">
+                                          <div class="form-wrapper">
+                                                <div class="first-row d-flex">
+                                                      <div id="record-code" class="w-50pct">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select code</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search studio ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                      <input class="w-50pct mar-left-10px" type="number" name="code" id="record-number" placeholder="123">
+                                                </div>
+                                                <div class="second-row d-flex">
+                                                      <div id="record-creator" class="w-50pct">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select creators</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search creator ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                      <div id="record-idol" class="w-50pct mar-left-10px">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select idol</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search idol ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="third-row d-flex">
+                                                      <select name="record-rating" id="record-rating" class="w-50pct">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                      </select>
+                                                      <div id="record-studio" class="w-50pct mar-left-10px">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select studio</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search studio ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="fourth-row">
+                                                      <textarea name="record-description" id="record-description" placeholder="record description"></textarea>
+                                                </div>
+                                                <div class="fifth-row">
+                                                      <div id="record-tag" class="w-100pct">
+                                                            <div class="select-search_component">
+                                                                  <div class="wrapper">
+                                                                        <div class="select-btn">
+                                                                              <span>Select tag</span>
+                                                                              <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                        </div>
+                                                                        <div class="content">
+                                                                              <div class="search row ">
+                                                                                    <input type="text" placeholder="search tag ... ">
+                                                                              </div>
+                                                                              <ul class="options"></ul>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div id="selected-tag_container" class="selected-tag_container"></div>
+                                                      </div>
+                                                </div>
+                                                <div class="button">
+                                                      <button id="add-record-infor_btn" class="btn primary-btn" type="submit">Save</button>
+                                                </div>
+                                          </div>
+                                    </form>
+                              </div>
+                        </section>
+
+                        <section id="admin-record-clips" class="record-section_content" style="display: none;">
+                              <div class="wrapper">
+                                    <h1>Records clips</h1>
+                              </div>
+                        </section>
+                  </main>
+            </div>
+      </div>
+</section>
+

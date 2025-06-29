@@ -4,6 +4,7 @@ import { video_api } from "../../api/video.api.js";
 import doms_component from "../../components/doms.component.js";
 import images_component from "../../components/image.component.js";
 import videos_component from "../../components/videos.component.js";    
+import { ServerFolders } from "../../constants/folders.constant.js";
 import { showToast } from "../../utils/toast-notification.js";
 
 let current_page = 1;
@@ -115,7 +116,7 @@ async function createVideoArticle(video) {
       let videoArticle_ahref = doms_component.createAhref({ href: `video/#id=${video._id}`, css_class: 'video-article-link'});
       videoArticle_container.appendChild(videoArticle_ahref);
 
-      const video_container = videos_component.createVideoPlayer(video.name, video.file_path);
+      const video_container = videos_component.CreateVideoPlayer(video.name, video.file_path, ServerFolders.VIDEOS);
       videoArticle_ahref.appendChild(video_container);
 
       const videoInfo_div = await createVideoInfo(video);

@@ -4,7 +4,37 @@ import { ServerFolders } from "../constants/folders.constant.js";
 import id_selectors from "../selectors/element-id.selector.js";
 import doms_component from "./doms.component.js";
 
-function createVideoPlayer(video_name, video_filepath) {
+// function createVideoPlayer(video_name, video_filepath) {
+//       const video_container = doms_component.createDiv('video-container');
+
+//       const videoSrc_ahref = doms_component.createAhref({ css_class: 'video-link'});
+//       videoSrc_ahref.setAttribute('arial-label', `Watch video: ${video_name}`);
+
+//       let video_frame = createVideoPreview(css_class.VIDEO_FRAME);
+
+//       const video_src = videos_component.createVideoSource(`${app_configs.SERVER}/${ServerFolders.VIDEOS}/${video_filepath}`);
+      
+//       video_frame.appendChild(video_src);
+//       video_container.appendChild(video_frame);
+
+//       return video_container;
+// }
+// function CreateAnimeVideoPlayer(video_name, video_filepath) {
+//       const video_container = doms_component.createDiv('video-container');
+
+//       const videoSrc_ahref = doms_component.createAhref({ css_class: 'video-link'});
+//       videoSrc_ahref.setAttribute('arial-label', `Watch video: ${video_name}`);
+
+//       let video_frame = createVideoPreview(css_class.VIDEO_FRAME);
+
+//       const video_src = videos_component.createVideoSource(`${app_configs.SERVER}/${ServerFolders.ANIME_VIDEOS}/${video_filepath}`);
+      
+//       video_frame.appendChild(video_src);
+//       video_container.appendChild(video_frame);
+
+//       return video_container;
+// }
+function CreateVideoPlayer(video_name, video_filepath, video_folder) {
       const video_container = doms_component.createDiv('video-container');
 
       const videoSrc_ahref = doms_component.createAhref({ css_class: 'video-link'});
@@ -12,7 +42,7 @@ function createVideoPlayer(video_name, video_filepath) {
 
       let video_frame = createVideoPreview(css_class.VIDEO_FRAME);
 
-      const video_src = videos_component.createVideoSource(`${app_configs.SERVER}/${ServerFolders.VIDEOS}/${video_filepath}`);
+      const video_src = videos_component.createVideoSource(`${app_configs.SERVER}/${video_folder}/${video_filepath}`);
       
       video_frame.appendChild(video_src);
       video_container.appendChild(video_frame);
@@ -85,7 +115,7 @@ function hoverMouseVideoToPlay(video_ahref) {
 }
 
 const videos_component = {
-      createVideoPlayer,
+      CreateVideoPlayer,
       createVideoPreview,
       createVideoSource,
       populateVideo,

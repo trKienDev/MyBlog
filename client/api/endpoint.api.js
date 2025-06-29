@@ -8,16 +8,21 @@ export const api_admin = {
       // studios
       getStudios: '/admin/studios', // GET
       createStudio: '/admin/studio', // POST
+      // short
+      createShort: '/admin/short', // POST
       // tag
       getTagsByFilm: '/admin/tags/film', // GET
       
 }
 export const api_user = {
+      // anime videos
+      GetAnimeVideoById: '/api/anime-video/', // GET
       // creators
       getCreators : '/creators', // GET
       getCreatorsByTagId: '/api/creators/tag', // GET
       // code
       GetCodesByStudio: '/api/codes/studio', // GET
+      getCodes: '/api/codes', // GET
       // collections
       getCollections: '/api/collections', // GET
       // films
@@ -25,10 +30,23 @@ export const api_user = {
       getFilms: '/films', // GET
       getFilmsByStudioId: '/films/studio', // GET
       getFilmsByTagId: '/films/tag', // GET
-      getFilmsByCollection: '/films/collection', // GET  
+      getFilmsByCollection: '/films/collection', // GET
+      // idols
+      getAllIdols: '/api/idols', // GET
+      // images
+      getAllImages: '/api/images', // GET  
+      // mangas
+      getAllMangas: '/api/mangas', // GET
+      findMangaById: '/api/manga', // GET
       //playlist
       getPlaylists: '/api/playlists', // GET
+      // shorts
+      getAllShorts: '/api/shorts', // GET 
+      GetPaginatedShort: '/api/shorts/paginated', // GET
+      // studios
+      GetStudios: '/studios', // GET
       // tags
+      getAllTags: '/api/tags', // GET
       addPlaylistsToVideo: '/video/playlists', // PUT
       getTagsByCreator: '/api/tags/creator', // GET
       getTagsByFilm: '/api/tags/film', // GET
@@ -40,8 +58,4 @@ export const api_user = {
       getVideosByCreatorId: '/videos/creator', // GET
       increaseVideoViewsByOne: '/video/view', // PUT
       GetPaginatedVideos: '/videos/paginated', // GET
-      // studios
-      GetStudios: '/studios', // GET
-      // idols
-      getAllIdols: '/api/idols', // GET
 }

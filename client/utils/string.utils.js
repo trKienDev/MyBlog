@@ -12,7 +12,6 @@ function RemoveAccents(string) {
                   .replace(/\s/g, ''); // 4. Xóa bỏ khoảng trắng
 }
 
-
 const string_utils = {
       removeSpaces,
       replaceSpacesWithUnderscore,

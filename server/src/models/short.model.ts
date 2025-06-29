@@ -3,6 +3,7 @@ import { iShort } from "./interface/ishort.model.js";
 
 const ShortSchema: Schema = new Schema({
       idol_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Idol' },
+      list_shorts_id: { type: mongoose.Schema.Types.ObjectId, ref: 'List-Short' },
       tag_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' },],
       file_path: { type: String, require: true },
       views: { type: Number, default: 0 },

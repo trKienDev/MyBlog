@@ -1,0 +1,40 @@
+#admin-record .body {
+      display: block;
+}
+#admin-record .navigation-item {
+      background-color: var(--light-btn);
+      border: 1px solid var(--light-btn_hover);
+      padding: 10px;
+      border-radius: 5px;
+      margin-right: 15px;
+      user-select: none;
+      color: black;
+}
+#admin-record .navigation-item:hover {
+      background-color: var(--light-btn_hover);
+      cursor: pointer;
+}
+#admin-record .record-section {
+      border: 1px solid var(--secondary-border);
+      border-radius: 5px;
+      padding: 20px;
+      display: flex;
+}
+#admin-record #record-section {
+      margin-top: 30px;
+}
+#admin-record .record-section_content {
+      margin-top: 20px;
+      border: 1px solid var(--secondary-border);
+      border-radius: 5px;
+      padding: 20px;
+      display: flex;
+}
+
+/* record-infor */
+#admin-record .section-content_wrapper {
+      width: 30%;
+}
+#admin-record .button {
+      margin-top: 20px;
+}

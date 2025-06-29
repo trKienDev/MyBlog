@@ -7,4 +7,5 @@ export interface iShort extends Document {
       file_path: string;
       views: number;
       likes: number;
+      list_shorts_id?: mongoose.Types.ObjectId; 
 }

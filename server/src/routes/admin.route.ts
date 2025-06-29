@@ -4,7 +4,7 @@ import animeSeries_controller from "../controllers/animes/anime-series.controlle
 import animeStudio_controller from "../controllers/animes/anime-studio.controller.js";
 import animeTag_controller from "../controllers/animes/anime-tag.controller.js";
 import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
-import code_controller, { createCode, getCode_byId, getCodes } from "../controllers/code.controller.js";
+import code_controller, { createCode, getCode_byId } from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, UpdateCreator } from "../controllers/creator.controller.js";
 import { filmController } from "../controllers/film.controller.js";
@@ -14,6 +14,7 @@ import image_controller from "../controllers/image.controller.js";
 import mangaTag_controller from "../controllers/mangas/manga-tag.controller.js";
 import { manga_controller } from "../controllers/mangas/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
+import record_controller from "../controllers/record.controller.js";
 import short_controller from "../controllers/short.controller.js";
 import studio_controller, { DeleteStudio, UpdateStudio } from "../controllers/studio.controller.js";
 import { createTag, tag_controller } from "../controllers/tag.controller.js";
@@ -43,7 +44,7 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/tags/action', handler: tag_controller.getTagsByAction },
       { method: 'POST', path: '/admin/tag', handler: createTag},
       // code
-      { method: 'GET', path: '/admin/codes', handler: getCodes },
+      { method: 'GET', path: '/admin/codes', handler: code_controller.GetCodes },
       { method: 'GET', path: '/admin/code/:id', handler: validated_id.validateId(getCode_byId) },
       { method: 'GET', path: '/admin/codes/studio/:id', handler: validated_id.validateId(code_controller.GetCodesByStudio) },
       { method: 'POST', path: '/admin/code', handler: createCode },
@@ -114,6 +115,8 @@ const adminRoutes: Route[] = [
       { method: 'POST', path: '/admin/gallery', handler: gallery_controller.CreateGallery },
       // short
       { method: 'POST', path: '/admin/short', handler: short_controller.CreateShort },
+      // record
+      { method: 'POST', path: '/admin/record', handler: record_controller.CreateRecord },
 ]
 
 

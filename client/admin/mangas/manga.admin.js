@@ -12,7 +12,7 @@ import table_utils from "../../utils/table.utils.js";
 import { showToast } from "../../utils/toast-notification.js";
 import { initCreateMangaAdmin } from "./create-manga.js";
 
-export async function initMangaAdmin() {
+export async function AdminMangaController() {
       spa_navigation.navigateLink(id_selectors.buttons.create_manga, id_selectors.section.dynamic_section, api_configs.endpoints.adminCreateMangaPage, initCreateMangaAdmin );
       modal_component.initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.manga_tag, modal_component.resetModal(id_selectors.form.manga_tag));
       createMangaTag();

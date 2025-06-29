@@ -1,5 +1,6 @@
 import { showToast } from "../utils/toast-notification.js";
 import api_configs from "./api.config.js";
+import { api_user } from "./endpoint.api.js";
 import fetch_api from "./fetch.api.js";
 
 // Studios
@@ -118,6 +119,12 @@ async function getAnimeVideos() {
       return result.data;
 }
 
+async function GetAnimeVideoById(id) {
+      const result = await fetch_api.apiGet(`${api_user.GetAnimeVideoById}/${id}`);
+      if(result.success === false) throw new Error(result.error);
+      return result.data;
+}
+
 const animes_api = {
       getAnimeStudios,
       getAnimeStudioById,
@@ -136,5 +143,6 @@ const animes_api = {
       getAnimePlaylistById,
       getAnimePlaylistNameById,
       getAnimeVideos,
+      GetAnimeVideoById,
 }
 export default animes_api;

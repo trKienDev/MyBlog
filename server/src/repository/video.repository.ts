@@ -33,7 +33,7 @@ export class VideoRepository implements iVideoRepository {
             if(filters.playlist_ids && mongoose.Types.ObjectId.isValid(filters.playlist_ids)) {
                   filter_query.playlist_ids = new mongoose.Types.ObjectId(filters.playlist_ids);
             }
-            console.log('filter_query: ', filter_query);
+
             const [ videos, total ] = await Promise.all([
                   Video.find(filter_query)
                         .sort({ createdAt: -1 })

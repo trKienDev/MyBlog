@@ -20,16 +20,18 @@ export class AnimeVIdeoRepository implements iAnimeVideoRepository {
       }
 
       async createAnimeVideo(data: CreateAnimeVideoDTO): Promise<CreateAnimeVideoDTO> {
-            const video = new AnimeVIdeo({
+            const new_video = new AnimeVIdeo({
                   name: data.name,
                   film_id: new mongoose.Types.ObjectId(data.film_id),
                   action_id: new mongoose.Types.ObjectId(data.action_id),
                   ...(data.playlist_id && { playlist_id: new mongoose.Types.ObjectId(data.playlist_id)}),
                   file_path: data.file_path,
-                  tag_ids: data.tag_ids.map(id => new mongoose.Types.ObjectId(id)),
             });
+            if(data.tag_ids) {
+                  new_video.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
+            }
             
-            const created_video = await video.save();
+            const created_video = await new_video.save();
             
             await AnimeFilm.findByIdAndUpdate(
                   data.film_id,
@@ -65,7 +67,7 @@ function mappingDocToCreateDTO(doc: iAnimeVideo): CreateAnimeVideoDTO {
             film_id: doc.film_id.toString(),
             action_id: doc.action_id.toString(),
             playlist_id: doc.playlist_id?.toString() ?? "",
-            tag_ids: doc.tag_ids.map(id => id.toString()),
+            tag_ids: doc?.tag_ids?.map(id => id.toString()),
             file_path: doc.file_path,
       }
 }
@@ -76,8 +78,8 @@ function mappingDocToDTO(doc: iAnimeVideo): AnimeVideoDTO {
             name: doc.name,
             action_id: doc.action_id.toString(),
             film_id: doc.film_id.toString(),
-            playlist_id: doc.playlist_id.toString(),
-            tag_ids: doc.tag_ids.map(id => id.toString()),
+            playlist_id: doc?.playlist_id?.toString(),
+            tag_ids: doc?.tag_ids?.map(id => id.toString()),
             file_path: doc.file_path,
             views: doc.views,
       }

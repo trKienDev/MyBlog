@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from "http";
+import { IncomingMessage, request, ServerResponse } from "http";
 import { CustomRequest } from "../../interfaces/CustomRequest.js";
 import { MangaRepository } from "../../repository/mangas/manga.repository.js";
 import { MangaService } from "../../services/mangas/manga.service.js";
@@ -14,6 +14,17 @@ const getMangas = async(request: IncomingMessage, response: ServerResponse) => {
             return sendResponse(response, 200, mangas);
       } catch(error) {
             console.error('Error getting mangas: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
+const FindMangaById = async(request: ValidateIdRequest, response: ServerResponse) => {
+      try {
+            const id = request?.params.id;
+            const manga = await repository.findMangaById(id);
+            return sendResponse(response, 201, manga);
+      } catch(error) {
+            console.error('Error finding manga by id: ', error);
             return sendError(response, 500, error);
       }
 }
@@ -40,6 +51,7 @@ const addImagesToInitializedManga = async(request: ValidateIdRequest, response: 
 
 export const manga_controller = {
       getMangas,
+      FindMangaById,
       initialManga,
       addImagesToInitializedManga,
 }

@@ -1,0 +1,19 @@
+#homepage-images_section .homepage_images-section_wrapper {
+      column-count: 5;
+      column-gap: 10px;
+}
+#homepage-images_section .idol-image_wrapper {
+      border-radius: 5px;
+      break-inside: avoid;
+      margin-bottom: 10px;
+      display: inline-block;
+      width: 100%;
+}
+#homepage-images_section .idol-image_wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+}
+#homepage-images_section .idol-image {
+      display: block;
+}

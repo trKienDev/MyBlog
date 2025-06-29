@@ -25,13 +25,17 @@ export class AnimeFilmRepository implements iAnimeFilmRepository {
             const new_animeFilm = new AnimeFilm({
                   name: data.name,
                   studio_id: new mongoose.Types.ObjectId(data.studio_id),
-                  series_id: new mongoose.Types.ObjectId(data.series_id),
-                  tag_ids: data.tag_ids.map(id => new mongoose.Types.ObjectId(id)),
+                  
                   year: data.year,
                   rating: data.rating || 0,
                   thumbnail: data.thumbnail,
             });
-
+            if(data.series_id) {
+                  new_animeFilm.series_id = new mongoose.Types.ObjectId(data.series_id);
+            }
+            if(data.tag_ids) {
+                  new_animeFilm.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
+            }
             const saved_animeFilm = await new_animeFilm.save();
 
             return mappingDocToCreateDTO(saved_animeFilm);
@@ -66,7 +70,10 @@ function mappingDocToDTO(doc: iAnimeFilm): AnimeFilmDTO {
             _id: doc._id.toString(),
             name: doc.name,
             studio_id: doc.studio_id.toString(),
-            series_id: doc.series_id.toString(),
+            series_id: doc?.series_id?.toString(), 
+            ...(doc.tag_ids?.length && {
+                  tag_ids: doc.tag_ids.map(id => id.toString())
+            }),
             tag_ids: doc.tag_ids.map(id => id.toString()),
             ...(doc.video_ids?.length && { 
                   video_ids: doc.video_ids.map(id => id.toString())
@@ -81,7 +88,7 @@ function mappingDocToCreateDTO(doc: iAnimeFilm): CreateAnimeFilmDTO {
       return {
             name: doc.name,
             studio_id: doc.studio_id.toString(),
-            series_id: doc.series_id.toString(),
+            series_id: doc?.series_id?.toString(),
             tag_ids: doc.tag_ids.map(id => id.toString()),
             year: doc.year,
             thumbnail: doc.thumbnail,
@@ -94,7 +101,7 @@ function mappingDocToUpdateDTO(doc: iAnimeFilm): UpdateAnimeFilmDTO {
             _id: doc._id.toString(),
             name: doc.name,
             studio_id: doc.studio_id.toString(),
-            series_id: doc.series_id.toString(),
+            series_id: doc?.series_id?.toString(),
             tag_ids: doc.tag_ids.map(id => id.toString()),
             year: doc.year,
             thumbnail: doc.thumbnail,

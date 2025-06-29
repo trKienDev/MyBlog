@@ -1,0 +1,63 @@
+<section id="admin-shorts">
+      <div class="container">
+            <h1 class="heading-title">Short Management</h1>
+            <div class="body-wrapper">
+                  <div class="left-column">
+                        <div class="primary-form">
+                              <div class="form-wrapper">
+                                    <div class="title">
+                                          <span>Add new short</span>
+                                    </div>
+                                    <div class="form-body">
+                                          <div id="short-idol">
+                                                <div class="select-search_component">
+                                                      <div class="wrapper">
+                                                            <div class="select-btn">
+                                                                  <span>Select idol</span>
+                                                                  <i class="caret-down fa-solid fa-caret-down"></i>
+                                                            </div>
+                                                            <div class="content">
+                                                                  <div class="search row ">
+                                                                        <input type="text" placeholder="search idol ... ">
+                                                                  </div>
+                                                                  <ul class="options"></ul>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div id="short-tag">
+                                                <div class="select-search_component">
+                                                      <div class="wrapper">
+                                                            <div class="select-btn">
+                                                                  <span>Select tag</span>
+                                                                  <i class="caret-down fa-solid fa-caret-down"></i>
+                                                            </div>
+                                                            <div class="content">
+                                                                  <div class="search row ">
+                                                                        <input type="text" placeholder="search tag ... ">
+                                                                  </div>
+                                                                  <ul class="options"></ul>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div id="selected-tag_container" class="selected-tag_container"></div>
+                                          </div>
+                                          <div class="button">
+                                                <button id="short-form_submit" class="btn primary-btn" type="submit">Add</button>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+                  <div class="right-column">
+                        <div class="short-wrapper">
+                              <img id="short-img" src="/admin/static/images/face/upload-profile.jpg" alt="">
+                              <input type="file" id="short-input" accept="video/mp4" style="display: none;">
+                        </div>
+                        <video class="short-frame d-none" controls >
+                              <source src="" type="video/mp4">
+                        </video>
+                  </div>
+            </div>
+      </div>
+</section>

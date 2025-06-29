@@ -6,6 +6,7 @@ import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
 import file_utils from "../../utils/file.utils.js";
 import image_utils from "../../utils/image.utils.js";
+import string_utils from "../../utils/string.utils.js";
 import tags_utils from "../../utils/tags.utils.js";
 import { showToast } from "../../utils/toast-notification.js";
 
@@ -20,6 +21,7 @@ export function AdminImageController() {
             event.preventDefault();
             const idol_id = selectSearch_component.getSelectedOptionValue('image-idol', 'id');
             const idol_name = selectSearch_component.getSelectedOptionValue('image-idol', 'text');
+            const idol_identifiername = string_utils.RemoveAccents(idol_name);
             const tag_ids = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
             
             const image_file = document.getElementById('image-input').files[0];
@@ -27,12 +29,16 @@ export function AdminImageController() {
                   showToast('Please upload an image before submitting');
                   return null;
             }
-            const renamed_image = file_utils.renameUploadedFile(image_file, idol_name);
+            const renamed_image = file_utils.renameUploadedFile(image_file, idol_identifiername);
+            const image_dimension = await image_utils.GetImageDimensions(image_file);
             
             const form_data = new FormData();
             form_data.append("idol_id", idol_id);
             form_data.append("tag_ids", tag_ids);
+            form_data.append("width", image_dimension.width);
+            form_data.append("height", image_dimension.height);
             form_data.append("file", renamed_image);
+            console.log('form data: ', form_data);
 
             try {
                   const result = await fetch_api.createForm(api_admin.createImage, form_data);
@@ -50,12 +56,6 @@ export function AdminImageController() {
 }
 
 function ResetImageModal() {
-      selectSearch_component.resetSelectSearch([
-            { id: "image-tag", placeholder: "Select tag"},
-            { id: "image-idol", placeholder: "Select idol"},
-      ]);
-      tags_utils.resetTagSelection(id_selectors.container.selected_tag);
-
       const img_id = "image-img";
       const imgInput_id = "image-input";
       const default_img = "/admin/static/images/face/upload-profile.jpg";

@@ -6,7 +6,7 @@ export interface AnimeVideoDTO {
       film_id: string;
       action_id: string;
       playlist_id?: string;
-      tag_ids: string[];
+      tag_ids?: string[];
       file_path: string;
       views: number; 
 }
@@ -17,7 +17,7 @@ export interface CreateAnimeVideoDTO {
       film_id: string;
       action_id: string;
       playlist_id?: string;
-      tag_ids: string[];
+      tag_ids?: string[];
       file_path: string; 
 }
 
@@ -27,6 +27,6 @@ export interface UpdateAnimeVideoDTO {
       film_id: string;
       action_id: string;
       playlist_id?: string;
-      tag_ids: string[];
+      tag_ids?: string[];
       file_path: string; 
 }

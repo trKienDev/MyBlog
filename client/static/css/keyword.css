@@ -3,6 +3,8 @@
 .w-30pct { width: 30%; }
 .w-40pct { width: 40%; }
 .w-65pct { width: 65%;}
+.w-50pct { width: 50% !important;}
+.w-100pct { width: 100%;}
 
 /* height */
 .max-hei_200px { max-height: 200px; }
@@ -10,6 +12,8 @@
 /* margin */
 .mar_top-10px { margin-top: 10px; }
 .martop-30px { margin-top: 30px; }
+.mar-left-10px { margin-left: 10px;}
+
 
 /* display */
 .d-flex { display: flex; }

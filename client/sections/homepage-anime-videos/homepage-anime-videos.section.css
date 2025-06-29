@@ -1,0 +1,8 @@
+#anime-videos_section .anime-videos_section-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+}
+#anime-videos_section .anime-video_frame {
+      width: calc((100% - 40px) / 4);
+}

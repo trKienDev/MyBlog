@@ -4,7 +4,9 @@ import fetch_api from "../../../api/fetch.api.js";
 import selectSearch_component from "../../../components/select-search.component.js";
 import css_selectors from "../../../selectors/css.selectors.js";
 import id_selectors from "../../../selectors/element-id.selector.js";
+import file_utils from "../../../utils/file.utils.js";
 import image_utils from "../../../utils/image.utils.js";
+import string_utils from "../../../utils/string.utils.js";
 import { error_sweetAlert, success_sweetAlert } from "../../../utils/sweet-alert.js";
 import tags_utils from "../../../utils/tags.utils.js";
 import video_utils from "../../../utils/video.utils.js";
@@ -23,7 +25,7 @@ export async function initCreateAnimeVideo() {
 function createAnimeVideo() {
       const submitVideo_btn = document.getElementById(id_selectors.videos.submit_video_btn);
       submitVideo_btn.addEventListener('click', async() => {
-            const video_info = collectAnimeVideoInfo();
+            const video_info = await collectAnimeVideoInfo();
             const video_form = buildVideoForm(video_info);
             console.log('video form: ', video_form);
             try {
@@ -41,22 +43,18 @@ function createAnimeVideo() {
       });
 }
 
-function collectAnimeVideoInfo() {
+async function collectAnimeVideoInfo() {
       const film_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_film, 'id');
-      const film_name = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_film, 'text');
+      const anime_film = await animes_api.getAnimeFilmById(film_id);
+      const film_identifyname = string_utils.RemoveAccents(anime_film.name);
 
       const action_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_action, 'id');
       const action_text = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_action, 'text');
-
-      const video_name = film_name + '_' + action_text;
+      const clean_action_text = string_utils.RemoveAccents(action_text);
+      const video_name = film_identifyname + '-' + clean_action_text;
 
       const playlist_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_playlist, 'id');
       const tag_ids = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
-
-      if(tag_ids.length === 0) {
-            showToast('Please select at least a tag', 'warning');
-            return;
-      }
 
       const upload_input = document.getElementById(id_selectors.videos.upload_video);
       const file = upload_input.files[0];
@@ -64,8 +62,9 @@ function collectAnimeVideoInfo() {
             showToast('Please upload your video', 'warning');
             return;
       }
+      const renamed_file = file_utils.renameUploadedFile(file, film_identifyname);
 
-      return { video_name, film_id, action_id, playlist_id, tag_ids, file};
+      return { video_name, film_id, action_id, playlist_id, tag_ids, renamed_file};
 }
 
 function buildVideoForm(video_info) {
@@ -73,9 +72,9 @@ function buildVideoForm(video_info) {
       video_form.append("name", video_info.video_name);
       video_form.append("action_id", video_info.action_id);
       video_form.append("film_id", video_info.film_id);
-      video_form.append("playlist_id", video_info.playlist_id);
-      video_form.append("tag_ids", video_info.tag_ids);
-      video_form.append("file", video_info.file);
+      if(video_info.playlist_id) video_form.append("playlist_id", video_info.playlist_id);
+      if(video_info.tag_ids) video_form.append("tag_ids", video_info.tag_ids);
+      video_form.append("file", video_info.renamed_file);
 
       return video_form;
 }

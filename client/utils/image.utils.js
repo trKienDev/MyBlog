@@ -47,11 +47,58 @@ function addEffectHoverToZoomImage(container_element, image_element) {
       image_element.classList.add(css_class.HOVER_TO_ZOOM_IMG);
 }
 
+/**
+ * Lấy chiều rộng và chiều cao của một đối tượng File hình ảnh.
+ * @param {File} file - Đối tượng File từ <input type="file">.
+ * @returns {Promise<{width: number, height: number}>} Một Promise sẽ resolve với một object chứa width và height.
+ */
+function GetImageDimensions(file) {
+      return new Promise((resolve, reject) => {
+            // Kiểm tra xem file có phải là ảnh không
+            if (!file.type.startsWith('image/')) {
+                  reject(new Error('Tệp không phải là hình ảnh.'));
+                  return;
+            }
+
+            // Tạo một URL tạm thời cho tệp tin
+            const objectUrl = URL.createObjectURL(file);
+
+            // Tạo một đối tượng Image mới trong bộ nhớ
+            const img = new Image();
+
+            // Lắng nghe sự kiện 'load' - sự kiện này chỉ được kích hoạt
+            // KHI ảnh đã được tải xong và có thông tin về kích thước.
+            img.onload = function() {
+                  // Lấy width và height từ đối tượng image
+                  const dimensions = {
+                        width: this.width,
+                        height: this.height
+                  };
+
+                  // Giải phóng bộ nhớ bằng cách thu hồi object URL
+                  URL.revokeObjectURL(objectUrl);
+
+                  // Trả về kết quả thành công
+                  resolve(dimensions);
+            };
+
+            // Xử lý lỗi nếu không tải được ảnh
+            img.onerror = function() {
+                  URL.revokeObjectURL(objectUrl);
+                  reject(new Error('Không thể tải tệp hình ảnh.'));
+            };
+
+            // Gán URL của tệp cho thuộc tính src của image để bắt đầu quá trình tải
+            img.src = objectUrl;
+      });
+}
+
 const image_utils = {
       loadThumbnailOfSelectedFilm,
       displayThumbnailOfSelectedSearchFilm,
       getImageSourceFromApi,
       resetImageElementValue,
       addEffectHoverToZoomImage,
+      GetImageDimensions,
 };
 export default image_utils;

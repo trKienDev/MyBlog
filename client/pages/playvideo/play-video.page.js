@@ -187,7 +187,7 @@ async function renderFilmVideo(video_info) {
             let video_ahref = doms_component.createAhref({ href: `video/#id=${video_id}`, css_class: ''});
 
             const video_name = await video_api.getVideoName(video_id);
-            const video_player = videos_component.createVideoPlayer(video_name, video_filepath);
+            const video_player = videos_component.CreateVideoPlayer(video_name, video_filepath, ServerFolders.VIDEOS);
             video_ahref.appendChild(video_player);
             video_container.appendChild(video_ahref);
             video_frame.appendChild(video_container);

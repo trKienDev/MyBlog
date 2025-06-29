@@ -35,7 +35,7 @@ const getVIdeosPaginated = async(request: CustomRequest, response: ServerRespons
             const videos = await video_service.getPaginatedVideos(page_number, limit_number, filters);
             return sendResponse(response, 200, videos);
       } catch(error) {
-            console.error('Error get paginated videos');
+            console.error('Error get paginated videos: ', error);
             return sendError(response, 500, error);
       }
 }

@@ -8,6 +8,8 @@ import table_component from "../../../components/table.component.js";
 import thumbnail_component from "../../../components/thumbnail.component.js";
 import css_selectors from "../../../selectors/css.selectors.js";
 import id_selectors from "../../../selectors/element-id.selector.js";
+import file_utils from "../../../utils/file.utils.js";
+import string_utils from "../../../utils/string.utils.js";
 import { error_sweetAlert, success_sweetAlert } from "../../../utils/sweet-alert.js";
 import tags_utils from "../../../utils/tags.utils.js";
 import { showToast } from "../../../utils/toast-notification.js";
@@ -15,6 +17,8 @@ import { showToast } from "../../../utils/toast-notification.js";
 let default_thumbnail = "/admin/static/images/film/thumbnail-upload_default.png";
 
 export async function initAnimeFilm() {
+      const anime_tags = await animes_api.getAnimeTags();
+      console.log('anime tags: ', anime_tags);
       modal_component.initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.create_anime_film, resetAnimeModal);
       selectSearch_component.initSelectSearch(id_selectors.anime.film_studio, api_configs.endpoints.getAnimeStudios, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.film_series, api_configs.endpoints.getAnimeSeries, 'name');
@@ -45,9 +49,18 @@ async function renderAnimeFilms() {
             const studio = table_component.createTextTd({ i_text: anime_studio.name });
             tr.appendChild(studio);
 
-            const anime_series = await animes_api.getAnimeSeriesById(film.series_id);
-            const series = table_component.createTextTd({ i_text: anime_series.name });
-            tr.appendChild(series);
+            if(film.series_id) {
+                  console.log('film.series_id', film.series_id);
+                  const anime_series = await animes_api.getAnimeSeriesById(film.series_id);
+                  const series = table_component.createTextTd({ i_text: anime_series.name });
+                  tr.appendChild(series);
+            }
+            else {
+                  const series = table_component.createTextTd({ i_text: '' });
+                  tr.appendChild(series);
+            }
+
+           
 
             const year = table_component.createTextTd({ i_text: film.year });
             tr.appendChild(year);
@@ -149,13 +162,16 @@ function buildFormData() {
       const rating = document.getElementById(id_selectors.anime.film_rating).value;
       const tags = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
 
+      const identify_name = string_utils.RemoveAccents(name);
+      const renamed_thumbnail = file_utils.renameUploadedFile(thumbnail, identify_name);
+
       form.append('name', name);
       form.append('studio_id', studio_id);
-      form.append('series_id', series_id);
+      if(series_id) form.append('series_id', series_id);
       form.append('year', year);
       form.append('rating', rating);
       form.append('tag_ids', tags);
-      form.append('file', thumbnail);
+      form.append('file', renamed_thumbnail);
 
       return form;
 }
@@ -175,7 +191,9 @@ async function populateAnimeFilmForm(anime) {
       anime_name.value = anime.name;
       
       await selectSearch_component.loadInfoSelectSearch(anime, id_selectors.anime.film_studio, 'studio_id', animes_api.getAnimeStudioNameById);
-      await selectSearch_component.loadInfoSelectSearch(anime, id_selectors.anime.film_series, 'series_id', animes_api.getAnimeSeriesNameById);
+      if(anime.series_id) {
+            await selectSearch_component.loadInfoSelectSearch(anime, id_selectors.anime.film_series, 'series_id', animes_api.getAnimeSeriesNameById);
+      }
       const anime_year = document.getElementById('anime-film_year');
       anime_year.value = anime.year;
 

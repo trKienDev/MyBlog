@@ -11,6 +11,13 @@ export async function getCodeById(code_id) {
       return result.data;
 }
 
+async function GetAllCodes() {
+      const result = await fetch_api.apiGet(api_user.getCodes);
+      if(result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
+
 async function GetCodesByStudioId(studio_id) {
       const result = await fetch_api.apiGet(`${api_user.GetCodesByStudio}/${studio_id}`);
       if(result.success === false) throw new Error(result.error);
@@ -19,6 +26,7 @@ async function GetCodesByStudioId(studio_id) {
 }
 
 const code_api = {
+      GetAllCodes,
       GetCodesByStudioId,
 }
 export default code_api;
