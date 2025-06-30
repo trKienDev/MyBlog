@@ -51,8 +51,12 @@
                   </div>
                   <div class="right-column">
                         <div class="image-wrapper">
-                              <img id="image-img" src="/admin/static/images/face/upload-profile.jpg" alt="">
-                              <input type="file" id="image-input" name="file" style="display: none;" accept="image/*">
+                              <div id="upload-images_btn" class="btn primary-btn d-flex">
+                                    <i class="fa-solid fa-circle-arrow-up"></i>
+                                    <span style="padding-left: 10px;">upload images</span>
+                              </div>
+                              <input type="file" id="image-input" name="file" style="display: none;" accept="image/*" multiple="true">
+                              <div id="uploaded-images"></div>
                         </div>
                   </div>
             </div>

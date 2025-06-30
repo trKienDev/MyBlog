@@ -57,7 +57,7 @@
 #create-manga .thumbnail-wrapper input {
       display: none;
 }
-#upload-images_btn {
+#admin-mangas #upload-images_btn {
       margin-left: 50px;
       height: fit-content;
 }
@@ -70,10 +70,10 @@
 }
 
 /* preview manga images */
-.preview-manga_section {
+#admin-mangas .preview-manga_section {
       margin-top: 50px;
 }
-.upload-images_list {
+#admin-mangas  .upload-images_list {
       display: flex;
       flex-wrap: wrap; 
       gap: 10px; 
@@ -81,12 +81,12 @@
       align-items: flex-start;
       margin: 0 -5px;
 }
-.image-frame {
+#admin-mangas .image-frame {
       width: 200px; 
       flex-basis: 200px; 
       margin: 5px; 
 }
-.manga-image {
+#admin-mangas .manga-image {
       max-width: 100%; 
       height: auto; 
       display: block; 
