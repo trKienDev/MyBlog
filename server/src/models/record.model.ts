@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 export interface iRecord extends Document {
       _id: mongoose.Types.ObjectId;
       name: string;
+      description: string;
       idol_id?: mongoose.Types.ObjectId;
       creator_id?: mongoose.Types.ObjectId;
       code_id?: mongoose.Types.ObjectId;
@@ -15,6 +16,7 @@ export interface iRecord extends Document {
 
 const RecordSchema: Schema = new Schema({
       name: { type: String },
+      description: { type: String },
       idol_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Idol', require: false },
       creator_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Creator', require: false },
       code_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Code', require: false },

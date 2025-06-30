@@ -33,7 +33,16 @@
 
 /* record-infor */
 #admin-record .section-content_wrapper {
+      width: 100%;
+      display: flex;
+}
+#admin-record #record-infor_form {
       width: 30%;
+}
+#admin-record #records-table {
+      width: 30%;
+      margin-left: 10px;
+      height: fit-content;
 }
 #admin-record .button {
       margin-top: 20px;

@@ -2,6 +2,7 @@ export interface RecordDto {
       _id: string;
       name: string;
       idol_id?: string;
+      description: string;
       creator_id?: string;
       studio_id?: string;
       code_id?: string;
@@ -12,6 +13,7 @@ export interface RecordDto {
 }
 export interface CreateRecordDto {
       name: string;
+      description: string;
       idol_id?: string;
       code_id?: string;
       creator_id?: string;

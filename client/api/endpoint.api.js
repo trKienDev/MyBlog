@@ -12,7 +12,8 @@ export const api_admin = {
       createShort: '/admin/short', // POST
       // tag
       getTagsByFilm: '/admin/tags/film', // GET
-      
+      // record
+      createRecord: '/admin/record', // POST
 }
 export const api_user = {
       // anime videos
@@ -43,6 +44,8 @@ export const api_user = {
       // shorts
       getAllShorts: '/api/shorts', // GET 
       GetPaginatedShort: '/api/shorts/paginated', // GET
+      // records
+      getAllRecords: '/api/records', // GET
       // studios
       GetStudios: '/studios', // GET
       // tags
