@@ -7,6 +7,7 @@ import idol_controller from "../controllers/idol.controller.js";
 import image_controller from "../controllers/image.controller.js";
 import { manga_controller } from "../controllers/mangas/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
+import record_controller from "../controllers/record.controller.js";
 import short_controller from "../controllers/short.controller.js";
 import studio_controller from "../controllers/studio.controller.js";
 import { tag_controller } from "../controllers/tag.controller.js";
@@ -59,6 +60,8 @@ const user_routes: Route[] = [
       // shorts
       { method: 'GET', path: '/api/shorts', handler: short_controller.GetAllShorts },
       { method: 'GET', path: '/api/shorts/paginated', handler: short_controller.GetPaginationShorts },
+      // records
+      { method: 'GET', path: '/api/records', handler: record_controller.GetAllRecords },
       // video
       { method: 'GET', path: '/video/:id', handler: validated_id.validateId(video_controller.findVideoById)},
       { method: 'GET', path: '/videos/creator/:id', handler: validated_id.validateId(video_controller.findVideosByCreatorId)},

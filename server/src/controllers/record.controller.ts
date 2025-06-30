@@ -6,6 +6,16 @@ import { IncomingMessage, ServerResponse } from "node:http";
 const _recordRepository = new RecordRepository();
 const _recordService = new RecordService(_recordRepository);
 
+const GetAllRecords = async(request: IncomingMessage, response: ServerResponse) => {
+      try {
+            const records = await _recordRepository.GetAll();
+            return sendResponse(response, 200, records);
+      } catch(error) {
+            console.error('Error getting all records: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
 const CreateRecord = async(request: IncomingMessage, response: ServerResponse) => {
       try {
             const created_records = await _recordService.CreateRecord(request);
@@ -17,6 +27,7 @@ const CreateRecord = async(request: IncomingMessage, response: ServerResponse) =
 }
 
 const record_controller = {
+      GetAllRecords,
       CreateRecord,
 }
 export default record_controller;
