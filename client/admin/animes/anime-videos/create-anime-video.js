@@ -80,7 +80,10 @@ function buildVideoForm(video_info) {
 }
 
 function resetCreateAnimeVideoForm() {
-      video_utils.resetVideoPreview();
+      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
+      const upload_input = document.getElementById(id_selectors.videos.upload_video);
+      video_utils.ResetVideoPreview(thumbnail_image, upload_input);
+      
       tags_utils.resetTagSelection(id_selectors.container.selected_tag);
       selectSearch_component.resetSelectSearch([
             { id: id_selectors.anime.anime_action, placeholder: "Select Action" },

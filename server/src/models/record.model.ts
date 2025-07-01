@@ -15,7 +15,7 @@ export interface iRecord extends Document {
 }
 
 const RecordSchema: Schema = new Schema({
-      name: { type: String },
+      name: { type: String, unique: true },
       description: { type: String },
       idol_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Idol', require: false },
       creator_ids: { type: mongoose.Schema.Types.ObjectId, ref: 'Creator', require: false },

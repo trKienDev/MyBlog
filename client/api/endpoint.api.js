@@ -14,8 +14,14 @@ export const api_admin = {
       getTagsByFilm: '/admin/tags/film', // GET
       // record
       createRecord: '/admin/record', // POST
+      // clip 
+      createClip: '/admin/clip', // POST
+      // albums
+      createAlbum: '/admin/album', // POST
 }
 export const api_user = {
+      // albums
+      getAllAlbums: '/api/albums', // GET
       // anime videos
       GetAnimeVideoById: '/api/anime-video/', // GET
       // creators
@@ -46,6 +52,7 @@ export const api_user = {
       GetPaginatedShort: '/api/shorts/paginated', // GET
       // records
       getAllRecords: '/api/records', // GET
+      getRecordById: '/api/record', // GET
       // studios
       GetStudios: '/studios', // GET
       // tags
@@ -56,6 +63,7 @@ export const api_user = {
       getTagsByVideo: '/api/tags/video', // GET
       getTagsByVideoHomepage: '/api/tags/videos/homepage', // GET
       getTagsByImages: '/api/tags/images', // GET
+      getTagsByAction: '/api/tags/action', // GET
       // videos
       getVideoById: '/video', // GET
       getVideosByCreatorId: '/videos/creator', // GET

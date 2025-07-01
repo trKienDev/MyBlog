@@ -9,6 +9,11 @@ export class RecordRepository implements iRecordRepository {
             return records.map(record => MappingDocToDTO(record));
       }
 
+      async FindById(id: string): Promise<RecordDto | null> {
+            const record = await Record.findById(id);
+            return record ? MappingDocToDTO(record) : null;
+      }
+
       async Create(data: CreateRecordDto): Promise<RecordDto> {
             const new_record = new Record({
                   name: data.name,

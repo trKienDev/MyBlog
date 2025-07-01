@@ -1,6 +1,13 @@
 #admin-record .body {
       display: block;
 }
+#admin-record .row {
+      display: flex;
+      justify-content: space-between;
+}
+#admin-record .column {
+      width: 49%;
+}
 #admin-record .navigation-item {
       background-color: var(--light-btn);
       border: 1px solid var(--light-btn_hover);
@@ -46,4 +53,11 @@
 }
 #admin-record .button {
       margin-top: 20px;
+}
+#admin-record #admin-record-clips .left-column {
+      width: 30%;
+      margin-right: 30px;
+}
+#admin-record .right-column img {
+      height: 357px;
 }

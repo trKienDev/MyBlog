@@ -1,6 +1,5 @@
 import { api_admin, api_user } from "../../api/endpoint.api.js";
 import fetch_api from "../../api/fetch.api.js";
-import images_component from "../../components/image.component.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import css_selectors from "../../selectors/css.selectors.js";
 import id_selectors from "../../selectors/element-id.selector.js";
@@ -73,16 +72,7 @@ async function AddImages(event) {
                   showToast(error.message, 'error');
                   return;
             }
-      });
-      
-      // const image_file = document.getElementById('image-input').files[0];
-      // if(!image_file) {
-      //       showToast('Please upload an image before submitting');
-      //       return null;
-      // }
-      // const renamed_image = file_utils.renameUploadedFile(image_file, idol_identifiername);
-      // const image_dimension = await image_utils.GetImageDimensions(image_file);
-      
+      });      
 }
 
 function UploadImages() {

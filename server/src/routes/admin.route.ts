@@ -1,9 +1,11 @@
+import album_controller from "../controllers/album.controller.js";
 import animeFilm_controller from "../controllers/animes/anime-film.controller.js";
 import animePlaylist_controller from "../controllers/animes/anime-playlist.controller.js";
 import animeSeries_controller from "../controllers/animes/anime-series.controller.js";
 import animeStudio_controller from "../controllers/animes/anime-studio.controller.js";
 import animeTag_controller from "../controllers/animes/anime-tag.controller.js";
 import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
+import clip_controller from "../controllers/clip.controller.js";
 import code_controller, { createCode, getCode_byId } from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
 import { CreateCreator, creator_controller, DeleteCreator, UpdateCreator } from "../controllers/creator.controller.js";
@@ -117,6 +119,10 @@ const adminRoutes: Route[] = [
       { method: 'POST', path: '/admin/short', handler: short_controller.CreateShort },
       // record
       { method: 'POST', path: '/admin/record', handler: record_controller.CreateRecord },
+      // clips
+      { method: 'POST', path: '/admin/clip', handler:  clip_controller.CreateClip },
+      // albums
+      { method: 'POST', path: '/admin/album', handler: album_controller.CreateAlbum },
 ]
 
 

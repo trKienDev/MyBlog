@@ -25,17 +25,15 @@ function waitForUploadVideo(thumbnail_video, upload_video) {
 
       upload_input.addEventListener('change', video_helpers.handleVideoUpload);
 }
-function resetVideoPreview() {
+function ResetVideoPreview(video_thumbnail, upload_input) {
       const video_element = document.querySelector('video');
       const source_element = video_element.querySelector('source');
-      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
-      const upload_input = document.getElementById(id_selectors.videos.upload_video);
 
       source_element.src = "";
       video_element.load();
 
       video_element.classList.add('d-none');
-      thumbnail_image.style.display = "";
+      video_thumbnail.style.display = "";
       upload_input.value = "";
 }
 
@@ -54,6 +52,6 @@ const video_utils = {
       clickMouseToPlayVideo,
       waitForUploadVideo,
       waitForUploadNewVideo,
-      resetVideoPreview,
+      ResetVideoPreview,
 };
 export default video_utils;

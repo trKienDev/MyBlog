@@ -108,7 +108,10 @@ function buildVideoForm(video_info) {
 }
 
 function resetCreateVideoForm() {
-      video_utils.resetVideoPreview();
+      const thumbnail_image = document.getElementById(id_selectors.videos.thumbnail_video);
+      const upload_input = document.getElementById(id_selectors.videos.upload_video);
+      video_utils.ResetVideoPreview(thumbnail_image, upload_input);
+
       selectSearch_component.resetSelectSearch([
             { id: id_selectors.videos.video_action, placeholder: "Select Action" },
       ]);

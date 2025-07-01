@@ -7,7 +7,14 @@ async function GetAllRecords() {
       return response.data;
 }
 
+async function GetRecordById(id) {
+      const response = await fetch_api.apiGet(`${api_user.getRecordById}/${id}`);
+      if(response.success === false) throw new Error('Error get record by id: ', response.error);
+      return response.data;
+}
+
 const records_api = {
       GetAllRecords,
+      GetRecordById,
 }
 export default records_api;

@@ -10,6 +10,9 @@
                               <a href="admin-clips" class="navigation-item">
                                     <span>Clips</span>
                               </a>
+                              <a href="admin-albums" class="navigation-item">
+                                    <span>Albums</span>
+                              </a>
                         </div>
                   </div>
                   <main>
@@ -114,7 +117,7 @@
                                                                         </div>
                                                                   </div>
                                                             </div>
-                                                            <div id="selected-tag_container" class="selected-tag_container"></div>
+                                                            <div id="selected-record-tags_container" class="selected-tag_container"></div>
                                                       </div>
                                                 </div>
                                                 <div class="button">
@@ -136,12 +139,132 @@
                                     </table>
                               </div>
                         </section>
-
                         <section id="admin-record-clips" class="record-section_content" style="display: none;">
-                              <div class="wrapper">
-                                    <h1>Records clips</h1>
+                              <div class="section-content_wrapper">
+                                    <div class="left-column">
+                                          <div class="primary-form">
+                                                <div class="form-wrapper">
+                                                      <div class="title">
+                                                            <span>Add new clip</span>
+                                                      </div>
+                                                      <div class="form-body">
+                                                            <div class="first-row row">
+                                                                  <div id="clip-record" class="column">
+                                                                        <div class="select-search_component">
+                                                                              <div class="wrapper">
+                                                                                    <div class="select-btn">
+                                                                                          <span>Select record</span>
+                                                                                          <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                                    </div>
+                                                                                    <div class="content">
+                                                                                          <div class="search row ">
+                                                                                                <input type="text" placeholder="search record ... ">
+                                                                                          </div>
+                                                                                          <ul class="options"></ul>
+                                                                                    </div>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                                  <div id="list-clip" class="column">
+                                                                        <div class="select-search_component">
+                                                                              <div class="wrapper">
+                                                                                    <div class="select-btn">
+                                                                                          <span>Select list clips</span>
+                                                                                          <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                                    </div>
+                                                                                    <div class="content">
+                                                                                          <div class="search row ">
+                                                                                                <input type="text" placeholder="search list clips ... ">
+                                                                                          </div>
+                                                                                          <ul class="options"></ul>
+                                                                                    </div>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="second-row row">
+                                                                  <div id="clip-action" class="column">
+                                                                        <div class="select-search_component">
+                                                                              <div class="wrapper">
+                                                                                    <div class="select-btn">
+                                                                                          <span>Select action</span>
+                                                                                          <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                                    </div>
+                                                                                    <div class="content">
+                                                                                          <div class="search row ">
+                                                                                                <input type="text" placeholder="search action ... ">
+                                                                                          </div>
+                                                                                          <ul class="options"></ul>
+                                                                                    </div>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                                  <div id="clip-tags" class="column">
+                                                                        <div class="select-search_component">
+                                                                              <div class="wrapper">
+                                                                                    <div class="select-btn">
+                                                                                          <span>Select tag</span>
+                                                                                          <i class="caret-down fa-solid fa-caret-down"></i>
+                                                                                    </div>
+                                                                                    <div class="content">
+                                                                                          <div class="search row ">
+                                                                                                <input type="text" placeholder="search tag ... ">
+                                                                                          </div>
+                                                                                          <ul class="options"></ul>
+                                                                                    </div>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div id="selected-clip-tags_container" class="selected-tag_container"></div>
+                                                            <div class="button">
+                                                                  <button id="add-clip_btn" class="btn primary-btn" type="submit">Create</button>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="right-column">
+                                          <div class="clip-wrapper">
+                                                <img id="clip-img" src="/admin/static/images/face/upload-profile.jpg" alt="">
+                                                <input type="file" id="clip-input" accept="video/mp4" style="display: none;">
+                                          </div>
+                                          <video class="clip-frame d-none" controls >
+                                                <source src="" type="video/mp4">
+                                          </video>
+                                    </div>
                               </div>
                         </section>
+                        <section id="admin-record-albums" class="record-section_content" style="display: none;">
+                              <div class="section-content_wrapper">
+                                    <div class="left-column">
+                                          <div class="primary-form">
+                                                <div class="form-wrapper">
+                                                      <div class="title">
+                                                            <span>Add new album</span>
+                                                      </div>
+                                                      <div class="form-body">
+                                                            <input type="text" id="album-name" class="form-input" name="name" placeholder="album name" required>
+                                                            <div class="button">
+                                                                  <button id="add-album_btn" class="btn primary-btn" type="submit">Add</button>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="right-column">
+                                          <table id="albums-table" cellpadding="0" cellspacing="0">
+                                                <thead>
+                                                      <tr>
+                                                            <th class="album-name">Name</th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                          </table>
+                                    </div>
+                              </div>
+                        </section>
+
                   </main>
             </div>
       </div>

@@ -1,3 +1,4 @@
+import album_controller from "../controllers/album.controller.js";
 import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
 import code_controller from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
@@ -17,6 +18,8 @@ import { validated_id } from "../middlewares/validate-id.js";
 import { createRouter } from "./routes.js";
 
 const user_routes: Route[] = [
+      // albums
+      { method: 'GET', path: '/api/albums', handler: album_controller.GetAllAlbums },
       // anime-videos
       { method: 'GET', path: '/api/anime-video/:id', handler: validated_id.validateId(animeVideo_controller.GetAnimeVideoById ) },
       // codes
@@ -55,6 +58,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/api/tags/video', handler: tag_controller.getTagsByVideo },
       { method: 'GET', path: '/api/tags/videos/homepage', handler: tag_controller.GetTagsForVideoHomepage },
       { method: 'GET', path: '/api/tags/images', handler: tag_controller.GetTagsByImage },
+      { method: 'GET', path: '/api/tags/action', handler: tag_controller.getTagsByAction },
       // playlist
       { method: 'GET', path: '/api/playlists', handler: playlist_controller.getPlaylists },
       // shorts
@@ -62,6 +66,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/api/shorts/paginated', handler: short_controller.GetPaginationShorts },
       // records
       { method: 'GET', path: '/api/records', handler: record_controller.GetAllRecords },
+      { method: 'GET', path: '/api/record/:id', handler: validated_id.validateId(record_controller.GetRecordById) },
       // video
       { method: 'GET', path: '/video/:id', handler: validated_id.validateId(video_controller.findVideoById)},
       { method: 'GET', path: '/videos/creator/:id', handler: validated_id.validateId(video_controller.findVideosByCreatorId)},
