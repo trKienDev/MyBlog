@@ -6,7 +6,7 @@ import film_component from "../../components/films.component.js";
 import images_component from "../../components/image.component.js";
 import tags_component from "../../components/tags.component.js";
 import ClientSections from "../../constants/client-sections.constant.js";
-import videoPagination_section from "../../sections/pagined-videos/pagined-videos.section.js";
+import videoPagination_section from "../../sections/pagination-videos/pagination-videos.section.js";
 import spa_renderHTML from "../../services/spa/render-html.js";
 
 export async function TagInforController(tag_id) {
@@ -45,11 +45,11 @@ async function RenderTagByFilm(tag_id, list_media) {
 async function RenderTagByVideo(tag_id, list_media) {
       const tag_info = await tag_api.getTagById(tag_id);
       if(tag_info.kind === "action") {
-            spa_renderHTML.loadContentFromUrl(ClientSections.NEWVIDEOS, 'list-media', () => videoPagination_section.PaginedVideosSectionController('pagined-videos', { action_id: tag_id }));
+            spa_renderHTML.loadContentFromUrl(ClientSections.NEWVIDEOS, 'list-media', () => videoPagination_section.PaginedVideosSectionController('videos-pagination_section', { action_id: tag_id }));
       } else {
-            spa_renderHTML.loadContentFromUrl(ClientSections.NEWVIDEOS, 'list-media', () => videoPagination_section.PaginedVideosSectionController('pagined-videos', { tag_id: tag_id }));
+            spa_renderHTML.loadContentFromUrl(ClientSections.NEWVIDEOS, 'list-media', () => videoPagination_section.PaginedVideosSectionController('videos-pagination_section', { tag_id: tag_id }));
       }
-      const video_section = doms_component.CreateSection({ id: 'pagined-videos' });
+      const video_section = doms_component.CreateSection({ id: 'videos-pagination_section' });
       
       list_media.appendChild(video_section);
 }

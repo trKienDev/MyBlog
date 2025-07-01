@@ -4,6 +4,7 @@ import clip_controller from "../controllers/clip.controller.js";
 import code_controller from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
 import { creator_controller } from "../controllers/creator.controller.js";
+import feed_controller from "../controllers/feed.controller.js";
 import { filmController } from "../controllers/film.controller.js";
 import idol_controller from "../controllers/idol.controller.js";
 import image_controller from "../controllers/image.controller.js";
@@ -19,6 +20,8 @@ import { validated_id } from "../middlewares/validate-id.js";
 import { createRouter } from "./routes.js";
 
 const user_routes: Route[] = [
+      // homepage-feed
+      { method: 'GET', path: '/api/homepage-feed', handler: feed_controller.ProcessingHomepageFeed },
       // albums
       { method: 'GET', path: '/api/albums', handler: album_controller.GetAllAlbums },
       // anime-videos

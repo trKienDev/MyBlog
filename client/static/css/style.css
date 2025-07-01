@@ -8,7 +8,7 @@
 @import url('../../pages/manga_info/manga-infor.page.css');
 @import url('../../sections/films/films.section.css');
 @import url('../../sections//tags/tags.section.css');
-@import url('../../sections/pagined-videos/pagined-videos.section.css');
+@import url('../../sections/pagination-videos/pagination-videos.section.css');
 @import url('../../sections/homepage-studios/homepage-studio.section.css') ;
 @import url('../../sections/homepage-collections/homepage-collections.section.css');
 @import url('../../sections//homepage-creators/homepage-creators.section.css');
@@ -19,6 +19,7 @@
 @import url('../../sections/homepage-anime-films/homepage-anime-films.section.css');
 @import url('../../sections/homepage-anime-videos/homepage-anime-videos.section.css');
 @import url('../../sections/homepage-mangas/homepage-mangas.section.css');
+@import url('../../sections/homepage-videos/homepage-videos.section.css');
 @import url('./keyword.css');
 @import url('./popup-modal.css');
 @import url('./select-search.css');

@@ -1,7 +1,7 @@
 import playlist_api from "../../api/playlist.api.js";
 import doms_component from "../../components/doms.component.js";
 import ClientSections from "../../constants/client-sections.constant.js";
-import videoPagination_section from "../../sections/pagined-videos/pagined-videos.section.js";
+import videoPagination_section from "../../sections/pagination-videos/pagination-videos.section.js";
 import spa_renderHTML from "../../services/spa/render-html.js";
 
 export async function PlaylistInforPageController(playlist_id) {
@@ -13,6 +13,6 @@ export async function PlaylistInforPageController(playlist_id) {
       spa_renderHTML.loadContentFromUrl(
             ClientSections.NEWVIDEOS, 
             'playlist-videos', 
-            () => videoPagination_section.PaginedVideosSectionController('pagined-videos', { playlist_ids: playlist_id })
+            () => videoPagination_section.PaginedVideosSectionController('videos-pagination_section', { playlist_ids: playlist_id })
       );
 }

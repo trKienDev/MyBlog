@@ -31,7 +31,7 @@ const api_configs = {
 
             // section
             tagsSection: '/sections/tags/tags.section.html',
-            newVideosSection: '/sections/pagined-videos/pagined-videos.section.html',
+            newVideosSection: '/sections/pagination-videos/pagination-videos.section.html',
 
             // pages
             playVideoPage: '/pages/play_video/play-video.page.html',

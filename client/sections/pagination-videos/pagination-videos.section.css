@@ -1,57 +1,57 @@
-#pagined-videos {
+#videos-pagination_section {
       display: flex;
       margin: 0px -8px;
       flex-wrap: wrap;
 }
-#pagined-videos .video-article {
+#videos-pagination_section .video-article {
       flex-basis: calc(100%/4);
       flex-grow: 0;
       flex-shrink: 0;
       box-sizing: border-box;
       padding: 8px;
 }
-#pagined-videos .video-article:hover {
+#videos-pagination_section .video-article:hover {
       cursor: pointer;
 }
-#pagined-videos .avatar-frame_container {
+#videos-pagination_section .avatar-frame_container {
       border-radius: 50%;
       height: 50px;
       width: 50px;
 }
-#pagined-videos .creator-image {
+#videos-pagination_section .creator-image {
       width: 50px;
       height: 50px;
       border-radius: 50%;
 }
-#pagined-videos .video-info-container {
+#videos-pagination_section .video-info-container {
       padding: 5px 5px;
       display: flex;
 }
-#pagined-videos .video-creator {
+#videos-pagination_section .video-creator {
       width: fit-content;
 }
-#pagined-videos .video-details {
+#videos-pagination_section .video-details {
       width: 100%;
       margin-left: 10px;
       line-height: 1;
 }
-#pagined-videos .video-film {
+#videos-pagination_section .video-film {
       font-size: 15px;
       font-weight: bold;
 }
-#pagined-videos .video-film:hover {
+#videos-pagination_section .video-film:hover {
       color: var(--light-pink);
 }
-#pagined-videos .video-creator {
+#videos-pagination_section .video-creator {
       font-size: 13px;
       color: rgb(172, 172, 172);
 }
-#pagined-videos .video-creator:hover {
+#videos-pagination_section .video-creator:hover {
       color: white;
 }
-#pagined-videos .video-views {
+#videos-pagination_section .video-views {
       font-size: 13px;
 }
-#pagined-videos .video-frame:hover {
+#videos-pagination_section .video-frame:hover {
       cursor: pointer;
 }

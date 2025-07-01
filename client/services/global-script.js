@@ -14,6 +14,7 @@ import { HomepagePlaylistSectionController } from "../sections/homepage-playlist
 import { HomepageShortsSectionController } from "../sections/homepage-shorts/homepage-short.section.js";
 import { HomepageStudiosSectionController } from "../sections/homepage-studios/studio.section.js";
 import { HomepageTagsSectionController } from "../sections/homepage-tags/homepage-tags.section.js";
+import { HomepageVideosSectionController } from "../sections/homepage-videos/homepage-videos.section.js";
 import spa_navigation from "./spa/navigate-link.spa.js";
 import spa_renderHTML from "./spa/render-html.js";
 
@@ -102,7 +103,6 @@ async function handleUserClick(event) {
                   console.error("spa_navigation.navigateMediaLink is not defined. Make sure spa_navigation.js is loaded before global-scripts.js and spa_navigation is globally accessible.");
             }
       }
-
       const film_link = event.target.closest('a[href^="film/"]');
       if(film_link) {
             event.preventDefault();
@@ -130,61 +130,56 @@ async function handleUserClick(event) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientPages.HOMEPAGE, 'page-content', HomePageController);
       }
-
+      const section_videos = event.target.closest('a[href^="sections/videos"]');
+      if(section_videos) {
+            event.preventDefault();
+            spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_VIDEOS, 'main-content', HomepageVideosSectionController);
+      }
       const section_film = event.target.closest('a[href^="sections/films"]');
       if(section_film) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.FILMS, 'main-content', FilmSectionController);
       }
-
       const section_studios = event.target.closest('a[href^="sections/studios"]');
       if(section_studios) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.STUDIOS, 'main-content', HomepageStudiosSectionController );
       }
-
       const section_tags = event.target.closest('a[href^="sections/tags"]');
       if(section_tags) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_TAGS , 'main-content', HomepageTagsSectionController);
       }
-
       const section_creators = event.target.closest('a[href^="sections/creators"]');
       if(section_creators) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_CREATORS , 'main-content', HomePageCreatorsSectionController);
       }
-
       const homepage_collection_section = event.target.closest('a[href^="sections/homepage_collections"]');
       if(homepage_collection_section) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_COLLECTIONS, 'main-content', HomepageCollectionSectionController);
       }
-
       const homepage_playlist_section = event.target.closest('a[href^="sections/homepage_playlists"]');
       if(homepage_playlist_section) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_PLAYLISTS, 'main-content', HomepagePlaylistSectionController);
       }
-
       const images_section = event.target.closest('a[href^="sections/homepage-images"]');
       if(images_section) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_IMAGES, 'main-content', HomepageImageSectionController);
       }
-
       const shorts_section = event.target.closest('a[href^="sections/homepage-shorts"]');
       if(shorts_section) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_SHORTS, 'main-content', HomepageShortsSectionController);
       }
-
       const anime_section = event.target.closest('a[href^="sections/homepage-animes"]');
       if(anime_section) {
             event.preventDefault();
             spa_renderHTML.loadContentFromUrl(ClientSections.HOMEPAGE_ANIMES, 'main-content', HomepageAnimeVideosSectionController);
       }
-
       const mangas_section = event.target.closest('a[href^="sections/homepage-mangas"]');
       if(mangas_section) {
             event.preventDefault();
