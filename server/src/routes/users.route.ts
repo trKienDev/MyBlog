@@ -1,5 +1,6 @@
 import album_controller from "../controllers/album.controller.js";
 import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
+import clip_controller from "../controllers/clip.controller.js";
 import code_controller from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
 import { creator_controller } from "../controllers/creator.controller.js";
@@ -30,7 +31,8 @@ const user_routes: Route[] = [
       // creators
       { method: 'GET', path: '/creators', handler: creator_controller.GetCreators },
       { method: 'GET', path: '/api/creators/tag/:id', handler: validated_id.validateId( creator_controller.GetCreatorByTagId )},
-
+      // clips
+      { method: 'GET', path: '/api/clips', handler: clip_controller.GetClips },
       // films
       { method: 'GET', path: '/films', handler: filmController.getFilms },
       { method: 'GET', path: '/films/creator/:id', handler: validated_id.validateId( filmController.FindFIlmsByCreator )},

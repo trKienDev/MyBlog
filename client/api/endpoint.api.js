@@ -32,6 +32,8 @@ export const api_user = {
       getCodes: '/api/codes', // GET
       // collections
       getCollections: '/api/collections', // GET
+      // clips 
+      getAllClips: '/api/clips', // GET
       // films
       getFilmsByCreatorId : '/films/creator', // GET
       getFilms: '/films', // GET

@@ -17,7 +17,7 @@ export interface iClip extends Document {
 }
 
 const ClipSchema: Schema = new Schema({
-      name: { type: String, unique: true },
+      name: { type: String },
       record_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Record' },
       action_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Tag' },
       code_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Code', require: false },

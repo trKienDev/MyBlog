@@ -98,13 +98,13 @@ async function CreateRecord(event) {
       const code_id = selectSearch_component.getSelectedOptionValue('record-code', 'id');
       const code_number = document.getElementById('record-number').value;
       const record_code = selectSearch_component.getSelectedOptionValue('record-code', 'text');
-      const record_name = record_code + '-' + code_number;
       const creator_id = selectSearch_component.getSelectedOptionValue('record-creator', 'id');
       const idol_id = selectSearch_component.getSelectedOptionValue('record-idol', 'id');
       const record_rating = document.getElementById('record-rating').value;
       const studio_id = selectSearch_component.getSelectedOptionValue('record-studio', 'id');
       const record_description = document.getElementById('record-description').value;
-      const record_tags = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
+      let record_name = record_description;
+      const record_tags = tags_utils.getSelectedTags('selected-record-tags_container', css_selectors.tags.selected_tag);
 
       if(creator_id && idol_id) {
             showToast('1 creator or 1 idol', 'warning');
@@ -151,7 +151,8 @@ async function CreateClip(event) {
       let action_text = selectSearch_component.getSelectedOptionValue('clip-action', 'text');
       action_text = string_utils.replaceSpacesWithUnderscore(action_text);
       const tag_ids = tags_utils.getSelectedTags('selected-clip-tags_container', css_selectors.tags.selected_tag, 'clip-tags');
-      const clip_name = record_info.name + '_' + action_text;
+      let clip_name = record_info.name + '_' + action_text;
+      clip_name = string_utils.RemoveAccents(clip_name);
 
       const clip_file = document.getElementById('clip-input').files[0];
       if(!clip_file) {

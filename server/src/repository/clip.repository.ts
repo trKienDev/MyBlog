@@ -5,6 +5,10 @@ import { iClipRepository } from "./interfaces/iclip.repository.js";
 import Record from "../models/record.model.js";
 
 export class ClipRepository implements iClipRepository {
+      async FindAll(): Promise<ClipDTO[]> {
+            const clips = await Clip.find();
+            return clips.map(doc => MappdingDocToDTO(doc));
+      }
       async Create(data: CreateClipDTO): Promise<ClipDTO> {
             const new_clip = new Clip({
                   name: data.name,

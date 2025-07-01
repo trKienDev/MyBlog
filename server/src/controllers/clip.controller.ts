@@ -1,4 +1,4 @@
-import { ServerResponse } from "http";
+import { IncomingMessage, request, Server, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ClipRepository } from "../repository/clip.repository.js";
 import { ClipService } from "../services/clip.service.js";
@@ -6,6 +6,16 @@ import { sendError, sendResponse } from "../middlewares/response.js";
 
 const _clipRepository = new ClipRepository();
 const _clipService = new ClipService(_clipRepository);
+
+const GetClips = async(request: IncomingMessage, response: ServerResponse) => {
+      try {
+            const clips = await _clipRepository.FindAll();
+            return sendResponse(response, 200, clips);
+      } catch(error) {
+            console.error('Error getting clip: ', error);
+            return sendError(response, 500, error);
+      }
+}
 
 const CreateClip = async(request: CustomRequest, response: ServerResponse) => {
       try {
@@ -18,6 +28,7 @@ const CreateClip = async(request: CustomRequest, response: ServerResponse) => {
 }
 
 const clip_controller = {
+      GetClips,
       CreateClip,
 }
 export default clip_controller;

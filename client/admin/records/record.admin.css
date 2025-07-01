@@ -61,3 +61,7 @@
 #admin-record .right-column img {
       height: 357px;
 }
+#admin-record .clip-frame {
+      width: 700px;
+      border-radius: 10px;
+}
