@@ -43,7 +43,7 @@ async function getAnimeSeriesNameById(id) {
 
 // Tags
 async function getAnimeTags() {
-      const result = await fetch_api.apiGet(api_configs.endpoints.getAnimeTags);
+      const result = await fetch_api.apiGet(api_user.getTagsByAnime);
       if(result.success === false)
             throw new Error(result.error);
 

@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { AnimeVideoRepository } from "../repositories/anime-video.repository";
-import { AnimeVideoService } from "../services/anime-video.service";
-import { ValidateIdRequest } from "../interfaces/validated-id-request";
-import { sendError, sendResponse } from "../middlewares/response";
-import { CustomRequest } from "../middlewares/json-parser";
+import { AnimeVideoRepository } from "../repositories/anime-video.repository.js";
+import { AnimeVideoService } from "../services/anime-video.service.js";
+import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { sendError, sendResponse } from "../middlewares/response.js";
+import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 
 const _animeVideoRepository = new AnimeVideoRepository();

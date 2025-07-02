@@ -1,6 +1,6 @@
 import { IncomingMessage } from "http";
-import { iGalleryRepository } from "../repository/interfaces/igallery.repository.js";
 import { parseJSON } from "../middlewares/json-parser.js";
+import { iGalleryRepository } from "../repositories/interfaces/igallery.repository.js";
 
 export class GalleryService {
       private gallery_repository: iGalleryRepository;

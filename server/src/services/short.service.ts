@@ -2,7 +2,7 @@ import { CreateShortDTO, iShortPaginatedFilters, ShortDTO } from "../dtos/short.
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { iShort } from "../models/interface/ishort.model.js";
-import { iShortRepository } from "../repository/interfaces/ishort.repository.js";
+import { iShortRepository } from "../repositories/interfaces/ishort.repository.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 

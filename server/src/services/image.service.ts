@@ -1,7 +1,7 @@
 import { ImageDTO } from "../dtos/image.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { iImageRepository } from "../repository/interfaces/iimage.repository.js";
+import { iImageRepository } from "../repositories/interfaces/iimage.repository.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 

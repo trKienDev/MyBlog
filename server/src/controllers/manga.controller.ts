@@ -3,14 +3,14 @@ import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { MangaService } from "../services/manga.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
-import { MangaRepository } from "../repository/manga.repository.js";
+import { MangaRepository } from "../repositories/manga.repository.js";
 
-const repository = new MangaRepository();
-const service = new MangaService(repository);
+const _mangaRepository = new MangaRepository();
+const _mangaService = new MangaService(_mangaRepository);
 
 const getMangas = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const mangas = await repository.getMangas();
+            const mangas = await _mangaRepository.getMangas();
             return sendResponse(response, 200, mangas);
       } catch(error) {
             console.error('Error getting mangas: ', error);
@@ -21,7 +21,7 @@ const getMangas = async(request: IncomingMessage, response: ServerResponse) => {
 const FindMangaById = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const id = request?.params.id;
-            const manga = await repository.findMangaById(id);
+            const manga = await _mangaRepository.findMangaById(id);
             return sendResponse(response, 201, manga);
       } catch(error) {
             console.error('Error finding manga by id: ', error);
@@ -31,7 +31,7 @@ const FindMangaById = async(request: ValidateIdRequest, response: ServerResponse
 
 const initialManga = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const initialized_manga = await service.initialManga(request);
+            const initialized_manga = await _mangaService.initialManga(request);
             return sendResponse(response, 201, initialized_manga);
       } catch(error) {
             console.error('Error creating manga: ', error);
@@ -41,7 +41,7 @@ const initialManga = async(request: CustomRequest, response: ServerResponse) => 
 
 const addImagesToInitializedManga = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const updated_manga = await service.addImagesToInitializedManga(request);
+            const updated_manga = await _mangaService.addImagesToInitializedManga(request);
             return sendResponse(response, 201, updated_manga);
       } catch(error) {
             console.error('Error adding images to initialized manga: ', error);

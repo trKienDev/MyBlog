@@ -1,8 +1,8 @@
 import { IncomingMessage, request, ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
-import { TagRepostory } from "../repository/tag.repository.js";
 import { TagService } from "../services/tag.service.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { TagRepostory } from "../repositories/tag.repository.js";
 
 const _tagRepository = new TagRepostory();
 const _tagService = new TagService(_tagRepository);
@@ -52,7 +52,7 @@ const GetTagsByImage = async(req: IncomingMessage, res: ServerResponse) => {
             const tags_image = await _tagRepository.GetTagsByImage();
             return sendResponse(res, 200, tags_image);
       } catch(error) {  
-            console.error('Error getting tag by video: ', error);
+            console.error('Error getting tag by image: ', error);
             return sendError(res, 500, error);
       }
 }
@@ -70,7 +70,7 @@ const getTagsByAction = async(req: IncomingMessage, res: ServerResponse) => {
             const tags_action = await _tagRepository.getTagsByAction();
             return sendResponse(res, 200, tags_action);
       } catch(error) {
-            console.error('Error getting tag by video: ', error);
+            console.error('Error getting tag by action: ', error);
             return sendError(res, 500, error);
       }
 }
@@ -79,7 +79,7 @@ const getTagsByCreator = async(request: IncomingMessage, response: ServerRespons
             const tags_creator = await _tagRepository.GetTagsByCreator();
             return sendResponse(response, 200, tags_creator);
       } catch(error) {
-            console.error('Error getting tag by video: ', error);
+            console.error('Error getting tag by creator: ', error);
             return sendError(response, 500, error);
       }
 }
@@ -88,7 +88,16 @@ const GetTagsByManga = async(request: IncomingMessage, response: ServerResponse)
             const manga_tags = await _tagRepository.GetTagsByManga();
             return sendResponse(response, 200, manga_tags);
       } catch(error) {
-            console.error('Error getting tag by video: ', error);
+            console.error('Error getting tag by manga: ', error);
+            return sendError(response, 500, error);
+      }
+}
+const GetTagsByAnime = async(request: IncomingMessage, response: ServerResponse) => {
+      try {
+            const anime_tags = await _tagRepository.GetTagsByAnime();
+            return sendResponse(response, 200, anime_tags);
+      } catch(error) {
+            console.error('Error getting tag by anime: ', error);
             return sendError(response, 500, error);
       }
 }
@@ -113,6 +122,7 @@ const tag_controller = {
       getTagsByCreator,
       GetTagsByImage,
       GetTagsByManga,
+      GetTagsByAnime,
       CreateTag
 }
 export default tag_controller;

@@ -1,6 +1,6 @@
 import { TagDTO } from "../../dtos/tag.dto";
 
-export interface ITagRepository {
+export interface iTagRepository {
       getTags(): Promise<TagDTO[]>;
       findById(id: string): Promise<TagDTO | null>;
       getTagsByVideo(): Promise<TagDTO[]>;
@@ -8,6 +8,7 @@ export interface ITagRepository {
       getTagsByAction(): Promise<TagDTO[]>;
       GetTagsByCreator(): Promise<TagDTO[]>;
       GetTagsByManga(): Promise<TagDTO[]>;
+      GetTagsByAnime(): Promise<TagDTO[]>;
       getFilmTags(): Promise <TagDTO[]>;
       createTag(data: TagDTO): Promise<TagDTO>;
       GetTagsByImage(): Promise<TagDTO[]>;

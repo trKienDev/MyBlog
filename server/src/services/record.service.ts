@@ -1,7 +1,7 @@
 import { IncomingMessage } from "http";
 import { CreateRecordDto, RecordDto } from "../dtos/record.dto.js";
-import { iRecordRepository } from "../repository/interfaces/irecord.repository.js";
 import { parseJSON } from "../middlewares/json-parser.js";
+import { iRecordRepository } from "../repositories/interfaces/irecord.repository.js";
 
 export class RecordService {
       private _recordRepository: iRecordRepository;

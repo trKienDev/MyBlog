@@ -1,6 +1,6 @@
 import { IncomingMessage } from "http";
-import { iPlaylistRepository } from "../repository/interfaces/iplaylist.repository.js";
 import { parseJSON } from "../middlewares/json-parser.js";
+import { iPlaylistRepository } from "../repositories/interfaces/iplaylist.repository.js";
 
 export class PlaylistService {
       private playlist_repo: iPlaylistRepository;

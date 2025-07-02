@@ -1,5 +1,6 @@
 import animes_api from "../../../api/anime.api.js";
 import api_configs from "../../../api/api.config.js";
+import { api_user } from "../../../api/endpoint.api.js";
 import fetch_api from "../../../api/fetch.api.js";
 import { cloneResetForm } from "../../../components/form.component.js";
 import modal_component from "../../../components/modal.component.js";
@@ -22,7 +23,7 @@ export async function initAnimeFilm() {
       modal_component.initModal(id_selectors.modal.open_button, id_selectors.modal.close_button, id_selectors.modal.create_anime_film, resetAnimeModal);
       selectSearch_component.initSelectSearch(id_selectors.anime.film_studio, api_configs.endpoints.getAnimeStudios, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.film_series, api_configs.endpoints.getAnimeSeries, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.anime.film_tag, api_configs.endpoints.getAnimeTagsByFilm, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.anime.film_tag, api_user.getTagsByAnime, 'name');
       thumbnail_component.uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.submit_btn);
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, 'anime-film_tag');
       renderAnimeFilms();

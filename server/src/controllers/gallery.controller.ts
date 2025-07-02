@@ -1,14 +1,14 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { GalleryRepository } from "../repository/gallery.repository.js";
 import { GalleryService } from "../services/gallery.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
+import { GalleryRepository } from "../repositories/gallery.repository.js";
 
-const gallery_repository = new GalleryRepository();
-const gallery_service = new GalleryService(gallery_repository);
+const _galleryRepository = new GalleryRepository();
+const _galleryService = new GalleryService(_galleryRepository);
 
 const CreateGallery = async(request: IncomingMessage, response: ServerResponse) => {
       try { 
-            const created_gallery = await gallery_service.CreateGallery(request);
+            const created_gallery = await _galleryService.CreateGallery(request);
             sendResponse(response, 200, created_gallery);
       } catch(error) {
             console.error('Error creating gallery: ', error);

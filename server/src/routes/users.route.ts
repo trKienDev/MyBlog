@@ -1,5 +1,5 @@
 import album_controller from "../controllers/album.controller.js";
-import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
+import animeVideo_controller from "../controllers/anime-video.controller.js";
 import clip_controller from "../controllers/clip.controller.js";
 import code_controller from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
@@ -66,6 +66,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/api/tags/images', handler: tag_controller.GetTagsByImage },
       { method: 'GET', path: '/api/tags/action', handler: tag_controller.getTagsByAction },
       { method: 'GET', path: '/api/tags/manga', handler: tag_controller.GetTagsByManga },
+      { method: 'GET', path: '/api/tags/anime', handler: tag_controller.GetTagsByAnime },
       // playlist
       { method: 'GET', path: '/api/playlists', handler: playlist_controller.getPlaylists },
       // shorts

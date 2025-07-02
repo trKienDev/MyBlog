@@ -1,4 +1,4 @@
-import { AnimeFilmDTO, CreateAnimeFilmDTO, UpdateAnimeFilmDTO } from "../../../dtos/anime-film.dto";
+import { AnimeFilmDTO, CreateAnimeFilmDTO, UpdateAnimeFilmDTO } from "../../dtos/anime-film.dto.js";
 
 export interface iAnimeFilmRepository {
       getAnimeFilms(): Promise<AnimeFilmDTO[] | null>;

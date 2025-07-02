@@ -3,7 +3,7 @@ import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { parseJSON } from "../middlewares/json-parser.js";
-import { iFilmRepository } from "../repository/interfaces/ifilm.repository.js";
+import { iFilmRepository } from "../repositories/interfaces/ifilm.repository.js";
 import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";

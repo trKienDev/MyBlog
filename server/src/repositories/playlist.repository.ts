@@ -3,7 +3,7 @@ import { iPlaylist } from "../models/interface/iplaylist.model.js";
 import Playlist from "../models/playlist.model.js";
 import { iPlaylistRepository } from "./interfaces/iplaylist.repository.js";
 
-export class PlayLIstRepository implements iPlaylistRepository {
+export class PlaylistRepository implements iPlaylistRepository {
       public async getPlaylists(): Promise<PlaylistDTO[]> {
             const playlists = await Playlist.find();
             return playlists.map(playlist => mappingDocToDTO(playlist));

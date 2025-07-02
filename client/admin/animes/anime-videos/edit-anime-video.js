@@ -1,5 +1,6 @@
 import animes_api from "../../../api/anime.api.js";
 import api_configs from "../../../api/api.config.js";
+import { api_user } from "../../../api/endpoint.api.js";
 import fetch_api from "../../../api/fetch.api.js";
 import tag_api from "../../../api/tag.api.js";
 import selectSearch_component from "../../../components/select-search.component.js";
@@ -19,8 +20,7 @@ export function redirectToEditAnimeVideoPage(ivideo) {
 
 async function initEditAnimeVideoAdmin(ivideo) {
       selectSearch_component.initSelectSearch(id_selectors.anime.anime_film, api_configs.endpoints.getAnimeFilms, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.anime.anime_action, api_configs.endpoints.getAnimeTagsByAction, 'name');
-      selectSearch_component.initSelectSearch(id_selectors.anime.anime_tag, api_configs.endpoints.getAnimeVideoTags, 'name');
+      selectSearch_component.initSelectSearch(id_selectors.anime.anime_tag, api_user.getTagsByAnime, 'name');
       selectSearch_component.initSelectSearch(id_selectors.anime.anime_playlist, api_configs.endpoints.getAnimePlaylists, 'name');
       tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.anime.anime_tag);
       video_utils.waitForUploadVideo(id_selectors.videos.thumbnail_video, id_selectors.videos.upload_video);
@@ -36,7 +36,6 @@ async function populateAnimeVideoInfo(ivideo) {
       image_utils.loadThumbnailOfSelectedFilm(anime_film, 'uploads/anime/films');
 
       await selectSearch_component.loadInfoSelectSearch(ivideo, id_selectors.anime.anime_film, 'film_id', animes_api.getAnimeFilmNameById);
-      await selectSearch_component.loadInfoSelectSearch(ivideo, id_selectors.anime.anime_action, 'action_id', animes_api.getAnimeTagNameById);
       await selectSearch_component.loadInfoSelectSearch(ivideo, id_selectors.anime.anime_playlist, 'playlist_id', animes_api.getAnimePlaylistNameById);
 
       const selectTag_container = document.getElementById(id_selectors.container.selected_tag);
@@ -73,10 +72,7 @@ function collectVideoInfo() {
      const film_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_film, 'id');
       const film_name = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_film, 'text');
 
-      const action_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_action, 'id');
-      const action_text = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_action, 'text');
-
-      const video_name = film_name + '_' + action_text;
+      const video_name = film_name;
 
       const playlist_id = selectSearch_component.getSelectedOptionValue(id_selectors.anime.anime_playlist, 'id');
       const tag_ids = tags_utils.getSelectedTags(id_selectors.container.selected_tag, css_selectors.tags.selected_tag);
@@ -89,7 +85,7 @@ function collectVideoInfo() {
       const upload_input = document.getElementById(id_selectors.videos.upload_video);
       const file = upload_input.files[0];
 
-      return { video_name, film_id, action_id, playlist_id, tag_ids, file};
+      return { video_name, film_id, playlist_id, tag_ids, file};
 }
 
 function getUpdatedAnimeVideoFields(ivideo, video_info) {
@@ -137,9 +133,6 @@ function buildUpdateAnimeVideoForm(updated_fields) {
       video_form.append("name", updated_fields.video_name);
       if(updated_fields.film_id) {
             video_form.append("film_id", updated_fields.film_id);
-      }
-      if(updated_fields.action_id) {
-            video_form.append("action_id", updated_fields.action_id);
       }
       if(updated_fields.playlist_id) {
             video_form.append("playlist_id", updated_fields.playlist_id);

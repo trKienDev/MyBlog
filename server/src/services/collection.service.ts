@@ -1,6 +1,6 @@
 import { IncomingMessage } from "http";
-import { iCollectionRepository } from "../repository/interfaces/icollection.repository.js";
 import { parseJSON } from "../middlewares/json-parser.js";
+import { iCollectionRepository } from "../repositories/interfaces/icollection.repository.js";
 
 export class CollectionService {
       private collectionRepo: iCollectionRepository;

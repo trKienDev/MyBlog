@@ -1,14 +1,14 @@
 import { CreatorDTO } from "../dtos/creator.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { ICreatorRepository } from "../repository/interfaces/icreator.repository.js";
+import { iCreatorRepository } from "../repositories/interfaces/icreator.repository.js";
 import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 
 export class CreatorService {
-      private creatorRepo: ICreatorRepository;
-      constructor(creatorRepository: ICreatorRepository) {
+      private creatorRepo: iCreatorRepository;
+      constructor(creatorRepository: iCreatorRepository) {
             this.creatorRepo = creatorRepository;
       }
 

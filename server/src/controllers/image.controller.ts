@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { ImageRepository } from "../repository/image.repository.js";
 import { ImageService } from "../services/image.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
+import { ImageRepository } from "../repositories/image.repository.js";
 
 const _imageRepository = new ImageRepository();
 const _imageService= new ImageService(_imageRepository);

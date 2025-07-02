@@ -1,18 +1,18 @@
-import { iVideoRepository } from "../repository/interfaces/ivideo.repository.js";
-import { iFilmRepository } from "../repository/interfaces/ifilm.repository.js";
-import { iImageRepository } from "../repository/interfaces/iimage.repository.js";
-import { ICreatorRepository } from "../repository/interfaces/icreator.repository.js";
+import { iCreatorRepository } from "../repositories/interfaces/icreator.repository.js";
+import { iFilmRepository } from "../repositories/interfaces/ifilm.repository.js";
+import { iImageRepository } from "../repositories/interfaces/iimage.repository.js";
+import { iVideoRepository } from "../repositories/interfaces/ivideo.repository.js";
 
 export class FeedService {
       private _videoRepository: iVideoRepository;
       private _filmRepository: iFilmRepository;
       private _imageRepository: iImageRepository;
-      private _creatorRepository: ICreatorRepository;
+      private _creatorRepository: iCreatorRepository;
       constructor(
             videoRepository: iVideoRepository,
             filmRepository: iFilmRepository,
             imageRepository: iImageRepository,
-            creatorRepository: ICreatorRepository,
+            creatorRepository: iCreatorRepository,
       ) {
             this._videoRepository = videoRepository;
             this._filmRepository = filmRepository;
@@ -26,7 +26,7 @@ export class FeedService {
 
             switch(type) {
                   case 'videos': 
-                        const paginationVideos = await this._videoRepository.GetVideosPagination(page, limit, {});
+                        const paginationVideos = await this._videoRepository.GetVideosPagination(page, limit = 4, {});
                         data = paginationVideos.videos;
                         pagination = {
                               page: page,
@@ -35,7 +35,7 @@ export class FeedService {
                         }
                         break;
                   case 'films': 
-                        const paginationFilms = await this._filmRepository.GetFilmsPagination(page, limit, {});
+                        const paginationFilms = await this._filmRepository.GetFilmsPagination(page, limit = 8, {});
                         data = paginationFilms.films;
                         pagination = {
                               page: page,

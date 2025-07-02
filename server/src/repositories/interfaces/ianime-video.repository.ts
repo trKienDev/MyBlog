@@ -1,4 +1,4 @@
-import { AnimeVideoDTO, CreateAnimeVideoDTO, UpdateAnimeVideoDTO } from "../../../dtos/anime-video.dto.js";
+import { AnimeVideoDTO, CreateAnimeVideoDTO, UpdateAnimeVideoDTO } from "../../dtos/anime-video.dto.js";
 
 export interface iAnimeVideoRepository {
       getAnimeVideos(): Promise<AnimeVideoDTO[]>;

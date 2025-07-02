@@ -1,9 +1,9 @@
 import { TagDTO } from "../dtos/tag.dto.js";
 import { ITag } from "../models/interface/itag.model.js";
 import Tag from "../models/tag.model.js";
-import { ITagRepository } from "./interfaces/itag.repository.js";
+import { iTagRepository } from "./interfaces/itag.repository.js";
 
-export class TagRepostory implements ITagRepository{
+export class TagRepostory implements iTagRepository{
       async getTags(): Promise<TagDTO[]> {
             const tags = await Tag.find();
             return tags.map(tag => mappingDocToDTO(tag));
@@ -13,11 +13,11 @@ export class TagRepostory implements ITagRepository{
             return tags.map(tag => mappingDocToDTO(tag));
       }
       async getTagsByVideo(): Promise<TagDTO[]> {
-            const tags = await Tag.find({ kind: { $nin: ['film', 'creator', 'action', 'image', 'manga'] } });
+            const tags = await Tag.find({ kind: { $nin: ['film', 'creator', 'action', 'image', 'manga', 'anime' ] } });
             return tags.map(tag => mappingDocToDTO(tag));
       }
       async GetTagsByVideoHomepage(): Promise<TagDTO[]> {
-            const tags = await Tag.find({ kind: { $nin: ['film', 'creator', 'image', 'manga'] } });
+            const tags = await Tag.find({ kind: { $nin: ['film', 'creator', 'image', 'manga', 'anime' ] } });
             return tags.map(tag => mappingDocToDTO(tag));
       }
       async getTagsByAction(): Promise<TagDTO[]> {
@@ -36,8 +36,10 @@ export class TagRepostory implements ITagRepository{
             const manga_tags = await Tag.find({ kind: 'manga' });
             return manga_tags.map(tag => mappingDocToDTO(tag));
       }
-      
-
+      async GetTagsByAnime(): Promise<TagDTO[]> {
+            const anime_tags = await Tag.find({ kind: 'anime'});
+            return anime_tags.map(tag => mappingDocToDTO(tag));
+      }
       async findById(id: string): Promise<TagDTO | null> {
             const tag = await Tag.findById(id);
             return tag ? mappingDocToDTO(tag) : null;

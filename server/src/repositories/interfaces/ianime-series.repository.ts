@@ -1,4 +1,4 @@
-import { AnimeSeriesDTO } from "../../../dtos/anime-series.dto.js";
+import { AnimeSeriesDTO } from "../../dtos/anime-series.dto.js";
 
 export interface IAnimeSeriesRepository {
       getAnimeSeriesById(id: string): Promise<AnimeSeriesDTO | null>;

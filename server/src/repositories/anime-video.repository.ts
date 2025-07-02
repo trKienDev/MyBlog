@@ -23,7 +23,6 @@ export class AnimeVideoRepository implements iAnimeVideoRepository {
             const new_video = new AnimeVIdeo({
                   name: data.name,
                   film_id: new mongoose.Types.ObjectId(data.film_id),
-                  action_id: new mongoose.Types.ObjectId(data.action_id),
                   ...(data.playlist_id && { playlist_id: new mongoose.Types.ObjectId(data.playlist_id)}),
                   file_path: data.file_path,
             });
@@ -44,7 +43,6 @@ export class AnimeVideoRepository implements iAnimeVideoRepository {
       async updateAnimeVideo(id: string, data: Partial<UpdateAnimeVideoDTO>): Promise<UpdateAnimeVideoDTO | null> {
             const update_fields: Record<string, any> = {};
             if (data.name) update_fields.name = data.name;
-            if (data.action_id) update_fields.action_id = new mongoose.Types.ObjectId(data.action_id);
             if (data.film_id) update_fields.film_id = new mongoose.Types.ObjectId(data.film_id);
             if (data.playlist_id) update_fields.playlist_id = new mongoose.Types.ObjectId(data.playlist_id);
             if (data.tag_ids) update_fields.tag_ids = data.tag_ids.map(id => new mongoose.Types.ObjectId(id));
@@ -65,7 +63,6 @@ function mappingDocToCreateDTO(doc: iAnimeVideo): CreateAnimeVideoDTO {
             _id: doc._id.toString(),
             name: doc.name,
             film_id: doc.film_id.toString(),
-            action_id: doc.action_id.toString(),
             playlist_id: doc.playlist_id?.toString() ?? "",
             tag_ids: doc?.tag_ids?.map(id => id.toString()),
             file_path: doc.file_path,
@@ -76,7 +73,6 @@ function mappingDocToDTO(doc: iAnimeVideo): AnimeVideoDTO {
       return {
             _id: doc._id.toString(),
             name: doc.name,
-            action_id: doc.action_id.toString(),
             film_id: doc.film_id.toString(),
             playlist_id: doc?.playlist_id?.toString(),
             tag_ids: doc?.tag_ids?.map(id => id.toString()),

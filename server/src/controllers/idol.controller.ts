@@ -1,15 +1,15 @@
 import { IncomingMessage, request, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { IdolRepository } from "../repository/idol.repository.js";
 import { IdolService } from "../services/idol.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
+import { IdolRepository } from "../repositories/idol.repository.js";
 
-const idol_repository = new IdolRepository();
-const idol_service = new IdolService(idol_repository);
+const _idolRepository = new IdolRepository();
+const _idolService = new IdolService(_idolRepository);
 
 const GetAllIdols = async(request: IncomingMessage, response: ServerResponse) => {
       try { 
-            const idols = await idol_repository.GetAll();
+            const idols = await _idolRepository.GetAll();
             return sendResponse(response, 200, idols);
       } catch(error) {
             console.error('Error getting all idols: ', error);
@@ -19,7 +19,7 @@ const GetAllIdols = async(request: IncomingMessage, response: ServerResponse) =>
 
 const CreateIdol = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const created_idol = await idol_service.CreateIdol(request);
+            const created_idol = await _idolService.CreateIdol(request);
             return sendResponse(response, 201, created_idol);
       } catch(error) {
             console.error('Error in CreateIdol: ', error);

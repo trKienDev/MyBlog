@@ -68,6 +68,7 @@ export const api_user = {
       getTagsByImages: '/api/tags/images', // GET
       getTagsByAction: '/api/tags/action', // GET
       getTagsByManga: '/api/tags/manga', // GET
+      getTagsByAnime: '/api/tags/anime', // GET
       // videos
       getVideoById: '/video', // GET
       getVideosByCreatorId: '/videos/creator', // GET

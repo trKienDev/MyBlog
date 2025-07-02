@@ -1,16 +1,16 @@
 import { IncomingMessage } from "http";
-import { IAnimeSeriesRepository } from "../../repository/animes/interfaces/ianime-series.repository.js";
-import { parseJSON } from "../../middlewares/json-parser.js";
+import { IAnimeSeriesRepository } from "../repositories/interfaces/ianime-series.repository.js";
+import { parseJSON } from "../middlewares/json-parser.js";
 
 export class AnimeSeriesService {
-      private animSeries_repository: IAnimeSeriesRepository;
+      private animSeries_repository: IAnimeSeriesRepository;            
       constructor(AnimeSeriesRepository: IAnimeSeriesRepository) {
             this.animSeries_repository = AnimeSeriesRepository;
       }
 
-      async createAnimeSeries(req: IncomingMessage) {
+      async createAnimeSeries(request: IncomingMessage) {
             const required_params = ['name'];
-            const body = await parseJSON(req, required_params);
+            const body = await parseJSON(request, required_params);
             const { name } = body;
             if(!name) {
                   throw new Error('param name in createAnimeSeries not found');

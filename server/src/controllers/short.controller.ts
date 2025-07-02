@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { ShortRepository } from "../repository/short.repository.js";
 import { ShortService } from "../services/short.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { iShortPaginatedFilters } from "../dtos/short.dto.js";
+import { ShortRepository } from "../repositories/short.repository.js";
 
 const _shortRepository = new ShortRepository();
 const _shortService = new ShortService(_shortRepository);

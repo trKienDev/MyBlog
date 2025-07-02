@@ -1,4 +1,4 @@
-import { AnimePlaylistDTO } from "../../../dtos/anime-playlist.dto.js";
+import { AnimePlaylistDTO } from "../../dtos/anime-playlist.dto.js";
 
 export interface iAnimePlaylistRepository {
       getAnimePlaylists(): Promise<AnimePlaylistDTO[]>;

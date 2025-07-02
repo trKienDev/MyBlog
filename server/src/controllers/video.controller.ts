@@ -2,16 +2,16 @@ import { IncomingMessage, request, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { VideoService } from "../services/video.service.js";
-import { VideoRepository } from "../repository/video.repository.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { FilterVideoPagination } from "../dtos/video.dto.js";
+import { VideoRepository } from "../repositories/video.repository.js";
 
-const repository = new VideoRepository();
-const video_service = new VideoService(repository);
+const _videoRepository = new VideoRepository();
+const _videoService = new VideoService(_videoRepository);
 
 const getVideos = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const videos = await repository.getVideos();
+            const videos = await _videoRepository.getVideos();
             return sendResponse(response, 200, videos);
       } catch(error) {
             console.error('Error get all videos: ', error);
@@ -32,7 +32,7 @@ const getVIdeosPaginated = async(request: CustomRequest, response: ServerRespons
             if(query?.playlist_ids) filters.playlist_ids = query.playlist_ids as string;
             if(query?.action_id) filters.action_id = query.action_id as string;
 
-            const videos = await video_service.getPaginatedVideos(page_number, limit_number, filters);
+            const videos = await _videoService.getPaginatedVideos(page_number, limit_number, filters);
             return sendResponse(response, 200, videos);
       } catch(error) {
             console.error('Error get paginated videos: ', error);
@@ -43,7 +43,7 @@ const getVIdeosPaginated = async(request: CustomRequest, response: ServerRespons
 const findVideoById = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const id = request.params?.id;
-            const video = await repository.findById(id);
+            const video = await _videoRepository.findById(id);
             if(video == null) {
                   return sendError(response, 404, 'video not found');
             } 
@@ -58,7 +58,7 @@ const findVideoById = async(request: ValidateIdRequest, response: ServerResponse
 const findVideosByCreatorId = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const creator_id = request.params?.id;
-            const videos = await repository.findByCreatorId(creator_id);
+            const videos = await _videoRepository.findByCreatorId(creator_id);
             return sendResponse(response, 200, videos);
       } catch(error) {
             console.error('Error finding videos by creator: ', error);
@@ -68,7 +68,7 @@ const findVideosByCreatorId = async(request: ValidateIdRequest, response: Server
 
 const createVideo = async(req: CustomRequest, res: ServerResponse) => {
       try {
-            const saved_video = await video_service.createVideo(req);
+            const saved_video = await _videoService.createVideo(req);
             sendResponse(res, 201, saved_video);
       } catch(error) {
             console.error('Error creating video: ', error);
@@ -78,7 +78,7 @@ const createVideo = async(req: CustomRequest, res: ServerResponse) => {
 
 const updatedVideo = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
-            const updated_video = await video_service.updateVideo(req);
+            const updated_video = await _videoService.updateVideo(req);
             return sendResponse(res, 200, updated_video);
       } catch(error) {
             console.error('Error updating video: ', error);
@@ -88,7 +88,7 @@ const updatedVideo = async(req: ValidateIdRequest, res: ServerResponse) => {
 
 const addPlaylistToVideo = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const addedPlaylist_video = await video_service.addPlaylistsToVideo(request);
+            const addedPlaylist_video = await _videoService.addPlaylistsToVideo(request);
             return sendResponse(response, 200, addedPlaylist_video);
       } catch(error) {
             console.error('Error adding playlist to video: ', error);
@@ -98,7 +98,7 @@ const addPlaylistToVideo = async(request: ValidateIdRequest, response: ServerRes
 
 const increaseVideoViewsByOne = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const video_increaseViewByOne = await video_service.increaseVideoViewsByOne(request);
+            const video_increaseViewByOne = await _videoService.increaseVideoViewsByOne(request);
             return sendResponse(response, 200, video_increaseViewByOne);
       } catch(error) {
             console.error('Error increasing video views by one');
@@ -108,7 +108,7 @@ const increaseVideoViewsByOne = async(request: ValidateIdRequest, response: Serv
 
 const increaseVideoLikeByOne = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const liked_video = await video_service.increaseVideoLikeByOne(request);
+            const liked_video = await _videoService.increaseVideoLikeByOne(request);
             return sendResponse(response, 200, liked_video);
       } catch(error) {
             console.error('Error increasing video like by one');

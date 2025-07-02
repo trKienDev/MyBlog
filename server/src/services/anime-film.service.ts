@@ -1,11 +1,10 @@
-import { ServerResponse } from "http";
-import { CreateAnimeFilmDTO, UpdateAnimeFilmDTO } from "../../dtos/anime-film.dto.js";
-import { CustomRequest } from "../../interfaces/CustomRequest.js"
-import { ValidateIdRequest } from "../../interfaces/validated-id-request.js";
-import { iAnimeFilmRepository } from "../../repository/animes/interfaces/ianime-film.repository.js";
-import { request_utils } from "../../utils/request.utils.js";
-import { FileService } from "../../utils/file.service.js";
-import file_utils from "../../utils/file.utils.js";
+import { CreateAnimeFilmDTO, UpdateAnimeFilmDTO } from "../dtos/anime-film.dto.js";
+import { CustomRequest } from "../interfaces/CustomRequest.js";
+import { ValidateIdRequest } from "../interfaces/validated-id-request";
+import { iAnimeFilmRepository } from "../repositories/interfaces/ianime-film.repository.js";
+import { FileService } from "../utils/file.service.js";
+import file_utils from "../utils/file.utils.js";
+import { request_utils } from "../utils/request.utils.js";
 
 export class AnimeFilmService {
       private animeFilm_repository: iAnimeFilmRepository;
@@ -71,6 +70,4 @@ export class AnimeFilmService {
 
             return updated_animeFilm;
       }
-
-
 }

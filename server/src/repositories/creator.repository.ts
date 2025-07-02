@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 import { CreatorDTO, CreatorsPaginationDTO, FilterCreatorsPagination } from "../dtos/creator.dto.js";
 import Creator from "../models/creator.model.js";
 import { ICreator } from "../models/interface/icreator.model.js";
-import { ICreatorRepository } from "./interfaces/icreator.repository.js";
+import { iCreatorRepository } from "./interfaces/icreator.repository.js";
 
-export class CreatorRepository implements ICreatorRepository {
+export class CreatorRepository implements iCreatorRepository {
       public async GetCreators(): Promise<CreatorDTO[] | null> {
             const creators = await Creator.find();
             return creators.map(doc => MappingDocToDTO(doc));

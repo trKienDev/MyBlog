@@ -1,9 +1,9 @@
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { IncomingMessage, ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
-import { StudioRepository } from '../repository/studio.repository.js';
 import { StudioService } from '../services/studio.service.js';
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { StudioRepository } from "../repositories/studio.repository.js";
 
 const repository = new StudioRepository();
 const service = new StudioService(repository);

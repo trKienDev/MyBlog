@@ -1,4 +1,4 @@
-import { InitialMangaDTO, ListImagesMangaDTO, MangaDTO } from "../dtos/manga.dto.js";
+ import { InitialMangaDTO, ListImagesMangaDTO, MangaDTO } from "../dtos/manga.dto.js";
 import Manga, { iManga } from "../models/manga.model.js";
 import { iMangaRepository } from "./interfaces/imanga.repository.js";
 

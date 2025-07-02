@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { AnimeSeriesRepository } from "../repositories/anime-series.repository";
-import { AnimeSeriesService } from "../services/anime-series.service";
-import { ValidateIdRequest } from "../interfaces/validated-id-request";
-import { sendError, sendResponse } from "../middlewares/response";
+import { AnimeSeriesRepository } from "../repositories/anime-series.repository.js";
+import { AnimeSeriesService } from "../services/anime-series.service.js";
+import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { sendError, sendResponse } from "../middlewares/response.js";
 
 const _animeSeriesRepository = new AnimeSeriesRepository();
 const _animeSeriesService = new AnimeSeriesService(_animeSeriesRepository);

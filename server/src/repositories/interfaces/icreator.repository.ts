@@ -1,6 +1,6 @@
 import { CreatorDTO, CreatorsPaginationDTO, FilterCreatorsPagination } from "../../dtos/creator.dto.js";
 
-export interface ICreatorRepository {
+export interface iCreatorRepository {
       GetCreators(): Promise<CreatorDTO[] | null>;
       GetCreatorsPagination(page: number, limit: number, filters: FilterCreatorsPagination): Promise<CreatorsPaginationDTO>;
       findById(id: string): Promise<CreatorDTO | null>;

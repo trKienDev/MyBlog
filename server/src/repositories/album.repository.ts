@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { AlbumDTO } from "../dtos/album.dto.js";
 import Album, { iAlbum } from "../models/album.model.js";
 import { iAlbumRepository } from "./interfaces/ialbum.repository.js";

@@ -1,7 +1,7 @@
 import { IdolDTO } from "../dtos/idol.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { iIdolRepository } from "../repository/interfaces/iIdol.repository.js";
+import { iIdolRepository } from "../repositories/interfaces/iIdol.repository.js";
 import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";

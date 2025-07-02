@@ -2,9 +2,9 @@
 import { StudioDTO } from "../dtos/studio.dto.js";
 import { IStudio } from "../models/interface/istudio.model.js";
 import Studio from "../models/studio.model.js";
-import { IStudioRepository } from "./interfaces/istudio.repository.js";
+import { iStudioRepository } from "./interfaces/istudio.repository.js";
 
-export class StudioRepository implements IStudioRepository{
+export class StudioRepository implements iStudioRepository{
       async findStudioById(id: string): Promise<StudioDTO | null> {
             const doc = await Studio.findById(id).exec();
             if(!doc) {

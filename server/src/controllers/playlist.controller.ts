@@ -1,43 +1,45 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { PlayLIstRepository } from "../repository/playlist.repository.js";
 import { PlaylistService } from "../services/playlist.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { PlaylistRepository } from "../repositories/playlist.repository.js";
 
-const playlist_repository = new PlayLIstRepository();
-const playlist_service = new PlaylistService(playlist_repository);
+const _playlistRepository = new PlaylistRepository();
+const _playlistService = new PlaylistService(_playlistRepository);
 
-const getPlaylists = async(req: IncomingMessage, res: ServerResponse) => {
+const getPlaylists = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const playlists = await playlist_repository.getPlaylists();
-            return sendResponse(res, 200, playlists);
+            const playlists = await _playlistRepository.getPlaylists();
+            return sendResponse(response, 200, playlists);
       } catch(error) {
-            return sendError(res, 500, error);
+            console.error('Error getting playlist: ', error);
+            return sendError(response, 500, error);
       }
 }
 
-const findTagById = async(req: ValidateIdRequest, res: ServerResponse) => {
+const findTagById = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
-            const id = req.params?.id;
-            const playlist = await playlist_repository.findById(id);
+            const id = request.params?.id;
+            const playlist = await _playlistRepository.findById(id);
             
             if(playlist == null) {
-                  return sendError(res, 404, 'playlist not found');
+                  return sendError(response, 404, 'playlist not found');
             }
 
-            return sendResponse(res, 200, playlist);
+            return sendResponse(response, 200, playlist);
       } catch(error) {
-            return sendError(res, 500, error);
+            console.error('Error finding tag by id: ', error);
+            return sendError(response, 500, error);
       }
 }
 
-const createPlaylist = async(req: IncomingMessage, res: ServerResponse) => {
+const createPlaylist = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const created_playlist = await playlist_service.createPlaylist(req);
-            sendResponse(res, 200, created_playlist);
+            const created_playlist = await _playlistService.createPlaylist(request);
+            sendResponse(response, 200, created_playlist);
       } catch(error) {
             console.error('error in createPlaylist - playlist.controller: ', error);
-            return sendError(res, 500, error);
+            return sendError(response, 500, error);
       }
 }
 

@@ -1,5 +1,6 @@
 import animes_api from "../../../api/anime.api.js";
 import api_configs from "../../../api/api.config.js";
+import { api_admin } from "../../../api/endpoint.api.js";
 import fetch_api from "../../../api/fetch.api.js";
 import table_component from "../../../components/table.component.js";
 import { error_sweetAlert, success_sweetAlert } from "../../../utils/sweet-alert.js";
@@ -36,10 +37,9 @@ async function createAnimeTag() {
       document.getElementById('form').addEventListener('submit', async(event) => {
             event.preventDefault();
             const tag = document.getElementById('tag').value;
-            const kind = document.getElementById('kind').value;
-            const data = { name: tag, kind: kind };
+            const data = { name: tag, kind: 'anime' };
             try {
-                  const result = await fetch_api.createJson(`${api_configs.endpoints.createAnimeTag}`, data);
+                  const result = await fetch_api.createJson(`${api_admin.createTag}`, data);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }

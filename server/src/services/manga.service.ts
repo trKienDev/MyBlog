@@ -6,7 +6,7 @@ import { InitialMangaDTO, ListImagesMangaDTO, MangaDTO } from "../dtos/manga.dto
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import string_utils from "../utils/string.utils.js";
 import { UploadFiles } from "../enums.js";
-import { iMangaRepository } from "../repository/interfaces/imanga.repository.js";
+import { iMangaRepository } from "../repositories/interfaces/imanga.repository.js";
 
 export class MangaService {
       private repository: iMangaRepository;

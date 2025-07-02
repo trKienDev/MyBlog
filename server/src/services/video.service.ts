@@ -2,13 +2,13 @@ import { CreateVideoDTO, FilterVideoPagination, UpdateVideoDTO, VideoDTO } from 
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
-import { iVideoRepository } from "../repository/interfaces/ivideo.repository.js";
 import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 import { parseJSON } from "../middlewares/json-parser.js";
 import mongoose from "mongoose";
 import { iVideo } from "../models/interface/ivideo.model.js";
+import { iVideoRepository } from "../repositories/interfaces/ivideo.repository.js";
 
 export class VideoService {
       private video_repository: iVideoRepository;

@@ -1,5 +1,4 @@
-import { AnimeFilmDTO } from "../../../dtos/anime-film.dto.js";
-import { AnimeStudioDTO } from "../../../dtos/anime-studio.dto.js";
+import { AnimeStudioDTO } from "../../dtos/anime-studio.dto.js";
 
 export interface IAnimeStudioRepository {
       getAnimeStudios(): Promise<AnimeStudioDTO[]>;

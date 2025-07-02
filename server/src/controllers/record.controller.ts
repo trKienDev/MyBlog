@@ -1,8 +1,8 @@
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
-import { RecordRepository } from "../repository/record.repository.js";
+import { RecordRepository } from "../repositories/record.repository.js";
 import { RecordService } from "../services/record.service.js";
-import { IncomingMessage, request, ServerResponse } from "node:http";
+import { IncomingMessage, ServerResponse } from "node:http";
 
 const _recordRepository = new RecordRepository();
 const _recordService = new RecordService(_recordRepository);

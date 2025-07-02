@@ -1,6 +1,6 @@
 import { IncomingMessage } from "http";
-import { iAlbumRepository } from "../repository/interfaces/ialbum.repository.js";
 import { parseJSON } from "../middlewares/json-parser.js";
+import { iAlbumRepository } from "../repositories/interfaces/ialbum.repository.js";
 
 export class AlbumService {
       private _albumRepository: iAlbumRepository;

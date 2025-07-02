@@ -1,10 +1,9 @@
 import album_controller from "../controllers/album.controller.js";
-import animeFilm_controller from "../controllers/animes/anime-film.controller.js";
-import animePlaylist_controller from "../controllers/animes/anime-playlist.controller.js";
-import animeSeries_controller from "../controllers/animes/anime-series.controller.js";
-import animeStudio_controller from "../controllers/animes/anime-studio.controller.js";
-import animeTag_controller from "../controllers/animes/anime-tag.controller.js";
-import animeVideo_controller from "../controllers/animes/anime-video.controller.js";
+import animeFilm_controller from "../controllers/anime-film.controller.js";
+import animePlaylist_controller from "../controllers/anime-playlist.controller.js";
+import animeSeries_controller from "../controllers/anime-series.controller.js";
+import animeStudio_controller from "../controllers/anime-studio.controller.js";
+import animeVideo_controller from "../controllers/anime-video.controller.js";
 import clip_controller from "../controllers/clip.controller.js";
 import code_controller, { createCode, getCode_byId } from "../controllers/code.controller.js";
 import collection_controller from "../controllers/collection.controller.js";
@@ -79,13 +78,6 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/anime-series/:id', handler: validated_id.validateId(animeSeries_controller.getAnimeSeriesById )},
       { method: 'GET', path: '/admin/anime-series', handler: animeSeries_controller.getAnimeSeries },
       { method: 'POST', path: '/admin/anime-series', handler: animeSeries_controller.createAnimeSeries },
-      // anime-tags
-      { method: 'GET', path: '/admin/anime-tags', handler: animeTag_controller.getAnimeTags },
-      { method: 'GET', path: '/admin/anime-tag/:id', handler: validated_id.validateId(animeTag_controller.getAnimeTagById) },
-      { method: 'GET', path: '/admin/anime-tags/film', handler: animeTag_controller.getAnimeTagsByFilm },
-      { method: 'GET', path: '/admin/anime-tags/action', handler: animeTag_controller.getAnimeTagByAction },
-      { method: 'GET', path: '/admin/anime-tags/video', handler: animeTag_controller.getAnimeVideoTags },
-      { method: 'POST', path: '/admin/anime-tag', handler: animeTag_controller.createAnimeTag },
       // anime-films
       { method: 'GET', path: '/admin/anime-films', handler: animeFilm_controller.getAnimeFilms },
       { method: 'GET', path: '/admin/anime-film/:id', handler: validated_id.validateId(animeFilm_controller.findAnimeById) },

@@ -1,7 +1,7 @@
 import { ClipDTO, CreateClipDTO } from "../dtos/clip.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { iClipRepository } from "../repository/interfaces/iclip.repository.js";
+import { iClipRepository } from "../repositories/interfaces/iclip.repository.js";
 import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 
