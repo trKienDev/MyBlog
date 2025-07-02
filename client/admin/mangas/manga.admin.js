@@ -1,4 +1,5 @@
 import api_configs from "../../api/api.config.js";
+import { api_admin } from "../../api/endpoint.api.js";
 import fetch_api from "../../api/fetch.api.js";
 import modal_component from "../../components/modal.component.js";
 import selectSearch_component from "../../components/select-search.component.js";
@@ -54,9 +55,9 @@ async function createMangaTag() {
             const mangaTag_form = document.getElementById(id_selectors.modal.manga_tag);
             mangaTag_form.addEventListener('submit', async(event) => {
                   event.preventDefault();
-                  const tag = document.getElementById('tag').value;
-                  const data = { tag: tag };
-                  const result = await fetch_api.createJson(`${api_configs.endpoints.createMangaTag}`, data);
+                  const tag_name = document.getElementById('tag').value;
+                  const data = { name: tag_name, kind: 'manga' };
+                  const result = await fetch_api.createJson(`${api_admin.createTag}`, data);
                   if(result.success === false) {
                         throw new Error(result.error);
                   }

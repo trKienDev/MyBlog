@@ -1,17 +1,17 @@
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { Server, ServerResponse } from "http";
+import { ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
-import { CreatorRepository } from "../repository/creator.repository.js";
 import { CreatorService } from "../services/creator.service.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { CreatorRepository } from "../repositories/creator.repository.js";
 
-const repository = new CreatorRepository();
-const service = new CreatorService(repository);
+const _creatorRepository = new CreatorRepository();
+const _creatorService = new CreatorService(_creatorRepository);
 
 const getCreatorById = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
-            const creator = await repository.findById(id);
+            const creator = await _creatorRepository.findById(id);
             if(creator == null) {
                   return sendError(res, 404, 'creator not found');
             }
@@ -23,7 +23,7 @@ const getCreatorById = async(req: ValidateIdRequest, res: ServerResponse) => {
 
 const GetCreators = async ( req: CustomRequest , res: ServerResponse ) => {
       try {
-            const creators = await repository.GetCreators();
+            const creators = await _creatorRepository.GetCreators();
             if(creators == null) {
                   return sendError(res, 500, 'Failed to get creators');
             }
@@ -37,7 +37,7 @@ const GetCreators = async ( req: CustomRequest , res: ServerResponse ) => {
 const GetCreatorByTagId = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const id = request.params?.id;
-            const creators = await repository.FindByTagId(id);
+            const creators = await _creatorRepository.FindByTagId(id);
             if(creators.length == 0) {
                   return sendError(response, 404, 'video not found');
             }
@@ -51,7 +51,7 @@ const GetCreatorByTagId = async(request: ValidateIdRequest, response: ServerResp
 
 export const CreateCreator = async (req: CustomRequest, res: ServerResponse) => {
       try {
-            const createdCreator = await service.CreateCreator(req);
+            const createdCreator = await _creatorService.CreateCreator(req);
             return sendResponse(res, 201, createdCreator)
       } catch(error) { 
             console.error('Error in CreateCreator: ', error);
@@ -62,7 +62,7 @@ export const CreateCreator = async (req: CustomRequest, res: ServerResponse) => 
 export const UpdateCreator = async (req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
-            const updatedCreator = await service.UpdateCreator(req, id);
+            const updatedCreator = await _creatorService.UpdateCreator(req, id);
             sendResponse(res, 200, updatedCreator);
       }
       catch(error) {
@@ -75,7 +75,7 @@ export const DeleteCreator = async(req: ValidateIdRequest, res: ServerResponse) 
       try {
             const id = req.params?.id;
             
-            await service.DeleteCreator(id);
+            await _creatorService.DeleteCreator(id);
             return sendResponse(res, 200, { message: 'Creator deleted'});
       } catch(error) {
             console.error('Error deleting creator in controller:', error);

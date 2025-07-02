@@ -9,17 +9,20 @@ export class TagService {
             this.tagRepo = tagRepository;
       }
 
-      public async createTag(req: IncomingMessage) {
+      public async CreateTag(req: IncomingMessage) {
             const required_fields = ['name', 'kind'];
             const body = await parseJSON(req, required_fields);
             const { name, kind } = body; 
-            if (!name || !kind ) {
-                  throw new Error('Missing required information');
-            }
+            console.log('name: ', name);
+            console.log('kind', kind);
 
-            const data: TagDTO = { name, kind };
+            // if (!name || !kind ) {
+            //       throw new Error('Missing required information');
+            // }
+
+            // const data: TagDTO = { name, kind };
             
-            const newTag = await this.tagRepo.createTag(data);
-            return newTag;
+            // const newTag = await this.tagRepo.createTag(data);
+            // return newTag;
       }
 }

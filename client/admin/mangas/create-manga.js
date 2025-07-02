@@ -1,4 +1,5 @@
 import api_configs from "../../api/api.config.js";
+import { api_user } from "../../api/endpoint.api.js";
 import fetch_api from "../../api/fetch.api.js";
 import selectSearch_component from "../../components/select-search.component.js";
 import thumbnail_component from "../../components/thumbnail.component.js";
@@ -14,8 +15,8 @@ let default_thumbnail = '/admin/static/images/film/thumbnail-upload_default.png'
 let file_uploadedImages = [];
 
 export function initCreateMangaAdmin() {
-      selectSearch_component.initSelectSearch(id_selectors.manga.manga_tag, api_configs.endpoints.getMangaTags, 'tag');
-      tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, id_selectors.manga.manga_tag);
+      selectSearch_component.initSelectSearch('manga-tag', api_user.getTagsByManga, 'name');
+      tags_utils.displaySelectedTag(id_selectors.container.selected_tag, css_selectors.tags.selected_tag, 'manga-tag');
       thumbnail_component.uploadThumbnail(id_selectors.thumbnail.thumbnail_image, id_selectors.thumbnail.thumbnail_upload, id_selectors.buttons.create_manga);
       uploadMangaImages();
       createManga();

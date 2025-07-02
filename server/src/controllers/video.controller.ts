@@ -4,7 +4,7 @@ import { sendError, sendResponse } from "../middlewares/response.js";
 import { VideoService } from "../services/video.service.js";
 import { VideoRepository } from "../repository/video.repository.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
-import { iVIdeoPaginatedFilters } from "../dtos/video.dto.js";
+import { FilterVideoPagination } from "../dtos/video.dto.js";
 
 const repository = new VideoRepository();
 const video_service = new VideoService(repository);
@@ -23,7 +23,7 @@ const getVIdeosPaginated = async(request: CustomRequest, response: ServerRespons
       try {
             const page_number = parseInt(request.query?.page as string) || 1;
             const limit_number = parseInt(request.query?.limit as string) || 10;
-            const filters: iVIdeoPaginatedFilters = {};
+            const filters: FilterVideoPagination = {};
             const query = request.query;
             if(query?.tag_id) filters.tag_id = query.tag_id as string;
             if(query?.creator_id) filters.creator_id = query.creator_id as string;

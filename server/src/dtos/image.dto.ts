@@ -1,3 +1,5 @@
+import { iImage } from "../models/interface/iimage.model";
+
 export interface ImageDTO {
       _id?: string;
       image_url: string;
@@ -7,4 +9,15 @@ export interface ImageDTO {
       tag_ids?: string[];
       gallery_ids: string[];
       likes: number;
+}
+
+export interface ImagesPaginationDTO {
+      images: iImage[];
+      total: number;
+}
+
+export interface FilterImagesPagination {
+      idol_id?: string;
+      tag_id?: string;
+      gallery_id?: string;
 }

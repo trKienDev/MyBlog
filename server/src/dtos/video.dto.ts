@@ -41,12 +41,12 @@ export interface VideoDTO {
       likes: number;
 }
 
-export interface iPaginatedVideoDto {
+export interface VideosPaginationDto {
       videos: iVideo[];
       total: number;
 }
 
-export interface iVIdeoPaginatedFilters {
+export interface FilterVideoPagination {
       tag_id?: string;
       creator_id?: string;
       studio_id?: string;

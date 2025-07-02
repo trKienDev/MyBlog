@@ -8,12 +8,12 @@ import feed_controller from "../controllers/feed.controller.js";
 import { filmController } from "../controllers/film.controller.js";
 import idol_controller from "../controllers/idol.controller.js";
 import image_controller from "../controllers/image.controller.js";
-import { manga_controller } from "../controllers/mangas/manga.controller.js";
+import { manga_controller } from "../controllers/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
 import record_controller from "../controllers/record.controller.js";
 import short_controller from "../controllers/short.controller.js";
 import studio_controller from "../controllers/studio.controller.js";
-import { tag_controller } from "../controllers/tag.controller.js";
+import tag_controller from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
 import { Route } from "../interfaces/Route.js";
 import { validated_id } from "../middlewares/validate-id.js";
@@ -21,7 +21,8 @@ import { createRouter } from "./routes.js";
 
 const user_routes: Route[] = [
       // homepage-feed
-      { method: 'GET', path: '/api/homepage-feed', handler: feed_controller.ProcessingHomepageFeed },
+      { method: 'GET', path: '/api/feed/section', handler: feed_controller.GetSectionData },
+      
       // albums
       { method: 'GET', path: '/api/albums', handler: album_controller.GetAllAlbums },
       // anime-videos
@@ -64,6 +65,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/api/tags/videos/homepage', handler: tag_controller.GetTagsForVideoHomepage },
       { method: 'GET', path: '/api/tags/images', handler: tag_controller.GetTagsByImage },
       { method: 'GET', path: '/api/tags/action', handler: tag_controller.getTagsByAction },
+      { method: 'GET', path: '/api/tags/manga', handler: tag_controller.GetTagsByManga },
       // playlist
       { method: 'GET', path: '/api/playlists', handler: playlist_controller.getPlaylists },
       // shorts

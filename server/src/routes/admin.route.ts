@@ -13,13 +13,12 @@ import { filmController } from "../controllers/film.controller.js";
 import gallery_controller from "../controllers/gallery.controller.js";
 import idol_controller from "../controllers/idol.controller.js";
 import image_controller from "../controllers/image.controller.js";
-import mangaTag_controller from "../controllers/mangas/manga-tag.controller.js";
-import { manga_controller } from "../controllers/mangas/manga.controller.js";
+import { manga_controller } from "../controllers/manga.controller.js";
 import playlist_controller from "../controllers/playlist.controller.js";
 import record_controller from "../controllers/record.controller.js";
 import short_controller from "../controllers/short.controller.js";
 import studio_controller, { DeleteStudio, UpdateStudio } from "../controllers/studio.controller.js";
-import { createTag, tag_controller } from "../controllers/tag.controller.js";
+import tag_controller from "../controllers/tag.controller.js";
 import video_controller from "../controllers/video.controller.js";
 import { Route } from "../interfaces/Route.js";
 import { validated_id } from "../middlewares/validate-id.js";
@@ -40,11 +39,11 @@ const adminRoutes: Route[] = [
       { method: 'DELETE', path: '/admin/creator/:id', handler: validated_id.validateId(DeleteCreator) },
       // tag
       { method: 'GET', path: '/admin/tags', handler: tag_controller.GetTags },
-      { method: 'GET', path: '/admin/tag/:id', handler: validated_id.validateId(tag_controller.getTagById) },
+      { method: 'GET', path: '/admin/tag/:id', handler: validated_id.validateId(tag_controller.GetTagById ) },
       { method: 'GET', path: '/admin/tags/film', handler: tag_controller.GetTagsByFilm },
       { method: 'GET', path: '/admin/tags/video', handler: tag_controller.getTagsByVideo },
       { method: 'GET', path: '/admin/tags/action', handler: tag_controller.getTagsByAction },
-      { method: 'POST', path: '/admin/tag', handler: createTag},
+      { method: 'POST', path: '/admin/tag', handler: tag_controller.CreateTag },
       // code
       { method: 'GET', path: '/admin/codes', handler: code_controller.GetCodes },
       { method: 'GET', path: '/admin/code/:id', handler: validated_id.validateId(getCode_byId) },
@@ -105,11 +104,8 @@ const adminRoutes: Route[] = [
       { method: 'GET', path: '/admin/mangas', handler: manga_controller.getMangas },
       { method: 'POST', path: '/admin/manga', handler: manga_controller.initialManga },
       { method: 'PUT', path: '/admin/manga/images/:id', handler: validated_id.validateId(manga_controller.addImagesToInitializedManga)},
-      // manga-tag
-      { method: 'GET', path: '/admin/manga-tags', handler: mangaTag_controller.getMangaTags },
-      { method: 'POST', path: '/admin/manga-tag', handler: mangaTag_controller.createMangaTag },
 
-      // idols
+      // idol
       { method: 'POST', path: '/admin/idol', handler: idol_controller.CreateIdol },
       // images
       { method: 'POST', path: '/admin/image', handler: image_controller.CreateImage },

@@ -12,6 +12,7 @@ export const api_admin = {
       createShort: '/admin/short', // POST
       // tag
       getTagsByFilm: '/admin/tags/film', // GET
+      createTag: '/admin/tag', // POST
       // record
       createRecord: '/admin/record', // POST
       // clip 
@@ -66,9 +67,13 @@ export const api_user = {
       getTagsByVideoHomepage: '/api/tags/videos/homepage', // GET
       getTagsByImages: '/api/tags/images', // GET
       getTagsByAction: '/api/tags/action', // GET
+      getTagsByManga: '/api/tags/manga', // GET
       // videos
       getVideoById: '/video', // GET
       getVideosByCreatorId: '/videos/creator', // GET
       increaseVideoViewsByOne: '/video/view', // PUT
       GetPaginatedVideos: '/videos/paginated', // GET
+      // homepage feeds
+      fetchHomepageFeeds: '/api/homepage-feeds', // GET
+      fetchSectionData: '/api/feed/section', // GET
 }

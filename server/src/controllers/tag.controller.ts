@@ -1,26 +1,25 @@
-import { IncomingMessage, ServerResponse } from "http";
+import { IncomingMessage, request, ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { TagRepostory } from "../repository/tag.repository.js";
 import { TagService } from "../services/tag.service.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 
-const repository = new TagRepostory();
-const service = new TagService(repository);
+const _tagRepository = new TagRepostory();
+const _tagService = new TagService(_tagRepository);
 
-const GetTags = async(req: IncomingMessage, res: ServerResponse) => {
+const GetTags = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const tags = await repository.getTags();
-            return sendResponse(res, 200, tags);
+            const tags = await _tagRepository.getTags();
+            return sendResponse(response, 200, tags);
       } catch(error) {
             console.error('Error getting tags: ', error);
-            return sendError(res, 500, error);
+            return sendError(response, 500, error);
       }
 }
-
-const getTagById = async(req: ValidateIdRequest, res: ServerResponse) => {
+const GetTagById = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
-            const tag = await repository.findById(id);
+            const tag = await _tagRepository.findById(id);
             if(tag == null) {
                   return sendError(res, 404, 'tag not found');
             }
@@ -30,84 +29,90 @@ const getTagById = async(req: ValidateIdRequest, res: ServerResponse) => {
             return sendError(res, 500, error);
       }
 }
-
 const GetTagsByFilm = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const filmTags = await repository.getFilmTags();
+            const filmTags = await _tagRepository.getFilmTags();
             return sendResponse(response, 200, filmTags);
       } catch(error) {
             console.error('Error getting tag by film: ', error);
             return sendError(response, 500, error);
       }     
 }
-
 const getTagsByVideo = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const tags_video = await repository.getTagsByVideo();
+            const tags_video = await _tagRepository.getTagsByVideo();
             return sendResponse(res, 200, tags_video);
       } catch(error) {  
             console.error('Error getting tag by video: ', error);
             return sendError(res, 500, error);
       }
 }
-
 const GetTagsByImage = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const tags_image = await repository.GetTagsByImage();
+            const tags_image = await _tagRepository.GetTagsByImage();
             return sendResponse(res, 200, tags_image);
       } catch(error) {  
             console.error('Error getting tag by video: ', error);
             return sendError(res, 500, error);
       }
 }
-
 const GetTagsForVideoHomepage = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const tags = await repository.GetTagsByVideoHomepage();
+            const tags = await _tagRepository.GetTagsByVideoHomepage();
             return sendResponse(response, 200, tags);
       } catch(error) {
             console.error('Error getting tags by video in homepage');
             return sendError(response, 500, error);
       }
 }
-
 const getTagsByAction = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const tags_action = await repository.getTagsByAction();
+            const tags_action = await _tagRepository.getTagsByAction();
             return sendResponse(res, 200, tags_action);
       } catch(error) {
             console.error('Error getting tag by video: ', error);
             return sendError(res, 500, error);
       }
 }
-
 const getTagsByCreator = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const tags_creator = await repository.GetTagsByCreator();
+            const tags_creator = await _tagRepository.GetTagsByCreator();
             return sendResponse(response, 200, tags_creator);
       } catch(error) {
             console.error('Error getting tag by video: ', error);
             return sendError(response, 500, error);
       }
 }
-
-export const createTag = async(req: IncomingMessage, res: ServerResponse) => {
+const GetTagsByManga = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const createdTag = await service.createTag(req);
-            sendResponse(res, 200, createdTag);
+            const manga_tags = await _tagRepository.GetTagsByManga();
+            return sendResponse(response, 200, manga_tags);
       } catch(error) {
-             console.error('Error creating tag by film: ', error);
-            return sendError(res, 500, error);
+            console.error('Error getting tag by video: ', error);
+            return sendError(response, 500, error);
       }
 }
 
-export const tag_controller = {
+const CreateTag = async(request: IncomingMessage, response: ServerResponse) => {
+      try {
+            const created_tag = await _tagService.CreateTag(request);
+            sendResponse(response, 200, created_tag);
+      } catch(error) {
+             console.error('Error creating tag by film: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
+const tag_controller = {
       GetTags,
-      getTagById,
+      GetTagById,
       GetTagsByFilm,
       GetTagsForVideoHomepage,
       getTagsByVideo,
       getTagsByAction,
       getTagsByCreator,
       GetTagsByImage,
+      GetTagsByManga,
+      CreateTag
 }
+export default tag_controller;

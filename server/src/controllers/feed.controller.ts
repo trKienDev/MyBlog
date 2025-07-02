@@ -1,37 +1,41 @@
-import { IncomingMessage, ServerResponse } from "http";
-import { sendError } from "../middlewares/response";
+import { request, ServerResponse } from "http";
+import { sendError, sendResponse } from "../middlewares/response.js";
+import { CustomRequest } from "../interfaces/CustomRequest.js";
+import { VideoRepository } from "../repositories/video.repository.js";
+import { FilmRepository } from "../repositories/film.repository.js";
+import { ImageRepository } from "../repositories/image.repository.js";
+import { CreatorRepository } from "../repositories/creator.repository.js";
+import { FeedService } from "../services/feed.service.js";
 
-const db = {
-    getVideos: async () => [{ id: 'vid1', title: 'Video hay' }],
-    getFilms: async () => [{ id: 'film1', title: 'Phim đặc sắc' }],
-    getCreators: async () => [{ id: 'creator1', name: 'Nhà sáng tạo A' }],
-    // ... thêm các hàm khác cho mỗi loại media
-};
 
+const _videoRepository = new VideoRepository();
+const _filmRepository = new FilmRepository();
+const _imageRepository = new ImageRepository();
+const _creatorRepository = new CreatorRepository();
+const _feedService = new FeedService(
+      _videoRepository, _filmRepository, _imageRepository,  _creatorRepository
+);
 
-// "Thực đơn" các loại section và hàm lấy dữ liệu tương ứng
-const SECTION_BLUEPRINTS = {
-      'videos': { title: 'Video mới nhất', fetchData: db.getVideos },
-      'films': { title: 'Phim bộ nổi bật', fetchData: db.getFilms },
-      'creators': { title: 'Nhà sáng tạo hàng đầu', fetchData: db.getCreators },
-    // 'shorts': { title: 'Shorts', fetchData: db.getShorts },
-    // ...
-};
-
-const ALL_SECTION_TYPES = Object.keys(SECTION_BLUEPRINTS);
-
-// --- LOGIC CHÍNH CỦA CONTROLLER ---
-const ProcessingHomepageFeed = async(request: IncomingMessage, response: ServerResponse) => {
+const GetSectionData = async(request: CustomRequest, response: ServerResponse) => {
       try {
-            const request_url = new URL(request.url!, `http://${request.headers.host}`);
-            console.log('request url: ', request_url);
+            const type = request.query?.type as string;
+            const page = parseInt(request.query?.page as string) || 1;
+            const limit = parseInt(request.query?.limit as string) || 10;
+
+            if(!type) {
+                  return sendError(response, 400, new Error('Missing "type" query parameters'));
+            }
+            const sectionData = await _feedService.GetSectionData(type, page, limit);
+
+            return sendResponse(response, 200, sectionData);
       } catch(error) {
-            console.error('Error processing homepage feed: ', error);
-            return sendError(response, 500, error);
+            console.error('Error getting section data: ', error);
+            return sendError(response, 500, error as Error);
       }
 }
 
 const feed_controller = {
-      ProcessingHomepageFeed,
+      GetSectionData
 }
 export default feed_controller;
+

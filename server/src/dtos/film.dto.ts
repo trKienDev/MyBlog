@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { iFilm } from "../models/interface/ifilm.model";
 
 export interface CreateFilmDTO {
       name: string;
@@ -38,4 +39,16 @@ export interface FilmDTO {
       date: Date;
       thumbnail: string;
       rating: number;
+}
+
+export interface FilmsPaginationDto {
+      films: iFilm[];
+      total: number;
+}
+
+export interface FilterFilmPagination {
+      code_id?: string;
+      studio_id?: string;
+      tag_id?: string;
+      rating?: number;
 }

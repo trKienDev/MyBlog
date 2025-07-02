@@ -1,5 +1,5 @@
 import { IncomingMessage, request, ServerResponse } from "http";
-import { AlbumRepository } from "../repository/album.repository.js";
+import { AlbumRepository } from "../repositories/album.repository.js";
 import { AlbumService } from "../services/album.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 

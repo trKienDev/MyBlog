@@ -1,8 +1,8 @@
 import { IncomingMessage, request, Server, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
-import { ClipRepository } from "../repository/clip.repository.js";
 import { ClipService } from "../services/clip.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
+import { ClipRepository } from "../repositories/clip.repository.js";
 
 const _clipRepository = new ClipRepository();
 const _clipService = new ClipService(_clipRepository);

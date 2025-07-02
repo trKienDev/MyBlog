@@ -1,16 +1,15 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { sendError, sendResponse } from "../middlewares/response.js";
-import { CodeRepository } from "../repository/code.repository.js";
 import { CodeService } from "../services/code.service.js";
-import { send } from "process";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
+import { CodeRepository } from "../repositories/code.repository.js";
 
-const repository = new CodeRepository();
-const service = new CodeService(repository);
+const _codeRepository = new CodeRepository();
+const _codeService = new CodeService(_codeRepository);
 
 const GetCodes = async(request: IncomingMessage, response: ServerResponse) => {
       try {
-            const codes = await repository.GetCodes();
+            const codes = await _codeRepository.GetCodes();
             return sendResponse(response, 200, codes);
       } catch(error) {
             return sendError(response, 500, error);
@@ -20,7 +19,7 @@ const GetCodes = async(request: IncomingMessage, response: ServerResponse) => {
 export const getCode_byId = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const id = request.params?.id;
-            const code = await repository.GetCodeById(id);
+            const code = await _codeRepository.GetCodeById(id);
             if(code == null) {
                   return sendError(response, 404, 'code not found!');
             } 
@@ -33,7 +32,7 @@ export const getCode_byId = async(request: ValidateIdRequest, response: ServerRe
 const GetCodesByStudio = async(req: ValidateIdRequest, res: ServerResponse) => {
       try {
             const id = req.params?.id;
-            const codes = await service.getCodesByStudioId(id);
+            const codes = await _codeService.getCodesByStudioId(id);
             return sendResponse(res, 200, codes);
       } catch(error) {
             console.error('Error in getCodesByStudio in code.controller');
@@ -43,7 +42,7 @@ const GetCodesByStudio = async(req: ValidateIdRequest, res: ServerResponse) => {
 
 export const createCode = async(req: IncomingMessage, res: ServerResponse) => {
       try {
-            const createdCode = await service.CreateCode(req);
+            const createdCode = await _codeService.CreateCode(req);
             sendResponse(res, 200, createdCode);
       } catch(error) {
             console.log("error in CreateCode - code.controller.ts");
