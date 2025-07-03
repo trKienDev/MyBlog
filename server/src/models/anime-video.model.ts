@@ -22,5 +22,5 @@ const AnimeVideoSchema: Schema = new Schema({
       timestamps: true
 });
 
-const AnimeVIdeo = mongoose.model<iAnimeVideo>('Anime-Video', AnimeVideoSchema);
-export default AnimeVIdeo;
+const AnimeVideo = mongoose.model<iAnimeVideo>('Anime-Video', AnimeVideoSchema);
+export default AnimeVideo;

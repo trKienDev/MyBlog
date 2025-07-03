@@ -46,6 +46,26 @@ async function GetVideosPaginated({ page, limit, filters = {} }) {
 
       return result.data;
 }
+async function GetUniqueVideosPagination({ page, limit, filters = {} }) {
+      const params = new URLSearchParams({
+            page: page.toString(),
+            limit: limit.toString()
+      });
+      for (const [key, value] of Object.entries(filters)) {
+            if (value !== undefined && value !== null) {
+                params.append(key, value);
+            }
+      }
+
+      const enpoint = api_user.getUniqueVideosPagination;
+      
+      const url = `${enpoint}?${params.toString()}`; 
+      console.log("Đang gọi API tới:", url); // Log lại để debug
+      const result = await  fetch_api.apiGet(url);
+      if(!result || result.success === false) throw new Error(result.error);
+
+      return result.data;
+}
 
 async function getVideosByCreatorId(creator_id) {
       const result = await fetch_api.apiGet(`${api_user.getVideosByCreatorId}/${creator_id}`);
@@ -96,6 +116,7 @@ async function increaseVideoLikeByOne(video_id) {
 export const video_api = {
       getVideos,
       GetVideosPaginated,
+      GetUniqueVideosPagination,
       getVideoById,
       getVideoName,
       getVideosByCreatorId,

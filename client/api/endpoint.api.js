@@ -25,6 +25,7 @@ export const api_user = {
       getAllAlbums: '/api/albums', // GET
       // anime videos
       GetAnimeVideoById: '/api/anime-video/', // GET
+      getUniqueAnimeVideosPagination: '/api/anime-videos/unique-pagination', // GET
       // creators
       getCreators : '/creators', // GET
       getCreatorsByTagId: '/api/creators/tag', // GET
@@ -74,6 +75,7 @@ export const api_user = {
       getVideosByCreatorId: '/videos/creator', // GET
       increaseVideoViewsByOne: '/video/view', // PUT
       GetPaginatedVideos: '/videos/paginated', // GET
+      getUniqueVideosPagination: '/videos/unique-pagination', // GET
       // homepage feeds
       fetchHomepageFeeds: '/api/homepage-feeds', // GET
       fetchSectionData: '/api/feed/section', // GET

@@ -1,3 +1,4 @@
+import { iAnimeVideoRepository } from "../repositories/interfaces/ianime-video.repository.js";
 import { iCreatorRepository } from "../repositories/interfaces/icreator.repository.js";
 import { iFilmRepository } from "../repositories/interfaces/ifilm.repository.js";
 import { iImageRepository } from "../repositories/interfaces/iimage.repository.js";
@@ -8,16 +9,19 @@ export class FeedService {
       private _filmRepository: iFilmRepository;
       private _imageRepository: iImageRepository;
       private _creatorRepository: iCreatorRepository;
+      private _animeVideoRepository: iAnimeVideoRepository;
       constructor(
             videoRepository: iVideoRepository,
             filmRepository: iFilmRepository,
             imageRepository: iImageRepository,
             creatorRepository: iCreatorRepository,
+            animeVideoRepository: iAnimeVideoRepository,
       ) {
             this._videoRepository = videoRepository;
             this._filmRepository = filmRepository;
             this._imageRepository = imageRepository;
             this._creatorRepository = creatorRepository;
+            this._animeVideoRepository = animeVideoRepository;
       }
 
       public async GetSectionData(type: string, page: number, limit: number): Promise<any> {
@@ -59,6 +63,15 @@ export class FeedService {
                               page: page,
                               limit: limit,
                               total: paginationCreators.total
+                        }
+                        break;
+                  case 'anime_videos':
+                        const paginationAnimeVideos = await this._animeVideoRepository.GetAnimeVideosPagination(page, limit = 4, {});
+                        data = paginationAnimeVideos.animeVideos;
+                        pagination = {
+                              page: page,
+                              limit: limit,
+                              total: paginationAnimeVideos.total
                         }
                         break;
                   default: // Nếu type ko hỗ trợ --> trả về section rỗng

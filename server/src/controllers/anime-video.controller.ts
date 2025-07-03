@@ -4,6 +4,7 @@ import { AnimeVideoService } from "../services/anime-video.service.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
+import { FilterAnimeVideoPagination } from "../dtos/anime-video.dto.js";
 
 
 const _animeVideoRepository = new AnimeVideoRepository();
@@ -34,6 +35,22 @@ const getAnimeVideos = async(req: IncomingMessage, res: ServerResponse) => {
       }
 }
 
+const GetUniqueVideosPagination = async(request: CustomRequest, response: ServerResponse) => {
+      try {
+            const page_number = parseInt(request.query?.page as string) || 1;
+            const limit_number = parseInt(request.query?.limit as string) || 10;
+            const filters: FilterAnimeVideoPagination = {};
+            const query = request.query;
+            if(query?.tag_id) filters.tag_id = query.tag_id as string;
+
+            const animeVideos = await _animeVideoService.GetUniqueAnimeVideosPagination(page_number, limit_number, filters);
+            return sendResponse(response, 200, animeVideos);
+      } catch(error) {
+            console.error('Error get paginated videos: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
 const createAnimeVideo = async(req: CustomRequest, res: ServerResponse) => {
       try {
             const created_video = await _animeVideoService.createAnimeVideo(req);
@@ -57,6 +74,7 @@ const updateAnimeVideo  = async(req: ValidateIdRequest, res: ServerResponse) => 
 const animeVideo_controller = {
       getAnimeVideos,
       GetAnimeVideoById,
+      GetUniqueVideosPagination,
       createAnimeVideo,
       updateAnimeVideo,
 }

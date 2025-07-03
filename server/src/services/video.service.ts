@@ -55,6 +55,19 @@ export class VideoService {
             }
       }
 
+      async getUniqueVideosPagination(page: number, limit: number, filters: FilterVideoPagination) {
+            const { videos, total } = await this.video_repository.GetUniqueVideosPagination(page, limit, filters);
+            const uniqueVideosPagination = videos.map(doc => MappingDocToDTO(doc));
+            return {
+                  videos: uniqueVideosPagination,
+                  pagination: {
+                        page: page,
+                        limit: limit,
+                        total: total
+                  }
+            }
+      }
+
       async updateVideo(req: ValidateIdRequest): Promise<UpdateVideoDTO | null> {
             const id = req.params?.id;
             const existing_video = await this.video_repository.findById(id);

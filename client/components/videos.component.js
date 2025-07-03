@@ -153,11 +153,28 @@ function hoverMouseVideoToPlay(video_ahref) {
       return video_ahref;
 }
 
+function CreateAnimeVideoArticle(animeVideo) {
+      let animeVideo_article = doms_component.createArticle('video-article');
+      const animeVideo_articleContainer = doms_component.createDiv('video-article-container');
+
+      let animeVideo_articleHref = doms_component.createAhref({ href: `anime-video/#id=${animeVideo._id}`, css_class: 'anime-video-article-link'});
+      animeVideo_articleContainer.appendChild(animeVideo_articleHref);
+
+      const animeVideo_container = CreateVideoPlayer(animeVideo.name, animeVideo.file_path, ServerFolders.ANIME_VIDEOS);
+      animeVideo_articleHref.appendChild(animeVideo_container);
+
+      animeVideo_article.appendChild(animeVideo_articleContainer);
+      animeVideo_articleHref = hoverMouseVideoToPlay(animeVideo_articleHref);
+
+      return animeVideo_article;
+}
+
 const videos_component = {
       CreateVideoArticle,
       CreateVideoPlayer,
       createVideoPreview,
       createVideoSource,
+      CreateAnimeVideoArticle,
       populateVideo,
       updateVideoSourceById,
       hoverMouseVideoToPlay,

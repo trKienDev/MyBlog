@@ -1,13 +1,12 @@
-import { video_api } from "../../api/video.api.js";
-import videos_component from "../../components/videos.component.js";    
-import { showToast } from "../../utils/toast-notification.js";
+import animes_api from "../../api/anime.api";
+import { showToast } from "../../utils/toast-notification";
 
 let current_page = 1;
 const limit = 12;
 let is_loading = false;
 let hasMoreVideos = true;
 
-async function loadMoreVideos(element_id, filters = {}) {
+async function LoadMoreAnimeVideos(element_id, filters = {}) {
       // 1> Kiểm tra nếu đang tải hoặc đã hết video thì ko làm gì cả
       if(is_loading || !hasMoreVideos) {
             return;
@@ -16,29 +15,10 @@ async function loadMoreVideos(element_id, filters = {}) {
       // 2> Đặt cờ đang tải & hiển thị icon loading
       is_loading = true;
       document.getElementById('video-loader').style.display = 'block';
+
       try {
-            // const result = await video_api.GetVideosPaginated({ page: current_page, limit: limit, filters: filters});
-            const result = await video_api.GetUniqueVideosPagination({ page: current_page, limit: limit, filters: filters});
-            const videos = result.videos;
-            const pagination = result.pagination;
-
-            if(videos && videos.length > 0) {
-                  // HIỂN THỊ VIDEO LÊN GIAO DIỆN
-                  const video_promises = videos.map(video => videos_component.CreateVideoArticle(video));
-                  const video_articles = await Promise.all(video_promises);
-
-                  const newVideos_div = document.getElementById(element_id);
-                  video_articles.forEach(article => newVideos_div.appendChild(article));
-                  current_page++;
-                  const totalLoad = pagination.page * pagination.limit;
-                  if(totalLoad >= pagination.total) {
-                        hasMoreVideos = false;
-                        document.getElementById('video-loader').innerHTML = 'Bạn đã xem hết video';
-                  }
-            } else {
-                  hasMoreVideos = false;
-                  document.getElementById('video-loader').innerHTML = 'Bạn đã xem hết video';
-            }
+            const result = await animes_api.GetUniqueVideosPagination({ page: current_page, limit: limit, filters: filters});
+            console.log('result: ', result);
       } catch(error) {
             console.error('Error getting videos: ', error);
             showToast('Error getting videos', 'error');
@@ -47,13 +27,7 @@ async function loadMoreVideos(element_id, filters = {}) {
       }
 }
 
-// Hiển thị tất cả videos
-// PaginedVideosSectionController('all-videos-container');
-// Hiển thị video theo tag_id
-// PaginedVideosSectionController('filtered-videos-container', { tagId: 'abcde12345' });
-// HIển thị video theo creator_id
-// PaginedVideosSectionController('creator-video-list', { creatorId: creatorId });
-async function PaginedVideosSectionController(element_id, initial_filters = {}) {
+async function AnimeVideosPaginationSectionController(element_id, initial_filters = {}) {
       console.log("Khởi tạo tính năng Tải vô hạn cho video...");
 
       const active_filters = initial_filters;
@@ -102,10 +76,5 @@ async function PaginedVideosSectionController(element_id, initial_filters = {}) 
       // Gọi hàm này ngay lập tức để tải trang 1 mà không cần chờ người dùng cuộn.
       console.log("Đang tải loạt video đầu tiên...");
       console.log('active_filters: ', active_filters);
-      loadMoreVideos(element_id, active_filters); // <-- GỌI LẦN ĐẦU TIÊN
+      LoadMoreAnimeVideos(element_id, active_filters); // <-- GỌI LẦN ĐẦU TIÊN
 }
-
-const videoPagination_section = {
-      PaginedVideosSectionController
-}
-export default videoPagination_section;

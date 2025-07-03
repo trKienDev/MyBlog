@@ -1,6 +1,7 @@
-import { CreateAnimeVideoDTO, UpdateAnimeVideoDTO } from "../dtos/anime-video.dto.js";
+import { AnimeVideoDTO, CreateAnimeVideoDTO, FilterAnimeVideoPagination, UpdateAnimeVideoDTO } from "../dtos/anime-video.dto.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request";
+import { iAnimeVideo } from "../models/anime-video.model.js";
 import { iAnimeVideoRepository } from "../repositories/interfaces/ianime-video.repository.js";
 import { FileService } from "../utils/file.service.js";
 import file_utils from "../utils/file.utils.js";
@@ -10,6 +11,19 @@ export class AnimeVideoService {
       private _animeVideoRepository: iAnimeVideoRepository;
       constructor(animeVideoRepository: iAnimeVideoRepository) {
             this._animeVideoRepository = animeVideoRepository;
+      }
+
+      async GetUniqueAnimeVideosPagination(page: number, limit: number, filters: FilterAnimeVideoPagination) {
+            const { animeVideos, total } = await this._animeVideoRepository.GetUniqueAnimeVideosPagination(page, limit, filters);
+            const uniqueVideosPagination = animeVideos.map(doc => MappingDocToDTO(doc));
+            return {
+                  videos: uniqueVideosPagination,
+                  pagination: {
+                        page: page,
+                        limit: limit,
+                        total: total
+                  }
+            }
       }
 
       async createAnimeVideo(request: CustomRequest): Promise<CreateAnimeVideoDTO | null> {
@@ -63,5 +77,17 @@ export class AnimeVideoService {
             if(!updated_video) throw new Error("Error updating video");
 
             return updated_video;
+      }
+}
+
+function MappingDocToDTO(doc: iAnimeVideo): AnimeVideoDTO {
+      return {
+            _id: doc._id.toString(),
+            name: doc.name,
+            film_id: doc.film_id.toString(),
+            playlist_id: doc?.playlist_id?.toString(),
+            tag_ids: doc?.tag_ids?.map(id => id.toString()),
+            file_path: doc.file_path,
+            views: doc.views,
       }
 }

@@ -6,7 +6,7 @@ import { ServerFolders } from "../../constants/folders.constant.js";
 export async function HomepageAnimeVideosSectionController() {
       const listAnimeVideosSection = document.getElementById('anime-videos_section');
       const listAnimeVideoSection_wrapper = listAnimeVideosSection.querySelector('.anime-videos_section-wrapper');
-      const anime_videos = await animes_api.getAnimeVideos();
+      const anime_videos = await animes_api.GetUniqueVideosPagination();
       anime_videos.forEach(anime_video => {
             const video_frame = doms_component.createDiv('anime-video_frame');
             const video_container = doms_component.createDiv('anime-video_container');

@@ -27,6 +27,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/api/albums', handler: album_controller.GetAllAlbums },
       // anime-videos
       { method: 'GET', path: '/api/anime-video/:id', handler: validated_id.validateId(animeVideo_controller.GetAnimeVideoById ) },
+      { method: 'GET', path: '/api/anime-videos/unique-pagination', handler: animeVideo_controller.GetUniqueVideosPagination },
       // codes
       { method: 'GET', path: '/api/codes/studio/:id', handler: validated_id.validateId(code_controller.GetCodesByStudio) },
       { method: 'GET', path: '/api/codes', handler: code_controller.GetCodes },
@@ -82,6 +83,7 @@ const user_routes: Route[] = [
       { method: 'PUT', path: '/video/view/:id', handler: validated_id.validateId(video_controller.increaseVideoViewsByOne )},
       { method: 'PUT', path: '/video/:id/like', handler: validated_id.validateId(video_controller.increaseVideoLikeByOne )},
       { method: 'GET', path: '/videos/paginated', handler: video_controller.getVIdeosPaginated },
+      { method: 'GET', path: '/videos/unique-pagination', handler: video_controller.GetUniqueVideosPagination },
 ]
 
 export const handleUserRoutes = createRouter(user_routes);

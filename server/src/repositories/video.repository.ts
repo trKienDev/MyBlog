@@ -19,38 +19,112 @@ export class VideoRepository implements iVideoRepository {
 
       async GetVideosPagination(page: number, limit: number, filters: FilterVideoPagination): Promise<VideosPaginationDto> {
             const skip = (page - 1) * limit;
-            const filterQuery: any = {};
+            const filterQueries: any = {};
             if(filters.action_id && mongoose.Types.ObjectId.isValid(filters.action_id)) {
-                  filterQuery.action_id = new mongoose.Types.ObjectId(filters.action_id);
+                  filterQueries.action_id = new mongoose.Types.ObjectId(filters.action_id);
             }
             if(filters.creator_id && mongoose.Types.ObjectId.isValid(filters.creator_id)) {
-                  filterQuery.creator_id = new mongoose.Types.ObjectId(filters.creator_id);
+                  filterQueries.creator_id = new mongoose.Types.ObjectId(filters.creator_id);
             }
             if(filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
-                  filterQuery.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
+                  filterQueries.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
             }
             if(filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
-                  filterQuery.code_id = new mongoose.Types.ObjectId(filters.code_id);
+                  filterQueries.code_id = new mongoose.Types.ObjectId(filters.code_id);
             }
 
             if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
-                  filterQuery.tag_ids = new mongoose.Types.ObjectId(filters.tag_id);
+                  filterQueries.tag_ids = new mongoose.Types.ObjectId(filters.tag_id);
             }
             if(filters.playlist_ids && mongoose.Types.ObjectId.isValid(filters.playlist_ids)) {
-                  filterQuery.playlist_ids = new mongoose.Types.ObjectId(filters.playlist_ids);
+                  filterQueries.playlist_ids = new mongoose.Types.ObjectId(filters.playlist_ids);
             }
 
             const [ videos, total ] = await Promise.all([
-                  Video.find(filterQuery)
+                  Video.find(filterQueries)
                         .sort({ createdAt: -1 })
                         .skip(skip)
                         .limit(limit)
                         .exec(),
-                  Video.countDocuments(filterQuery).exec()
+                  Video.countDocuments(filterQueries).exec()
             ]);
             
             return { videos, total };
       }
+
+      async GetUniqueVideosPagination(page: number, limit: number, filters: FilterVideoPagination): Promise<VideosPaginationDto> {
+            const skip = (page - 1) * limit;
+
+            // 1. Xây dựng bộ lọc (đã sửa lỗi logic)
+            const filterQuery: any = {};
+            if (filters.action_id && mongoose.Types.ObjectId.isValid(filters.action_id)) {
+                  filterQuery.action_id = new mongoose.Types.ObjectId(filters.action_id);
+            }
+            if (filters.creator_id && mongoose.Types.ObjectId.isValid(filters.creator_id)) {
+                  filterQuery.creator_id = new mongoose.Types.ObjectId(filters.creator_id);
+            }
+            if (filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
+                  filterQuery.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
+            }
+            if (filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
+                  filterQuery.code_id = new mongoose.Types.ObjectId(filters.code_id);
+            }
+            // Sửa lỗi: Dùng $in cho các trường mảng
+            if (filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
+                  filterQuery.tag_ids = { $in: [new mongoose.Types.ObjectId(filters.tag_id)] };
+            }
+            if (filters.playlist_ids && mongoose.Types.ObjectId.isValid(filters.playlist_ids)) {
+                  filterQuery.playlist_ids = { $in: [new mongoose.Types.ObjectId(filters.playlist_ids)] };
+            }
+
+            // 2. Sử dụng Aggregation Pipeline
+            const results = await Video.aggregate([
+                  // Giai đoạn 1: Lọc các video khớp với điều kiện
+                  { $match: filterQuery },
+
+                  // Giai đoạn 2: Lấy video ngẫu nhiên
+                  { $addFields: { randomSortKey: { $rand: {} } } },
+
+                  // Giai đoạn 3: Sắp xếp theo trường ngẫu nhiên
+                  { $sort: { randomSortKey: 1 } },
+
+                  // Giai đoạn 4: Gom nhóm theo film_id và lấy video đầu tiên (mới nhất)
+                  {
+                        $group: {
+                              _id: "$film_id", // Gom nhóm theo trường film_id
+                              documentData: { $first: "$$ROOT" } // Lấy toàn bộ document đầu tiên của mỗi nhóm
+                        }
+                  },
+
+                  // Giai đoạn 5: Đưa document video về làm gốc
+                  { $replaceRoot: { newRoot: "$documentData" }},
+                  
+                  // Giai đoạn 6: Sắp xếp lại kết quả cuối cùng (tùy chọn)
+                  { $sort: { createdAt: -1 } },
+
+                  // Giai đoạn 7: Xử lý phân trang và đếm tổng số
+                  { $facet: {
+                              // Nhánh 1: Lấy dữ liệu đã phân trang
+                              videos: [
+                                    { $skip: skip },
+                                    { $limit: limit }
+                              ],
+                              // Nhánh 2: Đếm tổng số document sau khi gom nhóm
+                              totalCount: [
+                                    { $count: 'total' }
+                              ]
+                        }
+                  }
+            ]);
+
+            const videos = results[0].videos;
+            // Lấy tổng số, nếu không có kết quả thì mặc định là 0
+            const total = results[0].totalCount.length > 0 ? results[0].totalCount[0].total : 0;
+
+            return { videos, total };
+      }
+      
+
       async findById(id: string): Promise<VideoDTO | null> {
             const video = await Video.findById(id);
             return video ? mappingDocToDTO(video) : null;

@@ -40,6 +40,27 @@ const getVIdeosPaginated = async(request: CustomRequest, response: ServerRespons
       }
 }
 
+const GetUniqueVideosPagination = async(request: CustomRequest, response: ServerResponse) => {
+      try {
+            const page_number = parseInt(request.query?.page as string) || 1;
+            const limit_number = parseInt(request.query?.limit as string) || 10;
+            const filters: FilterVideoPagination = {};
+            const query = request.query;
+            if(query?.tag_id) filters.tag_id = query.tag_id as string;
+            if(query?.creator_id) filters.creator_id = query.creator_id as string;
+            if(query?.studio_id) filters.studio_id = query.studio_id as string;
+            if(query?.code_id) filters.code_id = query.code_id as string;
+            if(query?.playlist_ids) filters.playlist_ids = query.playlist_ids as string;
+            if(query?.action_id) filters.action_id = query.action_id as string;
+
+            const videos = await _videoService.getUniqueVideosPagination(page_number, limit_number, filters);
+            return sendResponse(response, 200, videos);
+      } catch(error) {
+            console.error('Error get paginated videos: ', error);
+            return sendError(response, 500, error);
+      }
+}
+
 const findVideoById = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const id = request.params?.id;
@@ -119,6 +140,7 @@ const increaseVideoLikeByOne = async(request: ValidateIdRequest, response: Serve
 const video_controller = {
       getVideos,
       getVIdeosPaginated,
+      GetUniqueVideosPagination,
       findVideoById,
       findVideosByCreatorId,
       createVideo,

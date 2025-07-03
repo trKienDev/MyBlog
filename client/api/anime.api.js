@@ -118,10 +118,29 @@ async function getAnimeVideos() {
 
       return result.data;
 }
-
 async function GetAnimeVideoById(id) {
       const result = await fetch_api.apiGet(`${api_user.GetAnimeVideoById}/${id}`);
       if(result.success === false) throw new Error(result.error);
+      return result.data;
+}
+async function GetUniqueVideosPagination({ page, limit, filters = {} }) {
+      const params = new URLSearchParams({
+            page: page.toString(),
+            limit: limit.toString()
+      });
+      for (const [key, value] of Object.entries(filters)) {
+            if (value !== undefined && value !== null) {
+                params.append(key, value);
+            }
+      }
+
+      const enpoint = api_user.getUniqueAnimeVideosPagination;
+      
+      const url = `${enpoint}?${params.toString()}`; 
+      console.log("Đang gọi API tới:", url); // Log lại để debug
+      const result = await  fetch_api.apiGet(url);
+      if(!result || result.success === false) throw new Error(result.error);
+
       return result.data;
 }
 
@@ -143,6 +162,7 @@ const animes_api = {
       getAnimePlaylistById,
       getAnimePlaylistNameById,
       getAnimeVideos,
+      GetUniqueVideosPagination,
       GetAnimeVideoById,
 }
 export default animes_api;

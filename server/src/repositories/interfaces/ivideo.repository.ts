@@ -6,6 +6,7 @@ export interface iVideoRepository {
       findByName(name: string): Promise<VideoDTO | null>;
       findByCreatorId(creator_id: string): Promise<VideoDTO[]>;
       GetVideosPagination(page: number, limit: number, filters: FilterVideoPagination): Promise<VideosPaginationDto>;
+      GetUniqueVideosPagination(page: number, limit: number, filters: FilterVideoPagination): Promise<VideosPaginationDto>;
       GetLatestVideos(): Promise<VideoDTO[]>;
       createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO>;
       updateVideo(id: string, data: Partial<UpdateVideoDTO>): Promise<UpdateVideoDTO | null>;
