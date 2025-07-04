@@ -43,7 +43,7 @@ export class VideoService {
       }
 
       async getPaginatedVideos(page: number, limit: number, filters: FilterVideoPagination) {
-            const { videos, total } = await this.video_repository.GetVideosPagination(page, limit, filters);
+            const { videos, total } = await this.video_repository.getVideosPagination(page, limit, filters);
             const paginated_videos = videos.map(doc => MappingDocToDTO(doc));
             return {
                   videos: paginated_videos,
@@ -56,7 +56,7 @@ export class VideoService {
       }
 
       async getUniqueVideosPagination(page: number, limit: number, filters: FilterVideoPagination) {
-            const { videos, total } = await this.video_repository.GetUniqueVideosPagination(page, limit, filters);
+            const { videos, total } = await this.video_repository.getUniqueRandomVideosPagination(page, limit, filters);
             const uniqueVideosPagination = videos.map(doc => MappingDocToDTO(doc));
             return {
                   videos: uniqueVideosPagination,

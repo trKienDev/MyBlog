@@ -9,16 +9,15 @@ import file_utils from "../utils/file.utils.js";
 import { request_utils } from "../utils/request.utils.js";
 
 export class FilmService {
-      private film_repository: iFilmRepository;
-
+      private _filmRepository: iFilmRepository;
       constructor(filmRepository: iFilmRepository) {
-            this.film_repository = filmRepository;
+            this._filmRepository = filmRepository;
       }
       
       async createFilm(request: CustomRequest): Promise<Partial<CreateFilmDTO>> {
             const { file_name } = await file_utils.uploadFile(request, UploadFiles.FILMS);
             const name = request_utils.extractParamFromRequest(request, "name");
-            const existing_film = await this.film_repository.findByName(name);
+            const existing_film = await this._filmRepository.findByName(name);
             if (existing_film) {
                   throw new Error('Film with this name has already existed.');
             }
@@ -57,12 +56,12 @@ export class FilmService {
                   new_film.collection_id = collection_value;
             }
 
-            return await this.film_repository.createFilm(new_film);
+            return await this._filmRepository.create(new_film);
       }      
 
       async updateFilm(request: ValidateIdRequest): Promise<UpdateFilmDTO | null> {
             const id = request.params?.id;
-            const existing_film = await this.film_repository.findById(id);
+            const existing_film = await this._filmRepository.findById(id);
             
             if(!existing_film) {
                   throw new Error('Film not found');
@@ -91,7 +90,7 @@ export class FilmService {
                   updateFilm_data.thumbnail = file_name;
             }
 
-            const updated_film = await this.film_repository.updateFilm(id, updateFilm_data);
+            const updated_film = await this._filmRepository.update(id, updateFilm_data);
             if(!updated_film) {
                   throw new Error("Error updating film");
             }
@@ -103,7 +102,7 @@ export class FilmService {
             console.log('run UpdateFilmCollections in service');
             const film_id = request.params?.id;
             const required_fields = ['collection_ids'];
-            const existing_film = await this.film_repository.findById(film_id);
+            const existing_film = await this._filmRepository.findById(film_id);
 
             if(!existing_film) {
                   throw new Error('Film not found');
@@ -116,7 +115,7 @@ export class FilmService {
                   throw new Error('Missing required information');
             }
 
-            const addingFilmCollections = await this.film_repository.UpdateCollectionsToFilm(film_id, collection_ids);
+            const addingFilmCollections = await this._filmRepository.updateCollectionId(film_id, collection_ids);
             return addingFilmCollections;
       }
 }

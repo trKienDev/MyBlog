@@ -24,55 +24,20 @@ export class FeedService {
             this._animeVideoRepository = animeVideoRepository;
       }
 
-      public async GetSectionData(type: string, page: number, limit: number): Promise<any> {
+      public async getSectionData(type: string, page: number, limit: number, seed: string): Promise<any> {
             let data;
             let pagination;
 
             switch(type) {
                   case 'videos': 
-                        const paginationVideos = await this._videoRepository.GetVideosPagination(page, limit = 4, {});
-                        data = paginationVideos.videos;
-                        pagination = {
-                              page: page,
-                              limit: limit,
-                              total: paginationVideos.total
-                        }
+                        const homepageFeedsVideos = await this._videoRepository.getHomepageFeedsVideosPagination(page, limit = 4, {}, seed);
+                        data = homepageFeedsVideos.videos;
+                        pagination = { page: page, limit: limit, total: homepageFeedsVideos.total }
                         break;
-                  case 'films': 
-                        const paginationFilms = await this._filmRepository.GetFilmsPagination(page, limit = 8, {});
-                        data = paginationFilms.films;
-                        pagination = {
-                              page: page,
-                              limit: limit,
-                              total: paginationFilms.total
-                        }
-                        break;
-                  case 'images':
-                        const paginationImages = await this._imageRepository.GetImagesPagination(page, limit, {});
-                        data = paginationImages.images;
-                        pagination = {
-                              page: page,
-                              limit: limit,
-                              total: paginationImages.total
-                        }
-                        break;
-                  case 'creators':
-                        const paginationCreators = await this._creatorRepository.GetCreatorsPagination(page, limit, {});
-                        data = paginationCreators.creators;
-                        pagination = {
-                              page: page,
-                              limit: limit,
-                              total: paginationCreators.total
-                        }
-                        break;
-                  case 'anime_videos':
-                        const paginationAnimeVideos = await this._animeVideoRepository.GetAnimeVideosPagination(page, limit = 4, {});
-                        data = paginationAnimeVideos.animeVideos;
-                        pagination = {
-                              page: page,
-                              limit: limit,
-                              total: paginationAnimeVideos.total
-                        }
+                  case 'films':
+                        const homepageFeedsFilms = await this._filmRepository.findRandomizedPaginated(page, limit = 8, {}, seed);
+                        data = homepageFeedsFilms.films;
+                        pagination = { page: page, limit: limit, total: homepageFeedsFilms.total }
                         break;
                   default: // Nếu type ko hỗ trợ --> trả về section rỗng
                         return {

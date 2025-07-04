@@ -21,7 +21,7 @@ import { createRouter } from "./routes.js";
 
 const user_routes: Route[] = [
       // homepage-feed
-      { method: 'GET', path: '/api/feed/section', handler: feed_controller.GetSectionData },
+      { method: 'GET', path: '/api/feed/section', handler: feed_controller.getSectionData },
       
       // albums
       { method: 'GET', path: '/api/albums', handler: album_controller.GetAllAlbums },

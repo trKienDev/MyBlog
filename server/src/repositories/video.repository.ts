@@ -1,44 +1,25 @@
-import mongoose from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 import Video from "../models/video.model.js";
 import { iVideoRepository } from "./interfaces/ivideo.repository.js";
 import { iVideo } from "../models/interface/ivideo.model.js";
 import { CreateVideoDTO, FilterVideoPagination, UpdateVideoDTO, VideoDTO, VideosPaginationDto } from "../dtos/video.dto.js";
 import Film from "../models/film.model.js";
+import seedrandom from "seedrandom";
 
 export class VideoRepository implements iVideoRepository {
-      async getVideos(): Promise<VideoDTO[]> {
+      public async getVideos(): Promise<VideoDTO[]> {
             const videos = await Video.find();
             return videos.map(doc => mappingDocToDTO(doc));
       }
-      async GetLatestVideos(): Promise<VideoDTO[]> {
+      public async getLatestVideos(): Promise<VideoDTO[]> {
             const latest_videos = await Video.find().sort({ createdAt: -1 })
                                                       .limit(4).exec();
 
             return latest_videos.map(doc => mappingDocToDTO(doc));
       }
-
-      async GetVideosPagination(page: number, limit: number, filters: FilterVideoPagination): Promise<VideosPaginationDto> {
+      public async getVideosPagination(page: number, limit: number, filters: FilterVideoPagination): Promise<VideosPaginationDto> {
             const skip = (page - 1) * limit;
-            const filterQueries: any = {};
-            if(filters.action_id && mongoose.Types.ObjectId.isValid(filters.action_id)) {
-                  filterQueries.action_id = new mongoose.Types.ObjectId(filters.action_id);
-            }
-            if(filters.creator_id && mongoose.Types.ObjectId.isValid(filters.creator_id)) {
-                  filterQueries.creator_id = new mongoose.Types.ObjectId(filters.creator_id);
-            }
-            if(filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
-                  filterQueries.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
-            }
-            if(filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
-                  filterQueries.code_id = new mongoose.Types.ObjectId(filters.code_id);
-            }
-
-            if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
-                  filterQueries.tag_ids = new mongoose.Types.ObjectId(filters.tag_id);
-            }
-            if(filters.playlist_ids && mongoose.Types.ObjectId.isValid(filters.playlist_ids)) {
-                  filterQueries.playlist_ids = new mongoose.Types.ObjectId(filters.playlist_ids);
-            }
+            const filterQueries = this.buildFilterQueries(filters);
 
             const [ videos, total ] = await Promise.all([
                   Video.find(filterQueries)
@@ -51,36 +32,16 @@ export class VideoRepository implements iVideoRepository {
             
             return { videos, total };
       }
-
-      async GetUniqueVideosPagination(page: number, limit: number, filters: FilterVideoPagination): Promise<VideosPaginationDto> {
+      public async getUniqueRandomVideosPagination(page: number, limit: number, filters: FilterVideoPagination): Promise<VideosPaginationDto> {
             const skip = (page - 1) * limit;
 
             // 1. Xây dựng bộ lọc (đã sửa lỗi logic)
-            const filterQuery: any = {};
-            if (filters.action_id && mongoose.Types.ObjectId.isValid(filters.action_id)) {
-                  filterQuery.action_id = new mongoose.Types.ObjectId(filters.action_id);
-            }
-            if (filters.creator_id && mongoose.Types.ObjectId.isValid(filters.creator_id)) {
-                  filterQuery.creator_id = new mongoose.Types.ObjectId(filters.creator_id);
-            }
-            if (filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
-                  filterQuery.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
-            }
-            if (filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
-                  filterQuery.code_id = new mongoose.Types.ObjectId(filters.code_id);
-            }
-            // Sửa lỗi: Dùng $in cho các trường mảng
-            if (filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
-                  filterQuery.tag_ids = { $in: [new mongoose.Types.ObjectId(filters.tag_id)] };
-            }
-            if (filters.playlist_ids && mongoose.Types.ObjectId.isValid(filters.playlist_ids)) {
-                  filterQuery.playlist_ids = { $in: [new mongoose.Types.ObjectId(filters.playlist_ids)] };
-            }
+            const filterQueries = this.buildFilterQueries(filters);
 
             // 2. Sử dụng Aggregation Pipeline
             const results = await Video.aggregate([
                   // Giai đoạn 1: Lọc các video khớp với điều kiện
-                  { $match: filterQuery },
+                  { $match: filterQueries },
 
                   // Giai đoạn 2: Lấy video ngẫu nhiên
                   { $addFields: { randomSortKey: { $rand: {} } } },
@@ -98,11 +59,8 @@ export class VideoRepository implements iVideoRepository {
 
                   // Giai đoạn 5: Đưa document video về làm gốc
                   { $replaceRoot: { newRoot: "$documentData" }},
-                  
-                  // Giai đoạn 6: Sắp xếp lại kết quả cuối cùng (tùy chọn)
-                  { $sort: { createdAt: -1 } },
 
-                  // Giai đoạn 7: Xử lý phân trang và đếm tổng số
+                  // Giai đoạn 6: Xử lý phân trang và đếm tổng số
                   { $facet: {
                               // Nhánh 1: Lấy dữ liệu đã phân trang
                               videos: [
@@ -123,16 +81,54 @@ export class VideoRepository implements iVideoRepository {
 
             return { videos, total };
       }
-      
+      public async getHomepageFeedsVideosPagination(page: number, limit: number, filters: FilterVideoPagination, seed: string): Promise<VideosPaginationDto> {
+            const filterQueries = this.buildFilterQueries(filters);
+            // BƯỚC 1: LẤY TẤT CẢ VIDEO ỨNG CỬ VIÊN TỪ DB
+            // Pipeline này chỉ lọc và gom nhóm, không chọn ngẫu nhiên
+            const groupedResults = await Video.aggregate([
+                  { $match: filterQueries }, // Bỏ filterQuery đi vì đã có filters
+                  { $sort: { createdAt: -1 } }, // Sắp xếp trước để $first có ý nghĩa hơn
+                  {
+                        $group: {
+                              _id: "$film_id", // Gom nhóm theo film_id
+                              videosInGroup: { $push: "$$ROOT" } // Lấy TẤT CẢ video trong nhóm
+                        }
+                  }
+            ]);
 
-      async findById(id: string): Promise<VideoDTO | null> {
+            // BƯỚC 2: DÙNG SEED ĐỂ CHỌN ĐẠI DIỆN TRONG CODE NODE.JS
+            const representativeVideos = [];
+            for (const group of groupedResults) {
+                  // Tạo một bộ sinh số ngẫu nhiên riêng cho mỗi phim, dựa trên seed từ client và film_id
+                  // Điều này đảm bảo tính ngẫu nhiên giữa các phim nhưng nhất quán cho cùng một phim
+                  const rng = seedrandom(seed + group._id.toString());
+                  const randomIndex = Math.floor(rng() * group.videosInGroup.length);
+                  
+                  representativeVideos.push(group.videosInGroup[randomIndex]);
+            }
+
+            // BƯỚC 3: SẮP XẾP VÀ PHÂN TRANG DANH SÁCH CUỐI CÙNG
+            // Sắp xếp "chồng bài" cuối cùng theo quy tắc cố định (_id)
+            const sortedMasterList = representativeVideos.sort((a, b) => a._id.toString().localeCompare(b._id.toString()));
+
+            // Đếm tổng số
+            const total = sortedMasterList.length;
+
+            // Cắt lát dữ liệu để phân trang
+            const skip = (page - 1) * limit;
+            const pageData = sortedMasterList.slice(skip, skip + limit);
+
+            return { videos: pageData, total };
+      }
+
+      public async findById(id: string): Promise<VideoDTO | null> {
             const video = await Video.findById(id);
             return video ? mappingDocToDTO(video) : null;
       }
-      async findByName(name: string): Promise<VideoDTO | null> {
+      public async findByName(name: string): Promise<VideoDTO | null> {
             return await Video.findOne({ name });      
       }
-      async findByCreatorId(creator_id: string): Promise<VideoDTO[]> {
+      public async findByCreatorId(creator_id: string): Promise<VideoDTO[]> {
             if (!mongoose.Types.ObjectId.isValid(creator_id)) {
                   console.warn("Invalid creator_id format");
                   throw new Error('invalid creator_id');
@@ -142,7 +138,7 @@ export class VideoRepository implements iVideoRepository {
             return videos.map(doc => mappingDocToDTO(doc));
       }
 
-      async createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO> {
+      public async createVideo(data: CreateVideoDTO): Promise<CreateVideoDTO> {
             const new_video = new Video({
                   name: data.name,
                   action_id: new mongoose.Types.ObjectId(data.action_id),
@@ -166,7 +162,7 @@ export class VideoRepository implements iVideoRepository {
             return mappingDocToCreateDTO(created_video);            
       }
 
-      async updateVideo(id: string, data: Partial<UpdateVideoDTO>): Promise<UpdateVideoDTO | null> {
+      public async updateVideo(id: string, data: Partial<UpdateVideoDTO>): Promise<UpdateVideoDTO | null> {
             const update_fields: Record<string, any> = {};
             if (data.name) update_fields.name = data.name;
             if (data.action_id) update_fields.action_id = new mongoose.Types.ObjectId(data.action_id);
@@ -186,7 +182,7 @@ export class VideoRepository implements iVideoRepository {
             return updated_doc ? mappingDocToDTO(updated_doc) : null;
       }
 
-      async addPlaylistsToVideo(video_id: string, playlistIds_toAdd: string[]): Promise<VideoDTO | null> {
+      public async addPlaylistsToVideo(video_id: string, playlistIds_toAdd: string[]): Promise<VideoDTO | null> {
             const updated_video = await Video.findByIdAndUpdate(
                   video_id,
                   { $set: { playlist_ids: playlistIds_toAdd }}, 
@@ -199,7 +195,7 @@ export class VideoRepository implements iVideoRepository {
             return updated_video ? mappingDocToDTO(updated_video) : null;
       }
 
-      async increaseVideoViewsByOne(video_id: string): Promise<VideoDTO | null> {
+      public async increaseVideoViewsByOne(video_id: string): Promise<VideoDTO | null> {
             const updated_video = await Video.findByIdAndUpdate(
                   video_id,
                   { $inc: {views: 1 }},
@@ -209,7 +205,7 @@ export class VideoRepository implements iVideoRepository {
             return updated_video ? mappingDocToDTO(updated_video) : null;
       }
 
-      async increaseVideoLikeByOne(video_id: string): Promise<VideoDTO | null> {
+      public async increaseVideoLikeByOne(video_id: string): Promise<VideoDTO | null> {
             const updated_video = await Video.findByIdAndUpdate(
                   video_id,
                   { $inc: { likes: 1 }},
@@ -217,6 +213,31 @@ export class VideoRepository implements iVideoRepository {
             ).exec();
 
             return updated_video ? mappingDocToDTO(updated_video) : null;
+      }
+
+      private buildFilterQueries(filters: FilterVideoPagination): FilterQuery<iVideo> {
+            const filterQueries: FilterQuery<iVideo> = {};
+            if(filters.action_id && mongoose.Types.ObjectId.isValid(filters.action_id)) {
+                  filterQueries.action_id = new mongoose.Types.ObjectId(filters.action_id);
+            }
+            if (filters.creator_id && mongoose.Types.ObjectId.isValid(filters.creator_id)) {
+                  filterQueries.creator_id = new mongoose.Types.ObjectId(filters.creator_id);
+            }
+            if (filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
+                  filterQueries.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
+            }
+            if (filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
+                  filterQueries.code_id = new mongoose.Types.ObjectId(filters.code_id);
+            }
+            // Sửa lỗi: Dùng $in cho các trường mảng
+            if (filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
+                  filterQueries.tag_ids = { $in: [new mongoose.Types.ObjectId(filters.tag_id)] };
+            }
+            if (filters.playlist_ids && mongoose.Types.ObjectId.isValid(filters.playlist_ids)) {
+                  filterQueries.playlist_ids = { $in: [new mongoose.Types.ObjectId(filters.playlist_ids)] };
+            }
+
+            return filterQueries;
       }
 }
 

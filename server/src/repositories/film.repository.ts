@@ -1,34 +1,23 @@
-import mongoose from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 import { CreateFilmDTO, FilmDTO, FilmsPaginationDto, FilterFilmPagination, UpdateFilmDTO } from "../dtos/film.dto.js";
 import { iFilmRepository } from "./interfaces/ifilm.repository.js";
 import Film from "../models/film.model.js";
 import { iFilm } from "../models/interface/ifilm.model.js";
-import Collection from "../models/collection.model.js";
+import seedrandom from "seedrandom";
 
 export class FilmRepository implements iFilmRepository {
-      async getFilms(): Promise<FilmDTO[] | null> {
+      // *** READ ***
+      public async findAll(): Promise<FilmDTO[]> {
             const films = await Film.find();
             return films.map(film => mappingDocToDTO(film));
       }
-      async GetLatestFilms(): Promise<FilmDTO[]> {
+      public async findNewest(): Promise<FilmDTO[]> {
             const films = await Film.find().sort({ date: -1 }).limit(4).exec();
             return films.map(film => mappingDocToDTO(film));
       }
-      async GetFilmsPagination(page: number, limit: number, filters: FilterFilmPagination): Promise<FilmsPaginationDto> {
+      public async findPaginated(page: number, limit: number, filters: FilterFilmPagination): Promise<FilmsPaginationDto> {
             const skip = (page - 1) * limit;
-            const filterQuery: any = {};
-            if(filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
-                  filterQuery.code_id = new mongoose.Types.ObjectId(filters.code_id);
-            }
-            if(filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
-                  filterQuery.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
-            }
-            if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
-                  filterQuery.tag_id = new mongoose.Types.ObjectId(filters.tag_id);
-            }
-            if(filters.rating) {
-                  filterQuery.rating = filters.rating;
-            }
+            const filterQuery = this.buildFilterQueries(filters);
 
             const [ films, total ] = await Promise.all([
                   Film.find(filterQuery).sort({ createdAt: -1 })
@@ -38,8 +27,38 @@ export class FilmRepository implements iFilmRepository {
 
             return { films, total };
       }
+      public async findRandomizedPaginated(page: number, limit: number, filters: FilterFilmPagination, seed: string): Promise<FilmsPaginationDto> {
+            const filterQueries = this.buildFilterQueries(filters);
 
-      async findById(id: string): Promise<FilmDTO | null> {
+            // BƯỚC 1: LẤY TẤT CẢ CÁC DOCUMENT PHIM (BỎ .lean())
+            const allMatchingFilms = await Film.find(filterQueries).exec(); // Bây giờ nó trả về một mảng các Mongoose Document
+
+            // BƯỚC 2: DÙNG SEED ĐỂ TẠO THỨ TỰ NGẪU NHIÊN
+            const rng = seedrandom(seed);
+
+            // Bọc document và random key lại với nhau
+            const filmsWithRandomKey = allMatchingFilms.map(filmDoc => ({
+                  doc: filmDoc, // Giữ lại toàn bộ document
+                  randomSortKey: rng()
+            }));
+
+            // Sắp xếp danh sách dựa trên key ngẫu nhiên
+            const shuffledList = filmsWithRandomKey.sort((a, b) => a.randomSortKey - b.randomSortKey);
+
+            // BƯỚC 3: PHÂN TRANG
+            const total = shuffledList.length;
+            const skip = (page - 1) * limit;
+            
+            // Lấy ra trang dữ liệu vẫn còn được bọc
+            const pageOfWrappedData = shuffledList.slice(skip, skip + limit);
+
+            // BƯỚC 4: CHUYỂN ĐỔI VỀ ĐỐI TƯỢNG THUẦN TÚY TRƯỚC KHI TRẢ VỀ
+            // Dùng .map() để lấy document và gọi .toObject()
+            const finalPageData = pageOfWrappedData.map(item => item.doc.toObject());
+
+            return { films: finalPageData, total };
+      }
+      public async findById(id: string): Promise<FilmDTO | null> {
             try {
                   const film = await Film.findById(id);
                   return film ? mappingDocToDTO(film) : null;
@@ -48,10 +67,10 @@ export class FilmRepository implements iFilmRepository {
                   throw error instanceof Error ? error : new Error(String(error));
             }
       }
-      async findByName(name: string): Promise<FilmDTO | null> {
+      public async findByName(name: string): Promise<FilmDTO | null> {
             return await Film.findOne({ name });
       }
-      async findFilmsByStudioAndCode(studio_id: string, code_id: string): Promise<FilmDTO[] | null> {
+      public async findByStudioAndCode(studio_id: string, code_id: string): Promise<FilmDTO[] | null> {
             try {
                   const films = await Film.find({
                         studio_id: new mongoose.Types.ObjectId(studio_id),
@@ -68,7 +87,7 @@ export class FilmRepository implements iFilmRepository {
                   throw error instanceof Error ? error : new Error(String(error));
             }
       }
-      async FindFilmsByTagId(tag_id: string): Promise<FilmDTO[] | null> {
+      public async findByTagId(tag_id: string): Promise<FilmDTO[]> {
             if(!mongoose.Types.ObjectId.isValid(tag_id)) {
                   console.warn("Invalid tag_id");
                   throw new Error('invalid tag_id');
@@ -77,7 +96,7 @@ export class FilmRepository implements iFilmRepository {
             const films = await Film.find({ tag_ids: new mongoose.Types.ObjectId(tag_id)});
             return films.map(doc => mappingDocToDTO(doc));
       }
-      async FindByCreatorId(creator_id: string): Promise<FilmDTO[]> {
+      public async findByCreatorId(creator_id: string): Promise<FilmDTO[]> {
             if(!mongoose.Types.ObjectId.isValid(creator_id)) {
                   console.warn("Invalid creator_id");
                   throw new Error('invalid creator_id');
@@ -86,7 +105,7 @@ export class FilmRepository implements iFilmRepository {
             const films = await Film.find({ creator_ids: new mongoose.Types.ObjectId(creator_id)});
             return films.map(doc => mappingDocToDTO(doc));
       }
-      async FindByStudioId(studio_id: string): Promise<FilmDTO[]> {
+      public async findByStudioId(studio_id: string): Promise<FilmDTO[]> {
             if(!mongoose.Types.ObjectId.isValid(studio_id)) {
                   console.warn("Invalid studio_id");
                   throw new Error("Invalid studio_id");
@@ -95,7 +114,7 @@ export class FilmRepository implements iFilmRepository {
             const films = await Film.find({ studio_id: new mongoose.Types.ObjectId(studio_id)});
             return films.map(doc => mappingDocToDTO(doc));
       }
-      async FindByCollectionId(collection_id: string): Promise<FilmDTO[]> {
+      public async findByCollectionId(collection_id: string): Promise<FilmDTO[]> {
             if(!mongoose.Types.ObjectId.isValid(collection_id)) {
                   console.warn("Invalid collection id");
                   throw new Error("Invalid collection id");
@@ -105,7 +124,8 @@ export class FilmRepository implements iFilmRepository {
             return films.map(doc => mappingDocToDTO(doc));
       }
 
-      async createFilm(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>> {
+      // *** CREATE ***
+      public async create(data: Partial<CreateFilmDTO>): Promise<Partial<CreateFilmDTO>> {
             const newFilm = new Film({
                   name: data.name,
                   description: data.description,
@@ -137,7 +157,8 @@ export class FilmRepository implements iFilmRepository {
             return createdFilm;
       }
 
-      async updateFilm(id: string, data: Partial<UpdateFilmDTO>): Promise<UpdateFilmDTO | null> {
+      // *** UPDATE ***
+      public async update(id: string, data: Partial<UpdateFilmDTO>): Promise<UpdateFilmDTO | null> {
             const update_fields: Record<string, any> = {};
             update_fields.name = data.name;
             if(data.studio_id) update_fields.studio_id = new mongoose.Types.ObjectId(data.studio_id);
@@ -171,8 +192,7 @@ export class FilmRepository implements iFilmRepository {
                   return null;
             }            
       }
-
-      async UpdateCollectionsToFilm(film_id: string, collection_id: string): Promise<FilmDTO | null> {
+      public async updateCollectionId(film_id: string, collection_id: string): Promise<FilmDTO | null> {
             console.log('run UpdateCollectionsToFilm in repository');
             const updated_film = await Film.findByIdAndUpdate(
                   film_id,
@@ -184,6 +204,24 @@ export class FilmRepository implements iFilmRepository {
             );
 
             return updated_film ? mappingDocToDTO(updated_film) : null;
+      }
+
+      private buildFilterQueries(filters: FilterFilmPagination): FilterQuery<iFilm> {
+            const filterQueries: FilterQuery<iFilm> = {};
+            if(filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
+                  filterQueries.code_id = new mongoose.Types.ObjectId(filters.code_id);
+            }
+            if(filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
+                  filterQueries.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
+            }
+            if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
+                  filterQueries.tag_id = new mongoose.Types.ObjectId(filters.tag_id);
+            }
+            if(filters.rating) {
+                  filterQueries.rating = filters.rating;
+            }
+
+            return filterQueries;
       }
 }
 

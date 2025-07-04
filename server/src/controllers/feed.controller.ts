@@ -18,16 +18,16 @@ const _feedService = new FeedService(
       _videoRepository, _filmRepository, _imageRepository,  _creatorRepository, _animeVideoRepository
 );
 
-const GetSectionData = async(request: CustomRequest, response: ServerResponse) => {
+const getSectionData = async(request: CustomRequest, response: ServerResponse) => {
       try {
             const type = request.query?.type as string;
             const page = parseInt(request.query?.page as string) || 1;
             const limit = parseInt(request.query?.limit as string) || 10;
-
+            const seed = request.query?.seed as string; // Lấy seed hoặc dùng giá trị mặc định
             if(!type) {
                   return sendError(response, 400, new Error('Missing "type" query parameters'));
             }
-            const sectionData = await _feedService.GetSectionData(type, page, limit);
+            const sectionData = await _feedService.getSectionData(type, page, limit, seed);
 
             return sendResponse(response, 200, sectionData);
       } catch(error) {
@@ -37,7 +37,7 @@ const GetSectionData = async(request: CustomRequest, response: ServerResponse) =
 }
 
 const feed_controller = {
-      GetSectionData
+      getSectionData
 }
 export default feed_controller;
 

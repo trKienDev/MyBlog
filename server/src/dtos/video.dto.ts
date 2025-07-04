@@ -12,7 +12,6 @@ export interface CreateVideoDTO {
       tag_ids: string[];
       file_path: string;
 }
-
 export interface UpdateVideoDTO {
       _id?: mongoose.Types.ObjectId;
       name: string;
@@ -25,7 +24,6 @@ export interface UpdateVideoDTO {
       tag_ids: string[];
       file_path: string;
 }
-
 export interface VideoDTO {
       _id?: mongoose.Types.ObjectId;
       name: string;
@@ -40,12 +38,10 @@ export interface VideoDTO {
       views: number;
       likes: number;
 }
-
 export interface VideosPaginationDto {
       videos: iVideo[];
       total: number;
 }
-
 export interface FilterVideoPagination {
       tag_id?: string;
       creator_id?: string;
