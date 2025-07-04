@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
-import { AnimeFilmDTO, CreateAnimeFilmDTO, UpdateAnimeFilmDTO } from "../dtos/anime-film.dto.js";
+import mongoose, { FilterQuery } from "mongoose";
+import { AnimeFilmDTO, AnimeFilmsPaginationDTO, CreateAnimeFilmDTO, FilterAnimeFilmsPagination, UpdateAnimeFilmDTO } from "../dtos/anime-film.dto.js";
 import AnimeFilm, { iAnimeFilm } from "../models/anime-film.model.js";
 import { iAnimeFilmRepository } from "./interfaces/ianime-film.repository.js";
+import seedrandom from "seedrandom";
 
 export class AnimeFilmRepository implements iAnimeFilmRepository {
       async getAnimeFilms(): Promise<AnimeFilmDTO[] | null> {
@@ -11,14 +12,30 @@ export class AnimeFilmRepository implements iAnimeFilmRepository {
             }
             return anime_films.map(doc => mappingDocToDTO(doc));
       }
-
       async findById(id: string): Promise<AnimeFilmDTO | null> {
             const anime_film = await AnimeFilm.findById(id);
             return anime_film ? mappingDocToDTO(anime_film) : null;
       }
-
       async findByName(name: string): Promise<AnimeFilmDTO | null> {
             return await AnimeFilm.findOne({name});
+      }
+      async findRandomizePaginated(page: number, limit: number, filters: FilterAnimeFilmsPagination, seed: string): Promise<AnimeFilmsPaginationDTO> {
+            const filterQueries = this.buildFilterQueries(filters);
+            
+            const allMatchingFilms = await AnimeFilm.find(filterQueries).exec();
+            const rng = seedrandom(seed);
+            const filmsWithRandomKey = allMatchingFilms.map(filmDoc => ({
+                  doc: filmDoc,
+                  randomSortKey: rng()
+            }));
+
+            const shuffledList = filmsWithRandomKey.sort((a, b) => a.randomSortKey - b.randomSortKey);
+            const total = shuffledList.length;
+            const skip = (page -1 ) * limit;
+            const pageOfWrappedData = shuffledList.slice(skip, skip + limit);
+            const finalPageData = pageOfWrappedData.map(item => item.doc.toObject());
+
+            return { animeFilms: finalPageData, total };
       }
       
       async createAnimeFilm(data: CreateAnimeFilmDTO): Promise<CreateAnimeFilmDTO> {
@@ -62,6 +79,31 @@ export class AnimeFilmRepository implements iAnimeFilmRepository {
             } else {
                   return null;
             }
+      }
+
+      private buildFilterQueries(filters: FilterAnimeFilmsPagination): FilterQuery<iAnimeFilm> {
+            const filterQueries: FilterQuery<iAnimeFilm> = {};
+            if (filters.tag_ids && filters.tag_ids.length > 0) {
+                  // Chuyển đổi mỗi chuỗi ID trong mảng thành ObjectId,
+                  // đồng thời lọc ra những ID không hợp lệ.
+                  const objectIdArray = filters.tag_ids
+                        .filter(id => mongoose.Types.ObjectId.isValid(id)) // Chỉ giữ lại các id string hợp lệ
+                        .map(id => new mongoose.Types.ObjectId(id));     // Chuyển đổi chúng thành ObjectId
+
+                  // Chỉ thêm vào query nếu có ít nhất một id hợp lệ
+                  if (objectIdArray.length > 0) {
+                        filterQueries.tag_ids = { $in: objectIdArray };
+                  }
+            }
+            if (filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
+                  filterQueries.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
+            }
+            if (filters.series_id && mongoose.Types.ObjectId.isValid(filters.series_id)) {
+                  filterQueries.series_id = new mongoose.Types.ObjectId(filters.series_id);
+            }
+            if(filters.rating) filterQueries.rating = filters.rating;
+
+            return filterQueries;
       }
 }
 

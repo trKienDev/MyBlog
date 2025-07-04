@@ -1,8 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 import { AnimeVideoDTO, AnimeVideosPaginationDTO, CreateAnimeVideoDTO, FilterAnimeVideoPagination, UpdateAnimeVideoDTO } from "../dtos/anime-video.dto.js";
 import AnimeVideo, { iAnimeVideo } from "../models/anime-video.model.js";
 import { iAnimeVideoRepository } from "./interfaces/ianime-video.repository.js";
 import AnimeFilm from "../models/anime-film.model.js";
+import seedrandom from "seedrandom";
 
 export class AnimeVideoRepository implements iAnimeVideoRepository {
       async getAnimeVideos(): Promise<AnimeVideoDTO[]> {
@@ -11,10 +12,7 @@ export class AnimeVideoRepository implements iAnimeVideoRepository {
       }
       async GetAnimeVideosPagination(page: number, limit: number, filters: FilterAnimeVideoPagination): Promise<AnimeVideosPaginationDTO> {
             const skip = (page - 1) * limit;
-            const filterQueries: any = {};
-            if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
-                  filterQueries.tag_ids = new mongoose.Types.ObjectId(filters.tag_id);
-            }
+            const filterQueries = this.buildFilterQueries(filters);
 
             const [animeVideos, total] = await Promise.all([
                   AnimeVideo.find(filterQueries).sort({createdAt: -1}).skip(skip).limit(limit).exec(),
@@ -25,10 +23,7 @@ export class AnimeVideoRepository implements iAnimeVideoRepository {
       }
       async GetUniqueAnimeVideosPagination(page: number, limit: number, filters: FilterAnimeVideoPagination): Promise<AnimeVideosPaginationDTO> {
             const skip = (page - 1) * limit;
-            const filterQuery: any = {};
-            if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
-                  filterQuery.tag_ids = new mongoose.Types.ObjectId(filters.tag_id);
-            }
+            const filterQuery = this.buildFilterQueries(filters);
 
             const results = await AnimeVideo.aggregate([
                   // Giai đoạn 1: Lọc các video khớp với điều kiện
@@ -71,6 +66,34 @@ export class AnimeVideoRepository implements iAnimeVideoRepository {
             const total = results[0].totalCount.length > 0 ? results[0].totalCount[0].total : 0;
 
             return { animeVideos, total };
+      }
+      async findRandomizePaginated(page: number, limit: number, filters: FilterAnimeVideoPagination, seed: string): Promise<AnimeVideosPaginationDTO> {
+            const filterQueries = this.buildFilterQueries(filters);
+            const groupedResults = await AnimeVideo.aggregate([
+                  { $match: filterQueries },
+                  { $sort: { createdAt: -1 } },
+                  { 
+                        $group: {
+                              _id: "$film_id",
+                              videosInGroup: { $push: "$$ROOT"}
+                        }
+                  }
+            ]);
+
+            const representativeVideos = [];
+            for(const group of groupedResults) {
+                  const rng = seedrandom(seed + group._id.toString());
+                  const randomIndex = Math.floor(rng() * group.videosInGroup.length);
+
+                  representativeVideos.push(group.videosInGroup[randomIndex]);
+            }
+
+            const sortedMasterList = representativeVideos.sort((a, b) => a._id.toString().localeCompare(b._id.toString()));
+            const total = sortedMasterList.length;
+            const skip = (page - 1) * limit;
+            const pagedData = sortedMasterList.slice(skip, skip + limit);
+            
+            return { animeVideos: pagedData, total };
       }
 
       async findAnimeVideoById(id: string): Promise<AnimeVideoDTO | null> {
@@ -118,6 +141,18 @@ export class AnimeVideoRepository implements iAnimeVideoRepository {
             );
 
             return updated_doc ? mappingDocToCreateDTO(updated_doc) : null;
+      }
+
+      private buildFilterQueries(filters: FilterAnimeVideoPagination): FilterQuery<iAnimeVideo> {
+            const filterQueries: FilterQuery<iAnimeVideo> = {};
+            if(filters.film_id && mongoose.Types.ObjectId.isValid(filters.film_id)) {
+                  filterQueries.film_id = new mongoose.Types.ObjectId(filters.film_id);
+            }
+            if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
+                  filterQueries.tag_ids = new mongoose.Types.ObjectId(filters.tag_id);
+            }
+
+            return filterQueries;
       }
 }
 

@@ -5,7 +5,7 @@ import image_utils from "../utils/image.utils.js";
 import doms_component from "./doms.component.js";
 import images_component from "./image.component.js";
 
-function CreateFilmThumbnailFrame(film) {
+function CreateFilmThumbnailFrame(film, folder) {
       const film_article = doms_component.createArticle('film-article');
       const filmArticle_container = doms_component.createDiv('film-article_container');
       film_article.appendChild(filmArticle_container);
@@ -18,7 +18,7 @@ function CreateFilmThumbnailFrame(film) {
 
       const filmThumbnail_container = doms_component.createDiv('film-thumbnail_container');
       const filmThumbnail_image = images_component.createImg(null, 'film-thumbnail_image');
-      filmThumbnail_image.src = `${app_configs.SERVER}/${ServerFolders.FILMS}/${film.thumbnail}`;
+      filmThumbnail_image.src = `${app_configs.SERVER}/${folder}/${film.thumbnail}`;
       filmThumbnail_container.appendChild(filmThumbnail_image);
       filmArticle_ahref.appendChild(filmThumbnail_container);
       image_utils.addEffectHoverToZoomImage(filmThumbnail_container, filmThumbnail_image);

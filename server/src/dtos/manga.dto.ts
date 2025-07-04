@@ -24,8 +24,8 @@ export interface MangasPaginationDTO {
       mangas: iManga[];
       total: number;
 }
-export interface FilterMangaPaginationDTO {
-      tag_id?: string;
+export interface FilterMangaPagination {
+      tag_ids?: string[];
 }
 
 

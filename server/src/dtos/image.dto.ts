@@ -10,14 +10,12 @@ export interface ImageDTO {
       gallery_ids: string[];
       likes: number;
 }
-
 export interface ImagesPaginationDTO {
       images: iImage[];
       total: number;
 }
-
 export interface FilterImagesPagination {
       idol_id?: string;
-      tag_id?: string;
+      tag_ids?: string[];
       gallery_id?: string;
 }

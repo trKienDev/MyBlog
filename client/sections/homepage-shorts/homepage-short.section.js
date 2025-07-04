@@ -33,7 +33,6 @@ function CreateShortPreview(css_class) {
       const short = document.createElement('video');
       short.classList.add(css_class);
       short.controls = false;
-      short.muted - true;
 
       return short;
 }

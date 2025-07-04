@@ -3,6 +3,7 @@ import { film_api } from "../../api/film.api.js";
 import { studio_api } from "../../api/studio.api.js";
 import doms_component from "../../components/doms.component.js";
 import film_component from "../../components/films.component.js";
+import { ServerFolders } from "../../constants/folders.constant.js";
 import activeState_utils from "../../utils/active-state.js";
 
 export async function StudioInforController(studio_id) {
@@ -48,7 +49,7 @@ async function RenderStudioFIlms(studio_id) {
 
       const films = await film_api.GetFilmsByStudioId(studio_id);
       films.forEach(film => {
-            const film_article = film_component.CreateFilmThumbnailFrame(film);
+            const film_article = film_component.CreateFilmThumbnailFrame(film, ServerFolders.FILMS);
             studioFilms_container.appendChild(film_article);
       });
       return studioFIlms_element;
@@ -60,7 +61,7 @@ async function RenderStudioFIlmsByCode(studio_id, code_id) {
 
       const films = await film_api.getFilmsByStudioCode(studio_id, code_id);
       films.forEach(film => {
-            const film_article = film_component.CreateFilmThumbnailFrame(film);
+            const film_article = film_component.CreateFilmThumbnailFrame(film, ServerFolders.FILMS);
             studioFilms_container.appendChild(film_article);
       });
       return studioFIlms_element;

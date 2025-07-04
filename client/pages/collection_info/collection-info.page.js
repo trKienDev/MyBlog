@@ -2,6 +2,7 @@ import collection_api from "../../api/collection.api.js";
 import { film_api } from "../../api/film.api.js";
 import doms_component from "../../components/doms.component.js";
 import film_component from "../../components/films.component.js";
+import { ServerFolders } from "../../constants/folders.constant.js";
 
 export async function CollectionInforPageController(collection_id) {
       const films = await film_api.GetFilmsByCollectionId(collection_id);
@@ -10,7 +11,7 @@ export async function CollectionInforPageController(collection_id) {
       const collectionFilms_div = document.getElementById('collection-films');
       PopulateCollectionName(collection_id, 'collection-name');
       films.forEach(film => {
-            const film_article = film_component.CreateFilmThumbnailFrame(film);
+            const film_article = film_component.CreateFilmThumbnailFrame(film, ServerFolders.FILMS);
             collectionFilms_div.appendChild(film_article);
       });
 }

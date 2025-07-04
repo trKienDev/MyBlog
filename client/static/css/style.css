@@ -327,3 +327,13 @@ select:hover {
 .film-thumbnail_container {
       border-radius: 5px;
 }
+
+.list-anime_videos-section_wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+}
+.list-anime_videos-section_wrapper .video-article {
+      padding: 0px;
+      width: calc((100% - 40px) / 4);
+}

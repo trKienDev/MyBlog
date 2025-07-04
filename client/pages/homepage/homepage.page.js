@@ -1,6 +1,4 @@
-import creator_api from "../../api/creator.api.js";
 import { api_user } from "../../api/endpoint.api.js";
-import { film_api } from "../../api/film.api.js";
 import doms_component from "../../components/doms.component.js";
 import film_component from "../../components/films.component.js";
 import images_component from "../../components/image.component.js";
@@ -15,8 +13,8 @@ let sectionPages = {
       films: 1, 
       creators: 1, 
       anime_videos: 1,
-      anime_thumbnails: 1,
-      mangas_images: 1, 
+      anime_films: 1,
+      mangas: 1, 
       manga_thumbnails: 1, 
       idols: 1, 
       images: 1, 
@@ -24,9 +22,12 @@ let sectionPages = {
       records: 1
 }
 let is_loading = false;
+let lastSelectedType = null;
 
 // Danh sách các loại section muốn xoay vòng trên trang chủ
-const homepageSectionTypes = ['videos', 'films', 
+const homepageSectionTypes = [
+      'videos', 'films', 'anime_videos', 'anime_films', 'mangas',
+      'images',
       // 'images', 'creators', 
       // 'animes_videos', 
       // 'animes_thumbnails', 'mangas', 'manga_thumbnails', 
@@ -34,11 +35,7 @@ const homepageSectionTypes = ['videos', 'films',
 ];
 
 export function HomePageController() {
-      let sessionSeed = sessionStorage.getItem('sessionSeed');
-      if (!sessionSeed) {
-            sessionSeed = CreateSeed();
-            sessionStorage.setItem('sessionSeed', sessionSeed);
-      }
+      const seed = CreateSeed();
       // phần tử loader ở cuối trang, khi nó xuất hiện, ta sẽ tải thêm
       const loader_element = document.getElementById('homepage-feeds-loader');
       if(!loader_element) {
@@ -47,17 +44,16 @@ export function HomePageController() {
             return;
       }
 
-      LoadContentUntilScrollable(loader_element, sessionSeed);
+      LoadContentUntilScrollable(loader_element, seed);
       // Bắt đầu theo dõi phần tử loader
       // --- Thiết lập IntersectionObserver ---
       const observer = new IntersectionObserver((entries) => {
             // Nếu loaderElement xuất hiện trong màn hình
             if (entries[0].isIntersecting) {
-                  console.log('fetch homepage batch');
-                  FetchHomepageBatch(entries[0].target, sessionSeed);
+                  FetchHomepageBatch(entries[0].target, seed);
             }
       }, {
-            root: null, // Bắt đầu tải khi còn cách loader 200px
+            root: null, 
             threshold: 0.1
       });
       observer.observe(loader_element);
@@ -77,10 +73,7 @@ async function LoadContentUntilScrollable(loader_element, sessionSeed) {
 
       // Sau lần fetch đầu tiên, kiểm tra xem có cần fetch tiếp không
       // Vòng lặp sẽ tiếp tục chừng nào nội dung còn ngắn VÀ chúng ta không đang trong một tiến trình tải khác
-      while (document.body.scrollHeight <= window.innerHeight && !is_loading) {
-
-            alert("Nội dung chưa lấp đầy màn hình, tự động tải thêm...");
-            
+      while (document.body.scrollHeight <= window.innerHeight && !is_loading) {     
             // Gọi fetch tiếp và chờ nó xong
             const hasMore = await FetchHomepageBatch(loader_element, sessionSeed);
       }
@@ -93,9 +86,14 @@ const FetchHomepageBatch = async (loader_element, sessionSeed) => {
       loader_element.style.display = 'block' // hiện icon loading (tùy chọn)
 
       // 1. Chọn ngẫu nhiên 1 loại nội dung từ danh sách
-      const randomType = homepageSectionTypes[Math.floor(Math.random() * homepageSectionTypes.length)];
+      let randomType;
+      do {
+            randomType = homepageSectionTypes[Math.floor(Math.random() * homepageSectionTypes.length)];
+      } while (homepageSectionTypes.length > 1 && randomType === lastSelectedType);
+      lastSelectedType = randomType;
       // 2. Lấy số trang tiếp theo 
       const nextPage = sectionPages[randomType] || 1;
+
       // 3. Xây dựng URL mới
       const apiUrl = `${app_configs.SERVER}${api_user.fetchSectionData}?type=${randomType}&page=${nextPage}&seed=${sessionSeed}`;
       let hasMoreContent = false; 
@@ -108,7 +106,6 @@ const FetchHomepageBatch = async (loader_element, sessionSeed) => {
                   throw new Error('Error HTTP: ', error.error);
             }
             const newContent = await response.json();
-            console.log('new content: ', newContent);
             if(newContent.data && newContent.data.length > 0) {
                   const sectionToRender = {
                         type: randomType,
@@ -134,7 +131,6 @@ const FetchHomepageBatch = async (loader_element, sessionSeed) => {
 function RenderNewSections(sections) {
       const homepageFeedsContent = document.getElementById('homepage-feeds-content');
       sections.forEach(section => {
-            console.log('section: ', section);
             switch(section.type) {
                   case 'videos':
                         RenderVideosSection(section, homepageFeedsContent);
@@ -142,13 +138,24 @@ function RenderNewSections(sections) {
                   case 'films': 
                         RenderFilmThumbnailsSection(section, homepageFeedsContent);
                         break;
+                  case 'anime_videos':
+                        RenderAnimeVideosSetion(section, homepageFeedsContent);
+                        break;
+                  case 'anime_films':
+                        RenderAnimeFilmsSection(section, homepageFeedsContent);
+                        break;
+                  case 'mangas': 
+                        renderMangaThumbnailsSection(section, homepageFeedsContent);
+                        break;
+                  case 'images':
+                        renderImageFrameSection(section, homepageFeedsContent);
+                        break;
             }
             
       });
 }
 async function RenderVideosSection(section, homepageFeedsContent) {
       const section_container = doms_component.createDiv('section-content_container');
-      const section_title = doms_component.createH3(section.title, 'section-header');
       const videos_wrapper = doms_component.createDiv('section-videos_wrapper');
       videos_wrapper.id = 'videos-pagination_section';
      
@@ -159,23 +166,60 @@ async function RenderVideosSection(section, homepageFeedsContent) {
       // Chờ cho TẤT CẢ các promise hoàn thành
       const video_articles = await Promise.all(article_promises);     
       videos_wrapper.append(...video_articles);
-      section_container.appendChild(section_title);
       section_container.appendChild(videos_wrapper);
       homepageFeedsContent.appendChild(section_container);  
 }
 async function RenderFilmThumbnailsSection(section, homepageFeedsContent) {
       const section_container = doms_component.createDiv('section-content_container');
-      const section_title = doms_component.createH3(section.title, 'section-header');
       const films_wrapper = doms_component.createDiv('list-films_section-wrapper');
       
-      const frame_promises = section.data.map(film => film_component.CreateFilmThumbnailFrame(film));
+      const frame_promises = section.data.map(film => film_component.CreateFilmThumbnailFrame(film, ServerFolders.FILMS));
       const thumbnail_frames = await Promise.all(frame_promises);
       films_wrapper.append(...thumbnail_frames);
-      section_container.appendChild(section_title);
       section_container.appendChild(films_wrapper);
       homepageFeedsContent.appendChild(section_container);
 }
+async function RenderAnimeVideosSetion(section, homepageFeedsContent) {
+      const section_container = doms_component.createDiv('section-content_container');
+      const animeVideos_wrapper = doms_component.createDiv('list-anime_videos-section_wrapper');
 
+      const article_promises = section.data.map(animeVideo => videos_component.CreateAnimeVideoArticle(animeVideo));
+      const animeVideos_article = await Promise.all(article_promises);
+      animeVideos_wrapper.append(...animeVideos_article);
+      section_container.appendChild(animeVideos_wrapper);
+      homepageFeedsContent.appendChild(section_container);
+}
+async function RenderAnimeFilmsSection(section, homepageFeedsContent) {
+      const section_container = doms_component.createDiv('section-content_container');
+      const films_wrapper = doms_component.createDiv('list-films_section-wrapper');
+      
+      const frame_promises = section.data.map(film => film_component.CreateFilmThumbnailFrame(film, ServerFolders.ANIME_FILMS));
+      const thumbnail_frames = await Promise.all(frame_promises);
+      films_wrapper.append(...thumbnail_frames);
+      section_container.appendChild(films_wrapper);
+      homepageFeedsContent.appendChild(section_container);
+}
+async function renderMangaThumbnailsSection(section, homepageFeedsContent) {
+      const section_container = doms_component.createDiv('section-content_container');
+      const mangas_wrapper = doms_component.createDiv('list-mangas_section-wrapper');
+      
+      const frame_promises = section.data.map(manga => images_component.createMangaThumbnail(manga));
+      const thumbnail_frames = await Promise.all(frame_promises);
+      mangas_wrapper.append(...thumbnail_frames);
+      section_container.appendChild(mangas_wrapper);
+      homepageFeedsContent.appendChild(section_container);
+}
+async function renderImageFrameSection(section, homepageFeedsContent) {
+      const section_container = doms_component.createDiv('section-content_container');
+      const images_wrapper = doms_component.createDiv('list-images_section-wrapper');
+
+      const frame_promises = section.data.map(image => images_component.createImageFrame(image));
+      const images_frames = await Promise.all(frame_promises);
+      console.log('images frame: ', images_frames);
+      images_wrapper.append(...images_frames);
+      section_container.appendChild(images_wrapper);
+      homepageFeedsContent.appendChild(section_container);
+}
 function CreateSeed() {
       return Math.random().toString(36).substring(2);
 }

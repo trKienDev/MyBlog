@@ -6,6 +6,7 @@ import film_component from "../../components/films.component.js";
 import images_component from "../../components/image.component.js";
 import tags_component from "../../components/tags.component.js";
 import ClientSections from "../../constants/client-sections.constant.js";
+import { ServerFolders } from "../../constants/folders.constant.js";
 import videoPagination_section from "../../sections/pagination-videos/pagination-videos.section.js";
 import spa_renderHTML from "../../services/spa/render-html.js";
 
@@ -36,7 +37,7 @@ async function RenderTagByFilm(tag_id, list_media) {
 
       const films = await film_api.GetFilmsByTagId(tag_id);
       films.forEach(film => {
-            const film_article = film_component.CreateFilmThumbnailFrame(film);
+            const film_article = film_component.CreateFilmThumbnailFrame(film, ServerFolders.FILMS);
             listFilm_sectionWrapper.appendChild(film_article);
       });
       list_media.appendChild(listFilm_sectionWrapper);
