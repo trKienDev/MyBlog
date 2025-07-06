@@ -2,7 +2,7 @@ import { CreatorDTO, CreatorsPaginationDTO, FilterCreatorsPagination } from "../
 
 export interface iCreatorRepository {
       GetCreators(): Promise<CreatorDTO[] | null>;
-      GetCreatorsPagination(page: number, limit: number, filters: FilterCreatorsPagination): Promise<CreatorsPaginationDTO>;
+      findRandomizePaginated(page: number, limit: number, filters: FilterCreatorsPagination, seed: string): Promise<CreatorsPaginationDTO>;
       findById(id: string): Promise<CreatorDTO | null>;
       FindByNameAndBirth(name: string, birth: Date): Promise<CreatorDTO | null>;
       FindByTagId(tag_id: string): Promise<CreatorDTO[]>;

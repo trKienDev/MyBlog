@@ -9,6 +9,9 @@ import { FeedService } from "../services/feed.service.js";
 import { AnimeVideoRepository } from "../repositories/anime-video.repository.js";
 import { AnimeFilmRepository } from "../repositories/anime-film.repository.js";
 import { MangaRepository } from "../repositories/manga.repository.js";
+import { ShortRepository } from "../repositories/short.repository.js";
+import { IdolRepository } from "../repositories/idol.repository.js";
+import { ClipRepository } from "../repositories/clip.repository.js";
 
 
 const _videoRepository = new VideoRepository();
@@ -18,10 +21,13 @@ const _creatorRepository = new CreatorRepository();
 const _animeVideoRepository = new AnimeVideoRepository();
 const _animeFilmRepository = new AnimeFilmRepository();
 const _mangaRepository = new MangaRepository();
+const _shortRepository = new ShortRepository();
+const _idolRepository = new IdolRepository();
+const _clipRepository = new ClipRepository();
 
 const _feedService = new FeedService(
       _videoRepository, _filmRepository, _imageRepository,  _creatorRepository, _animeVideoRepository,
-      _animeFilmRepository, _mangaRepository
+      _animeFilmRepository, _mangaRepository, _shortRepository, _idolRepository, _clipRepository
 );
 
 const getSectionData = async(request: CustomRequest, response: ServerResponse) => {

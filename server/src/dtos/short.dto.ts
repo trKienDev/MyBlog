@@ -5,7 +5,6 @@ export interface CreateShortDTO {
       tag_ids?: string[],
       file_path: string,
 }
-
 export interface ShortDTO {
       _id: string,
       idol_id?: string,
@@ -14,13 +13,11 @@ export interface ShortDTO {
       views: number,
       likes: number,
 }
-
-export interface iShortPaginatedFilters {
-      tag_id?: string;
+export interface FiltersShortPagination {
+      tag_ids?: string[];
       idol_id?: string;
 }
-
-export interface iPaginatedShortDto {
+export interface ShortPaginationDto {
       shorts: iShort[];
       total: number;
 }

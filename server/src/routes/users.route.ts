@@ -47,7 +47,7 @@ const user_routes: Route[] = [
 
       // idols
       { method: 'GET', path: '/api/idols', handler: idol_controller.GetAllIdols },
-      
+      { method: 'GET', path: '/api/idol/:id', handler: validated_id.validateId(idol_controller.getIdolById)},
       // images 
       { method: 'GET', path: '/api/images', handler: image_controller.GetAllImages },
 

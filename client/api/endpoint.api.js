@@ -44,6 +44,7 @@ export const api_user = {
       getFilmsByCollection: '/films/collection', // GET
       // idols
       getAllIdols: '/api/idols', // GET
+      getIdolById: '/api/idol', // GET
       // images
       getAllImages: '/api/images', // GET  
       // mangas

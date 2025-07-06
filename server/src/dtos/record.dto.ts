@@ -1,3 +1,5 @@
+import { iRecord } from "../models/record.model";
+
 export interface RecordDto {
       _id: string;
       name: string;

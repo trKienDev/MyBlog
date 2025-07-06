@@ -13,14 +13,12 @@ export interface CreatorDTO {
       active: boolean;
       views: number;
 }
-
 export interface CreatorsPaginationDTO {
       creators: ICreator[];
       total: number,
 }
-
 export interface FilterCreatorsPagination {
       studio_id?: string;
       film_id?: string;
-      tag_id?: string;
+      tag_ids?: string[];
 }

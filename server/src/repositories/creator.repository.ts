@@ -1,33 +1,32 @@
-import mongoose from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 import { CreatorDTO, CreatorsPaginationDTO, FilterCreatorsPagination } from "../dtos/creator.dto.js";
 import Creator from "../models/creator.model.js";
 import { ICreator } from "../models/interface/icreator.model.js";
 import { iCreatorRepository } from "./interfaces/icreator.repository.js";
+import seedrandom from "seedrandom";
 
 export class CreatorRepository implements iCreatorRepository {
       public async GetCreators(): Promise<CreatorDTO[] | null> {
             const creators = await Creator.find();
             return creators.map(doc => MappingDocToDTO(doc));
       }
-      public async GetCreatorsPagination(page: number, limit: number, filters: FilterCreatorsPagination): Promise<CreatorsPaginationDTO> {
-            const skip = (page - 1) * limit;
-            const filterQuery: any = {};
-            if(filters.film_id && mongoose.Types.ObjectId.isValid(filters.film_id)) {
-                  filterQuery.film_id = new mongoose.Types.ObjectId(filters.film_id);
-            }
-            if(filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
-                  filterQuery.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
-            }
-            if(filters.tag_id && mongoose.Types.ObjectId.isValid(filters.tag_id)) {
-                  filterQuery.tag_id = new mongoose.Types.ObjectId(filters.tag_id);
-            }
+      async findRandomizePaginated(page: number, limit: number, filters: FilterCreatorsPagination, seed: string): Promise<CreatorsPaginationDTO> {
+            const filterQueries = this.buildFilterQueries(filters);
 
-            const [ creators, total ] = await Promise.all([
-                  Creator.find(filterQuery).sort({ createdAt: -1 }).skip(skip).limit(limit).exec(),
-                  Creator.countDocuments(filterQuery).exec()
-            ]);
+            const allMatchingCreators = await Creator.find(filterQueries).exec();
+            const rng = seedrandom(seed);
+            const creatorsWithRandomKey = allMatchingCreators.map(creatorDoc => ({
+                  doc: creatorDoc,
+                  randomSortKey: rng()
+            }));
 
-            return { creators, total };
+            const shuffledList = creatorsWithRandomKey.sort((a, b) => a.randomSortKey - b.randomSortKey);
+            const total = shuffledList.length;
+            const skip = (page -1 ) * limit;
+            const pageOfWrappedData = shuffledList.slice(skip, skip + limit);
+            const finalPageData = pageOfWrappedData.map(item => item.doc.toObject());
+
+            return { creators: finalPageData, total };
       }
 
       public async findById(id: string): Promise<CreatorDTO | null> {
@@ -81,6 +80,30 @@ export class CreatorRepository implements iCreatorRepository {
                   throw new Error("server: delete creator failed");                  
             }
             return MappingDocToDTO(deletedDoc);
+      }
+
+      private buildFilterQueries(filters: FilterCreatorsPagination): FilterQuery<ICreator> {
+           const filterQueries: FilterQuery<ICreator> = {}; 
+           if (filters.tag_ids && filters.tag_ids.length > 0) {
+                  // Chuyển đổi mỗi chuỗi ID trong mảng thành ObjectId,
+                  // đồng thời lọc ra những ID không hợp lệ.
+                  const objectIdArray = filters.tag_ids
+                        .filter(id => mongoose.Types.ObjectId.isValid(id)) // Chỉ giữ lại các id string hợp lệ
+                        .map(id => new mongoose.Types.ObjectId(id));     // Chuyển đổi chúng thành ObjectId
+
+                  // Chỉ thêm vào query nếu có ít nhất một id hợp lệ
+                  if (objectIdArray.length > 0) {
+                        filterQueries.tag_ids = { $in: objectIdArray };
+                  }
+            }
+            if (filters.studio_id && mongoose.Types.ObjectId.isValid(filters.studio_id)) {
+                  filterQueries.studio_id = new mongoose.Types.ObjectId(filters.studio_id);
+            }
+            if (filters.film_id && mongoose.Types.ObjectId.isValid(filters.film_id)) {
+                  filterQueries.film_id = new mongoose.Types.ObjectId(filters.film_id);
+            }
+
+            return filterQueries;
       }
 }
 

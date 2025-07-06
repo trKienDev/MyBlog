@@ -1,13 +1,43 @@
-import mongoose from "mongoose";
-import { ClipDTO, CreateClipDTO } from "../dtos/clip.dto.js";
+import mongoose, { FilterQuery } from "mongoose";
+import { ClipDTO, ClipPaginationDto, CreateClipDTO, FiltersClipPagination } from "../dtos/clip.dto.js";
 import Clip, { iClip } from "../models/clips.model.js";
 import { iClipRepository } from "./interfaces/iclip.repository.js";
 import Record from "../models/record.model.js";
+import seedrandom from "seedrandom";
 
 export class ClipRepository implements iClipRepository {
       async FindAll(): Promise<ClipDTO[]> {
             const clips = await Clip.find();
             return clips.map(doc => MappdingDocToDTO(doc));
+      }
+      public async findRandomizePaginated(page: number, limit: number, filters: FiltersClipPagination, seed: string): Promise<ClipPaginationDto> {
+            const filterQueries = this.buildFilterQueries(filters);
+            
+            const groupedResults = await Clip.aggregate([
+                  { $match: filterQueries },
+                  { $sort: { createdAt: -1 } },
+                  { 
+                        $group: {
+                              _id: "$record_id",
+                              clipsInGroup: { $push: "$$ROOT"}
+                        }
+                  }
+            ]);
+
+            const representativeClips = [];
+            for(const group of groupedResults) {
+                  const rng = seedrandom(seed + group._id.toString());
+                  const randomIndex = Math.floor(rng() * group.clipsInGroup.length);
+
+                  representativeClips.push(group.clipsInGroup[randomIndex]);
+            }
+
+            const sortedMasterList = representativeClips.sort((a, b) => a._id.toString().localeCompare(b._id.toString()));
+            const total = sortedMasterList.length;
+            const skip = (page - 1) * limit;
+            const pagedData = sortedMasterList.slice(skip, skip + limit);
+            
+            return { clips: pagedData, total };
       }
       async Create(data: CreateClipDTO): Promise<ClipDTO> {
             const new_clip = new Clip({
@@ -30,6 +60,36 @@ export class ClipRepository implements iClipRepository {
             );
 
             return MappdingDocToDTO(created_clip);
+      }
+      
+      private buildFilterQueries(filters: FiltersClipPagination): FilterQuery<iClip> {
+            const filterQueries: FilterQuery<iClip> = {};
+            if (filters.tag_ids && filters.tag_ids.length > 0) {
+                  // Chuyển đổi mỗi chuỗi ID trong mảng thành ObjectId,
+                  // đồng thời lọc ra những ID không hợp lệ.
+                  const objectIdArray = filters.tag_ids
+                        .filter(id => mongoose.Types.ObjectId.isValid(id)) // Chỉ giữ lại các id string hợp lệ
+                        .map(id => new mongoose.Types.ObjectId(id));     // Chuyển đổi chúng thành ObjectId
+
+                  // Chỉ thêm vào query nếu có ít nhất một id hợp lệ
+                  if (objectIdArray.length > 0) {
+                        filterQueries.tag_ids = { $in: objectIdArray };
+                  }
+            }
+            if(filters.action_id && mongoose.Types.ObjectId.isValid(filters.action_id)) {
+                  filterQueries.action_id = new mongoose.Types.ObjectId(filters.action_id);
+            }
+            if(filters.album_id && mongoose.Types.ObjectId.isValid(filters.album_id)) {
+                  filterQueries.album_id = new mongoose.Types.ObjectId(filters.album_id);
+            }
+            if(filters.code_id && mongoose.Types.ObjectId.isValid(filters.code_id)) {
+                  filterQueries.code_id = new mongoose.Types.ObjectId(filters.code_id);
+            }
+            if(filters.idol_id && mongoose.Types.ObjectId.isValid(filters.idol_id)) {
+                  filterQueries.idol_id = new mongoose.Types.ObjectId(filters.idol_id);
+            }
+
+            return filterQueries;
       }
 }
 

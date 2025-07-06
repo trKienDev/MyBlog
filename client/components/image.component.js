@@ -1,4 +1,5 @@
 import creator_api from "../api/creator.api.js";
+import idol_api from "../api/idol.api.js";
 import app_configs from "../config/app.config.js";
 import css_class from "../constants/css.constant.js";
 import { ServerFolders } from "../constants/folders.constant.js";
@@ -41,6 +42,13 @@ async function createCreatorAvatar(creator_id) {
       const creator_avatar = await createAvatarFrame({ creator_id: creator_id, avatar_src: avatar_source, avatar_css: css_class.CREATOR_IMAGE});
       
       return creator_avatar;
+}
+async function createIdolAvatar(idol_id) {
+      const idolAvatarimg = await idol_api.getIdolImagePath(idol_id);
+      const avatar_source = `${app_configs.SERVER}/${ServerFolders.IDOLS}/${idolAvatarimg}`;
+      const idol_avatar = await createAvatarFrame({ creator_id: idol_id, avatar_src: avatar_source, avatar_css: 'idol-image'});
+      
+      return idol_avatar;
 }
 async function createAvatarFrame({ creator_id, avatar_src, avatar_css }) {
       const avatar_frame = doms_component.createDiv('avatar-frame');
@@ -91,5 +99,6 @@ const images_component = {
       HandleImageUpload,
       createMangaThumbnail,
       createImageFrame,
+      createIdolAvatar,
 }
 export default images_component;

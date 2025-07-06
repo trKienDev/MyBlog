@@ -62,7 +62,6 @@ export class ImageRepository implements iImageRepository {
                   width: data.width,
                   height: data.height,
             });
-            console.log('new image: ', new_image);
             const saved_image = await new_image.save();
 
             return MappingDocToDTO(saved_image);

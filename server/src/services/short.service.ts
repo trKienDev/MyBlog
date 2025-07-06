@@ -1,4 +1,4 @@
-import { CreateShortDTO, iShortPaginatedFilters, ShortDTO } from "../dtos/short.dto.js";
+import { CreateShortDTO, FiltersShortPagination, ShortDTO } from "../dtos/short.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { iShort } from "../models/interface/ishort.model.js";
@@ -12,7 +12,7 @@ export class ShortService {
             this._shortRepository = shortRepository;
       }
       
-      async GetPaginatedShorts(page: number, limit: number, filters: iShortPaginatedFilters) {
+      async GetPaginatedShorts(page: number, limit: number, filters: FiltersShortPagination) {
             const { shorts, total } = await this._shortRepository.GetPaginatedShorts(page, limit, filters);
             const paginated_shorts = shorts.map(doc => MappingDocToDTO(doc));
             return {

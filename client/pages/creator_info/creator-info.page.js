@@ -97,7 +97,7 @@ function CreateVideoPlayer(video) {
       let videoArticle_ahref = doms_component.createAhref({ href: `video/#id=${video._id}`, css_class: 'video-article-link'});
       videoArticle_container.appendChild(videoArticle_ahref);
 
-      const video_container = videos_component.CreateVideoPlayer(video.name, video.file_path, ServerFolders.VIDEOS);
+      const video_container = videos_component.CreateVideoPlayer(video.name, video.file_path, ServerFolders.VIDEOS, 'video-frame');
       videoArticle_ahref.appendChild(video_container);
 
       const videoInfor_div = doms_component.createDiv('video-infor_container');

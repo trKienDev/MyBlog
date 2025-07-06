@@ -11,7 +11,7 @@ export async function HomepageAnimeVideosSectionController() {
             const video_frame = doms_component.createDiv('anime-video_frame');
             const video_container = doms_component.createDiv('anime-video_container');
             let video_ahref = doms_component.createAhref({href: `anime-video/#id=${anime_video._id}`, css_class: 'anime-video-link'});
-            const video_player = videos_component.CreateVideoPlayer(anime_video.name, anime_video.file_path, ServerFolders.ANIME_VIDEOS);
+            const video_player = videos_component.CreateVideoPlayer(anime_video.name, anime_video.file_path, ServerFolders.ANIME_VIDEOS, 'video-frame');
             video_ahref.appendChild(video_player);
             video_container.appendChild(video_ahref);
             video_frame.appendChild(video_container);

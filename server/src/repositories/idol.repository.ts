@@ -1,14 +1,40 @@
-import { IdolDTO } from "../dtos/idol.dto.js";
+import { FilterQuery } from "mongoose";
+import { FilterIdolPagination, IdolDTO, IdolsPaginationDTO } from "../dtos/idol.dto.js";
 import Idol from "../models/idol.model.js";
 import { iIdol } from "../models/interface/iidol.model.js";
 import { iIdolRepository } from "./interfaces/iIdol.repository.js";
+import seedrandom from "seedrandom";
 
 export class IdolRepository implements iIdolRepository {
       async GetAll(): Promise<IdolDTO[]> {
             const idols_doc = await Idol.find();
             return idols_doc.map(doc => MappingDocToDTO(doc));
       }
+      async findRandomizePaginated(page: number, limit: number, filters: FilterIdolPagination, seed: string): Promise<IdolsPaginationDTO> {
+            const filterQueries = this.buildFilterQueries(filters);
+            
+            const allMatchingIdols = await Idol.find(filterQueries).exec();
+            const rng = seedrandom(seed);
+            const idolsWithRandomKey = allMatchingIdols.map(idolDoc => ({
+                  doc: idolDoc,
+                  randomSortKey: rng()
+            }));
 
+            const shuffledList = idolsWithRandomKey.sort((a, b) => a.randomSortKey - b.randomSortKey);
+            const total = shuffledList.length;
+            const skip = (page -1 ) * limit;
+            const pageOfWrappedData = shuffledList.slice(skip, skip + limit);
+            const finalPageData = pageOfWrappedData.map(item => item.doc.toObject());
+
+            return { idols: finalPageData, total };
+      }
+      public async findById(id: string): Promise<IdolDTO | null> {
+            const doc = await Idol.findById(id).exec();
+            if(!doc) {
+                  return null;
+            }
+            return MappingDocToDTO(doc);
+      }
       async Create(data: IdolDTO): Promise<IdolDTO> {
             console.log('data: ', data);
             const new_idol = new Idol({
@@ -27,6 +53,12 @@ export class IdolRepository implements iIdolRepository {
             if(!idol_doc) return null;
             
             return MappingDocToDTO(idol_doc);
+      }
+      private buildFilterQueries(filters: FilterIdolPagination): FilterQuery<iIdol> {
+            const filterQueries: FilterQuery<iIdol> = {};
+            if(filters.region) filterQueries.region = filters.region;
+
+            return filterQueries;
       }
 }
 

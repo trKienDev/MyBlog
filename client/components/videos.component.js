@@ -1,7 +1,6 @@
 import creator_api from "../api/creator.api.js";
 import { film_api } from "../api/film.api.js";
 import app_configs from "../config/app.config.js";
-import css_class from "../constants/css.constant.js";
 import { ServerFolders } from "../constants/folders.constant.js";
 import id_selectors from "../selectors/element-id.selector.js";
 import doms_component from "./doms.component.js";
@@ -14,7 +13,7 @@ async function CreateVideoArticle(video) {
       let videoArticle_ahref = doms_component.createAhref({ href: `video/#id=${video._id}`, css_class: 'video-article-link'});
       videoArticle_container.appendChild(videoArticle_ahref);
 
-      const video_container = CreateVideoPlayer(video.name, video.file_path, ServerFolders.VIDEOS);
+      const video_container = CreateVideoPlayer(video.name, video.file_path, ServerFolders.VIDEOS, 'video-frame');
       videoArticle_ahref.appendChild(video_container);
 
       const videoInfo_div = await CreateVideoInfo(video);
@@ -26,7 +25,36 @@ async function CreateVideoArticle(video) {
 
       return video_article;
 }
+function CreateVideoPlayer(video_name, video_filepath, video_folder, css_class) {
+      const video_container = doms_component.createDiv('video-container');
 
+      let videoSrc_ahref = doms_component.createAhref({ css_class: 'video-link'});
+      videoSrc_ahref.setAttribute('arial-label', `Watch video: ${video_name}`);
+
+      let video_frame = createVideoPreview(css_class);
+      const video_src = createVideoSource(`${app_configs.SERVER}/${video_folder}/${video_filepath}`);
+      video_frame.appendChild(video_src);
+      videoSrc_ahref.appendChild(video_frame);
+      video_container.appendChild(videoSrc_ahref);
+      videoSrc_ahref = hoverMouseVideoToPlay(videoSrc_ahref);
+
+      return video_container;
+}
+function createVideoPreview(css_class) {
+      const video = document.createElement('video');
+      video.classList.add(css_class);
+      // video.controls = false;
+      // video.muted = true;
+      
+      return video;
+}
+function createVideoSource(file_path) {
+      const source = document.createElement('source');
+      source.src = file_path;
+      source.type = 'video/mp4';
+      source.muted = true;
+      return source;
+}
 async function CreateVideoInfo(video) {
       const videoInfo_div = doms_component.createDiv('video-info');
       const videoInfo_container = doms_component.createDiv('video-info-container');
@@ -73,38 +101,6 @@ async function CreateInfor({ ihref, itext, icss_class, icontainer_css}) {
       return info_container;
 }
 
-function CreateVideoPlayer(video_name, video_filepath, video_folder) {
-      const video_container = doms_component.createDiv('video-container');
-
-      const videoSrc_ahref = doms_component.createAhref({ css_class: 'video-link'});
-      videoSrc_ahref.setAttribute('arial-label', `Watch video: ${video_name}`);
-
-      let video_frame = createVideoPreview(css_class.VIDEO_FRAME);
-
-      const video_src = createVideoSource(`${app_configs.SERVER}/${video_folder}/${video_filepath}`);
-      
-      video_frame.appendChild(video_src);
-      video_container.appendChild(video_frame);
-
-      return video_container;
-}
-
-function createVideoPreview(css_class) {
-      const video = document.createElement('video');
-      video.classList.add(css_class);
-      video.controls = false;
-      video.muted = true;
-      
-      return video;
-}
-function createVideoSource(file_path) {
-      const source = document.createElement('source');
-      source.src = file_path;
-      source.type = 'video/mp4';
-
-      return source;
-}
-
 function populateVideo(ivideo, upload_path) {
       const video_url = `${app_configs.SERVER}/${upload_path}/${ivideo.file_path}`;
       const video_element = document.querySelector('video');
@@ -128,26 +124,22 @@ function updateVideoSourceById({element_id, ivideo, upload_path}) {
 }
 
 function hoverMouseVideoToPlay(video_ahref) {
+      console.log('run hover mouse to play video');
       let playTimeout; 
-      
+      const videoDom = video_ahref.querySelector('video');
       video_ahref.addEventListener('mouseenter', () => {
-            const video_element = video_ahref.querySelector('video');
-            if(video_element) {
-                  playTimeout = setTimeout(() => {
-                        video_element.play().catch(error => {
-                              if (error.name !== 'AbortError') {
-                                    console.warn('Video play failed: ', error);
-                              }
-                        });
-                  }, 300);
-            }
+            playTimeout = setTimeout(() => {
+                  // videoDom.muted = false;
+                  videoDom.play().catch(error => {
+                        if (error.name !== 'AbortError') {
+                              console.warn('Video play failed: ', error);
+                        }
+                  });
+            }, 300);
       });
       video_ahref.addEventListener('mouseleave', () => {
             clearTimeout(playTimeout);
-            const video_element = video_ahref.querySelector('video');
-            if(video_element) {
-                  video_element.pause();
-            }
+            videoDom.pause();
       });
 
       return video_ahref;
@@ -160,13 +152,28 @@ function CreateAnimeVideoArticle(animeVideo) {
       let animeVideo_articleHref = doms_component.createAhref({ href: `anime-video/#id=${animeVideo._id}`, css_class: 'anime-video-article-link'});
       animeVideo_articleContainer.appendChild(animeVideo_articleHref);
 
-      const animeVideo_container = CreateVideoPlayer(animeVideo.name, animeVideo.file_path, ServerFolders.ANIME_VIDEOS);
+      const animeVideo_container = CreateVideoPlayer(animeVideo.name, animeVideo.file_path, ServerFolders.ANIME_VIDEOS, 'video-frame');
       animeVideo_articleHref.appendChild(animeVideo_container);
 
       animeVideo_article.appendChild(animeVideo_articleContainer);
       animeVideo_articleHref = hoverMouseVideoToPlay(animeVideo_articleHref);
 
       return animeVideo_article;
+}
+function CreateClipArticle(clip) {
+      let clip_article = doms_component.createArticle('clip-article');
+      const clip_articleContainer = doms_component.createDiv('clip-article-container');
+
+      let clip_articleHref = doms_component.createAhref({ href: `clip/#id=${clip._id}`, css_class: 'clip-article-link'});
+      clip_articleContainer.appendChild(clip_articleHref);
+
+      const clip_container = CreateVideoPlayer(clip.name, clip.file_path, ServerFolders.CLIPS, 'clip-frame');
+      clip_articleHref.appendChild(clip_container);
+
+      clip_article.appendChild(clip_articleContainer);
+      clip_articleHref = hoverMouseVideoToPlay(clip_articleHref);
+
+      return clip_article;
 }
 
 const videos_component = {
@@ -178,5 +185,6 @@ const videos_component = {
       populateVideo,
       updateVideoSourceById,
       hoverMouseVideoToPlay,
+      CreateClipArticle,
 }
 export default videos_component;

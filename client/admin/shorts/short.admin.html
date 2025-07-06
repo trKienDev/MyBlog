@@ -51,12 +51,13 @@
                   </div>
                   <div class="right-column">
                         <div class="short-wrapper">
-                              <img id="short-img" src="/admin/static/images/face/upload-profile.jpg" alt="">
-                              <input type="file" id="short-input" accept="video/mp4" style="display: none;">
+                              <div id="upload-shorts-btn" class="btn primary-btn d-flex">
+                                    <i class="fa-solid fa-circle-arrow-up"></i>
+                                    <span style="padding-left: 10px;">upload shorts</span>
+                              </div>
+                              <input type="file" id="shorts-input" accept="video/mp4" style="display: none;" multiple="true">
                         </div>
-                        <video class="short-frame d-none" controls >
-                              <source src="" type="video/mp4">
-                        </video>
+                        <div id="uploaded-shorts"></div>
                   </div>
             </div>
       </div>

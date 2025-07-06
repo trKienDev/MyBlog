@@ -19,15 +19,16 @@ let sectionPages = {
       idols: 1, 
       images: 1, 
       shorts: 1, 
-      records: 1
+      records: 1,
+      clips: 1,
 }
 let is_loading = false;
 let lastSelectedType = null;
 
 // Danh sách các loại section muốn xoay vòng trên trang chủ
-const homepageSectionTypes = [
+const homepageSectionTypes = [ 
       'videos', 'films', 'anime_videos', 'anime_films', 'mangas',
-      'images',
+      'images', 'shorts', 'creators', 'idols', 'clips',
       // 'images', 'creators', 
       // 'animes_videos', 
       // 'animes_thumbnails', 'mangas', 'manga_thumbnails', 
@@ -50,6 +51,7 @@ export function HomePageController() {
       const observer = new IntersectionObserver((entries) => {
             // Nếu loaderElement xuất hiện trong màn hình
             if (entries[0].isIntersecting) {
+                  // alert('isInteresting');
                   FetchHomepageBatch(entries[0].target, seed);
             }
       }, {
@@ -62,7 +64,6 @@ export function HomePageController() {
             HandleActiveSidebar(activatedSidebar);
       });
 }
-
 async function HandleActiveSidebar(selected_sidebar) {
       
 }
@@ -82,47 +83,67 @@ async function LoadContentUntilScrollable(loader_element, sessionSeed) {
 const FetchHomepageBatch = async (loader_element, sessionSeed) => {
       // nếu đang tải rồi thì ko làm gì cả
       if(is_loading) return;
+
+      // --- Xử lý trường hợp đã hết sạch dữ liệu ---
+      // Kiểm tra ngay từ đầu, nếu không còn gì để thử thì dừng lại
+      if (homepageSectionTypes.length === 0) {
+            loader_element.innerHTML = "Bạn đã xem hết nội dung! 🎉";
+            loader_element.style.display = 'block';
+            // Tại đây bạn có thể ngắt kết nối observer để không gọi lại hàm này nữa
+            // observer.disconnect(); // (cần truyền observer vào hàm này)
+            return false;
+      }
+      
       is_loading = true;
       loader_element.style.display = 'block' // hiện icon loading (tùy chọn)
+      let hasMoreContent = false;
 
-      // 1. Chọn ngẫu nhiên 1 loại nội dung từ danh sách
-      let randomType;
-      do {
-            randomType = homepageSectionTypes[Math.floor(Math.random() * homepageSectionTypes.length)];
-      } while (homepageSectionTypes.length > 1 && randomType === lastSelectedType);
-      lastSelectedType = randomType;
-      // 2. Lấy số trang tiếp theo 
-      const nextPage = sectionPages[randomType] || 1;
+      while(!hasMoreContent && homepageSectionTypes.length > 0) {
+            // 1. Chọn ngẫu nhiên 1 loại nội dung từ danh sách
+            let randomType;
+            do {
+                  randomType = homepageSectionTypes[Math.floor(Math.random() * homepageSectionTypes.length)];
+            } while (homepageSectionTypes.length > 1 && randomType === lastSelectedType);
+            lastSelectedType = randomType;
 
-      // 3. Xây dựng URL mới
-      const apiUrl = `${app_configs.SERVER}${api_user.fetchSectionData}?type=${randomType}&page=${nextPage}&seed=${sessionSeed}`;
-      let hasMoreContent = false; 
+            const nextPage = sectionPages[randomType] || 1;    // 2. Lấy số trang tiếp theo 
+            const apiUrl = `${app_configs.SERVER}${api_user.fetchSectionData}?type=${randomType}&page=${nextPage}&seed=${sessionSeed}`;
 
-      try {
-            const response = await fetch(apiUrl);
-            if(!response.ok) {
-                  const error = await response.json();
-                  showToast(error.error, 'error');
-                  throw new Error('Error HTTP: ', error.error);
-            }
-            const newContent = await response.json();
-            if(newContent.data && newContent.data.length > 0) {
-                  const sectionToRender = {
-                        type: randomType,
-                        title: randomType,
-                        data: newContent.data
-                  };
-                  RenderNewSections([sectionToRender]);
-                  sectionPages[randomType]++;
-                  hasMoreContent = true // đã tải được nội dung
+            try {
+                  const response = await fetch(apiUrl);
+                  if(!response.ok) {
+                        const error = await response.json();
+                        showToast(error.error, 'error');
+                        throw new Error('Error HTTP: ', error.error);
+                  }
+                  const newContent = await response.json();
+                  // Kiểm tra kết quả trả về
+                  if(newContent.data && newContent.data.length > 0) {
+                        const sectionToRender = {
+                              type: randomType,
+                              title: randomType,
+                              data: newContent.data
+                        };
+                        RenderNewSections([sectionToRender]);
+                        sectionPages[randomType]++;
+                        lastSelectedType = randomType;
+                        hasMoreContent = true // đã tải được nội dung
+                  }  else {
+                        const indexToRemove = homepageSectionTypes.indexOf(randomType);
+                        if (indexToRemove > -1) {
+                              homepageSectionTypes.splice(indexToRemove, 1);
+                        }
+                  }
+            } catch(error) {
+                  console.error("Error fetching homepage feeds: ", error);
+                  showToast(error, 'error');
             } 
-      } catch(error) {
-            console.error("Error fetching homepage feeds: ", error);
-            showToast(error, 'error');
-      } finally {
-            is_loading = false;
-            // loader_element.style.display = 'none';
       }
+      
+      is_loading = false;
+      // if (hasMoreContent) {
+      //       loader_element.style.display = 'none';
+      // }
 
       return hasMoreContent;
 }
@@ -149,6 +170,18 @@ function RenderNewSections(sections) {
                         break;
                   case 'images':
                         renderImageFrameSection(section, homepageFeedsContent);
+                        break;
+                  case 'shorts': 
+                        renderShortsSection(section, homepageFeedsContent);
+                        break;
+                  case 'creators':
+                        renderCreatorsAvatarSection(section, homepageFeedsContent);
+                        break;
+                  case 'idols': 
+                        renderIdolsAvatarSection(section, homepageFeedsContent);
+                        break;
+                  case 'clips':
+                        renderRecordClipsSection(section, homepageFeedsContent);
                         break;
             }
             
@@ -215,9 +248,49 @@ async function renderImageFrameSection(section, homepageFeedsContent) {
 
       const frame_promises = section.data.map(image => images_component.createImageFrame(image));
       const images_frames = await Promise.all(frame_promises);
-      console.log('images frame: ', images_frames);
       images_wrapper.append(...images_frames);
       section_container.appendChild(images_wrapper);
+      homepageFeedsContent.appendChild(section_container);
+}
+async function renderShortsSection(section, homepageFeedsContent) {
+      const section_container = doms_component.createDiv('section-content_container');
+      const shorts_wrapper = doms_component.createDiv('list-shorts_section-wrapper');
+      
+      const frame_promises = section.data.map(short => videos_component.CreateVideoPlayer('', short.file_path, ServerFolders.SHORTS, 'short-frame'));
+      const short_frames = await Promise.all(frame_promises);
+      shorts_wrapper.append(...short_frames);
+      section_container.appendChild(shorts_wrapper);
+      homepageFeedsContent.appendChild(section_container);
+}
+async function renderCreatorsAvatarSection(section, homepageFeedsContent) {
+      const section_container = doms_component.createDiv('section-content_container');
+      const creators_wrapper = doms_component.createDiv('list-creators_section-wrapper');
+      
+      const avatar_promises = section.data.map(creator => images_component.createCreatorAvatar(creator._id));
+      const creator_avatars = await Promise.all(avatar_promises);
+      creators_wrapper.append(...creator_avatars);
+      section_container.appendChild(creators_wrapper);
+      homepageFeedsContent.appendChild(section_container);
+}
+async function renderIdolsAvatarSection(section, homepageFeedsContent) {
+      console.log('section: ', section);
+      const section_container = doms_component.createDiv('section-content_container');
+      const idols_wrapper = doms_component.createDiv('list-idols_section-wrapper');
+      
+      const avatar_promises = section.data.map(idol => images_component.createIdolAvatar(idol._id));
+      const idol_avatars = await Promise.all(avatar_promises);
+      idols_wrapper.append(...idol_avatars);
+      section_container.appendChild(idols_wrapper);
+      homepageFeedsContent.appendChild(section_container);
+}
+async function renderRecordClipsSection(section, homepageFeedsContent) {
+      const section_container = doms_component.createDiv('section-content_container');
+      const clips_wrapper = doms_component.createDiv('list-clips-section_wrapper');
+
+      const article_promises = section.data.map(clip => videos_component.CreateClipArticle(clip));
+      const clips_article = await Promise.all(article_promises);
+      clips_wrapper.append(...clips_article);
+      section_container.appendChild(clips_wrapper);
       homepageFeedsContent.appendChild(section_container);
 }
 function CreateSeed() {

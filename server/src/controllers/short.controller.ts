@@ -2,8 +2,8 @@ import { IncomingMessage, ServerResponse } from "http";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ShortService } from "../services/short.service.js";
 import { sendError, sendResponse } from "../middlewares/response.js";
-import { iShortPaginatedFilters } from "../dtos/short.dto.js";
 import { ShortRepository } from "../repositories/short.repository.js";
+import { FiltersShortPagination } from "../dtos/short.dto.js";
 
 const _shortRepository = new ShortRepository();
 const _shortService = new ShortService(_shortRepository);
@@ -22,9 +22,9 @@ const GetPaginationShorts = async(request: CustomRequest, response: ServerRespon
       try {
             const page_number = parseInt(request.query?.page as string) || 1;
             const limit_number = parseInt(request.query?.limit as string) || 10;
-            const filters: iShortPaginatedFilters = {};
+            const filters: FiltersShortPagination = {};
             const query = request.query;
-            if(query?.tag_id) filters.tag_id = query.tag_id as string;
+           //  if(query?.tag_id) filters.tag_ids = query.tag_id as string;
             if(query?.idol_id) filters.idol_id = query.idol_id as string;
 
             const shorts = await _shortService.GetPaginatedShorts(page_number, limit_number, filters);
