@@ -5,6 +5,7 @@ import { iVideo } from "../models/interface/ivideo.model.js";
 import { CreateVideoDTO, FilterVideoPagination, UpdateVideoDTO, VideoDTO, VideosPaginationDto } from "../dtos/video.dto.js";
 import Film from "../models/film.model.js";
 import seedrandom from "seedrandom";
+import array_utils from "../utils/array.utils.js";
 
 export class VideoRepository implements iVideoRepository {
       public async getVideos(): Promise<VideoDTO[]> {
@@ -93,6 +94,8 @@ export class VideoRepository implements iVideoRepository {
                               _id: "$film_id", // Gom nhóm theo film_id
                               videosInGroup: { $push: "$$ROOT" } // Lấy TẤT CẢ video trong nhóm
                         }
+                  }, {
+                        $sort: { _id: 1 }
                   }
             ]);
 
@@ -109,14 +112,18 @@ export class VideoRepository implements iVideoRepository {
 
             // BƯỚC 3: SẮP XẾP VÀ PHÂN TRANG DANH SÁCH CUỐI CÙNG
             // Sắp xếp "chồng bài" cuối cùng theo quy tắc cố định (_id)
-            const sortedMasterList = representativeVideos.sort((a, b) => a._id.toString().localeCompare(b._id.toString()));
-
+            const shuffledMasterList = array_utils.seedShuffle(representativeVideos, seed);
+            let i = 0;
+            for(const video of shuffledMasterList) {
+                  console.log(`video ${i}: `, video.name);
+                  i++;
+            }
             // Đếm tổng số
-            const total = sortedMasterList.length;
+            const total = shuffledMasterList.length;
 
             // Cắt lát dữ liệu để phân trang
             const skip = (page - 1) * limit;
-            const pageData = sortedMasterList.slice(skip, skip + limit);
+            const pageData = shuffledMasterList.slice(skip, skip + limit);
 
             return { videos: pageData, total };
       }

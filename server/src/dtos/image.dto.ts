@@ -5,7 +5,7 @@ export interface ImageDTO {
       image_url: string;
       width: number;
       height: number;
-      idol_id?: string;
+      idol_id?: string | null;
       tag_ids?: string[];
       gallery_ids: string[];
       likes: number;

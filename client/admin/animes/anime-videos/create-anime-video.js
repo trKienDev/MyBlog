@@ -80,7 +80,6 @@ function resetCreateAnimeVideoForm() {
       const upload_input = document.getElementById(id_selectors.videos.upload_video);
       video_utils.ResetVideoPreview(thumbnail_image, upload_input);
       
-      tags_utils.resetTagSelection(id_selectors.container.selected_tag);
       selectSearch_component.resetSelectSearch([
             { id: id_selectors.anime.anime_playlist, placeholder: "Select Playlist" },
       ]);

@@ -4,7 +4,6 @@ import Image from "../models/image.model.js";
 import { iImageRepository } from "./interfaces/iimage.repository.js";
 import { iImage } from "../models/interface/iimage.model.js";
 import { FilterMangaPagination, MangasPaginationDTO } from "../dtos/manga.dto.js";
-import Manga from "../models/manga.model.js";
 import seedrandom from "seedrandom";
 
 export class ImageRepository implements iImageRepository {
@@ -41,7 +40,9 @@ export class ImageRepository implements iImageRepository {
             for (const group of groupedResults) {
                   // Tạo một bộ sinh số ngẫu nhiên riêng cho mỗi phim, dựa trên seed từ client và film_id
                   // Điều này đảm bảo tính ngẫu nhiên giữa các phim nhưng nhất quán cho cùng một phim
-                  const rng = seedrandom(seed + group._id.toString());
+                  // 1. Tạo một chuỗi ID an toàn, dùng 'no-idol' nếu group._id là null
+                  const groupIdString = group._id ? group._id.toString() : 'no-idol';
+                  const rng = seedrandom(seed + groupIdString);
                   const randomIndex = Math.floor(rng() * group.imagesInGroup.length);
                   
                   representativeImages.push(group.imagesInGroup[randomIndex]);
@@ -55,13 +56,19 @@ export class ImageRepository implements iImageRepository {
             return { images: pageData, total };
       }
       async Create(data: Partial<ImageDTO>): Promise<Partial<ImageDTO>> {
+            if (data.idol_id === 'null' || data.idol_id === 'undefined') {
+                  data.idol_id = null;
+            }
             const new_image = new Image({
-                  idol_id: (data && data.idol_id) ? new mongoose.Types.ObjectId(data.idol_id) : null,
                   tag_ids: data.tag_ids?.map(id => new mongoose.Types.ObjectId(id)),
                   image_url: data.image_url,
                   width: data.width,
                   height: data.height,
             });
+
+            if(data.idol_id != null) {
+                  new_image.idol_id = new mongoose.Types.ObjectId(data.idol_id);
+            }
             const saved_image = await new_image.save();
 
             return MappingDocToDTO(saved_image);
@@ -98,7 +105,7 @@ function MappingDocToDTO(doc: iImage): ImageDTO {
             image_url: doc.image_url,
             width: doc.width,
             height: doc.height,
-            idol_id: doc?.idol_id?.toString(),
+            idol_id: doc.idol_id ? doc.idol_id.toString() : null,
             tag_ids: doc.tag_ids?.map(id => id.toString()) ?? [],
             gallery_ids: doc.gallery_ids?.map(id => id.toString()) ?? [],
             likes: doc.likes,

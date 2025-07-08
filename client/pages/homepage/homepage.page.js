@@ -23,12 +23,12 @@ let sectionPages = {
       clips: 1,
 }
 let is_loading = false;
-let lastSelectedType = null;
 
 // Danh sách các loại section muốn xoay vòng trên trang chủ
 const homepageSectionTypes = [ 
-      'videos', 'films', 'anime_videos', 'anime_films', 'mangas',
-      'images', 'shorts', 'creators', 'idols', 'clips',
+      'creators', 'videos', 'films', 
+      'anime_videos', 'anime_films', 'mangas',
+      'idols', 'images', 'shorts', , 'clips',
       // 'images', 'creators', 
       // 'animes_videos', 
       // 'animes_thumbnails', 'mangas', 'manga_thumbnails', 
@@ -97,17 +97,13 @@ const FetchHomepageBatch = async (loader_element, sessionSeed) => {
       is_loading = true;
       loader_element.style.display = 'block' // hiện icon loading (tùy chọn)
       let hasMoreContent = false;
+      let sectionToRender = null;
 
       while(!hasMoreContent && homepageSectionTypes.length > 0) {
-            // 1. Chọn ngẫu nhiên 1 loại nội dung từ danh sách
-            let randomType;
-            do {
-                  randomType = homepageSectionTypes[Math.floor(Math.random() * homepageSectionTypes.length)];
-            } while (homepageSectionTypes.length > 1 && randomType === lastSelectedType);
-            lastSelectedType = randomType;
-
-            const nextPage = sectionPages[randomType] || 1;    // 2. Lấy số trang tiếp theo 
-            const apiUrl = `${app_configs.SERVER}${api_user.fetchSectionData}?type=${randomType}&page=${nextPage}&seed=${sessionSeed}`;
+            const typeToFetch = homepageSectionTypes[0];
+            const nextPage = sectionPages[typeToFetch] || 1;    // 2. Lấy số trang tiếp theo 
+            console.log('type to fetch: ', typeToFetch);
+            const apiUrl = `${app_configs.SERVER}${api_user.fetchSectionData}?type=${typeToFetch}&page=${nextPage}&seed=${sessionSeed}`;
 
             try {
                   const response = await fetch(apiUrl);
@@ -119,73 +115,70 @@ const FetchHomepageBatch = async (loader_element, sessionSeed) => {
                   const newContent = await response.json();
                   // Kiểm tra kết quả trả về
                   if(newContent.data && newContent.data.length > 0) {
-                        const sectionToRender = {
-                              type: randomType,
-                              title: randomType,
+                        // Chỉ lưu dữ liệu vào biến, chưa render vội
+                        sectionToRender = {
+                              type: typeToFetch,
+                              title: typeToFetch,
                               data: newContent.data
                         };
-                        RenderNewSections([sectionToRender]);
-                        sectionPages[randomType]++;
-                        lastSelectedType = randomType;
+                        sectionPages[typeToFetch]++;                        
                         hasMoreContent = true // đã tải được nội dung
+                        const usedType = homepageSectionTypes.shift(); // Lấy ra khỏi đầu mảng
+                        homepageSectionTypes.push(usedType); // Đưa vào cuối mảng
                   }  else {
-                        const indexToRemove = homepageSectionTypes.indexOf(randomType);
-                        if (indexToRemove > -1) {
-                              homepageSectionTypes.splice(indexToRemove, 1);
-                        }
+                        homepageSectionTypes.shift(); 
                   }
             } catch(error) {
                   console.error("Error fetching homepage feeds: ", error);
                   showToast(error, 'error');
             } 
       }
-      
+      if (sectionToRender) {
+            // Bây giờ mới thực hiện render và CHỜ cho nó xong
+            await RenderNewSections([sectionToRender]); 
+      }
+            
       is_loading = false;
-      // if (hasMoreContent) {
-      //       loader_element.style.display = 'none';
-      // }
-
       return hasMoreContent;
 }
 
 
-function RenderNewSections(sections) {
+async function RenderNewSections(sections) {
       const homepageFeedsContent = document.getElementById('homepage-feeds-content');
-      sections.forEach(section => {
+      for(const section of sections) {
             switch(section.type) {
                   case 'videos':
-                        RenderVideosSection(section, homepageFeedsContent);
+                        await RenderVideosSection(section, homepageFeedsContent);
                         break;
                   case 'films': 
                         RenderFilmThumbnailsSection(section, homepageFeedsContent);
                         break;
                   case 'anime_videos':
-                        RenderAnimeVideosSetion(section, homepageFeedsContent);
+                        await RenderAnimeVideosSetion(section, homepageFeedsContent);
                         break;
                   case 'anime_films':
-                        RenderAnimeFilmsSection(section, homepageFeedsContent);
+                        await RenderAnimeFilmsSection(section, homepageFeedsContent);
                         break;
                   case 'mangas': 
-                        renderMangaThumbnailsSection(section, homepageFeedsContent);
+                        await renderMangaThumbnailsSection(section, homepageFeedsContent);
                         break;
                   case 'images':
-                        renderImageFrameSection(section, homepageFeedsContent);
+                        await renderImageFrameSection(section, homepageFeedsContent);
                         break;
                   case 'shorts': 
-                        renderShortsSection(section, homepageFeedsContent);
+                        await renderShortsSection(section, homepageFeedsContent);
                         break;
                   case 'creators':
-                        renderCreatorsAvatarSection(section, homepageFeedsContent);
+                        await renderCreatorsAvatarSection(section, homepageFeedsContent);
                         break;
                   case 'idols': 
-                        renderIdolsAvatarSection(section, homepageFeedsContent);
+                        await renderIdolsAvatarSection(section, homepageFeedsContent);
                         break;
                   case 'clips':
-                        renderRecordClipsSection(section, homepageFeedsContent);
+                        await renderRecordClipsSection(section, homepageFeedsContent);
                         break;
             }
-            
-      });
+      }
 }
 async function RenderVideosSection(section, homepageFeedsContent) {
       const section_container = doms_component.createDiv('section-content_container');

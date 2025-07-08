@@ -124,7 +124,6 @@ function updateVideoSourceById({element_id, ivideo, upload_path}) {
 }
 
 function hoverMouseVideoToPlay(video_ahref) {
-      console.log('run hover mouse to play video');
       let playTimeout; 
       const videoDom = video_ahref.querySelector('video');
       video_ahref.addEventListener('mouseenter', () => {

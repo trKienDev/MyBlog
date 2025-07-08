@@ -64,8 +64,6 @@ async function AddImages(event) {
                   if(result.success === false) {
                         throw new Error(result.error);
                   }
-
-                  showToast('image created', 'success');
                   ResetImageModal();
             } catch(error) {
                   console.error('Error creating image: ', error.message);
@@ -73,6 +71,9 @@ async function AddImages(event) {
                   return;
             }
       });      
+      showToast('image created', 'success');
+      const upload_images_div = document.getElementById('uploaded-images');
+      upload_images_div.innerHTML = '';
 }
 
 function UploadImages() {

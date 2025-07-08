@@ -192,6 +192,8 @@ select:hover {
       opacity: 0;
       transition: opacity 0.3s;
 }
+
+
 .hover-container-zoom-img {
       overflow: hidden;
 }
