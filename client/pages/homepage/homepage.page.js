@@ -16,7 +16,7 @@ let sectionPages = {
       anime_films: 1,
       mangas: 1, 
       manga_thumbnails: 1, 
-      idols: 1, 
+      idols: 1,   
       images: 1, 
       shorts: 1, 
       records: 1,
@@ -28,11 +28,7 @@ let is_loading = false;
 const homepageSectionTypes = [ 
       'creators', 'videos', 'films', 
       'anime_videos', 'anime_films', 'mangas',
-      'idols', 'images', 'shorts', , 'clips',
-      // 'images', 'creators', 
-      // 'animes_videos', 
-      // 'animes_thumbnails', 'mangas', 'manga_thumbnails', 
-      // 'idols', 'images', 'shorts', 'records'
+      'idols', 'images', 'shorts', 'clips',
 ];
 
 export function HomePageController() {
@@ -58,7 +54,7 @@ export function HomePageController() {
             root: null, 
             threshold: 0.1
       });
-      observer.observe(loader_element);
+      observer.observe(loader_element)    ;
 
       activeState_utils.InitializeActiveState('sidebar-item', (activatedSidebar) => {
             HandleActiveSidebar(activatedSidebar);
@@ -74,10 +70,12 @@ async function LoadContentUntilScrollable(loader_element, sessionSeed) {
 
       // Sau lần fetch đầu tiên, kiểm tra xem có cần fetch tiếp không
       // Vòng lặp sẽ tiếp tục chừng nào nội dung còn ngắn VÀ chúng ta không đang trong một tiến trình tải khác
+      if(document.body.scrollHeight <= window.innerHeight) console.log('scrol < height');
       while (document.body.scrollHeight <= window.innerHeight && !is_loading) {     
             // Gọi fetch tiếp và chờ nó xong
             const hasMore = await FetchHomepageBatch(loader_element, sessionSeed);
       }
+      if(document.body.scrollHeight > window.innerHeight) console.log('scrol > height');
 }
 
 const FetchHomepageBatch = async (loader_element, sessionSeed) => {

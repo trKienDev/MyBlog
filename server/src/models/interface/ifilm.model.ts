@@ -11,6 +11,7 @@ export interface iFilm extends Document {
       collection_id?: mongoose.Types.ObjectId;
       video_ids?: mongoose.Types.ObjectId[];
       date: Date,
+      age?: number;
       thumbnail: string;
       rating: number;
 }

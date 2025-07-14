@@ -11,6 +11,7 @@ export interface CreateFilmDTO {
       date: Date;
       thumbnail: string;
       rating: number;
+      age?: number;
 }
 
 export interface UpdateFilmDTO {
@@ -37,6 +38,7 @@ export interface FilmDTO {
       code_id?: mongoose.Types.ObjectId;
       tag_ids?: mongoose.Types.ObjectId[];
       date: Date;
+      age?: number;
       thumbnail: string;
       rating: number;
 }
@@ -51,4 +53,5 @@ export interface FilterFilmPagination {
       studio_id?: string;
       tag_id?: string;
       rating?: number;
+      age?: number;
 }

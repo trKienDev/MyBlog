@@ -220,6 +220,9 @@ export class FilmRepository implements iFilmRepository {
             if(filters.rating) {
                   filterQueries.rating = filters.rating;
             }
+            if(filters.age) {
+                  filterQueries.age = filters.age;
+            }
 
             return filterQueries;
       }

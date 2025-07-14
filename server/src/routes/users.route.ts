@@ -21,7 +21,7 @@ import { createRouter } from "./routes.js";
 
 const user_routes: Route[] = [
       // homepage-feed
-      { method: 'GET', path: '/api/feed/section', handler: feed_controller.getSectionData },
+      { method: 'GET', path: '/api/feeds/section', handler: feed_controller.getSectionData },
       
       // albums
       { method: 'GET', path: '/api/albums', handler: album_controller.GetAllAlbums },
@@ -35,6 +35,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/api/collections', handler: collection_controller.getCollections },
       // creators
       { method: 'GET', path: '/creators', handler: creator_controller.GetCreators },
+      { method: 'GET', path: '/api/creator/:id', handler: validated_id.validateId(creator_controller.getCreatorById) },
       { method: 'GET', path: '/api/creators/tag/:id', handler: validated_id.validateId( creator_controller.GetCreatorByTagId )},
       // clips
       { method: 'GET', path: '/api/clips', handler: clip_controller.GetClips },
@@ -44,6 +45,7 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/films/tag/:id', handler: validated_id.validateId( filmController.FindFilmsByTagId   )},
       { method: 'GET', path: '/films/studio/:id', handler: validated_id.validateId( filmController.FindFilmsByStudio )},
       { method: 'GET', path: '/films/collection/:id', handler: validated_id.validateId( filmController.GetFilmsByCollection )},
+       { method: 'GET', path: '/api/film/:id', handler: validated_id.validateId(filmController.findFilmById) },
 
       // idols
       { method: 'GET', path: '/api/idols', handler: idol_controller.GetAllIdols },

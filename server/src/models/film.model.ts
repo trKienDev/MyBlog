@@ -20,6 +20,7 @@ const FilmSchema: Schema  = new Schema({
                   message: 'Release date must be between January 1, 1900, and today.'
             }
       },
+      age: { type: Number, require: false },
       rating: { type: Number, min: 1, max: 5, }
 }, {
       collection: 'Films',

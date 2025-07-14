@@ -113,11 +113,6 @@ export class VideoRepository implements iVideoRepository {
             // BƯỚC 3: SẮP XẾP VÀ PHÂN TRANG DANH SÁCH CUỐI CÙNG
             // Sắp xếp "chồng bài" cuối cùng theo quy tắc cố định (_id)
             const shuffledMasterList = array_utils.seedShuffle(representativeVideos, seed);
-            let i = 0;
-            for(const video of shuffledMasterList) {
-                  console.log(`video ${i}: `, video.name);
-                  i++;
-            }
             // Đếm tổng số
             const total = shuffledMasterList.length;
 

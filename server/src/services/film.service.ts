@@ -32,6 +32,8 @@ export class FilmService {
             const rating = request_utils.extractParamFromRequest(request, "rating");
             const tag_ids: string[] = tag_params.split(',').map((string) => string.trim()).filter((string) => string.length > 0);
             
+            console.log('date: ', date);
+
             const new_film: Partial<CreateFilmDTO> = {
                   name: name,
                   description: description,

@@ -79,5 +79,5 @@ export const api_user = {
       getUniqueVideosPagination: '/videos/unique-pagination', // GET
       // homepage feeds
       fetchHomepageFeeds: '/api/homepage-feeds', // GET
-      fetchSectionData: '/api/feed/section', // GET
+      fetchSectionData: '/api/feeds/section', // GET
 }
