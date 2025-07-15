@@ -45,7 +45,8 @@ const user_routes: Route[] = [
       { method: 'GET', path: '/films/tag/:id', handler: validated_id.validateId( filmController.FindFilmsByTagId   )},
       { method: 'GET', path: '/films/studio/:id', handler: validated_id.validateId( filmController.FindFilmsByStudio )},
       { method: 'GET', path: '/films/collection/:id', handler: validated_id.validateId( filmController.GetFilmsByCollection )},
-       { method: 'GET', path: '/api/film/:id', handler: validated_id.validateId(filmController.findFilmById) },
+      { method: 'GET', path: '/api/film/:id', handler: validated_id.validateId(filmController.findFilmById) },
+      { method: 'GET', path: '/api/films/unique-pagination', handler: filmController.findRandomizedPaginatedFilms },
 
       // idols
       { method: 'GET', path: '/api/idols', handler: idol_controller.GetAllIdols },
@@ -86,6 +87,7 @@ const user_routes: Route[] = [
       { method: 'PUT', path: '/video/:id/like', handler: validated_id.validateId(video_controller.increaseVideoLikeByOne )},
       { method: 'GET', path: '/videos/paginated', handler: video_controller.getVIdeosPaginated },
       { method: 'GET', path: '/videos/unique-pagination', handler: video_controller.GetUniqueVideosPagination },
+      { method: 'GET', path: '/api/videos/unique-pagination', handler: video_controller.GetUniqueVideosPagination },
 ]
 
 export const handleUserRoutes = createRouter(user_routes);

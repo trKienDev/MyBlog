@@ -4,6 +4,7 @@ import { sendError, sendResponse } from "../middlewares/response.js";
 import { FilmService } from "../services/film.service.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
 import { FilmRepository } from "../repositories/film.repository.js";
+import { send } from "process";
 
 const _filmRepository = new FilmRepository();
 const _filmService = new FilmService(_filmRepository);
@@ -17,7 +18,6 @@ const getFilms = async(request: CustomRequest, response: ServerResponse) => {
             return sendError(response, 500, error);
       }
 }
-
 const findFilmById = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const id = request.params?.id;
@@ -31,7 +31,6 @@ const findFilmById = async(request: ValidateIdRequest, response: ServerResponse)
             return sendError(response, 500, error);
       }
 }
-
 const findFilmsByStudioAndCode = async(request: CustomRequest, response: ServerResponse) => {
       try {
             const { studio_id, code_id } = request.params as { studio_id: string; code_id: string };
@@ -42,7 +41,6 @@ const findFilmsByStudioAndCode = async(request: CustomRequest, response: ServerR
             return sendError(response, 500, error);
       }
 }
-
 const FindFIlmsByCreator = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const creator_id = request.params?.id;
@@ -53,7 +51,6 @@ const FindFIlmsByCreator = async(request: ValidateIdRequest, response: ServerRes
             return sendError(response, 500, error);
       }
 }
-
 const FindFilmsByStudio = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const studio_id = request.params?.id;
@@ -64,7 +61,6 @@ const FindFilmsByStudio = async(request: ValidateIdRequest, response: ServerResp
             return sendError(response, 500, error);
       }
 }
-
 const GetFilmsByCollection = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const collection_id = request.params?.id;
@@ -75,8 +71,6 @@ const GetFilmsByCollection = async(request: ValidateIdRequest, response: ServerR
             return sendError(response, 500, error);
       }
 }
-
-
 const FindFilmsByTagId = async(request: ValidateIdRequest, response: ServerResponse) => {
       try {
             const tag_id = request.params?.id;
@@ -87,6 +81,20 @@ const FindFilmsByTagId = async(request: ValidateIdRequest, response: ServerRespo
             return sendError(response, 500, error);
       }
 }
+const findRandomizedPaginatedFilms = async(request: CustomRequest, response: ServerResponse) => {
+      try {
+            const page = parseInt(request.query?.page as string) || 1;
+            const limit = parseInt(request.query?.limit as string) || 10;
+            const seed = request.query?.seed as string;
+
+            const randomizePaginatedFilms = await _filmService.getRandomizedPaginatedFilms(page, limit, {}, seed);
+            return sendResponse(response, 200, randomizePaginatedFilms);
+      } catch(error) {
+            console.error('Error getting randomize paginated films: ', error);
+            return sendError(response, 500, error as Error);
+      }
+}
+
 
 const createFilm = async(request: CustomRequest, response: ServerResponse) => {
       try {
@@ -129,4 +137,5 @@ export const filmController = {
       GetFilmsByCollection,
       FindFilmsByTagId,
       UpdateFilmCollections,
+      findRandomizedPaginatedFilms,
 }

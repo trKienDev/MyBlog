@@ -58,6 +58,7 @@ export class FilmRepository implements iFilmRepository {
 
             return { films: finalPageData, total };
       }
+      
       public async findById(id: string): Promise<FilmDTO | null> {
             try {
                   const film = await Film.findById(id);

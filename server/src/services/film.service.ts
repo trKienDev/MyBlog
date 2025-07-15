@@ -1,4 +1,4 @@
-import { CreateFilmDTO, FilmDTO, UpdateFilmDTO } from "../dtos/film.dto.js";
+import { CreateFilmDTO, FilmDTO, FilmsPaginationDto, FilterFilmPagination, UpdateFilmDTO } from "../dtos/film.dto.js";
 import { UploadFiles } from "../enums.js";
 import { CustomRequest } from "../interfaces/CustomRequest.js";
 import { ValidateIdRequest } from "../interfaces/validated-id-request.js";
@@ -12,6 +12,18 @@ export class FilmService {
       private _filmRepository: iFilmRepository;
       constructor(filmRepository: iFilmRepository) {
             this._filmRepository = filmRepository;
+      }
+
+      async getRandomizedPaginatedFilms(page: number, limit: number, filters: FilterFilmPagination ,seed: string) {
+            const randomizePaginatedFilms = await this._filmRepository.findRandomizedPaginated(page, limit, filters, seed);
+            return {
+                  films: randomizePaginatedFilms.films,
+                  pagination: {
+                        page: page,
+                        limit: limit,
+                        total: randomizePaginatedFilms.total
+                  }
+            }
       }
       
       async createFilm(request: CustomRequest): Promise<Partial<CreateFilmDTO>> {
